@@ -43,6 +43,12 @@ export class BackgroundVideoPlayer extends Component {
         this.native.play();
     }
 
+    set muted(value: boolean) {
+        if (this.initialized) {
+            this.native.muted = value;
+        }
+    }
+
     protected lateUpdate(dt: number): void {
         this.currentTime += dt;
 

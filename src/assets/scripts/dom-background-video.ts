@@ -68,15 +68,6 @@ export class DOMBackgroundVideo {
 
     private static registerEvents() {
         window.addEventListener("resize", this.onResize);
-        document.addEventListener(
-            "click",
-            function () {
-                const video = DOMBackgroundVideo.createOrLoadVideoElement();
-
-                video.muted = false;
-            },
-            { once: true }
-        );
     }
 
     private static unregisterEvents() {
