@@ -12,7 +12,6 @@ const { render } = Observer;
 export class BackgroundVideoSoundControl extends ObserverComponent {
     @render(UserSettings.UserSettingStore, (store) => store.sfxEnable)
     private updateSfxStatus(sfxEnable: boolean) {
-        console.log("updateSfxStatus", sfxEnable);
         this.node.getComponent(BackgroundVideoPlayer).muted = !sfxEnable;
     }
 }
