@@ -10,6 +10,7 @@ export const settings = {
         placingBet: 25,
         lockingBet: 10,
         streamingVideo: 5,
+        startRound: 2,
     },
     numberOfRoundHistory: 100,
 };

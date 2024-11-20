@@ -757,8 +757,8 @@
     ],
     "value": {
       "__type__": "cc.Vec3",
-      "x": -90.703,
-      "y": 98.878,
+      "x": -79.102,
+      "y": 100,
       "z": 0
     }
   },
@@ -1344,8 +1344,8 @@
     ],
     "value": {
       "__type__": "cc.Vec3",
-      "x": 3.313,
-      "y": 98.508,
+      "x": 17.676,
+      "y": 100.266,
       "z": 0
     }
   },
@@ -1951,8 +1951,8 @@
     ],
     "value": {
       "__type__": "cc.Vec3",
-      "x": 89.26,
-      "y": 101.093,
+      "x": 108.498,
+      "y": 101.79,
       "z": 0
     }
   },
@@ -4740,6 +4740,7 @@
       "__id__": 0
     },
     "fileId": "40sl0yvg5J1rrmdKhV3PSE",
+    "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": [
       {
