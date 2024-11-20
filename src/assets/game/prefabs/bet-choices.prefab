@@ -1658,7 +1658,7 @@
     "propertyPath": [
       "key"
     ],
-    "value": "Draw"
+    "value": "Common.bet_choice_draw"
   },
   {
     "__type__": "cc.TargetInfo",
@@ -5069,7 +5069,6 @@
       "__id__": 0
     },
     "fileId": "40sl0yvg5J1rrmdKhV3PSE",
-    "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": [
       {

@@ -7,6 +7,7 @@ export const languages = {
         "bet_amount_of_any_choice_incorrect": "Tiền cược của một trong các cửa không hợp lệ.",
         "bet_choice": "Lựa Chọn",
         "bet_choice_away": "Đội Khách",
+        "bet_choice_draw": "Hòa",
         "bet_choice_even": "Chẵn",
         "bet_choice_home": "Đội Nhà",
         "bet_choice_odd": "Lẻ",

@@ -7,6 +7,7 @@ export const languages = {
         "bet_amount_of_any_choice_incorrect": "จำนวนเงินเดิมพันไม่ถูกต้อง",
         "bet_choice": "ตัวเลือกการเดิมพัน",
         "bet_choice_away": "ทีมเยือน",
+        "bet_choice_draw": "เสมอ",
         "bet_choice_even": "คู่",
         "bet_choice_home": "ทีมเหย้า",
         "bet_choice_odd": "คี่",

@@ -7,6 +7,7 @@ export const languages = {
         "bet_amount_of_any_choice_incorrect": "Invalid Bet Amount",
         "bet_choice": "Bet Choice",
         "bet_choice_away": "Away",
+        "bet_choice_draw": "Draw",
         "bet_choice_even": "Even",
         "bet_choice_home": "Home",
         "bet_choice_odd": "Odd",

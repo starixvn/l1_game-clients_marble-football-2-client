@@ -7,6 +7,7 @@ export const languages = {
         "bet_amount_of_any_choice_incorrect": "Jumlah Taruhan Tidak Valid",
         "bet_choice": "Pilihan Taruhan",
         "bet_choice_away": "Tandang",
+        "bet_choice_draw": "Seri",
         "bet_choice_even": "Genap",
         "bet_choice_home": "Kandang",
         "bet_choice_odd": "Ganjil",

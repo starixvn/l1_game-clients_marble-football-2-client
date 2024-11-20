@@ -7,6 +7,7 @@ export const languages = {
         "bet_amount_of_any_choice_incorrect": "投注金額無效",
         "bet_choice": "投注選擇",
         "bet_choice_away": "客隊",
+        "bet_choice_draw": "平",
         "bet_choice_even": "雙",
         "bet_choice_home": "主隊",
         "bet_choice_odd": "單",
