@@ -1,18 +1,11 @@
 {
-    "lobbyNames": {
-        "en": "FOOTBALL DICE",
-        "id": "Dadu Sepak Bola",
-        "th": "ลูกเต๋าฟุตบอล",
-        "vi": "XÍ NGẦU TÚC CẦU",
-        "zh_cn": "足球骰子",
-        "zh_tw": "足球骰子"
-    },
+    "lobbyNames": {},
     "gameNames": {
-        "en": "Football Dice",
-        "id": "Dadu Sepak Bola",
-        "th": "ลูกเต๋าฟุตบอล",
-        "vi": "Xí Ngầu Túc Cầu",
-        "zh_cn": "足球骰子",
-        "zh_tw": "足球骰子"
+        "en": "Marble Football",
+        "id": "Marble Football",
+        "th": "Marble Football",
+        "vi": "Marble Football",
+        "zh_cn": "Marble Football",
+        "zh_tw": "Marble Football"
     }
 }
