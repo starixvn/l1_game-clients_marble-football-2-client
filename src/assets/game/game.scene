@@ -1901,8 +1901,8 @@
     "nodeBetItems": {
       "__id__": 17
     },
-    "usingDelayPayChips": true,
-    "delayAnimPayChips": 1,
+    "usingDelayPayChips": false,
+    "delayAnimPayChips": 2,
     "_id": "52sSbb1txP+KxeDPMDkmQr"
   },
   {
