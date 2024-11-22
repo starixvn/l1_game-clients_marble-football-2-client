@@ -23,11 +23,9 @@ export class BackgroundVideoPlayer extends Component {
     }
 
     set videoSource(value: string) {
-        if (value && this.videoSource !== value) {
-            this._videoSource = value;
+        this._videoSource = value;
 
-            this.play();
-        }
+        this.play();
     }
 
     get bandwidthEstimate() {

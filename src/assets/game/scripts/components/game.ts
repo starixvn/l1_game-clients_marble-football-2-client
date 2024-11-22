@@ -9,6 +9,8 @@ import "../../../resources/i18n";
 import { siteConfigs } from "../../../scripts/site-configs";
 import { containerOptions, settings } from "../game-settings";
 import { BackgroundVideoPlayer } from "../../../scripts/background-video-player";
+import { VideoStreamStore } from "../features/video-stream/video-stream-store";
+import { MarbleFootballServiceMessages } from "../marble-football-service-messages";
 const { Rounds, Translator, RoundHistories, Settlements } = gc;
 
 startGame(settings.name, containerOptions, siteConfigs);
@@ -25,8 +27,13 @@ export default class Game extends GameComponent {
     @property(BackgroundVideoPlayer)
     private backgroundVideoPlayer: BackgroundVideoPlayer = null;
 
-    override onLoad(): void {
-        this.backgroundVideoPlayer.videoSource = "https://minio.lumigame.com/sc-stream/final_a/football_marble_4-4_720p.m3u8";
+    @render(VideoStreamStore, (store) => store.videoResult)
+    renderVideoSource(videoResult: MarbleFootballServiceMessages.VideoStream) {
+        const firstHalfVideo = videoResult.firstHalfVideo;
+        if (firstHalfVideo.length > 0) {
+            console.log("firstHalfVideo", firstHalfVideo);
+            this.backgroundVideoPlayer.videoSource = "https://minio.lumigame.com/sc-stream/final_a/football_marble_4-4_720p.m3u8";
+        }
     }
 
     renderCurrentFinish(currentFinish: gc.GameServiceMessage.Finish) {
