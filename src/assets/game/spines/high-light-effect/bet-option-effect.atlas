@@ -1,0 +1,76 @@
+
+bet-option-effect.png
+size: 1902,316
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+away win
+  rotate: false
+  xy: 293, 2
+  size: 267, 312
+  orig: 269, 314
+  offset: 1, 1
+  index: -1
+dot light
+  rotate: false
+  xy: 1364, 26
+  size: 34, 34
+  orig: 40, 40
+  offset: 3, 3
+  index: -1
+draw win
+  rotate: false
+  xy: 2, 2
+  size: 289, 312
+  orig: 296, 314
+  offset: 4, 1
+  index: -1
+even win
+  rotate: true
+  xy: 1364, 62
+  size: 252, 166
+  orig: 256, 168
+  offset: 3, 1
+  index: -1
+hightlight away
+  rotate: false
+  xy: 1113, 20
+  size: 249, 294
+  orig: 251, 296
+  offset: 1, 1
+  index: -1
+hightlight draw
+  rotate: false
+  xy: 562, 20
+  size: 284, 294
+  orig: 288, 296
+  offset: 2, 1
+  index: -1
+hightlight even
+  rotate: true
+  xy: 1532, 75
+  size: 239, 148
+  orig: 242, 150
+  offset: 2, 1
+  index: -1
+hightlight odd
+  rotate: false
+  xy: 1682, 2
+  size: 205, 146
+  orig: 207, 148
+  offset: 1, 1
+  index: -1
+odd win
+  rotate: false
+  xy: 1682, 150
+  size: 218, 164
+  orig: 222, 166
+  offset: 3, 1
+  index: -1
+white_line
+  rotate: false
+  xy: 848, 20
+  size: 263, 294
+  orig: 293, 294
+  offset: 26, 0
+  index: -1
