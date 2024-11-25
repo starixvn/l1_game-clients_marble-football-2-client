@@ -15,9 +15,84 @@
                 <key>spriteSourceSize</key>
                 <string>{1398,22}</string>
                 <key>textureRect</key>
-                <string>{{3,3},{1398,22}}</string>
+                <string>{{66,112},{1398,22}}</string>
                 <key>textureRotated</key>
                 <true/>
+            </dict>
+            <key>id_bg.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{44,31}</string>
+                <key>spriteSourceSize</key>
+                <string>{44,31}</string>
+                <key>textureRect</key>
+                <string>{{66,3},{44,31}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>line_connect_score.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{14,3}</string>
+                <key>spriteSourceSize</key>
+                <string>{14,3}</string>
+                <key>textureRect</key>
+                <string>{{112,3},{14,3}}</string>
+                <key>textureRotated</key>
+                <true/>
+            </dict>
+            <key>score_bg.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{246,61}</string>
+                <key>spriteSourceSize</key>
+                <string>{246,61}</string>
+                <key>textureRect</key>
+                <string>{{3,3},{246,61}}</string>
+                <key>textureRotated</key>
+                <true/>
+            </dict>
+            <key>time_bg_a.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{41,36}</string>
+                <key>spriteSourceSize</key>
+                <string>{41,36}</string>
+                <key>textureRect</key>
+                <string>{{66,36},{41,36}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>time_bg_b.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{41,36}</string>
+                <key>spriteSourceSize</key>
+                <string>{41,36}</string>
+                <key>textureRect</key>
+                <string>{{66,74},{41,36}}</string>
+                <key>textureRotated</key>
+                <false/>
             </dict>
         </dict>
         <key>metadata</key>
@@ -31,9 +106,9 @@
             <key>realTextureFileName</key>
             <string>main.png</string>
             <key>size</key>
-            <string>{32,2048}</string>
+            <string>{128,2048}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:c4321c72401f3714e4da9e0ca95ebc61:c6fdaf0b1cd9c0730608c6f781f2afd8:693584bbba79ecadf35d6b2cf3a849c9$</string>
+            <string>$TexturePacker:SmartUpdate:4506d9b6908f61daaca5cf379c1de635:284a8cda44492144bcaec3d708626bfa:693584bbba79ecadf35d6b2cf3a849c9$</string>
             <key>textureFileName</key>
             <string>main.png</string>
         </dict>
