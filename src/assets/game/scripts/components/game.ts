@@ -35,10 +35,10 @@ export default class Game extends GameComponent {
 
     @render(VideoStreamStore, (store) => store.videoResult)
     renderVideoSource(videoResult: MarbleFootballServiceMessages.VideoStream) {
-        const firstHalfVideo = videoResult.firstHalfVideo;
-        if (firstHalfVideo.length > 0) {
+        const firstHalfVideo = videoResult?.firstHalfVideo;
+        if (firstHalfVideo?.length > 0) {
             console.log("firstHalfVideo", firstHalfVideo);
-            this.backgroundVideoPlayer.videoSource = "https://minio.lumigame.com/sc-stream/final_a/football_marble_4-4_720p.m3u8";
+            this.backgroundVideoPlayer.videoSource = "https://scstream.s3.amazonaws.com/demo/f91c105b8235abe74b638dd9be5929fe_720p.m3u8";
         }
     }
 
