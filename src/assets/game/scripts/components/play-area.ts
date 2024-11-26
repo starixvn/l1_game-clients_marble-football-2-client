@@ -8,9 +8,9 @@ const { ccclass, property } = _decorator;
 const { Rounds } = gc;
 const { render } = Observer;
 
-type TweenKey = "betChoices" | "scale";
+type TweenKey = "zoomInOut" | "disappear";
 
-interface ZoomConfig {
+interface TweenConfig {
     scale?: Vec3;
     position?: Vec3;
     opacity?: number;
@@ -18,9 +18,9 @@ interface ZoomConfig {
     time: number;
 }
 
-interface ZoomConfigs {
-    in: ZoomConfig;
-    out: ZoomConfig;
+interface TweenConfigs {
+    in: TweenConfig;
+    out: TweenConfig;
 }
 
 @ccclass("PlayArea")
@@ -40,21 +40,15 @@ export class PlayArea extends ObserverComponent {
     @property(Node)
     private chips: Node = null;
 
-    @property(Node)
-    private aroundPlayers: Node = null;
+    @property([Node])
+    private disappearingNodes: Node[] = [];
 
-    @property(Node)
-    private hiddenPlayers: Node = null;
-
-    @property(Node)
-    private rebet: Node = null;
-
-    private readonly zoomConfigs: Record<string, ZoomConfigs> = {
-        betChoices: {
+    private readonly tweenConfigs: Record<TweenKey, TweenConfigs> = {
+        zoomInOut: {
             in: { scale: v3(1, 1, 1), position: v3(-1, -86, 0), time: 1 },
-            out: { scale: v3(0.5, 0.5, 1), position: v3(-1, -320, 0), time: 1.5 },
+            out: { scale: v3(0.551, 0.551, 1), position: v3(-1, -312, 0), time: 1.5 },
         },
-        scale: {
+        disappear: {
             in: { scale: v3(1, 1, 1), time: 1 },
             out: { scale: v3(0, 0, 1), time: 1.5 },
         },
@@ -62,14 +56,15 @@ export class PlayArea extends ObserverComponent {
 
     onLoad() {
         this.tweenTargets = [
-            { target: this.betChoices, key: "betChoices" },
-            { target: this.chipContainer, key: "betChoices" },
-            { target: this.scoreBoard, key: "scale" },
-            { target: this.chips, key: "scale" },
-            { target: this.aroundPlayers, key: "scale" },
-            { target: this.hiddenPlayers, key: "scale" },
-            { target: this.rebet, key: "scale" },
+            { target: this.betChoices, key: "zoomInOut" },
+            { target: this.chipContainer, key: "zoomInOut" },
+            { target: this.scoreBoard, key: "disappear" },
+            { target: this.chips, key: "disappear" },
         ];
+
+        this.disappearingNodes.forEach((node) => {
+            this.tweenTargets.push({ target: node, key: "disappear" });
+        });
 
         super.onLoad();
     }
@@ -84,21 +79,19 @@ export class PlayArea extends ObserverComponent {
     @render(Rounds.RoundTimeStore, (store) => store.countdownTimer)
     async setAnimZoomOutPlayArea(time: number) {
         if (!this.isZoomOut && time <= settings.durations.streamingVideo && time > 0) {
-            console.log("time: ", time);
             this.zoomPlayArea("out");
         }
     }
 
-    private createZoomTween(node: Node, config: ZoomConfig): Promise<void> {
+    private createTween(node: Node, config: TweenConfig): Promise<void> {
         return new Promise((resolve) => {
             tween(node).to(config.time, { scale: config.scale, position: config.position }, { easing: "sineInOut" }).call(resolve).start();
         });
     }
 
     async zoomPlayArea(direction: "in" | "out"): Promise<void> {
-        console.log("zoomPlayArea", direction);
         this.isZoomOut = direction === "out";
 
-        await Promise.all(this.tweenTargets.map(({ target, key }) => this.createZoomTween(target, this.zoomConfigs[key][direction])));
+        await Promise.all(this.tweenTargets.map(({ target, key }) => this.createTween(target, this.tweenConfigs[key][direction])));
     }
 }
