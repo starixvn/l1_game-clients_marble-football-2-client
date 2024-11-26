@@ -1,52 +1,35 @@
-import { _decorator, Component, Label, Sprite } from "cc";
+import { _decorator, Component, Label } from "cc";
 
 const { ccclass, property } = _decorator;
 
 @ccclass("Score")
 export class Score extends Component {
-    @property(Sprite)
-    private homeSprite: Sprite = null;
-
-    @property(Sprite)
-    private awaySprite: Sprite = null;
+    @property(Label)
+    private home: Label = null;
 
     @property(Label)
-    private homeLabel: Label = null;
+    private away: Label = null;
 
-    @property(Label)
-    private awayLabel: Label = null;
+    onLoad() {
+        this.home.string = "0";
+        this.away.string = "0";
 
-    @property(Label)
-    private timeLabel: Label = null;
+        // Randomly update the score every second
+        // TODO: Remove this
+        this.schedule(() => {
+            const home = Math.floor(Math.random() * 10);
+            const away = Math.floor(Math.random() * 10);
 
-    @property(Label)
-    private matchLabel: Label = null;
-
-    setTeams(home: string, away: string) {
-        const homeAtlas = this.homeSprite.spriteAtlas;
-        const awayAtlas = this.awaySprite.spriteAtlas;
-        const homeSpriteFrame = homeAtlas.getSpriteFrame(home);
-        const awaySpriteFrame = awayAtlas.getSpriteFrame(away);
-
-        this.homeSprite.spriteFrame = homeSpriteFrame;
-        this.awaySprite.spriteFrame = awaySpriteFrame;
+            this.setHome(home);
+            this.setAway(away);
+        }, 1);
     }
 
-    setScore(home: number, away: number) {
-        this.homeLabel.string = home.toString();
-        this.awayLabel.string = away.toString();
+    setHome(home: number) {
+        this.home.string = home.toString();
     }
 
-    setMatch(match: string) {
-        this.matchLabel.string = match;
-    }
-
-    setTime(time: number) {
-        const minutes = Math.floor(time / 60);
-        const seconds = time - minutes * 60;
-        const minutesString = minutes.toString().padStart(2, "0");
-        const secondsString = seconds.toString().padStart(2, "0");
-
-        this.timeLabel.string = `${minutesString}:${secondsString}`;
+    setAway(away: number) {
+        this.away.string = away.toString();
     }
 }

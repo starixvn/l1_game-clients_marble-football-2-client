@@ -1,0 +1,118 @@
+
+popup-win.png
+size: 678,331
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+ball
+  rotate: false
+  xy: 535, 188
+  size: 141, 141
+  orig: 147, 147
+  offset: 3, 3
+  index: -1
+effect glow
+  rotate: false
+  xy: 2, 47
+  size: 282, 282
+  orig: 284, 284
+  offset: 1, 1
+  index: -1
+effect particle
+  rotate: false
+  xy: 286, 75
+  size: 247, 254
+  orig: 255, 256
+  offset: 4, 1
+  index: -1
+empty
+  rotate: false
+  xy: 2, 4
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+flag blue a
+  rotate: true
+  xy: 406, 2
+  size: 71, 91
+  orig: 71, 91
+  offset: 0, 0
+  index: -1
+flag blue b
+  rotate: true
+  xy: 600, 154
+  size: 32, 37
+  orig: 32, 37
+  offset: 0, 0
+  index: -1
+flag blue c
+  rotate: false
+  xy: 535, 97
+  size: 63, 89
+  orig: 63, 89
+  offset: 0, 0
+  index: -1
+flag red a
+  rotate: true
+  xy: 499, 2
+  size: 71, 91
+  orig: 71, 91
+  offset: 0, 0
+  index: -1
+flag red b
+  rotate: true
+  xy: 639, 153
+  size: 33, 35
+  orig: 35, 37
+  offset: 1, 1
+  index: -1
+flag red c
+  rotate: false
+  xy: 592, 6
+  size: 63, 89
+  orig: 63, 89
+  offset: 0, 0
+  index: -1
+flag red d
+  rotate: true
+  xy: 288, 4
+  size: 69, 116
+  orig: 71, 118
+  offset: 1, 1
+  index: -1
+score BG a
+  rotate: false
+  xy: 216, 2
+  size: 34, 43
+  orig: 36, 45
+  offset: 1, 1
+  index: -1
+score BG b
+  rotate: true
+  xy: 169, 9
+  size: 36, 45
+  orig: 38, 47
+  offset: 1, 1
+  index: -1
+score connect
+  rotate: false
+  xy: 2, 7
+  size: 12, 4
+  orig: 14, 6
+  offset: 1, 1
+  index: -1
+tag a
+  rotate: false
+  xy: 2, 13
+  size: 165, 32
+  orig: 167, 34
+  offset: 1, 1
+  index: -1
+tag b
+  rotate: true
+  xy: 252, 6
+  size: 39, 34
+  orig: 39, 34
+  offset: 0, 0
+  index: -1
