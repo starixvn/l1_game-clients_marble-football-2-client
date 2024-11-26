@@ -802,8 +802,8 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -0.62,
-      "y": 272.941,
+      "x": -6.137,
+      "y": 168.11,
       "z": 0
     },
     "_lrot": {
@@ -900,7 +900,7 @@
     "nodeBetItems": {
       "__id__": 61
     },
-    "usingDelayPayChips": false,
+    "usingDelayPayChips": true,
     "delayAnimPayChips": 2,
     "_id": "52sSbb1txP+KxeDPMDkmQr"
   },

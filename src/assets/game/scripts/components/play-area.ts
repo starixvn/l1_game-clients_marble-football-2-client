@@ -69,14 +69,14 @@ export class PlayArea extends ObserverComponent {
         super.onLoad();
     }
 
-    @render(Rounds.RoundTimeStore, (store) => store.isStartWaiting)
-    async setAnimZoomInPlayArea(isStartRound: boolean) {
-        if (isStartRound && this.isZoomOut) {
+    @render(Rounds.RoundTimeStore, (store) => store.roundTime)
+    async setAnimZoomInPlayArea(time: number) {
+        if (time <= 0 && this.isZoomOut) {
             this.zoomPlayArea("in");
         }
     }
 
-    @render(Rounds.RoundTimeStore, (store) => store.countdownTimer)
+    @render(Rounds.RoundTimeStore, (store) => store.roundTime)
     async setAnimZoomOutPlayArea(time: number) {
         if (!this.isZoomOut && time <= settings.durations.streamingVideo && time > 0) {
             this.zoomPlayArea("out");
