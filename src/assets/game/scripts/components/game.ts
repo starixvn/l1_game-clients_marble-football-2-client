@@ -21,10 +21,10 @@ const { observer, render, handle } = Observer;
 @ccclass
 @observer(settings.name)
 export default class Game extends GameComponent {
-    @property({ visible: false })
+    @property({ visible: false, override: true })
     override lblMinBet = null;
 
-    @property({ visible: false })
+    @property({ visible: false, override: true })
     override lblMaxBet = null;
 
     @property(ChipFlying)
