@@ -1,14 +1,15 @@
-import { _decorator, Component, Label, Sprite } from "cc";
+import { _decorator, Component, Label } from "cc";
+import { Flag } from "./flag";
 
 const { ccclass, property } = _decorator;
 
 @ccclass("LiveScore")
 export class LiveScore extends Component {
-    @property(Sprite)
-    private home: Sprite = null;
+    @property(Flag)
+    private home: Flag = null;
 
-    @property(Sprite)
-    private away: Sprite = null;
+    @property(Flag)
+    private away: Flag = null;
 
     @property(Label)
     private time: Label = null;
@@ -18,16 +19,19 @@ export class LiveScore extends Component {
 
     protected onLoad(): void {
         this.setMatch(1);
+
+        // TODO: Remove this
+        // Randomly update the flags every second
+        this.schedule(() => {
+            const flags = ["MCI", "RMA", "BAR", "LIV", "ARS", "FCB", "INT", "LEV", "AVL", "ATA", "BVB", "JUV", "PSG", "SCP", "ATM", "MIL"];
+
+            this.setTeams(flags[Math.floor(Math.random() * flags.length)], flags[Math.floor(Math.random() * flags.length)]);
+        }, 1);
     }
 
     setTeams(home: string, away: string) {
-        const homeAtlas = this.home.spriteAtlas;
-        const awayAtlas = this.away.spriteAtlas;
-        const homeSpriteFrame = homeAtlas.getSpriteFrame(home);
-        const awaySpriteFrame = awayAtlas.getSpriteFrame(away);
-
-        this.home.spriteFrame = homeSpriteFrame;
-        this.away.spriteFrame = awaySpriteFrame;
+        this.home.setIcon(home);
+        this.away.setIcon(away);
     }
 
     setMatch(match: number) {
