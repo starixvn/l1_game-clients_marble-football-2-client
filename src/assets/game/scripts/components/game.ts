@@ -9,9 +9,7 @@ import "../../../resources/i18n";
 import { siteConfigs } from "../../../scripts/site-configs";
 import { containerOptions, settings } from "../game-settings";
 import { BackgroundVideoPlayer } from "../../../scripts/background-video-player";
-import { VideoStreamStore } from "../features/video-stream/video-stream-store";
-import { MarbleFootballServiceMessages } from "../marble-football-service-messages";
-const { Rounds, Translator, RoundHistories, Settlements } = gc;
+import { StreamingVideo, VideoStreamStore } from "../features/video-stream/video-stream-store";
 
 startGame(settings.name, containerOptions, siteConfigs);
 
@@ -33,12 +31,14 @@ export default class Game extends GameComponent {
     @property(BackgroundVideoPlayer)
     private backgroundVideoPlayer: BackgroundVideoPlayer = null;
 
-    @render(VideoStreamStore, (store) => store.videoResult)
-    renderVideoSource(videoResult: MarbleFootballServiceMessages.VideoStream) {
-        const firstHalfVideo = videoResult?.firstHalfVideo;
-        if (firstHalfVideo?.length > 0) {
-            console.log("firstHalfVideo", firstHalfVideo);
-            this.backgroundVideoPlayer.videoSource = "https://scstream.s3.amazonaws.com/demo/f91c105b8235abe74b638dd9be5929fe_720p.m3u8";
+    @render(VideoStreamStore, (store) => store.currentVideo)
+    renderVideoSource(currentVideo: StreamingVideo) {
+        if (currentVideo.videoName) {
+            const videoUrl = new URL(`${currentVideo.videoName}_${720}p.m3u8`, currentVideo.liveStreamServer).toString();
+
+            console.log("play video", videoUrl);
+
+            this.backgroundVideoPlayer.videoSource = videoUrl;
         }
     }
 

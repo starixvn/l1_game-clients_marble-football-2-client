@@ -4,6 +4,9 @@ export namespace MarbleFootballServiceMessages {
         secondHalfVideo: string;
         firstHalfTimeline: number[];
         secondHalfTimeline: number[];
+        liveStreamServer: string;
+        firstHalf: string;
+        secondHalf: string;
 
         static eventName = "videoResult";
     }
