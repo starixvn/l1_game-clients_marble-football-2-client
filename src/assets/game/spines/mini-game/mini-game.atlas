@@ -1,0 +1,69 @@
+
+mini-game.png
+size: 475,218
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+ball
+  rotate: false
+  xy: 443, 35
+  size: 28, 28
+  orig: 30, 30
+  offset: 1, 1
+  index: -1
+effect spinner win
+  rotate: false
+  xy: 369, 112
+  size: 104, 104
+  orig: 119, 120
+  offset: 9, 10
+  index: -1
+empty
+  rotate: false
+  xy: 467, 100
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+flower paper
+  rotate: true
+  xy: 467, 103
+  size: 7, 5
+  orig: 9, 7
+  offset: 1, 1
+  index: -1
+gate
+  rotate: true
+  xy: 369, 45
+  size: 18, 72
+  orig: 20, 74
+  offset: 1, 1
+  index: -1
+spinner blue
+  rotate: false
+  xy: 369, 65
+  size: 47, 45
+  orig: 49, 47
+  offset: 1, 1
+  index: -1
+spinner red
+  rotate: false
+  xy: 418, 65
+  size: 47, 45
+  orig: 49, 47
+  offset: 1, 1
+  index: -1
+tag text
+  rotate: false
+  xy: 2, 2
+  size: 203, 31
+  orig: 205, 33
+  offset: 1, 1
+  index: -1
+yard
+  rotate: false
+  xy: 2, 35
+  size: 365, 181
+  orig: 367, 183
+  offset: 1, 1
+  index: -1
