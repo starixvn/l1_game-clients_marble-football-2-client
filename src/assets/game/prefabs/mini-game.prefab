@@ -35,10 +35,13 @@
     "_components": [
       {
         "__id__": 268
+      },
+      {
+        "__id__": 270
       }
     ],
     "_prefab": {
-      "__id__": 270
+      "__id__": 272
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -1784,9 +1787,9 @@
     "_layer": 33554432,
     "_euler": {
       "__type__": "cc.Vec3",
-      "x": null,
-      "y": null,
-      "z": null
+      "x": 0,
+      "y": 0,
+      "z": 0
     },
     "_id": ""
   },
@@ -2491,9 +2494,9 @@
     "_layer": 33554432,
     "_euler": {
       "__type__": "cc.Vec3",
-      "x": null,
-      "y": null,
-      "z": null
+      "x": 0,
+      "y": 0,
+      "z": 0
     },
     "_id": ""
   },
@@ -5338,6 +5341,26 @@
     "fileId": "07cbShJa9CSrSxpQIKqCrm"
   },
   {
+    "__type__": "2e171QCizRDPIZizqeVp32l",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 271
+    },
+    "home": null,
+    "away": null,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "b2ehCuGXtFy5t2Wt6i+cDA"
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -5346,7 +5369,15 @@
       "__id__": 0
     },
     "fileId": "5dLv943HpJqaZZEJ6tUG3l",
-    "targetOverrides": null,
+    "instance": null,
+    "targetOverrides": [
+      {
+        "__id__": 273
+      },
+      {
+        "__id__": 275
+      }
+    ],
     "nestedPrefabInstanceRoots": [
       {
         "__id__": 49
@@ -5354,6 +5385,50 @@
       {
         "__id__": 21
       }
+    ]
+  },
+  {
+    "__type__": "cc.TargetOverrideInfo",
+    "source": {
+      "__id__": 270
+    },
+    "sourceInfo": null,
+    "propertyPath": [
+      "home"
+    ],
+    "target": {
+      "__id__": 21
+    },
+    "targetInfo": {
+      "__id__": 274
+    }
+  },
+  {
+    "__type__": "cc.TargetInfo",
+    "localID": [
+      "a0OJUTaUJFs6mn+IN2kT7n"
+    ]
+  },
+  {
+    "__type__": "cc.TargetOverrideInfo",
+    "source": {
+      "__id__": 270
+    },
+    "sourceInfo": null,
+    "propertyPath": [
+      "away"
+    ],
+    "target": {
+      "__id__": 49
+    },
+    "targetInfo": {
+      "__id__": 276
+    }
+  },
+  {
+    "__type__": "cc.TargetInfo",
+    "localID": [
+      "a0OJUTaUJFs6mn+IN2kT7n"
     ]
   }
 ]

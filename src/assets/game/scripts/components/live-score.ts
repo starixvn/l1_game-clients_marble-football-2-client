@@ -19,14 +19,6 @@ export class LiveScore extends Component {
 
     protected onLoad(): void {
         this.setMatch(1);
-
-        // TODO: Remove this
-        // Randomly update the flags every second
-        this.schedule(() => {
-            const flags = ["MCI", "RMA", "BAR", "LIV", "ARS", "FCB", "INT", "LEV", "AVL", "ATA", "BVB", "JUV", "PSG", "SCP", "ATM", "MIL"];
-
-            this.setTeams(flags[Math.floor(Math.random() * flags.length)], flags[Math.floor(Math.random() * flags.length)]);
-        }, 1);
     }
 
     setTeams(home: string, away: string) {

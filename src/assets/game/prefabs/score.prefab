@@ -38,10 +38,13 @@
       },
       {
         "__id__": 136
+      },
+      {
+        "__id__": 138
       }
     ],
     "_prefab": {
-      "__id__": 138
+      "__id__": 140
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -2799,6 +2802,26 @@
     "fileId": "e52Ju350JGb6RIskH4vMX9"
   },
   {
+    "__type__": "2e171QCizRDPIZizqeVp32l",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 139
+    },
+    "home": null,
+    "away": null,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "e3aEY6Bk5G8YYW5L2F07oY"
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -2810,10 +2833,16 @@
     "instance": null,
     "targetOverrides": [
       {
-        "__id__": 139
+        "__id__": 141
       },
       {
-        "__id__": 141
+        "__id__": 143
+      },
+      {
+        "__id__": 145
+      },
+      {
+        "__id__": 147
       }
     ],
     "nestedPrefabInstanceRoots": [
@@ -2838,7 +2867,7 @@
       "__id__": 18
     },
     "targetInfo": {
-      "__id__": 140
+      "__id__": 142
     }
   },
   {
@@ -2860,7 +2889,51 @@
       "__id__": 34
     },
     "targetInfo": {
-      "__id__": 142
+      "__id__": 144
+    }
+  },
+  {
+    "__type__": "cc.TargetInfo",
+    "localID": [
+      "a0OJUTaUJFs6mn+IN2kT7n"
+    ]
+  },
+  {
+    "__type__": "cc.TargetOverrideInfo",
+    "source": {
+      "__id__": 138
+    },
+    "sourceInfo": null,
+    "propertyPath": [
+      "home"
+    ],
+    "target": {
+      "__id__": 18
+    },
+    "targetInfo": {
+      "__id__": 146
+    }
+  },
+  {
+    "__type__": "cc.TargetInfo",
+    "localID": [
+      "a0OJUTaUJFs6mn+IN2kT7n"
+    ]
+  },
+  {
+    "__type__": "cc.TargetOverrideInfo",
+    "source": {
+      "__id__": 138
+    },
+    "sourceInfo": null,
+    "propertyPath": [
+      "away"
+    ],
+    "target": {
+      "__id__": 34
+    },
+    "targetInfo": {
+      "__id__": 148
     }
   },
   {
