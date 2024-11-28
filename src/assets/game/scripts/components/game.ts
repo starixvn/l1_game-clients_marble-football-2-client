@@ -32,7 +32,7 @@ export default class Game extends GameComponent {
     private backgroundVideoPlayer: BackgroundVideoPlayer = null;
 
     @render(gc.Rounds.RoundTimeStore, (store) => store.isStartRound)
-    clearBackgroundVideoPlayer(isStartRound: boolean) {
+    resetForNewRound(isStartRound: boolean) {
         if (isStartRound) {
             this.backgroundVideoPlayer.resetAllSettings();
         }

@@ -30,6 +30,11 @@ export class VideoStreamStore {
                     () => this.roundTimeStore.roundTime,
                     (roundTime) => this.updateCurrentVideoAndScores(roundTime)
                 );
+
+                mobx.reaction(
+                    () => this.roundTimeStore.isStartRound,
+                    (isStartRound) => isStartRound && this.resetForNewRound()
+                );
             } else {
                 console.error("roundTimeStore is not defined. Dependency injection might be misconfigured.");
             }
@@ -99,6 +104,13 @@ export class VideoStreamStore {
 
     get currentVideoTime(): number {
         return this._currentVideoTime;
+    }
+
+    resetForNewRound() {
+        this._currentVideoTime = -1;
+        this._currentVideo = {} as any;
+        this._videoResult = {} as any;
+        this.resetScores();
     }
 
     private resetScores(): void {
