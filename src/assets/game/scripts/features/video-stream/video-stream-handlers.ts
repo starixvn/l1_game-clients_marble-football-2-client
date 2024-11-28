@@ -12,6 +12,10 @@ export class VideoStreamHandlers {
         this.videoStreamStore.videoResult = videoResult;
     }
 
+    resetForNewRound() {
+        this.videoStreamStore.resetForNewRound();
+    }
+
     eventHandleList = [
         {
             name: MarbleFootballServiceMessages.VideoStream.eventName,

@@ -24,21 +24,16 @@ export class VideoStreamStore {
     constructor() {
         mobx.makeAutoObservable(this);
 
-        setTimeout(() => {
-            if (this.roundTimeStore) {
-                mobx.reaction(
-                    () => this.roundTimeStore.roundTime,
-                    (roundTime) => this.updateCurrentVideoAndScores(roundTime)
-                );
-
-                mobx.reaction(
-                    () => this.roundTimeStore.isStartRound,
-                    (isStartRound) => isStartRound && this.resetForNewRound()
-                );
-            } else {
-                console.error("roundTimeStore is not defined. Dependency injection might be misconfigured.");
-            }
-        }, 0);
+        // setTimeout(() => {
+        //     if (this.roundTimeStore) {
+        //         mobx.reaction(
+        //             () => this.roundTimeStore.roundTime,
+        //             (roundTime) => this.updateCurrentVideoAndScores(roundTime)
+        //         );
+        //     } else {
+        //         console.error("roundTimeStore is not defined. Dependency injection might be misconfigured.");
+        //     }
+        // }, 0);
     }
 
     updateCurrentVideoAndScores(roundTime: number) {

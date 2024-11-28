@@ -1,8 +1,7 @@
 import gc from "@sg/game-client-base";
 import { LogStore } from "db://shared-components/game/scripts/stores/log-store";
 import { sharedContainer } from "../../scripts/shared-container";
-import { onMarbleFootballContainerCreated } from "./features/loader";
-import { MarbleFootball } from "./features";
+import * as MarbleFootball from "./features/feature";
 
 export const settings = {
     id: 104,
@@ -25,7 +24,6 @@ export const containerOptions: gc.IContainerOptions = {
     onContainerCreated: (container) => {
         container.bind(gc.GameConfigs.GameSetting).toConstantValue(settings as any);
         container.bind(LogStore).to(LogStore);
-        onMarbleFootballContainerCreated(container);
     },
-    features: [gc.RoundBasePF, ...gc.defaultFeatures, MarbleFootball],
+    features: [MarbleFootball, gc.RoundBasePF, ...gc.defaultFeatures],
 };
