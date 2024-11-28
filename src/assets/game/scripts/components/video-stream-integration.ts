@@ -32,7 +32,7 @@ export default class VideoStreamIntegration extends ObserverComponent {
     @handle(VideoStreamHandlers, (handler) => handler.resetForNewRound())
     private resetVideoStream() {}
 
-    @handle(VideoStreamStore, (store, time: number) => store.updateCurrentVideoAndScores(time))
+    @handle(VideoStreamStore, (store, time: number) => store.updateWithRoundTime(time))
     private updateVideoTimeAndScore(currentTime: number) {
         return currentTime;
     }

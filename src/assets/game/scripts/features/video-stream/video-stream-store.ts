@@ -9,6 +9,13 @@ const { injectable, inject } = inversify;
 export type StreamingVideo = {
     videoName: string;
     liveStreamServer: string;
+    time: number;
+};
+
+type VideoData = {
+    videoName: string;
+    videoResult: string;
+    videoTimeline: number[];
 };
 
 @injectable()
@@ -20,50 +27,109 @@ export class VideoStreamStore {
     private _homeScore = 0;
     private _awayScore = 0;
     private _currentVideoTime = -1;
+    private _roundTime = -1;
+    private _isFirstHalf = true;
+    private _isFirstLoad = true;
 
     constructor() {
         mobx.makeAutoObservable(this);
-
-        // setTimeout(() => {
-        //     if (this.roundTimeStore) {
-        //         mobx.reaction(
-        //             () => this.roundTimeStore.roundTime,
-        //             (roundTime) => this.updateCurrentVideoAndScores(roundTime)
-        //         );
-        //     } else {
-        //         console.error("roundTimeStore is not defined. Dependency injection might be misconfigured.");
-        //     }
-        // }, 0);
     }
 
-    updateCurrentVideoAndScores(roundTime: number) {
-        this._currentVideoTime = this.calculateCurrentVideoTime(roundTime);
+    updateWithRoundTime(roundTime: number) {
+        this._roundTime = roundTime;
+        this._currentVideoTime = this.calculateCurrentVideoTime();
+        this._isFirstHalf = roundTime > settings.durations.videoDuration;
 
-        if (this._currentVideoTime === -1) {
+        this.updateCurrentVideoAndScores();
+    }
+
+    updateCurrentVideoAndScores() {
+        const currentVideoTime = this._currentVideoTime;
+        const videoData = this.getVideoData();
+
+        if (!videoData) return;
+
+        if (this._isFirstLoad) {
+            this.updateScoresBeforeCurrentTime(videoData, currentVideoTime);
+            this._isFirstLoad = false;
+        }
+
+        if (currentVideoTime === -1) {
             return;
         }
 
-        const isFirstHalf = roundTime > settings.durations.videoDuration;
-
-        const videoName = isFirstHalf ? this._videoResult.firstHalfVideo : this._videoResult.secondHalfVideo;
-        const videoTimeline = isFirstHalf ? this._videoResult.firstHalfTimeline ?? [] : this._videoResult.secondHalfTimeline;
-        const videoResult = isFirstHalf ? this._videoResult.firstHalf : this._videoResult.secondHalf;
-
-        if (this._currentVideo.videoName !== videoName) {
+        if (this._currentVideo.videoName !== videoData.videoName) {
             this._currentVideo = {
-                videoName,
+                videoName: videoData.videoName,
                 liveStreamServer: this._videoResult.liveStreamServer,
+                time: currentVideoTime,
             };
         }
 
-        const currentScoreIndex = videoTimeline.findIndex((scoreTime) => Math.ceil(scoreTime) === this._currentVideoTime);
+        this.updateCurrentScores(videoData, currentVideoTime);
+    }
+
+    private updateScoresBeforeCurrentTime(videoData: VideoData, currentVideoTime: number) {
+        let homeScore = 0;
+        let awayScore = 0;
+
+        if (this._roundTime < settings.durations.streamingVideo - settings.durations.videoDuration) {
+            homeScore = this._videoResult.firstHalf.split("H").length - 1;
+            awayScore = this._videoResult.firstHalf.split("A").length - 1;
+        }
+
+        if (this._roundTime > settings.durations.placingBet + settings.durations.startRound) {
+            homeScore += this._videoResult.secondHalf.split("H").length - 1;
+            awayScore += this._videoResult.secondHalf.split("A").length - 1;
+        }
+
+        if (currentVideoTime > 0) {
+            videoData.videoTimeline.forEach((scoreTime, index) => {
+                if (Math.ceil(scoreTime) < currentVideoTime) {
+                    const goal = videoData.videoResult[index];
+
+                    if (goal === "H") {
+                        homeScore++;
+                    } else if (goal === "A") {
+                        awayScore++;
+                    }
+                }
+            });
+        }
+
+        this._homeScore = homeScore;
+        this._awayScore = awayScore;
+    }
+
+    private updateCurrentScores(videoData: VideoData, currentVideoTime: number) {
+        const currentScoreIndex = videoData.videoTimeline.findIndex((scoreTime) => Math.ceil(scoreTime) === currentVideoTime);
 
         if (currentScoreIndex !== -1) {
-            this.updateScores(videoResult[currentScoreIndex]);
+            const goal = videoData.videoResult[currentScoreIndex];
+
+            if (goal === "H") {
+                this._homeScore++;
+            } else if (goal === "A") {
+                this._awayScore++;
+            }
         }
     }
 
-    calculateCurrentVideoTime(roundTime: number) {
+    private getVideoData(): VideoData {
+        const isFirstHalf = this._isFirstHalf;
+
+        const videoName = isFirstHalf ? this._videoResult.firstHalfVideo : this._videoResult.secondHalfVideo;
+        const videoTimeline = isFirstHalf ? this._videoResult.firstHalfTimeline : this._videoResult.secondHalfTimeline;
+        const videoResult = isFirstHalf ? this._videoResult.firstHalf : this._videoResult.secondHalf;
+
+        if (!videoName || !videoTimeline || !videoResult) return null;
+
+        return { videoName, videoTimeline, videoResult };
+    }
+
+    calculateCurrentVideoTime() {
+        const roundTime = this._roundTime;
+
         if (roundTime > settings.durations.streamingVideo) {
             return -1;
         }
@@ -101,23 +167,20 @@ export class VideoStreamStore {
         return this._currentVideoTime;
     }
 
+    get isFirstHalf(): boolean {
+        return this._isFirstHalf;
+    }
+
     resetForNewRound() {
         this._currentVideoTime = -1;
         this._currentVideo = {} as any;
         this._videoResult = {} as any;
+        this._isFirstHalf = true;
         this.resetScores();
     }
 
     private resetScores(): void {
         this._homeScore = 0;
         this._awayScore = 0;
-    }
-
-    private updateScores(goal: string): void {
-        if (goal === "H") {
-            this._homeScore++;
-        } else if (goal === "A") {
-            this._awayScore++;
-        }
     }
 }

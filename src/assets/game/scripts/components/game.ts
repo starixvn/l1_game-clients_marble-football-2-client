@@ -42,6 +42,8 @@ export default class Game extends GameComponent {
     renderVideoSource(currentVideo: StreamingVideo) {
         if (currentVideo.videoName && currentVideo.liveStreamServer) {
             this.backgroundVideoPlayer.playVideoWithVideoInfo(currentVideo.videoName, currentVideo.liveStreamServer);
+
+            this.backgroundVideoPlayer.currentTime = currentVideo.time;
         }
     }
 
@@ -49,10 +51,6 @@ export default class Game extends GameComponent {
     updateVideoCurrentTimeAndResolution(currentTime: number) {
         if (currentTime < 0) {
             return;
-        }
-
-        if (currentTime === 0) {
-            this.backgroundVideoPlayer.currentTime = 0;
         }
 
         const canPlayHighResolution = this.backgroundVideoPlayer.bandwidthEstimate >= BackgroundVideoPlayer.BAND_WIDTH_FOR_HIGH_RESOLUTION;

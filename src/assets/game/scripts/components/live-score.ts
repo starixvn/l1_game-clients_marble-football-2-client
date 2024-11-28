@@ -1,10 +1,15 @@
-import { _decorator, Component, Label } from "cc";
+import { _decorator, Label } from "cc";
 import { Flag } from "./flag";
+import { VideoStreamStore } from "../features/video-stream/video-stream-store";
+import Observer from "observer";
+import { ObserverComponent } from "db://shared-components/shared/common-components/observer-component/scripts/observer-component";
+import { LocalizedLabel } from "../../../../extensions/i18n/assets/LocalizedLabel";
 
 const { ccclass, property } = _decorator;
+const { render } = Observer;
 
 @ccclass("LiveScore")
-export class LiveScore extends Component {
+export class LiveScore extends ObserverComponent {
     @property(Flag)
     private home: Flag = null;
 
@@ -15,10 +20,10 @@ export class LiveScore extends Component {
     private time: Label = null;
 
     @property([Label])
-    private matches: Label[] = [];
+    private half: Label = null;
 
-    protected onLoad(): void {
-        this.setMatch(1);
+    onLoad(): void {
+        super.onLoad();
     }
 
     setTeams(home: string, away: string) {
@@ -26,10 +31,11 @@ export class LiveScore extends Component {
         this.away.setIcon(away);
     }
 
-    setMatch(match: number) {
-        this.matches.forEach((label, index) => {
-            label.node.active = index === match - 1;
-        });
+    @render(VideoStreamStore, (store) => store.isFirstHalf)
+    setMatch(isFirstHalf: boolean) {
+        const halfLabel = this.half.getComponent(LocalizedLabel);
+        halfLabel.key = isFirstHalf ? "MarbleFootball.first_half" : "MarbleFootball.second_half";
+        halfLabel.updateLabel();
     }
 
     setTime(time: number) {
