@@ -38,7 +38,8 @@ export class VideoStreamStore {
     updateWithRoundTime(roundTime: number) {
         this._roundTime = roundTime;
         this._currentVideoTime = this.calculateCurrentVideoTime();
-        this._isFirstHalf = roundTime > settings.durations.videoDuration;
+        this._isFirstHalf =
+            roundTime > settings.durations.videoDuration && roundTime <= settings.durations.placingBet + settings.durations.startRound;
 
         this.updateCurrentVideoAndScores();
     }
@@ -73,7 +74,7 @@ export class VideoStreamStore {
         let homeScore = 0;
         let awayScore = 0;
 
-        if (this._roundTime < settings.durations.streamingVideo - settings.durations.videoDuration) {
+        if (!this._isFirstHalf) {
             homeScore = this._videoResult.firstHalf.split("H").length - 1;
             awayScore = this._videoResult.firstHalf.split("A").length - 1;
         }
