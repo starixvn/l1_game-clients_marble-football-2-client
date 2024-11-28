@@ -19,6 +19,7 @@ export class VideoStreamStore {
     private _currentVideo: StreamingVideo = {} as any;
     private _homeScore = 0;
     private _awayScore = 0;
+    private _currentVideoTime = -1;
 
     constructor() {
         mobx.makeAutoObservable(this);
@@ -36,16 +37,16 @@ export class VideoStreamStore {
     }
 
     updateCurrentVideoAndScores(roundTime: number) {
-        const currentVideoTime = this.calculateCurrentVideoTime(roundTime);
+        this._currentVideoTime = this.calculateCurrentVideoTime(roundTime);
 
-        if (currentVideoTime === -1) {
+        if (this._currentVideoTime === -1) {
             return;
         }
 
         const isFirstHalf = roundTime > settings.durations.videoDuration;
 
         const videoName = isFirstHalf ? this._videoResult.firstHalfVideo : this._videoResult.secondHalfVideo;
-        const videoTimeline = isFirstHalf ? this._videoResult.firstHalfTimeline : this._videoResult.secondHalfTimeline;
+        const videoTimeline = isFirstHalf ? this._videoResult.firstHalfTimeline ?? [] : this._videoResult.secondHalfTimeline;
         const videoResult = isFirstHalf ? this._videoResult.firstHalf : this._videoResult.secondHalf;
 
         if (this._currentVideo.videoName !== videoName) {
@@ -55,7 +56,7 @@ export class VideoStreamStore {
             };
         }
 
-        const currentScoreIndex = videoTimeline.findIndex((scoreTime) => Math.ceil(scoreTime) === currentVideoTime);
+        const currentScoreIndex = videoTimeline.findIndex((scoreTime) => Math.ceil(scoreTime) === this._currentVideoTime);
 
         if (currentScoreIndex !== -1) {
             this.updateScores(videoResult[currentScoreIndex]);
@@ -94,6 +95,10 @@ export class VideoStreamStore {
 
     get awayScore(): number {
         return this._awayScore;
+    }
+
+    get currentVideoTime(): number {
+        return this._currentVideoTime;
     }
 
     private resetScores(): void {

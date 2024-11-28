@@ -6,10 +6,16 @@ const { ccclass } = _decorator;
 
 @ccclass("BackgroundVideoPlayer")
 export class BackgroundVideoPlayer extends Component {
+    static readonly HIGH_RESOLUTION = "720p";
+    static readonly LOW_RESOLUTION = "240p";
+    static readonly BAND_WIDTH_FOR_HIGH_RESOLUTION = 500; // Bandwidth for HD resolution in KBps
+
     private hls: Hls = null;
     private native: HTMLVideoElement = null;
 
     private _videoSource: string = "";
+    private _videoName: string = "";
+    private _liveStreamServer: string = "";
 
     private get initialized() {
         return !!this.hls && !!this.native;
@@ -17,19 +23,43 @@ export class BackgroundVideoPlayer extends Component {
 
     nativeCurrentTime = 0;
     currentTime = 0;
+    currentResolution = BackgroundVideoPlayer.LOW_RESOLUTION;
 
-    get videoSource() {
-        return this._videoSource;
-    }
+    playVideoWithVideoInfo(videoName: string, liveStreamServer: string) {
+        if (videoName === "" || liveStreamServer === "") {
+            return;
+        }
 
-    set videoSource(value: string) {
-        this._videoSource = value;
+        const videoUrl = new URL(`${videoName}_${this.currentResolution}.m3u8`, liveStreamServer).toString();
+
+        this._videoSource = videoUrl;
+        this._videoName = videoName;
+        this._liveStreamServer = liveStreamServer;
 
         this.play();
     }
 
+    updateVideoResolution(resolution: string) {
+        console.log(`Updating video resolution to ${resolution}`);
+        this.currentResolution = resolution;
+
+        this.playVideoWithVideoInfo(this._videoName, this._liveStreamServer);
+    }
+
+    resetAllSettings() {
+        this._videoSource = "";
+        this._videoName = "";
+        this._liveStreamServer = "";
+        this.nativeCurrentTime = 0;
+        this.currentTime = 0;
+        this.currentResolution = BackgroundVideoPlayer.HIGH_RESOLUTION;
+    }
+
     get bandwidthEstimate() {
-        return this.hls?.bandwidthEstimate ?? 0;
+        const bandwidthEstimate = this.hls?.bandwidthEstimate ?? 0;
+
+        // Convert bps to KBps
+        return bandwidthEstimate / 8_000;
     }
 
     play() {
@@ -37,7 +67,7 @@ export class BackgroundVideoPlayer extends Component {
             this.initialize();
         }
 
-        this.hls.loadSource(this.videoSource);
+        this.hls.loadSource(this._videoSource);
         this.native.play();
     }
 

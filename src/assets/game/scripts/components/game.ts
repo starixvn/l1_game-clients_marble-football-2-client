@@ -14,7 +14,7 @@ import { StreamingVideo, VideoStreamStore } from "../features/video-stream/video
 startGame(settings.name, containerOptions, siteConfigs);
 
 const { ccclass, property } = _decorator;
-const { observer, render, handle } = Observer;
+const { observer, render } = Observer;
 
 @ccclass
 @observer(settings.name)
@@ -31,14 +31,40 @@ export default class Game extends GameComponent {
     @property(BackgroundVideoPlayer)
     private backgroundVideoPlayer: BackgroundVideoPlayer = null;
 
+    @render(gc.Rounds.RoundTimeStore, (store) => store.isStartRound)
+    clearBackgroundVideoPlayer(isStartRound: boolean) {
+        if (isStartRound) {
+            this.backgroundVideoPlayer.resetAllSettings();
+        }
+    }
+
     @render(VideoStreamStore, (store) => store.currentVideo)
     renderVideoSource(currentVideo: StreamingVideo) {
-        if (currentVideo.videoName) {
-            const videoUrl = new URL(`${currentVideo.videoName}_${720}p.m3u8`, currentVideo.liveStreamServer).toString();
+        if (currentVideo.videoName && currentVideo.liveStreamServer) {
+            this.backgroundVideoPlayer.playVideoWithVideoInfo(currentVideo.videoName, currentVideo.liveStreamServer);
+        }
+    }
 
-            console.log("play video", videoUrl);
+    @render(VideoStreamStore, (store) => store.currentVideoTime)
+    updateVideoCurrentTimeAndResolution(currentTime: number) {
+        if (currentTime < 0) {
+            return;
+        }
 
-            this.backgroundVideoPlayer.videoSource = videoUrl;
+        if (currentTime === 0) {
+            this.backgroundVideoPlayer.currentTime = 0;
+        }
+
+        const canPlayHighResolution = this.backgroundVideoPlayer.bandwidthEstimate >= BackgroundVideoPlayer.BAND_WIDTH_FOR_HIGH_RESOLUTION;
+
+        const isPlayingHighResolution = this.backgroundVideoPlayer.currentResolution === BackgroundVideoPlayer.HIGH_RESOLUTION;
+
+        if (canPlayHighResolution !== isPlayingHighResolution) {
+            const recommendedResolution = canPlayHighResolution
+                ? BackgroundVideoPlayer.HIGH_RESOLUTION
+                : BackgroundVideoPlayer.LOW_RESOLUTION;
+
+            this.backgroundVideoPlayer.updateVideoResolution(recommendedResolution);
         }
     }
 
