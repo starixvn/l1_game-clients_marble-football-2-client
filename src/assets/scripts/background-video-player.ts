@@ -25,7 +25,7 @@ export class BackgroundVideoPlayer extends Component {
 
     nativeCurrentTime = 0;
     currentTime = 0;
-    currentResolution = BackgroundVideoPlayer.LOW_RESOLUTION;
+    currentResolution = BackgroundVideoPlayer.HIGH_RESOLUTION;
 
     playVideoWithVideoInfo(videoName: string, liveStreamServer: string) {
         if (videoName === "" || liveStreamServer === "") {
@@ -34,11 +34,13 @@ export class BackgroundVideoPlayer extends Component {
 
         const videoUrl = new URL(`${videoName}_${this.currentResolution}.m3u8`, liveStreamServer).toString();
 
-        this._videoSource = videoUrl;
-        this._videoName = videoName;
-        this._liveStreamServer = liveStreamServer;
+        if (this._videoSource !== videoUrl) {
+            this._videoSource = videoUrl;
+            this._videoName = videoName;
+            this._liveStreamServer = liveStreamServer;
 
-        this.play();
+            this.play();
+        }
     }
 
     updateVideoResolution(resolution: string) {
@@ -54,7 +56,6 @@ export class BackgroundVideoPlayer extends Component {
         this._liveStreamServer = "";
         this.nativeCurrentTime = 0;
         this.currentTime = 0;
-        this.currentResolution = BackgroundVideoPlayer.HIGH_RESOLUTION;
     }
 
     get bandwidthEstimate() {
@@ -65,6 +66,7 @@ export class BackgroundVideoPlayer extends Component {
     }
 
     play() {
+        console.log("playing video: ", this._videoSource);
         if (!this.initialized) {
             this.initialize();
         }
