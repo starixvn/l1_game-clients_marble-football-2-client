@@ -1,8 +1,10 @@
 import { _decorator, Component } from "cc";
+import gc from "@sg/game-client-base";
 import Hls from "hls.js";
 import { DOMBackgroundVideo } from "./dom-background-video";
 
 const { ccclass } = _decorator;
+const { sentryLogger } = gc;
 
 @ccclass("BackgroundVideoPlayer")
 export class BackgroundVideoPlayer extends Component {
@@ -119,7 +121,18 @@ export class BackgroundVideoPlayer extends Component {
 
         hls.on(Hls.Events.ERROR, (event, data) => {
             console.log("[Hls.Error]: ", event, data);
-
+            if (data.details === Hls.ErrorDetails.BUFFER_STALLED_ERROR) {
+                sentryLogger.logError(
+                    JSON.stringify({
+                        message: "Loading Error",
+                        extra: {
+                            videoName: this._videoName,
+                            liveStreamServer: this._liveStreamServer,
+                            bandwidth: this.bandwidthEstimate,
+                        },
+                    })
+                );
+            }
             this.syncCurrentTime();
         });
 
