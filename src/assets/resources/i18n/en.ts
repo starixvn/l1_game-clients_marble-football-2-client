@@ -201,6 +201,7 @@ export const languages = {
         "goal_scored": "Goal!",
         "loses": "Loses",
         "match_starts": "MATCH STARTS!",
+        "next_match": "Next Match",
         "play_off": "Play Off",
         "second_half": "Second Half",
         "team_ACS": "Sparta Praha",

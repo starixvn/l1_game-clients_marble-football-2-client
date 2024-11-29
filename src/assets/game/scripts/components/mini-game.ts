@@ -1,4 +1,4 @@
-import { _decorator, Component, sp } from "cc";
+import { _decorator, animation, Component, sp } from "cc";
 
 const { ccclass, property } = _decorator;
 
@@ -24,43 +24,35 @@ export class MiniGame extends Component {
         this.disableAllSkeletonNodes();
     }
 
-    playStatistic() {
-        this.statistic!.node.active = true;
-
-        const statisticAnimation = "animation";
-
-        const flagDuration = this.home.findAnimation("home").duration;
-        const duration = this.statistic.findAnimation(statisticAnimation).duration - flagDuration;
-
-        this.statistic.setAnimation(0, statisticAnimation, false);
-
+    onLoad() {
         this.scheduleOnce(() => {
-            this.home!.node.active = true;
-            this.away!.node.active = true;
-
-            this.home.setAnimation(0, "home", false);
-            this.away.setAnimation(0, "away", false);
-        }, duration);
+            this.playMiniGame(true, 1, 0);
+        }, 1);
     }
 
-    playMiniGame(isHomeWin: boolean, roundId: number) {
-        this.game!.node.active = true;
+    playStatistic(at = 0) {
+        this.playAnimation(
+            { spine: this.statistic, animation: "animation" },
+            [
+                { spine: this.home, animation: "home" },
+                { spine: this.away, animation: "away" },
+            ],
+            at
+        );
+    }
 
+    playMiniGame(isHomeWin: boolean, roundId: number, at = 0) {
         const index = (roundId % 3) + 1;
         const animation = isHomeWin ? `red win ${index}` : `blue win ${index}`;
 
-        const flagDuration = this.home.findAnimation("home").duration;
-        const duration = this.game.findAnimation(animation).duration - flagDuration;
-
-        this.game.setAnimation(0, animation, false);
-
-        this.scheduleOnce(() => {
-            this.home!.node.active = true;
-            this.away!.node.active = true;
-
-            this.home.setAnimation(0, "home", false);
-            this.away.setAnimation(0, "away", false);
-        }, duration);
+        this.playAnimation(
+            { spine: this.game, animation },
+            [
+                { spine: this.home, animation: "home" },
+                { spine: this.away, animation: "away" },
+            ],
+            at
+        );
     }
 
     setWinLoseLabel(isHomeWin: boolean) {
@@ -69,6 +61,48 @@ export class MiniGame extends Component {
 
         this.home!.node.getChildByPath("result/lose")!.active = !isHomeWin;
         this.away!.node.getChildByPath("result/win")!.active = !isHomeWin;
+    }
+
+    private playAnimation(
+        main: { spine: sp.Skeleton; animation: string },
+        side: { spine: sp.Skeleton; animation: string }[],
+        at: number = 0
+    ) {
+        main.spine.node.active = true;
+
+        const mainAnimation = main.spine.findAnimation(main.animation);
+
+        if (at > mainAnimation.duration) {
+            main.spine.setAnimation(0, main.animation, false);
+
+            main.spine.getCurrent(0).trackTime = mainAnimation.duration;
+        } else {
+            main.spine.setAnimation(0, main.animation, false);
+            main.spine.getCurrent(0).trackTime = at;
+
+            side.forEach((s) => {
+                s.spine.node.active = true;
+
+                const duration = s.spine.findAnimation(s.animation).duration;
+                const delay = mainAnimation.duration - duration - at;
+
+                s.spine.setAnimation(0, s.animation, false);
+
+                const entry = s.spine.getCurrent(0);
+
+                if (delay > 0) {
+                    entry.delay = delay;
+                } else {
+                    const startAt = delay + duration;
+
+                    if (startAt > duration) {
+                        entry.trackTime = duration;
+                    } else {
+                        entry.trackTime = startAt;
+                    }
+                }
+            });
+        }
     }
 
     private disableAllSkeletonNodes() {

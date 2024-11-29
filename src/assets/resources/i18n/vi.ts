@@ -200,6 +200,7 @@ export const languages = {
         "goal_scored": "Ghi Bàn!",
         "loses": "Thua",
         "match_starts": "TRẬN ĐẤU BẮT ĐẦU!",
+        "next_match": "Trận Kế Tiếp",
         "play_off": "Đấu Play Off",
         "second_half": "Hiệp 2",
         "team_ACS": "Sparta Praha",
