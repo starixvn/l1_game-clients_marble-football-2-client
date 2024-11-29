@@ -2,7 +2,6 @@ import { settings } from "./../../game-settings";
 import inversify from "inversify";
 import mobx from "mobx";
 import { MarbleFootballServiceMessages } from "../../marble-football-service-messages";
-import gc from "@sg/game-client-base";
 
 const { injectable, inject } = inversify;
 
@@ -10,6 +9,7 @@ export type StreamingVideo = {
     videoName: string;
     liveStreamServer: string;
     time: number;
+    isFirstHalf: boolean;
 };
 
 type VideoData = {
@@ -20,8 +20,6 @@ type VideoData = {
 
 @injectable()
 export class VideoStreamStore {
-    @inject(gc.Rounds.RoundTimeStore) private readonly roundTimeStore: gc.Rounds.RoundTimeStore;
-
     private _videoResult: MarbleFootballServiceMessages.VideoStream = {} as any;
     private _currentVideo: StreamingVideo = {} as any;
     private _homeScore = 0;
@@ -30,6 +28,7 @@ export class VideoStreamStore {
     private _roundTime = -1;
     private _isFirstHalf = true;
     private _isFirstLoad = true;
+    private _currentMatchTime = 0;
 
     constructor() {
         mobx.makeAutoObservable(this);
@@ -38,6 +37,11 @@ export class VideoStreamStore {
     updateWithRoundTime(roundTime: number) {
         this._roundTime = roundTime;
         this._currentVideoTime = this.calculateCurrentVideoTime();
+
+        if (this._currentVideoTime > 0) {
+            this._currentMatchTime++;
+        }
+
         this._isFirstHalf =
             roundTime > settings.durations.videoDuration && roundTime <= settings.durations.placingBet + settings.durations.startRound;
 
@@ -51,7 +55,9 @@ export class VideoStreamStore {
         if (!videoData) return;
 
         if (this._isFirstLoad) {
-            this.updateScoresBeforeCurrentTime(videoData, currentVideoTime);
+            const currentMatchTime = this.calculateCurrentMatchTime();
+            this._currentMatchTime = currentMatchTime;
+            this.updateScoresBeforeCurrentTime(videoData, currentMatchTime);
             this._isFirstLoad = false;
         }
 
@@ -59,34 +65,39 @@ export class VideoStreamStore {
             return;
         }
 
-        if (this._currentVideo.videoName !== videoData.videoName) {
+        if (this._currentVideo.videoName !== videoData.videoName || this._currentVideo.isFirstHalf !== this.isFirstHalf) {
             this._currentVideo = {
                 videoName: videoData.videoName,
                 liveStreamServer: this._videoResult.liveStreamServer,
                 time: currentVideoTime,
+                isFirstHalf: this._isFirstHalf,
             };
         }
 
         this.updateCurrentScores(videoData, currentVideoTime);
     }
 
-    private updateScoresBeforeCurrentTime(videoData: VideoData, currentVideoTime: number) {
+    private updateScoresBeforeCurrentTime(videoData: VideoData, currentMatchTime: number) {
         let homeScore = 0;
         let awayScore = 0;
 
-        if (!this._isFirstHalf) {
+        let time = currentMatchTime;
+
+        if (time >= settings.durations.videoDuration) {
             homeScore = this._videoResult.firstHalf.split("H").length - 1;
             awayScore = this._videoResult.firstHalf.split("A").length - 1;
+            time -= settings.durations.videoDuration;
         }
 
-        if (this._roundTime > settings.durations.placingBet + settings.durations.startRound) {
+        if (time >= settings.durations.videoDuration) {
             homeScore += this._videoResult.secondHalf.split("H").length - 1;
             awayScore += this._videoResult.secondHalf.split("A").length - 1;
+            time -= settings.durations.videoDuration;
         }
 
-        if (currentVideoTime > 0) {
+        if (time > 0) {
             videoData.videoTimeline.forEach((scoreTime, index) => {
-                if (Math.ceil(scoreTime) < currentVideoTime) {
+                if (Math.ceil(scoreTime) < time) {
                     const goal = videoData.videoResult[index];
 
                     if (goal === "H") {
@@ -147,6 +158,25 @@ export class VideoStreamStore {
         return -1;
     }
 
+    calculateCurrentMatchTime() {
+        const roundTime = this._roundTime;
+
+        if (roundTime > settings.durations.placingBet + settings.durations.startRound) {
+            return settings.durations.videoDuration * 2;
+        }
+
+        if (roundTime <= settings.durations.streamingVideo && roundTime > settings.durations.videoDuration) {
+            const videoTime = settings.durations.streamingVideo - roundTime;
+            return videoTime < settings.durations.videoDuration ? videoTime : settings.durations.videoDuration;
+        }
+
+        if (roundTime <= settings.durations.videoDuration && roundTime >= 0) {
+            return settings.durations.videoDuration - roundTime + settings.durations.videoDuration;
+        }
+
+        return 0;
+    }
+
     set videoResult(source: MarbleFootballServiceMessages.VideoStream) {
         this._videoResult = source;
         this.resetScores();
@@ -172,11 +202,16 @@ export class VideoStreamStore {
         return this._isFirstHalf;
     }
 
+    get currentMatchTime(): number {
+        return this._currentMatchTime;
+    }
+
     resetForNewRound() {
         this._currentVideoTime = -1;
         this._currentVideo = {} as any;
         this._videoResult = {} as any;
         this._isFirstHalf = true;
+        this._currentMatchTime = 0;
         this.resetScores();
     }
 

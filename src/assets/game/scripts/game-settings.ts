@@ -10,7 +10,7 @@ export const settings = {
         wholeRound: 140,
         placingBet: 130,
         lockingBet: 105,
-        streamingVideo: 100,
+        streamingVideo: 103,
         videoDuration: 50,
         generatingResult: 2,
         showingResult: 0,

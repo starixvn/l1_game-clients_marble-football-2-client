@@ -38,6 +38,7 @@ export class LiveScore extends ObserverComponent {
         halfLabel.updateLabel();
     }
 
+    @render(VideoStreamStore, (store) => store.currentMatchTime)
     setTime(time: number) {
         const minutes = Math.floor(time / 60);
         const seconds = time - minutes * 60;

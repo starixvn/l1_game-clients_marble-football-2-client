@@ -34,13 +34,11 @@ export class BackgroundVideoPlayer extends Component {
 
         const videoUrl = new URL(`${videoName}_${this.currentResolution}.m3u8`, liveStreamServer).toString();
 
-        if (this._videoSource !== videoUrl) {
-            this._videoSource = videoUrl;
-            this._videoName = videoName;
-            this._liveStreamServer = liveStreamServer;
+        this._videoSource = videoUrl;
+        this._videoName = videoName;
+        this._liveStreamServer = liveStreamServer;
 
-            this.play();
-        }
+        this.play();
     }
 
     updateVideoResolution(resolution: string) {
