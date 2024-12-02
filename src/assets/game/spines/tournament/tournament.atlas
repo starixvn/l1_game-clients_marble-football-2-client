@@ -1,0 +1,27 @@
+
+tournament.png
+size: 217,100
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+empty
+  rotate: false
+  xy: 2, 97
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+tag
+  rotate: false
+  xy: 5, 55
+  size: 205, 43
+  orig: 207, 45
+  offset: 1, 1
+  index: -1
+tag highlight
+  rotate: false
+  xy: 2, 2
+  size: 213, 51
+  orig: 215, 53
+  offset: 1, 1
+  index: -1
