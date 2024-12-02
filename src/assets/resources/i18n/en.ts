@@ -195,6 +195,7 @@ export const languages = {
     },
     "MarbleFootball": {
         "champion": "Champion",
+        "congrat_champion": "Congratulations To The Champion!",
         "first_half": "First Half",
         "full_time": "Full Time",
         "game_name": "Marble Football",
@@ -246,6 +247,7 @@ export const languages = {
         "tournament_round_of_16": "Round of 16",
         "tournament_semi_final": "Semifinal",
         "vs": "vs",
+        "winner": "Winner",
         "wins": "Wins"
     }
 };

@@ -195,6 +195,7 @@ export const languages = {
     },
     "MarbleFootball": {
         "champion": "Nhà Vô Địch",
+        "congrat_champion": "Chúc Mừng Nhà Vô Địch!",
         "first_half": "Hiệp 1",
         "full_time": "Toàn Trận",
         "goal_scored": "Ghi Bàn!",
@@ -245,6 +246,7 @@ export const languages = {
         "tournament_round_of_16": "Vòng 16 Đội",
         "tournament_semi_final": "Bán Kết",
         "vs": "và",
+        "winner": "Đội Thắng",
         "wins": "Thắng"
     }
 };
