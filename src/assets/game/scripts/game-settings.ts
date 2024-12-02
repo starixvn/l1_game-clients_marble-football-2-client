@@ -7,14 +7,14 @@ export const settings = {
     id: 104,
     name: "MarbleFootball",
     durations: {
-        wholeRound: 140,
+        wholeRound: 142,
         placingBet: 130,
         lockingBet: 105,
         streamingVideo: 103,
         videoDuration: 50,
         generatingResult: 2,
         showingResult: 0,
-        startRound: 2,
+        startRound: 7,
     },
     numberOfRoundHistory: 100,
 };
