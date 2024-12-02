@@ -15,7 +15,7 @@
                 <key>spriteSourceSize</key>
                 <string>{4,4}</string>
                 <key>textureRect</key>
-                <string>{{121,3},{4,4}}</string>
+                <string>{{121,62},{4,4}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -30,7 +30,7 @@
                 <key>spriteSourceSize</key>
                 <string>{1398,22}</string>
                 <key>textureRect</key>
-                <string>{{97,3},{1398,22}}</string>
+                <string>{{97,62},{1398,22}}</string>
                 <key>textureRotated</key>
                 <true/>
             </dict>
@@ -90,7 +90,7 @@
                 <key>spriteSourceSize</key>
                 <string>{14,3}</string>
                 <key>textureRect</key>
-                <string>{{121,9},{14,3}}</string>
+                <string>{{121,68},{14,3}}</string>
                 <key>textureRotated</key>
                 <true/>
             </dict>
@@ -135,7 +135,7 @@
                 <key>spriteSourceSize</key>
                 <string>{41,36}</string>
                 <key>textureRect</key>
-                <string>{{49,1165},{41,36}}</string>
+                <string>{{3,1198},{41,36}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -150,9 +150,39 @@
                 <key>spriteSourceSize</key>
                 <string>{41,36}</string>
                 <key>textureRect</key>
-                <string>{{3,1198},{41,36}}</string>
+                <string>{{3,1236},{41,36}}</string>
                 <key>textureRotated</key>
                 <false/>
+            </dict>
+            <key>tournament-line.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{28,57}</string>
+                <key>spriteSourceSize</key>
+                <string>{28,57}</string>
+                <key>textureRect</key>
+                <string>{{97,3},{28,57}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>tournament-title.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{455,41}</string>
+                <key>spriteSourceSize</key>
+                <string>{455,41}</string>
+                <key>textureRect</key>
+                <string>{{49,1165},{455,41}}</string>
+                <key>textureRotated</key>
+                <true/>
             </dict>
         </dict>
         <key>metadata</key>
@@ -168,7 +198,7 @@
             <key>size</key>
             <string>{128,2048}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:7123c0514d00d050cc0c76d5da34239c:16acc34d49c1aecf194d212004ab93aa:693584bbba79ecadf35d6b2cf3a849c9$</string>
+            <string>$TexturePacker:SmartUpdate:03c5015067ded2446f74aa250c9414a7:a31045ae67beecae9124eef34745d3e8:693584bbba79ecadf35d6b2cf3a849c9$</string>
             <key>textureFileName</key>
             <string>main.png</string>
         </dict>
