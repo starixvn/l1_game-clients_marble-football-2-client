@@ -33,14 +33,12 @@ export default class Game extends GameComponent {
 
     onLoad(): void {
         super.onLoad();
-        this.setInitialBandwidth();
     }
 
     @render(gc.Rounds.RoundTimeStore, (store) => store.isStartRound)
     resetForNewRound(isStartRound: boolean) {
         if (isStartRound) {
             this.backgroundVideoPlayer.resetAllSettings();
-            this.setInitialBandwidth();
         }
     }
 
@@ -69,38 +67,5 @@ export default class Game extends GameComponent {
         });
 
         this.playSound(gc.Audios.AudioIds.RECEIVE_FINISH);
-    }
-
-    private async setInitialBandwidth() {
-        const testFileUrl = "https://scstream.s3.amazonaws.com/demo/06ebe2c5b5dbaef03b90d32d352665c7_240p2.ts";
-
-        this.calculateBandwidth(testFileUrl).then((bandwidth) => {
-            const recommendedResolution =
-                bandwidth > BackgroundVideoPlayer.BAND_WIDTH_FOR_HIGH_RESOLUTION
-                    ? BackgroundVideoPlayer.HIGH_RESOLUTION
-                    : BackgroundVideoPlayer.LOW_RESOLUTION;
-
-            this.backgroundVideoPlayer.updateVideoResolution(recommendedResolution);
-        });
-    }
-
-    private async calculateBandwidth(testFileUrl: string) {
-        const response = await fetch(testFileUrl);
-
-        const reader = response.body.getReader();
-        let totalBytes = 0;
-
-        const startTime = performance.now();
-        while (true) {
-            const { done, value } = await reader.read();
-            if (done) break;
-            totalBytes += value.length;
-        }
-        const endTime = performance.now();
-
-        const fileSizeInKiloBytes = totalBytes / 1024;
-        const durationInSeconds = (endTime - startTime) / 1000;
-
-        return fileSizeInKiloBytes / durationInSeconds;
     }
 }

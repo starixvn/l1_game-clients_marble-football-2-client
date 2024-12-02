@@ -8,8 +8,6 @@ const { sentryLogger } = gc;
 
 @ccclass("BackgroundVideoPlayer")
 export class BackgroundVideoPlayer extends Component {
-    static readonly HIGH_RESOLUTION = "720p";
-    static readonly LOW_RESOLUTION = "240p";
     static readonly BAND_WIDTH_FOR_HIGH_RESOLUTION = 500; // Bandwidth for HD resolution in KBps
 
     private hls: Hls = null;
@@ -25,27 +23,19 @@ export class BackgroundVideoPlayer extends Component {
 
     nativeCurrentTime = 0;
     currentTime = 0;
-    currentResolution = BackgroundVideoPlayer.HIGH_RESOLUTION;
 
     playVideoWithVideoInfo(videoName: string, liveStreamServer: string) {
         if (videoName === "" || liveStreamServer === "") {
             return;
         }
 
-        const videoUrl = new URL(`${videoName}_${this.currentResolution}.m3u8`, liveStreamServer).toString();
+        const videoUrl = new URL(`${videoName}.m3u8`, liveStreamServer).toString();
 
         this._videoSource = videoUrl;
         this._videoName = videoName;
         this._liveStreamServer = liveStreamServer;
 
         this.play();
-    }
-
-    updateVideoResolution(resolution: string) {
-        console.log(`Updating video resolution to ${resolution}`);
-        this.currentResolution = resolution;
-
-        this.playVideoWithVideoInfo(this._videoName, this._liveStreamServer);
     }
 
     resetAllSettings() {
@@ -115,7 +105,12 @@ export class BackgroundVideoPlayer extends Component {
             throw new Error("Hls.js is not supported.");
         }
 
-        const hls = new Hls();
+        const hls = new Hls({
+            startLevel: -1,
+            capLevelToPlayerSize: true,
+            maxBufferLength: 9,
+            maxMaxBufferLength: 10,
+        });
 
         hls.attachMedia(video);
 
