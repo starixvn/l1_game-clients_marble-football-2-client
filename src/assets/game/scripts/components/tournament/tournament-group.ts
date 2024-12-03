@@ -34,8 +34,7 @@ export class TournamentGroup extends Component {
 
             const name = teamNames[i];
 
-            // team.setName(name);
-            team.setName("ARS");
+            team.setName(name);
             const isCurrentMatch = currentMatch.home === name || currentMatch.away === name;
             team.setAnimation(isCurrentMatch ? "highlight" : "normal");
         }

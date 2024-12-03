@@ -1,5 +1,6 @@
 export interface TournamentInfo {
     currentMatch: number;
+    matches: TournamentMatch[];
 }
 
 export interface TournamentMatch {
