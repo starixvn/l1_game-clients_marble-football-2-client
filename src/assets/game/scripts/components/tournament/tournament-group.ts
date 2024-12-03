@@ -1,6 +1,8 @@
 import { _decorator, Component } from "cc";
-import { TournamentGroupRound, TournamentMatch } from "./tournament-definitions";
+import { MarbleFootballServiceMessages } from "../../marble-football-service-messages";
+import { TournamentGroupRound } from "./tournament-definitions";
 import { TournamentTeam } from "./tournament-team";
+
 const { ccclass, property } = _decorator;
 
 @ccclass("TournamentGroup")
@@ -11,7 +13,7 @@ export class TournamentGroup extends Component {
         }
     }
 
-    setMatches(roundId: number, groupRound: TournamentGroupRound, currentMatch: TournamentMatch) {
+    setMatches(roundId: number, groupRound: TournamentGroupRound, currentMatch: MarbleFootballServiceMessages.MatchType) {
         this.setRound(roundId);
 
         const teams = this.getComponentsInChildren(TournamentTeam);

@@ -1,8 +1,8 @@
 export namespace MarbleFootballServiceMessages {
-    type MatchType = {
-        id: number;
+    export type MatchType = {
         home: string;
         away: string;
+        id?: number;
         homeWins?: boolean;
     };
 

@@ -1,7 +1,7 @@
 import { _decorator, Component } from "cc";
 import LocalizedLabelWithFormat from "../../../../../extensions/i18n/assets/LocalizedLabelWithFormat";
 import { MarbleFootballServiceMessages } from "../../marble-football-service-messages";
-import { TournamentGroupRound, TournamentMatch } from "./tournament-definitions";
+import { TournamentGroupRound } from "./tournament-definitions";
 import { TournamentGroup } from "./tournament-group";
 const { ccclass, property } = _decorator;
 
@@ -49,7 +49,7 @@ export class Tournament extends Component {
         return 3;
     }
 
-    calculateGroup(matches: TournamentMatch[]) {
+    calculateGroup(matches: MarbleFootballServiceMessages.MatchType[]) {
         const counts = [4, 2, 1];
         const group1: TournamentGroupRound = {};
         const group2: TournamentGroupRound = {};

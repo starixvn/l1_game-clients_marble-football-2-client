@@ -1,14 +1,5 @@
-export interface TournamentInfo {
-    currentMatch: number;
-    matches: TournamentMatch[];
-}
-
-export interface TournamentMatch {
-    home: string;
-    away: string;
-    id?: number;
-}
+import { MarbleFootballServiceMessages } from "../../marble-football-service-messages";
 
 export interface TournamentGroupRound {
-    [id: string]: TournamentMatch[];
+    [id: string]: MarbleFootballServiceMessages.MatchType[];
 }
