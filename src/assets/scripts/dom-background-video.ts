@@ -5,26 +5,26 @@ export class DOMBackgroundVideo {
     static readonly VIDEO_ID = "VideoBackground";
 
     static createOrLoadVideoElement(): HTMLVideoElement {
-        const container = document.getElementById(this.GAME_CONTAINER_ID);
-        const game = document.getElementById(this.GAME_CANVAS_ID);
-        const video = document.getElementById(this.VIDEO_ID) as HTMLVideoElement;
+        const container = document.getElementById(DOMBackgroundVideo.GAME_CONTAINER_ID);
+        const game = document.getElementById(DOMBackgroundVideo.GAME_CANVAS_ID);
+        const video = document.getElementById(DOMBackgroundVideo.VIDEO_ID) as HTMLVideoElement;
 
         if (game) {
-            this.applyGameStyles(game);
+            DOMBackgroundVideo.applyGameStyles(game);
         }
 
         if (!video) {
             const video = document.createElement("video");
             const size = container.getBoundingClientRect();
 
-            video.id = this.VIDEO_ID;
+            video.id = DOMBackgroundVideo.VIDEO_ID;
             video.muted = true;
 
-            this.applyVideoStyles(video, size);
+            DOMBackgroundVideo.applyVideoStyles(video, size);
 
             container.insertBefore(video, container.firstChild);
 
-            this.registerEvents();
+            DOMBackgroundVideo.registerEvents();
 
             return video;
         }
@@ -33,10 +33,10 @@ export class DOMBackgroundVideo {
     }
 
     static removeVideoElement() {
-        const video = document.getElementById(this.VIDEO_ID) as HTMLVideoElement;
+        const video = document.getElementById(DOMBackgroundVideo.VIDEO_ID) as HTMLVideoElement;
 
         if (video) {
-            this.unregisterEvents();
+            DOMBackgroundVideo.unregisterEvents();
             video.remove();
         }
     }
@@ -59,18 +59,18 @@ export class DOMBackgroundVideo {
     }
 
     private static onResize() {
-        const container = document.getElementById(this.GAME_CONTAINER_ID);
+        const container = document.getElementById(DOMBackgroundVideo.GAME_CONTAINER_ID);
         const size = container.getBoundingClientRect();
-        const video = this.createOrLoadVideoElement();
+        const video = DOMBackgroundVideo.createOrLoadVideoElement();
 
-        this.applyVideoStyles(video, size);
+        DOMBackgroundVideo.applyVideoStyles(video, size);
     }
 
     private static registerEvents() {
-        window.addEventListener("resize", this.onResize);
+        window.addEventListener("resize", DOMBackgroundVideo.onResize);
     }
 
     private static unregisterEvents() {
-        window.removeEventListener("resize", this.onResize);
+        window.removeEventListener("resize", DOMBackgroundVideo.onResize);
     }
 }
