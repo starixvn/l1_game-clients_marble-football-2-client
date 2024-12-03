@@ -24,12 +24,6 @@ export class MiniGame extends Component {
         this.disableAllSkeletonNodes();
     }
 
-    onLoad() {
-        this.scheduleOnce(() => {
-            this.playMiniGame(true, 1, 0);
-        }, 1);
-    }
-
     playStatistic(at = 0) {
         this.playAnimation(
             { spine: this.statistic, animation: "animation" },
