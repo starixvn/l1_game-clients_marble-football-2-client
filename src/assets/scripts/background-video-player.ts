@@ -16,6 +16,7 @@ export class BackgroundVideoPlayer extends Component {
     private _videoSource: string = "";
     private _videoName: string = "";
     private liveStreamServer: string = "";
+    private _muted = false;
 
     private get initialized() {
         return !!this.hls && !!this.native;
@@ -60,9 +61,12 @@ export class BackgroundVideoPlayer extends Component {
 
         this.hls.loadSource(this._videoSource);
         this.native.play();
+        this.muted = this._muted;
     }
 
     set muted(value: boolean) {
+        this._muted = value;
+
         if (this.initialized) {
             this.native.muted = value;
         }
