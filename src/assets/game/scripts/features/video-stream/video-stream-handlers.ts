@@ -12,6 +12,10 @@ export class VideoStreamHandlers {
         this.videoStreamStore.videoResult = videoResult;
     }
 
+    handleLiveStreamServer(liveStreamServer: string) {
+        this.videoStreamStore.liveStreamServer = liveStreamServer;
+    }
+
     resetForNewRound() {
         this.videoStreamStore.resetForNewRound();
     }
@@ -20,6 +24,10 @@ export class VideoStreamHandlers {
         {
             name: MarbleFootballServiceMessages.VideoStream.eventName,
             handle: this.handleVideoStream,
+        },
+        {
+            name: MarbleFootballServiceMessages.LiveStreamServer.eventName,
+            handle: this.handleLiveStreamServer,
         },
     ];
 }

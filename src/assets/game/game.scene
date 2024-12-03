@@ -323,7 +323,7 @@
     "_priority": 0,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 403.6203358208955,
+    "_orthoHeight": 393,
     "_near": 0,
     "_far": 1000,
     "_color": {
@@ -8659,6 +8659,9 @@
     },
     "_enabled": true,
     "__prefab": null,
+    "backgroundVideoPlayer": {
+      "__id__": 9
+    },
     "_id": "f4wAgPv0pOTq2j2LZwLnY7"
   },
   {

@@ -1,4 +1,4 @@
-import { _decorator, animation, Component, sp } from "cc";
+import { _decorator, Component, sp } from "cc";
 
 const { ccclass, property } = _decorator;
 

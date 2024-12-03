@@ -15,7 +15,7 @@ export class BackgroundVideoPlayer extends Component {
 
     private _videoSource: string = "";
     private _videoName: string = "";
-    private _liveStreamServer: string = "";
+    private liveStreamServer: string = "";
 
     private get initialized() {
         return !!this.hls && !!this.native;
@@ -24,16 +24,19 @@ export class BackgroundVideoPlayer extends Component {
     nativeCurrentTime = 0;
     currentTime = 0;
 
-    playVideoWithVideoInfo(videoName: string, liveStreamServer: string) {
-        if (videoName === "" || liveStreamServer === "") {
+    init(liveStreamServer: string) {
+        this.liveStreamServer = liveStreamServer;
+    }
+
+    playVideoByName(videoName: string) {
+        if (videoName === "" || this.liveStreamServer === "") {
             return;
         }
 
-        const videoUrl = new URL(`${videoName}.m3u8`, liveStreamServer).toString();
+        const videoUrl = new URL(`${videoName}.m3u8`, this.liveStreamServer).toString();
 
         this._videoSource = videoUrl;
         this._videoName = videoName;
-        this._liveStreamServer = liveStreamServer;
 
         this.play();
     }
@@ -41,7 +44,6 @@ export class BackgroundVideoPlayer extends Component {
     resetAllSettings() {
         this._videoSource = "";
         this._videoName = "";
-        this._liveStreamServer = "";
         this.nativeCurrentTime = 0;
         this.currentTime = 0;
     }
@@ -116,18 +118,20 @@ export class BackgroundVideoPlayer extends Component {
 
         hls.on(Hls.Events.ERROR, (event, data) => {
             console.log("[Hls.Error]: ", event, data);
+
             if (data.details === Hls.ErrorDetails.BUFFER_STALLED_ERROR) {
                 sentryLogger.logError(
                     JSON.stringify({
-                        message: "Loading Error",
+                        message: data.details,
                         extra: {
                             videoName: this._videoName,
-                            liveStreamServer: this._liveStreamServer,
+                            liveStreamServer: this.liveStreamServer,
                             bandwidth: this.bandwidthEstimate,
                         },
                     })
                 );
             }
+
             this.syncCurrentTime();
         });
 

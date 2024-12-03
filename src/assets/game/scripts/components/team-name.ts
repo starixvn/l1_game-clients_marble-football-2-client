@@ -1,6 +1,6 @@
 import { _decorator, Component } from "cc";
 
-const { ccclass, property } = _decorator;
+const { ccclass } = _decorator;
 
 @ccclass("TeamName")
 export class TeamName extends Component {

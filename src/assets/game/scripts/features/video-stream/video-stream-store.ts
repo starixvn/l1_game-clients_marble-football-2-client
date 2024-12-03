@@ -3,11 +3,10 @@ import inversify from "inversify";
 import mobx from "mobx";
 import { MarbleFootballServiceMessages } from "../../marble-football-service-messages";
 
-const { injectable, inject } = inversify;
+const { injectable } = inversify;
 
 export type StreamingVideo = {
     videoName: string;
-    liveStreamServer: string;
     time: number;
     isFirstHalf: boolean;
 };
@@ -29,6 +28,8 @@ export class VideoStreamStore {
     private _isFirstHalf = true;
     private _isFirstLoad = true;
     private _currentMatchTime = 0;
+
+    liveStreamServer = "";
 
     constructor() {
         mobx.makeAutoObservable(this);
@@ -68,7 +69,6 @@ export class VideoStreamStore {
         if (this._currentVideo.videoName !== videoData.videoName || this._currentVideo.isFirstHalf !== this.isFirstHalf) {
             this._currentVideo = {
                 videoName: videoData.videoName,
-                liveStreamServer: this._videoResult.liveStreamServer,
                 time: currentVideoTime,
                 isFirstHalf: this._isFirstHalf,
             };
