@@ -3,6 +3,7 @@ export namespace MarbleFootballServiceMessages {
         id: number;
         home: string;
         away: string;
+        homeWins?: boolean;
     };
 
     export class VideoStream {
