@@ -1,4 +1,5 @@
 import { _decorator, Component } from "cc";
+import LocalizedLabelWithFormat from "../../../../../extensions/i18n/assets/LocalizedLabelWithFormat";
 import { TournamentGroupRound, TournamentInfo, TournamentMatch } from "./tournament-definitions";
 import { TournamentGroup } from "./tournament-group";
 const { ccclass, property } = _decorator;
@@ -11,6 +12,9 @@ enum RoundStartMatch {
 
 @ccclass("Tournament")
 export class Tournament extends Component {
+    @property(LocalizedLabelWithFormat)
+    labelTitle: LocalizedLabelWithFormat = null;
+
     @property({ type: TournamentGroup })
     groups: TournamentGroup[] = [];
 
@@ -98,16 +102,25 @@ export class Tournament extends Component {
         __v: 0,
     };
 
+    private getTitleKey(roundId: number) {
+        const keys = ["tournament_round_of_16", "tournament_quarter_final", "tournament_semi_final", "tournament_final"];
+        return `MarbleFootball.${keys[roundId]}`;
+    }
+
     onLoad() {
         this.setData(this.test);
     }
 
     setData(tournament: TournamentInfo) {
-        const data = this.test;
+        // const data = tournament;
+        const data = { ...this.test, ...tournament };
         const roundId = this.calculateRoundId(data.currentMatch);
+        this.labelTitle.key = this.getTitleKey(roundId);
+
+        const currentMatch = data.matches[data.currentMatch];
         const matches = this.calculateGroup(data.matches);
         this.groups.forEach((g, index) => {
-            g.setMatches(roundId, matches[index]);
+            g.setMatches(roundId, matches[index], currentMatch);
         });
     }
 
@@ -138,6 +151,17 @@ export class Tournament extends Component {
                     matchIndex++;
                 }
             });
+        });
+
+        const lastRound = counts.length;
+        const lastMatch = matches[matchIndex];
+        groups.forEach((group, index) => {
+            group[lastRound] = [
+                {
+                    home: index === 0 ? lastMatch.home : lastMatch.away,
+                    away: null,
+                },
+            ];
         });
 
         return groups;
