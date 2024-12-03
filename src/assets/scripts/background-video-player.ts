@@ -77,6 +77,10 @@ export class BackgroundVideoPlayer extends Component {
     }
 
     protected onDestroy(): void {
+        this.stop();
+    }
+
+    stop() {
         if (this.initialized) {
             this.hls.off(Hls.Events.ERROR);
             this.native.removeEventListener("timeupdate", this.syncCurrentTime.bind(this));

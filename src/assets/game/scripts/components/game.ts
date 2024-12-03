@@ -31,14 +31,14 @@ export default class Game extends GameComponent {
     @property(BackgroundVideoPlayer)
     private backgroundVideoPlayer: BackgroundVideoPlayer = null;
 
-    onLoad(): void {
-        super.onLoad();
+    override onHideGame() {
+        this.backgroundVideoPlayer.stop();
     }
 
     @render(gc.Rounds.RoundTimeStore, (store) => store.isStartRound)
     resetForNewRound(isStartRound: boolean) {
         if (isStartRound) {
-            this.backgroundVideoPlayer.resetAllSettings();
+            this.backgroundVideoPlayer.stop();
         }
     }
 
