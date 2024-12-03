@@ -21,7 +21,6 @@ export class BackgroundVideoPlayer extends Component {
         return !!this.hls && !!this.native;
     }
 
-    nativeCurrentTime = 0;
     currentTime = 0;
 
     init(liveStreamServer: string) {
@@ -44,8 +43,6 @@ export class BackgroundVideoPlayer extends Component {
     resetAllSettings() {
         this._videoSource = "";
         this._videoName = "";
-        this.nativeCurrentTime = 0;
-        this.currentTime = 0;
     }
 
     get bandwidthEstimate() {
@@ -73,30 +70,22 @@ export class BackgroundVideoPlayer extends Component {
 
     protected lateUpdate(dt: number): void {
         this.currentTime += dt;
-
-        if (Math.abs(this.currentTime - this.nativeCurrentTime) > 1) {
-            this.syncCurrentTime();
-        }
     }
 
     protected onDestroy(): void {
         if (this.initialized) {
-            this.native.removeEventListener("timeupdate", this.syncNativeCurrentTime.bind(this));
-
+            this.hls.off(Hls.Events.ERROR);
+            this.native.removeEventListener("timeupdate", this.syncCurrentTime.bind(this));
             this.hls.detachMedia();
             this.hls.destroy();
         }
     }
 
     private syncCurrentTime() {
-        if (this.initialized) {
-            this.native.currentTime = this.currentTime;
-        }
-    }
+        const needSync = this.currentTime >= 0 && Math.abs(this.currentTime - this.native.currentTime) > 1;
 
-    private syncNativeCurrentTime() {
-        if (this.initialized) {
-            this.nativeCurrentTime = this.native.currentTime;
+        if (this.initialized && needSync) {
+            this.native.currentTime = this.currentTime;
         }
     }
 
@@ -110,8 +99,9 @@ export class BackgroundVideoPlayer extends Component {
         const hls = new Hls({
             startLevel: -1,
             capLevelToPlayerSize: true,
-            maxBufferLength: 9,
-            maxMaxBufferLength: 10,
+            lowLatencyMode: true,
+            liveSyncDuration: 0.9,
+            liveMaxLatencyDuration: 1,
         });
 
         hls.attachMedia(video);
@@ -135,7 +125,7 @@ export class BackgroundVideoPlayer extends Component {
             this.syncCurrentTime();
         });
 
-        video.addEventListener("timeupdate", this.syncNativeCurrentTime.bind(this));
+        video.addEventListener("timeupdate", this.syncCurrentTime.bind(this));
 
         this.native = video;
         this.hls = hls;

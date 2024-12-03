@@ -45,9 +45,9 @@ export default class Game extends GameComponent {
     @render(VideoStreamStore, (store) => store.currentVideo)
     renderVideoSource(currentVideo: StreamingVideo) {
         if (currentVideo.videoName) {
-            this.backgroundVideoPlayer.playVideoByName(currentVideo.videoName);
-
             this.backgroundVideoPlayer.currentTime = currentVideo.time;
+
+            this.backgroundVideoPlayer.playVideoByName(currentVideo.videoName);
         }
     }
 

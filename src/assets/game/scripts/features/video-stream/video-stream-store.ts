@@ -39,7 +39,7 @@ export class VideoStreamStore {
         this._roundTime = roundTime;
         this._currentVideoTime = this.calculateCurrentVideoTime();
 
-        if (this._currentVideoTime > 0) {
+        if (this._currentVideoTime > 0 && this._currentVideoTime <= settings.durations.halfDuration) {
             this._currentMatchTime++;
         }
 
@@ -83,16 +83,16 @@ export class VideoStreamStore {
 
         let time = currentMatchTime;
 
-        if (time >= settings.durations.videoDuration) {
+        if (time >= settings.durations.halfDuration) {
             homeScore = this._videoResult.firstHalf.split("H").length - 1;
             awayScore = this._videoResult.firstHalf.split("A").length - 1;
-            time -= settings.durations.videoDuration;
+            time -= settings.durations.halfDuration;
         }
 
-        if (time >= settings.durations.videoDuration) {
+        if (time >= settings.durations.halfDuration) {
             homeScore += this._videoResult.secondHalf.split("H").length - 1;
             awayScore += this._videoResult.secondHalf.split("A").length - 1;
-            time -= settings.durations.videoDuration;
+            time -= settings.durations.halfDuration;
         }
 
         if (time > 0) {
@@ -162,16 +162,22 @@ export class VideoStreamStore {
         const roundTime = this._roundTime;
 
         if (roundTime > settings.durations.placingBet + settings.durations.startRound) {
-            return settings.durations.videoDuration * 2;
+            return settings.durations.halfDuration * 2;
         }
 
         if (roundTime <= settings.durations.streamingVideo && roundTime > settings.durations.videoDuration) {
-            const videoTime = settings.durations.streamingVideo - roundTime;
-            return videoTime < settings.durations.videoDuration ? videoTime : settings.durations.videoDuration;
+            const matchTime = settings.durations.streamingVideo - roundTime;
+            return matchTime < settings.durations.halfDuration ? matchTime : settings.durations.halfDuration;
         }
 
         if (roundTime <= settings.durations.videoDuration && roundTime >= 0) {
-            return settings.durations.videoDuration - roundTime + settings.durations.videoDuration;
+            const secondHalfTime = settings.durations.videoDuration - roundTime;
+            const matchTime =
+                secondHalfTime < settings.durations.halfDuration
+                    ? secondHalfTime + settings.durations.halfDuration
+                    : settings.durations.halfDuration * 2;
+
+            return matchTime;
         }
 
         return 0;

@@ -12,6 +12,7 @@ export const settings = {
         lockingBet: 105,
         streamingVideo: 103,
         videoDuration: 50,
+        halfDuration: 45,
         generatingResult: 2,
         showingResult: 0,
         startRound: 7,
