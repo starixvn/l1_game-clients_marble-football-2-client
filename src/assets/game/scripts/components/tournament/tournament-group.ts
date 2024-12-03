@@ -21,7 +21,17 @@ export class TournamentGroup extends Component {
 
         const teamNames = matches
             .reduce((result, current) => {
-                return [...result, current.home, current.away];
+                return [
+                    ...result,
+                    {
+                        name: current.home,
+                        isWin: current.homeWins ?? true,
+                    },
+                    {
+                        name: current.away,
+                        isWin: !current.homeWins,
+                    },
+                ];
             }, [])
             .filter((name) => name !== null);
         const teamNamesLength = teamNames.length;
@@ -34,11 +44,12 @@ export class TournamentGroup extends Component {
                 continue;
             }
 
-            const name = teamNames[i];
+            const { name, isWin } = teamNames[i];
 
             team.setName(name);
             const isCurrentMatch = currentMatch.home === name || currentMatch.away === name;
-            team.setAnimation(isCurrentMatch ? "highlight" : "normal");
+            const animation = isCurrentMatch ? "highlight" : isWin ? "normal" : "out";
+            team.setAnimation(animation);
         }
     }
 }
