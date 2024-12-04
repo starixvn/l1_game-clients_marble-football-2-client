@@ -1,10 +1,13 @@
-import { _decorator } from "cc";
+import { _decorator, Node } from "cc";
 import Observer from "observer";
 import { MultipleNodeContainer } from "../../../../extensions/shared-components/assets/shared/common-components/node-container/multiple-node-container";
 import { GamePhase, GamePhaseConfig } from "../features/game-phase/game-phase-definitions";
 import { GamePhaseHandler } from "../features/game-phase/game-phase-handler";
 import { GamePhaseStore } from "../features/game-phase/game-phase-store";
+import { IMatchResult, MatchResultStore } from "../features/match-result/match-result-store";
 import { settings } from "../game-settings";
+import { MiniGame } from "./mini-game";
+import { Winner } from "./winner";
 
 const { ccclass, property } = _decorator;
 const { render, handle } = Observer;
@@ -19,6 +22,8 @@ export class MatchResultContainer extends MultipleNodeContainer {
     private readonly timePointTournament = settings.durations.placingBet + settings.durations.tournament;
     private readonly timePointShowMatchWinner = this.timePointTournament + settings.durations.matchWinner;
     private readonly timePointShowMatchStatistics = this.timePointShowMatchWinner + settings.durations.matchStatistics;
+
+    private matchResult: IMatchResult = null;
     onLoad() {
         super.onLoad();
         this.registerPhaseMatchWinner();
@@ -45,12 +50,39 @@ export class MatchResultContainer extends MultipleNodeContainer {
         return config;
     }
 
+    @render(MatchResultStore, (store) => store.matchResult)
+    renderMatchResult(matchResult: IMatchResult) {
+        this.matchResult = matchResult;
+    }
+
     @render(GamePhaseStore, (store) => store.enterPhase)
     private renderEnterPhase(phase: GamePhase) {
         if (!phase) {
             return;
         }
         this.showNode(phase.id);
+
+        const node = this.getNode(phase.id);
+        if (phase.id === PhaseId.MatchWinner) {
+            this.initForMatchWinner(node, phase.progress);
+        } else if (phase.id === PhaseId.MatchStatistics) {
+            this.initForMatchStatistics(node, phase.progress);
+        }
+    }
+
+    initForMatchStatistics(node: Node, at: number) {
+        const miniGame = node.getComponent(MiniGame);
+        if (this.matchResult.miniGame) {
+            miniGame.playMiniGame(this.matchResult.homeWinsOnDraw, this.matchResult.roundId, at);
+        } else {
+            miniGame.setScores(this.matchResult.scores);
+            miniGame.playStatistic(at);
+        }
+    }
+
+    initForMatchWinner(node: Node, at: number) {
+        const winner = node.getComponent(Winner);
+        winner.playWinner(at);
     }
 
     @render(GamePhaseStore, (store) => store.exitPhase)

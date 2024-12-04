@@ -15,7 +15,7 @@ export const settings = {
 
         tournament: 4,
         matchWinner: 3,
-        matchStatistics: 3,
+        matchStatistics: 5,
     },
     numberOfRoundHistory: 100,
 };

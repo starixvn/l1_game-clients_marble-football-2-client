@@ -1,4 +1,4 @@
-import { _decorator, Component, sp } from "cc";
+import { _decorator, Component, Label, sp } from "cc";
 
 const { ccclass, property } = _decorator;
 
@@ -35,6 +35,20 @@ export class MiniGame extends Component {
         );
     }
 
+    setScores(scores: number[][]) {
+        const labels = [
+            ["first-half-home", "first-half-away"],
+            ["second-half-home", "second-half-away"],
+            ["fulltime-home", "fulltime-away"],
+        ];
+
+        labels.forEach((sides, halfIndex) => {
+            sides.forEach((side, sideIndex) => {
+                this.statistic.node.getChildByName(side).getComponent(Label).string = scores[halfIndex][sideIndex].toString();
+            });
+        });
+    }
+
     playMiniGame(isHomeWin: boolean, roundId: number, at = 0) {
         const index = (roundId % 3) + 1;
         const animation = isHomeWin ? `red win ${index}` : `blue win ${index}`;
@@ -47,6 +61,7 @@ export class MiniGame extends Component {
             ],
             at
         );
+        this.setWinLoseLabel(isHomeWin);
     }
 
     setWinLoseLabel(isHomeWin: boolean) {

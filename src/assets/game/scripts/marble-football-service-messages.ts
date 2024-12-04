@@ -29,4 +29,16 @@ export namespace MarbleFootballServiceMessages {
 
         static eventName = "tournament";
     }
+
+    export interface Result {
+        firstHalf: string;
+        secondHalf: string;
+        firstHalfVideo: string;
+        secondHalfVideo: string;
+        overUnderValue: number;
+        homeWinsOnDraw?: boolean;
+        tournamentId: string;
+        firstHalfTimeline: number[];
+        secondHalfTimeline: number[];
+    }
 }
