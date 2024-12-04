@@ -1,5 +1,5 @@
 import gc from "@sg/game-client-base";
-import { _decorator } from "cc";
+import { _decorator, Node } from "cc";
 import { ObserverComponent } from "db://shared-components/shared/common-components/observer-component/scripts/observer-component";
 import Observer from "observer";
 import { BackgroundVideoPlayer } from "../../../scripts/background-video-player";
@@ -14,6 +14,9 @@ const { render, handle } = Observer;
 export default class VideoStreamIntegration extends ObserverComponent {
     @property(BackgroundVideoPlayer)
     private backgroundVideoPlayer: BackgroundVideoPlayer = null;
+
+    @property(Node)
+    private topOfVideo: Node = null;
 
     staticVideos = {
         intro: "cd99ef2549fe8aa77a7c8c65485a7d9f615f7cc8ee8d0d944f6d98497633fe2c_720p",
@@ -46,6 +49,8 @@ export default class VideoStreamIntegration extends ObserverComponent {
         if (roundTime === 0) {
             this.playStaticVideo("outro");
         }
+
+        this.topOfVideo!.active = roundTime > settings.durations.introVideo || roundTime < 0;
     }
 
     @handle(VideoStreamHandlers, (handler) => handler.resetForNewRound())
