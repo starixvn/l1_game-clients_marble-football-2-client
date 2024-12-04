@@ -1,15 +1,17 @@
 import gc from "@sg/game-client-base";
-import { _decorator } from "cc";
+import { _decorator, Node } from "cc";
+import { ChipFlying } from "db://shared-components/game/chip-flying/scripts/components/chip-flying";
 import GameComponent from "db://shared-components/game/scripts/components/game-component";
 import { startGame } from "db://shared-components/shared/scripts/startup";
-import { ChipFlying } from "db://shared-components/game/chip-flying/scripts/components/chip-flying";
 
 import Observer from "observer";
+import { AnimationUtils } from "../../../../extensions/shared-components/assets/shared/utils";
 import "../../../resources/i18n";
-import { siteConfigs } from "../../../scripts/site-configs";
-import { containerOptions, settings } from "../game-settings";
 import { BackgroundVideoPlayer } from "../../../scripts/background-video-player";
+import { siteConfigs } from "../../../scripts/site-configs";
+import { containerOptions } from "../container-options";
 import { StreamingVideo, VideoStreamStore } from "../features/video-stream/video-stream-store";
+import { settings } from "../game-settings";
 
 startGame(settings.name, containerOptions, siteConfigs);
 
