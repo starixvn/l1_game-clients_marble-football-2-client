@@ -16,7 +16,7 @@ export class MiniGame extends Component {
     @property(sp.Skeleton)
     private game: sp.Skeleton = null;
 
-    protected onEnable(): void {
+    protected onLoad(): void {
         this.disableAllSkeletonNodes();
     }
 
@@ -95,8 +95,16 @@ export class MiniGame extends Component {
                         entry.trackTime = startAt;
                     }
                 }
+
+                s.spine.setCompleteListener(() => {
+                    s.spine.node.active = false;
+                });
             });
         }
+
+        main.spine.setCompleteListener(() => {
+            main.spine.node.active = false;
+        });
     }
 
     private disableAllSkeletonNodes() {

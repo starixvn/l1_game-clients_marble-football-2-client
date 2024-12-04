@@ -1,14 +1,21 @@
-import { _decorator, Component, Label, Sprite } from "cc";
+import gc from "@sg/game-client-base";
+import { _decorator, Label, Sprite } from "cc";
+import { ObserverComponent } from "db://shared-components/shared/common-components/observer-component/scripts/observer-component";
+import observer from "observer";
+import { settings } from "../game-settings";
 const { ccclass, property } = _decorator;
+const { RoundTimeStore } = gc.Rounds;
+const { render } = observer;
 
 @ccclass("PopupFooter")
-export class PopupFooter extends Component {
+export class PopupFooter extends ObserverComponent {
     @property
     private index = 0;
 
     @property(Label)
     private timer: Label = null;
 
+    @render(RoundTimeStore, (store) => store.roundTime - settings.durations.placingBet)
     updateTimer(time: number) {
         this.timer.string = time.toString().padStart(2, "0");
     }

@@ -18,7 +18,7 @@ export class Winner extends Component {
         this.playAnimation(this.winner, "winner", at);
     }
 
-    protected onEnable(): void {
+    protected onLoad(): void {
         this.winner!.node.active = false;
         this.champion!.node.active = false;
     }
@@ -41,5 +41,9 @@ export class Winner extends Component {
         } else {
             entry.trackTime = at;
         }
+
+        spine.setCompleteListener(() => {
+            spine.node.active = false;
+        });
     }
 }
