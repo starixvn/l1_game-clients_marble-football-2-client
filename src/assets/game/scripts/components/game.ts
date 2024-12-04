@@ -37,13 +37,6 @@ export default class Game extends GameComponent {
         this.backgroundVideoPlayer.stop();
     }
 
-    @render(gc.Rounds.RoundTimeStore, (store) => store.isStartRound)
-    resetForNewRound(isStartRound: boolean) {
-        if (isStartRound) {
-            this.backgroundVideoPlayer.stop();
-        }
-    }
-
     @render(VideoStreamStore, (store) => store.currentVideo)
     renderVideoSource(currentVideo: StreamingVideo) {
         if (currentVideo.videoName) {

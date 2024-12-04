@@ -38,8 +38,8 @@ export default class VideoStreamIntegration extends ObserverComponent {
     }
 
     @render(gc.Rounds.RoundTimeStore, (store) => store.roundTime)
-    onRoundTimeUpdate(roundTime: number) {
-        if (roundTime === settings.durations.streamingVideo) {
+    private onRoundTimeUpdate(roundTime: number) {
+        if (roundTime === settings.durations.introVideo) {
             this.playStaticVideo("intro");
         }
 
@@ -57,7 +57,9 @@ export default class VideoStreamIntegration extends ObserverComponent {
     }
 
     private playStaticVideo(videoName: string = "intro") {
+        const video = this.staticVideos[videoName];
+
         this.backgroundVideoPlayer.currentTime = 0;
-        this.backgroundVideoPlayer.playVideoByName(this.staticVideos[videoName]);
+        this.backgroundVideoPlayer.playVideoByName(video);
     }
 }

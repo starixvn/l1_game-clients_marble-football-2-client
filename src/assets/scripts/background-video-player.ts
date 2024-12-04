@@ -54,7 +54,6 @@ export class BackgroundVideoPlayer extends Component {
     }
 
     play() {
-        console.log("playing video: ", this._videoSource);
         if (!this.initialized) {
             this.initialize();
         }
@@ -62,6 +61,12 @@ export class BackgroundVideoPlayer extends Component {
         this.hls.loadSource(this._videoSource);
         this.native.play();
         this.muted = this._muted;
+    }
+
+    pause() {
+        if (this.initialized) {
+            this.native.pause();
+        }
     }
 
     set muted(value: boolean) {

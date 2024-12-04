@@ -13,7 +13,7 @@ const { render } = Observer;
 export default class MarbleFootballBetTimer extends BetTimer {
     @render(RoundTimeStore, (store) => store.countdownTimer)
     setTime(time: number) {
-        const timeLeft = time - settings.durations.streamingVideo;
+        const timeLeft = time - settings.durations.introVideo;
         super.setTime(timeLeft);
 
         this.node.active = this.node.active && timeLeft > 0;

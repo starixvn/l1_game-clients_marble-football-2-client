@@ -89,7 +89,7 @@ export class PlayArea extends ObserverComponent {
 
     @render(Rounds.RoundTimeStore, (store) => store.roundTime)
     async setAnimZoomOutPlayArea(time: number) {
-        if (!this.isZoomOut && time <= settings.durations.streamingVideo && time > 0) {
+        if (!this.isZoomOut && time <= settings.durations.introVideo && time > 0) {
             this.zoomPlayArea("out");
         }
     }
