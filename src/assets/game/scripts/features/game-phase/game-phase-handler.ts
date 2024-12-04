@@ -14,12 +14,14 @@ export class GamePhaseHandler {
     constructor() {
         mobx.makeAutoObservable(this);
 
-        mobx.reaction(
-            () => this.roundTimeStore.roundTime,
-            (roundTime) => {
-                this.updateWithRoundTime(roundTime);
-            }
-        );
+        setTimeout(() => {
+            mobx.reaction(
+                () => this.roundTimeStore.roundTime,
+                (roundTime) => {
+                    this.updateWithRoundTime(roundTime);
+                }
+            );
+        }, 0);
     }
 
     private configs: GamePhaseConfig[] = [];
@@ -35,14 +37,14 @@ export class GamePhaseHandler {
     }
 
     checkConfig(config: GamePhaseConfig, roundTime: number) {
-        const visible = roundTime >= config.begin && roundTime <= config.end;
+        const visible = roundTime >= config.end && roundTime <= config.begin;
 
         const cache = this.cache[config.id];
         if (cache?.visible === visible) {
             return;
         }
 
-        let progress = roundTime - config.begin;
+        let progress = config.begin - roundTime;
         if (config.duration) {
             if (progress > config.duration) {
                 progress = config.duration;
@@ -56,6 +58,10 @@ export class GamePhaseHandler {
         };
 
         this.cache[config.id] = phase;
-        this.gamePhaseStore.setPhase(phase);
+        if (visible) {
+            this.gamePhaseStore.setEnterPhase(phase);
+        } else {
+            this.gamePhaseStore.setExitPhase(phase);
+        }
     }
 }

@@ -10,9 +10,14 @@ export class GamePhaseStore {
         mobx.makeAutoObservable(this);
     }
 
-    phase: GamePhase = null;
+    enterPhase: GamePhase = null;
+    exitPhase: GamePhase = null;
 
-    setPhase(phase: GamePhase) {
-        this.phase = phase;
+    setEnterPhase(phase: GamePhase) {
+        this.enterPhase = phase;
+    }
+
+    setExitPhase(phase: GamePhase) {
+        this.exitPhase = phase;
     }
 }
