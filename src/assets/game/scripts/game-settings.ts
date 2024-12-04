@@ -12,6 +12,10 @@ export const settings = {
         generatingResult: 3,
         showingResult: 5,
         startRound: 12,
+
+        tournament: 4,
+        matchWinner: 3,
+        matchStatistics: 3,
     },
     numberOfRoundHistory: 100,
 };
