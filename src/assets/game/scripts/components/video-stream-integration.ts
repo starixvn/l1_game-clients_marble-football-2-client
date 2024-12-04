@@ -6,6 +6,7 @@ import { BackgroundVideoPlayer } from "../../../scripts/background-video-player"
 import { VideoStreamHandlers } from "../features/feature";
 import { VideoStreamStore } from "../features/video-stream/video-stream-store";
 import { settings } from "../game-settings";
+import { BreakTime } from "./break-time";
 
 const { ccclass, property } = _decorator;
 const { render, handle } = Observer;
@@ -17,6 +18,9 @@ export default class VideoStreamIntegration extends ObserverComponent {
 
     @property(Node)
     private topOfVideo: Node = null;
+
+    @property(BreakTime)
+    private breakTime: BreakTime = null;
 
     staticVideos = {
         intro: "cd99ef2549fe8aa77a7c8c65485a7d9f615f7cc8ee8d0d944f6d98497633fe2c_720p",
@@ -48,6 +52,10 @@ export default class VideoStreamIntegration extends ObserverComponent {
 
         if (roundTime === 0) {
             this.playStaticVideo("outro");
+        }
+
+        if (roundTime === settings.durations.videoDuration + 1 || roundTime === settings.durations.introVideo - 1) {
+            this.breakTime?.playAnimation(0);
         }
 
         this.topOfVideo!.active = roundTime > settings.durations.introVideo || roundTime < 0;
