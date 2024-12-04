@@ -30,11 +30,19 @@ export default class Game extends GameComponent {
     @property(ChipFlying)
     chipFlying: ChipFlying = null;
 
+    @property(Node)
+    betResultNode: Node = null;
+
     @property(BackgroundVideoPlayer)
     private backgroundVideoPlayer: BackgroundVideoPlayer = null;
 
     override onHideGame() {
         this.backgroundVideoPlayer.stop();
+    }
+
+    onLoad() {
+        this.betResultNode.active = false;
+        super.onLoad();
     }
 
     @render(VideoStreamStore, (store) => store.currentVideo)
@@ -44,6 +52,24 @@ export default class Game extends GameComponent {
 
             this.backgroundVideoPlayer.playVideoByName(currentVideo.videoName);
         }
+    }
+
+    async showResult(
+        result: gc.GameServiceMessage.TResult,
+        hasAnimation: boolean,
+        settlementResult: gc.GameServiceMessage.TSettlementResult
+    ) {
+        this.betResultNode.active = true;
+        if (hasAnimation) {
+            await AnimationUtils.delayTime(settings.durations.generatingResult);
+        }
+    }
+
+    startNewRound(isStartRound: boolean) {
+        if (isStartRound) {
+            this.betResultNode.active = false;
+        }
+        super.startNewRound(isStartRound);
     }
 
     renderCurrentFinish(currentFinish: gc.GameServiceMessage.Finish) {
