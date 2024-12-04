@@ -8779,7 +8779,9 @@
     "chipFlying": {
       "__id__": 22
     },
-    "betResultNode": null,
+    "betResultNode": {
+      "__id__": 244
+    },
     "backgroundVideoPlayer": {
       "__id__": 6
     },
