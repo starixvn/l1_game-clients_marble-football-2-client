@@ -41,8 +41,8 @@ export default class Game extends GameComponent {
     }
 
     onLoad() {
-        this.betResultNode.active = false;
         super.onLoad();
+        this.betResultNode.active = false;
     }
 
     @render(VideoStreamStore, (store) => store.currentVideo)
@@ -60,6 +60,12 @@ export default class Game extends GameComponent {
         settlementResult: gc.GameServiceMessage.TSettlementResult
     ) {
         this.betResultNode.active = true;
+        const betResults = ["away", "draw", "home"];
+
+        betResults.forEach((betResult) => {
+            this.betResultNode.getChildByPath(`result/${betResult}`).active = settlementResult[betResult];
+        });
+
         if (hasAnimation) {
             await AnimationUtils.delayTime(settings.durations.generatingResult);
         }

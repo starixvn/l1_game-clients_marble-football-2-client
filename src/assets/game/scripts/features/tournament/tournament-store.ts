@@ -7,6 +7,7 @@ const { injectable } = inversify;
 @injectable()
 export class TournamentStore {
     private _tournament: MarbleFootballServiceMessages.Tournament = null;
+    private _currentMatch: MarbleFootballServiceMessages.MatchType = null;
 
     constructor() {
         mobx.makeAutoObservable(this);
@@ -16,7 +17,12 @@ export class TournamentStore {
         return this._tournament;
     }
 
+    get currentMatch() {
+        return this._currentMatch;
+    }
+
     set tournament(value: MarbleFootballServiceMessages.Tournament) {
         this._tournament = value;
+        this._currentMatch = value.matches[value.currentMatch];
     }
 }
