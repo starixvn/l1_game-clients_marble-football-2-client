@@ -27,7 +27,7 @@ export class Tournament extends Component {
     setData(tournament: MarbleFootballServiceMessages.Tournament) {
         const data = tournament;
         const roundId = this.calculateRoundId(data.currentMatch);
-        this.labelTitle.key = this.getTitleKey(roundId);
+        this.labelTitle.setKey(this.getTitleKey(roundId));
 
         const currentMatch = data.matches[data.currentMatch];
         const matches = this.calculateGroup(data.matches);
