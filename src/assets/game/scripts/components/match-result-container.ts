@@ -81,8 +81,13 @@ export class MatchResultContainer extends MultipleNodeContainer {
     }
 
     initForMatchWinner(node: Node, at: number) {
-        const winner = node.getComponent(Winner);
-        winner.playWinner(at);
+        const winnerComp = node.getComponent(Winner);
+        const winner = this.matchResult.winner;
+        if (this.matchResult.isFinal) {
+            winnerComp.playChampion(at, winner);
+        } else {
+            winnerComp.playWinner(at, winner);
+        }
     }
 
     @render(GamePhaseStore, (store) => store.exitPhase)

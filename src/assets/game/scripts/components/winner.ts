@@ -1,4 +1,6 @@
-import { _decorator, Component, sp } from "cc";
+import { _decorator, Component, Node, sp } from "cc";
+import { Flag } from "./flag";
+import { TeamName } from "./team-name";
 
 const { ccclass, property } = _decorator;
 
@@ -10,12 +12,19 @@ export class Winner extends Component {
     @property(sp.Skeleton)
     private champion: sp.Skeleton = null;
 
-    playChampion(at = 0) {
+    playChampion(at = 0, winner: string) {
         this.playAnimation(this.champion, "champion", at);
+        this.setWinnerName(this.champion.node, winner);
     }
 
-    playWinner(at = 0) {
+    playWinner(at = 0, winner: string) {
         this.playAnimation(this.winner, "winner", at);
+        this.setWinnerName(this.winner.node, winner);
+    }
+
+    setWinnerName(node: Node, name: string) {
+        node.getChildByName("team-name").getComponent(TeamName).setName(name);
+        node.getComponentInChildren(Flag)?.setIcon(name);
     }
 
     protected onLoad(): void {

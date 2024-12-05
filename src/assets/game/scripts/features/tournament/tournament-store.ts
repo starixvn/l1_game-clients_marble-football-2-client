@@ -8,6 +8,7 @@ const { injectable } = inversify;
 export class TournamentStore {
     private _tournament: MarbleFootballServiceMessages.Tournament = null;
     private _currentMatch: MarbleFootballServiceMessages.MatchType = null;
+    private _isFinal = false;
 
     constructor() {
         mobx.makeAutoObservable(this);
@@ -21,8 +22,13 @@ export class TournamentStore {
         return this._currentMatch;
     }
 
+    get isFinal() {
+        return this._isFinal;
+    }
+
     set tournament(value: MarbleFootballServiceMessages.Tournament) {
         this._tournament = value;
         this._currentMatch = value.matches[value.currentMatch];
+        this._isFinal = value.currentMatch === value.matches.length - 1;
     }
 }

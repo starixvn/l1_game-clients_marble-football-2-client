@@ -12,6 +12,7 @@ export interface IMatchResult {
 
     winner: string;
     homeWinsOnDraw: boolean;
+    isFinal: boolean;
 }
 
 @injectable()

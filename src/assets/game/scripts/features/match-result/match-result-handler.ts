@@ -2,6 +2,7 @@ import gc from "@sg/game-client-base";
 import inversify from "inversify";
 import mobx from "mobx";
 import { MarbleFootballServiceMessages } from "../../marble-football-service-messages";
+import { TournamentStore } from "../tournament/tournament-store";
 import { MatchResultStore } from "./match-result-store";
 
 const { injectable, inject } = inversify;
@@ -10,6 +11,7 @@ const { injectable, inject } = inversify;
 export class MatchResultHandler {
     @inject(gc.Settlements.SettlementStore) private readonly settlementStore: gc.Settlements.SettlementStore;
     @inject(MatchResultStore) private readonly store: MatchResultStore;
+    @inject(TournamentStore) private readonly tournamentStore: TournamentStore;
 
     constructor() {
         mobx.makeAutoObservable(this);
@@ -30,9 +32,18 @@ export class MatchResultHandler {
         const miniGame = result.homeWinsOnDraw !== undefined && settlementResult.draw;
         const scores = this.parseMatchScore(result);
 
-        const winner = "";
+        const currentMatch = this.tournamentStore.currentMatch;
+        const isHomeWinner = settlementResult.home || (miniGame && result.homeWinsOnDraw);
+        const winner = isHomeWinner ? currentMatch.home : currentMatch.away;
 
-        this.store.matchResult = { roundId, scores, miniGame, winner, homeWinsOnDraw: !!result.homeWinsOnDraw };
+        this.store.matchResult = {
+            roundId,
+            scores,
+            miniGame,
+            winner,
+            homeWinsOnDraw: !!result.homeWinsOnDraw,
+            isFinal: this.tournamentStore.isFinal,
+        };
     }
 
     parseMatchScore(result: MarbleFootballServiceMessages.Result) {
@@ -51,6 +62,9 @@ export class MatchResultHandler {
 
             for (let i = 0; i < half.goals.length; i++) {
                 const scoringTeam = half.goals.charAt(i);
+                if (scoringTeam !== "H" && scoringTeam !== "A") {
+                    continue;
+                }
                 scoreTimeline[scoringTeam].push(half.timeline[i]);
             }
 
