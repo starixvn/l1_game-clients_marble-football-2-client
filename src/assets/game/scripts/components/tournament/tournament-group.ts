@@ -33,7 +33,7 @@ export class TournamentGroup extends Component {
                     },
                 ];
             }, [])
-            .filter((name) => name !== null);
+            .filter((team) => !!team.name);
         const teamNamesLength = teamNames.length;
 
         for (let i = 0; i < teams.length; i++) {

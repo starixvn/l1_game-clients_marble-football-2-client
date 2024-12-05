@@ -10,7 +10,7 @@ export class tournament_test extends Component {
     @property(Tournament)
     tournament: Tournament = null;
 
-    matchId = 0;
+    matchId = 12;
 
     test = {
         id: "674ecfe3d28cfc8630651557",
@@ -76,15 +76,15 @@ export class tournament_test extends Component {
             },
             {
                 home: "LIV",
-                away: "",
+                away: "BAR",
             },
             {
-                home: "",
-                away: "",
+                home: "AVL",
+                away: "FCB",
             },
             {
-                home: "",
-                away: "",
+                home: "LIV",
+                away: "FCB",
             },
         ],
         currentMatch: 9,
