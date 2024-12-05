@@ -7,9 +7,15 @@ import { MatchResultStore } from "./match-result-store";
 
 const { injectable, inject } = inversify;
 
+interface RoundResult {
+    roundId: number;
+    result: MarbleFootballServiceMessages.Result;
+    settlementResult: any;
+}
+
 @injectable()
 export class MatchResultHandler {
-    @inject(gc.Settlements.SettlementStore) private readonly settlementStore: gc.Settlements.SettlementStore;
+    @inject(gc.RoundHistories.RoundHistoryStore) private readonly roundHistoryStore: gc.RoundHistories.RoundHistoryStore;
     @inject(MatchResultStore) private readonly store: MatchResultStore;
     @inject(TournamentStore) private readonly tournamentStore: TournamentStore;
 
@@ -18,16 +24,20 @@ export class MatchResultHandler {
 
         setTimeout(() => {
             mobx.reaction(
-                () => this.settlementStore.currentFinish,
-                (currentFinish: { roundId: number; result: MarbleFootballServiceMessages.Result }) => {
-                    currentFinish && this.generateMatchResult(currentFinish);
+                () => this.roundHistoryStore.histories,
+                (histories: gc.RoundHistories.RoundHistory[]) => {
+                    if (histories.length === 0) {
+                        return;
+                    }
+                    const lastRound = histories[0] as RoundResult;
+                    lastRound && this.generateMatchResult(lastRound);
                 }
             );
         }, 0);
     }
 
-    generateMatchResult(currentFinish: { roundId: number; result: MarbleFootballServiceMessages.Result; settlementResult }) {
-        const { roundId, result, settlementResult } = currentFinish;
+    generateMatchResult(roundResult: RoundResult) {
+        const { roundId, result, settlementResult } = roundResult;
 
         const miniGame = result.homeWinsOnDraw !== undefined && settlementResult.draw;
         const scores = this.parseMatchScore(result);
@@ -55,9 +65,13 @@ export class MatchResultHandler {
         ];
 
         const halftimeScores = matchHalves.map((half) => {
-            const scoreTimeline = {
-                H: [], // Home team goals
-                A: [], // Away team goals
+            // const scoreTimeline = {
+            //     H: [], // Home team goals
+            //     A: [], // Away team goals
+            // };
+            const scores = {
+                H: 0,
+                A: 0,
             };
 
             for (let i = 0; i < half.goals.length; i++) {
@@ -65,10 +79,11 @@ export class MatchResultHandler {
                 if (scoringTeam !== "H" && scoringTeam !== "A") {
                     continue;
                 }
-                scoreTimeline[scoringTeam].push(half.timeline[i]);
+                scores[scoringTeam]++;
+                // scoreTimeline[scoringTeam].push(half.timeline[i]);
             }
-
-            return [scoreTimeline.H.length, scoreTimeline.A.length];
+            return [scores.H, scores.A];
+            // return [scoreTimeline.H.length, scoreTimeline.A.length];
         });
 
         const finalScore = halftimeScores.reduce((total, current) => [total[0] + current[0], total[1] + current[1]], [0, 0]);
