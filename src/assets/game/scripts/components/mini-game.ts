@@ -47,6 +47,10 @@ export class MiniGame extends Component {
                 this.statistic.node.getChildByName(side).getComponent(Label).string = scores[halfIndex][sideIndex].toString();
             });
         });
+
+        const finalScore = scores[2];
+        const isHomeWin = finalScore[0] > finalScore[1];
+        this.setWinLoseLabel(isHomeWin);
     }
 
     playMiniGame(isHomeWin: boolean, roundId: number, at = 0) {
