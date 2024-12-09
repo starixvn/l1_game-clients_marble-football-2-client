@@ -23,6 +23,12 @@ export class Teams extends ObserverComponent {
     @property(TeamName)
     private awayName: TeamName = null;
 
+    @property(Label)
+    private homeCode: Label = null;
+
+    @property(Label)
+    private awayCode: Label = null;
+
     @render(TournamentStore, (store) => store.currentMatch)
     setTeams(currentMatch: MarbleFootballServiceMessages.MatchType) {
         if (currentMatch && currentMatch.home && currentMatch.away) {
@@ -30,6 +36,8 @@ export class Teams extends ObserverComponent {
             this.away.setIcon(currentMatch.away);
             this.homeName?.setName(currentMatch.home);
             this.awayName?.setName(currentMatch.away);
+            this.homeCode!.string = currentMatch.home;
+            this.awayCode!.string = currentMatch.away;
         }
     }
 }

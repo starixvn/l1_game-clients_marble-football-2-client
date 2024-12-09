@@ -30,7 +30,7 @@
                 <key>spriteSourceSize</key>
                 <string>{1398,22}</string>
                 <key>textureRect</key>
-                <string>{{108,346},{1398,22}}</string>
+                <string>{{47,440},{1398,22}}</string>
                 <key>textureRotated</key>
                 <true/>
             </dict>
@@ -105,9 +105,24 @@
                 <key>spriteSourceSize</key>
                 <string>{42,42}</string>
                 <key>textureRect</key>
-                <string>{{3,376},{42,42}}</string>
+                <string>{{3,407},{42,42}}</string>
                 <key>textureRotated</key>
                 <false/>
+            </dict>
+            <key>icon_wifi.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{31,23}</string>
+                <key>spriteSourceSize</key>
+                <string>{31,23}</string>
+                <key>textureRect</key>
+                <string>{{47,407},{31,23}}</string>
+                <key>textureRotated</key>
+                <true/>
             </dict>
             <key>id_bg.png</key>
             <dict>
@@ -120,7 +135,7 @@
                 <key>spriteSourceSize</key>
                 <string>{44,31}</string>
                 <key>textureRect</key>
-                <string>{{62,346},{44,31}}</string>
+                <string>{{76,376},{44,31}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -151,6 +166,21 @@
                 <string>{14,3}</string>
                 <key>textureRect</key>
                 <string>{{237,102},{14,3}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>live_bg.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{71,59}</string>
+                <key>spriteSourceSize</key>
+                <string>{71,59}</string>
+                <key>textureRect</key>
+                <string>{{3,346},{71,59}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -195,7 +225,7 @@
                 <key>spriteSourceSize</key>
                 <string>{41,36}</string>
                 <key>textureRect</key>
-                <string>{{3,420},{41,36}}</string>
+                <string>{{3,451},{41,36}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -210,7 +240,7 @@
                 <key>spriteSourceSize</key>
                 <string>{41,36}</string>
                 <key>textureRect</key>
-                <string>{{3,458},{41,36}}</string>
+                <string>{{3,489},{41,36}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -225,7 +255,7 @@
                 <key>spriteSourceSize</key>
                 <string>{28,57}</string>
                 <key>textureRect</key>
-                <string>{{3,346},{28,57}}</string>
+                <string>{{76,346},{28,57}}</string>
                 <key>textureRotated</key>
                 <true/>
             </dict>
@@ -240,7 +270,7 @@
                 <key>spriteSourceSize</key>
                 <string>{455,41}</string>
                 <key>textureRect</key>
-                <string>{{47,379},{455,41}}</string>
+                <string>{{72,409},{455,41}}</string>
                 <key>textureRotated</key>
                 <true/>
             </dict>
@@ -258,7 +288,7 @@
             <key>size</key>
             <string>{256,2048}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:fe15ae23e88f78371cab1cb17541bfca:9b119714111bbe210bd9a2aaa1a0ca0d:693584bbba79ecadf35d6b2cf3a849c9$</string>
+            <string>$TexturePacker:SmartUpdate:32a9eaf89e6f73d4397ffacd7dc9facc:fc042adee55cfd72eaced6bb28f48000:693584bbba79ecadf35d6b2cf3a849c9$</string>
             <key>textureFileName</key>
             <string>main.png</string>
         </dict>
