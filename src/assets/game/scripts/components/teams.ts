@@ -1,9 +1,9 @@
 import { _decorator, Label } from "cc";
-import { Flag } from "./flag";
 import { ObserverComponent } from "db://shared-components/shared/common-components/observer-component/scripts/observer-component";
 import Observer from "observer";
 import { TournamentStore } from "../features/tournament/tournament-store";
 import { MarbleFootballServiceMessages } from "../marble-football-service-messages";
+import { Flag } from "./flag";
 import { TeamName } from "./team-name";
 
 const { ccclass, property } = _decorator;
@@ -36,8 +36,8 @@ export class Teams extends ObserverComponent {
             this.away.setIcon(currentMatch.away);
             this.homeName?.setName(currentMatch.home);
             this.awayName?.setName(currentMatch.away);
-            this.homeCode!.string = currentMatch.home;
-            this.awayCode!.string = currentMatch.away;
+            this.homeCode && (this.homeCode!.string = currentMatch.home);
+            this.awayCode && (this.awayCode!.string = currentMatch.away);
         }
     }
 }
