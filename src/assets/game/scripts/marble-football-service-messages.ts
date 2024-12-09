@@ -30,6 +30,11 @@ export namespace MarbleFootballServiceMessages {
         static eventName = "tournament";
     }
 
+    export interface Penalty {
+        home: number;
+        away: number;
+    }
+
     export interface Result {
         firstHalf: string;
         secondHalf: string;
@@ -40,5 +45,6 @@ export namespace MarbleFootballServiceMessages {
         tournamentId: string;
         firstHalfTimeline: number[];
         secondHalfTimeline: number[];
+        penalty: Penalty;
     }
 }
