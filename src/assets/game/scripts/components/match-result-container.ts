@@ -22,7 +22,7 @@ export class MatchResultContainer extends MultipleNodeContainer {
     onLoad() {
         super.onLoad();
         this.registerPhaseMatchWinner();
-        this.registerPhaseMatchStatistics();
+        // this.registerPhaseMatchStatistics();
     }
 
     @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))

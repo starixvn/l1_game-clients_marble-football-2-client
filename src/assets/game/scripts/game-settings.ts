@@ -2,7 +2,7 @@ export const settings = {
     id: 104,
     name: "MarbleFootball",
     durations: {
-        wholeRound: 154,
+        wholeRound: 149,
         placingBet: 134,
         lockingBet: 107,
         introVideo: 105,
@@ -11,7 +11,7 @@ export const settings = {
         halfDuration: 45,
         generatingResult: 3,
         showingResult: 5,
-        startRound: 12,
+        startRound: 7,
 
         tournament: 4,
         matchWinner: 3,
