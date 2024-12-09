@@ -3,10 +3,10 @@ const { ccclass, property } = _decorator;
 
 @ccclass("SetZIndexWebViewer")
 export class SetZIndexWebViewer extends Component {
-    @property([CCString])
+    @property(CCString)
     id: string = "webview-wrapper";
 
-    @property([CCInteger])
+    @property(CCInteger)
     zIndex: number = 99;
 
     start() {
