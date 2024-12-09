@@ -7,6 +7,7 @@ import { VideoStreamHandlers } from "../features/feature";
 import { VideoStreamStore } from "../features/video-stream/video-stream-store";
 import { settings } from "../game-settings";
 import { BreakTime } from "./break-time";
+import { SystemIndicator } from "./system-indcator";
 
 const { ccclass, property } = _decorator;
 const { render, handle } = Observer;
@@ -21,6 +22,16 @@ export default class VideoStreamIntegration extends ObserverComponent {
 
     @property(BreakTime)
     private breakTime: BreakTime = null;
+
+    @property(SystemIndicator)
+    private systemIndicator: SystemIndicator = null;
+
+    onLoad(): void {
+        super.onLoad();
+
+        this.backgroundVideoPlayer?.node.on("hlsLevelSwitched", this.updateSystemIndicator, this);
+        this.backgroundVideoPlayer?.node.on("hlsError", this.updateSystemIndicator, this);
+    }
 
     staticVideos = {
         intro: "cd99ef2549fe8aa77a7c8c65485a7d9f615f7cc8ee8d0d944f6d98497633fe2c_720p",
@@ -74,5 +85,13 @@ export default class VideoStreamIntegration extends ObserverComponent {
 
         this.backgroundVideoPlayer.currentTime = 0;
         this.backgroundVideoPlayer.playVideoByName(video);
+    }
+
+    private updateSystemIndicator(data: { level?: number }) {
+        if (typeof data.level === "number") {
+            this.systemIndicator.networkStatus = data.level + 2;
+        } else {
+            this.systemIndicator.networkStatus = 1;
+        }
     }
 }

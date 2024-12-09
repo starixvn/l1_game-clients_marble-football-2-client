@@ -601,9 +601,9 @@
     "_dstBlendFactor": 4,
     "_color": {
       "__type__": "cc.Color",
-      "r": 0,
-      "g": 228,
-      "b": 100,
+      "r": 246,
+      "g": 58,
+      "b": 57,
       "a": 255
     },
     "_spriteFrame": {
@@ -935,6 +935,9 @@
     "_enabled": true,
     "__prefab": {
       "__id__": 43
+    },
+    "icon": {
+      "__id__": 24
     },
     "_id": ""
   },

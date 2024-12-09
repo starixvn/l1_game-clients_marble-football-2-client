@@ -119,6 +119,8 @@ export class BackgroundVideoPlayer extends Component {
 
         hls.attachMedia(video);
 
+        hls.on(Hls.Events.LEVEL_SWITCHED, this.node.emit.bind(this.node));
+        hls.on(Hls.Events.ERROR, this.node.emit.bind(this.node));
         hls.on(Hls.Events.ERROR, (event, data) => {
             console.log("[Hls.Error]: ", event, data);
 

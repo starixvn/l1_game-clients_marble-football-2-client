@@ -67,7 +67,6 @@ export class LiveScore extends ObserverComponent {
         currentVideoTime: number;
         isFirstHalf: boolean;
     }) {
-        console.log(currentMatchTime);
         if (currentVideoTime === -1) {
             this.stop = true;
         } else {
