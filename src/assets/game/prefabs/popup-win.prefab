@@ -1477,6 +1477,8 @@
     "awayName": {
       "__id__": 52
     },
+    "homeCode": null,
+    "awayCode": null,
     "_id": ""
   },
   {
@@ -1929,7 +1931,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "bg_dark_blue-002",
+    "_name": "final-score",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -3777,6 +3779,9 @@
     },
     "penaltyNode": {
       "__id__": 136
+    },
+    "scoreFinal": {
+      "__id__": 90
     },
     "score1st": {
       "__id__": 128

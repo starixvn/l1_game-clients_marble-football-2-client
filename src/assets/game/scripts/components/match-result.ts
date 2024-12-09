@@ -10,6 +10,9 @@ export class MatchResult extends ObserverComponent {
     @property(Node)
     penaltyNode: Node = null;
 
+    @property(Node)
+    scoreFinal: Node = null;
+
     @property(Label)
     score1st: Label = null;
 
@@ -23,6 +26,16 @@ export class MatchResult extends ObserverComponent {
         }
         const firstHalftScore = scores[0];
         this.score1st.string = `${firstHalftScore[0]}-${firstHalftScore[1]}`;
+
+        const scoreFinal = scores[2];
+        this.renderFinalScore(scoreFinal);
+    }
+
+    renderFinalScore(scores: number[]) {
+        scores.forEach((score, index) => {
+            const label = this.scoreFinal.children[index].getComponent(Label);
+            label.string = score.toString();
+        });
     }
 
     renderPenalty(penalty: MarbleFootballServiceMessages.Penalty) {
