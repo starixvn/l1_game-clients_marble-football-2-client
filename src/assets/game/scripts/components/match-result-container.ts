@@ -1,7 +1,7 @@
 import { _decorator, Node } from "cc";
 import Observer from "observer";
 import { MultipleNodeContainer } from "../../../../extensions/shared-components/assets/shared/common-components/node-container/multiple-node-container";
-import { GamePhase, GamePhaseConfig } from "../features/game-phase/game-phase-definitions";
+import { GamePhase, GamePhaseConfig, PhaseId } from "../features/game-phase/game-phase-definitions";
 import { GamePhaseHandler } from "../features/game-phase/game-phase-handler";
 import { GamePhaseStore } from "../features/game-phase/game-phase-store";
 import { IMatchResult, MatchResultStore } from "../features/match-result/match-result-store";
@@ -11,11 +11,6 @@ import { Winner } from "./winner";
 
 const { ccclass, property } = _decorator;
 const { render, handle } = Observer;
-
-enum PhaseId {
-    MatchWinner = "match-winner",
-    MatchStatistics = "match-statistics",
-}
 
 @ccclass
 export class MatchResultContainer extends MultipleNodeContainer {

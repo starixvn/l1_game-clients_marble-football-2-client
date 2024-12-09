@@ -1,8 +1,10 @@
-import gc from "@sg/game-client-base";
 import { _decorator } from "cc";
 import Observer from "observer";
 import { Dialog } from "../../../../../extensions/shared-components/assets/shared/common-components/dialogs/dialog";
 import { NodeContainer } from "../../../../../extensions/shared-components/assets/shared/common-components/node-container/node-container";
+import { GamePhase, GamePhaseConfig, PhaseId } from "../../features/game-phase/game-phase-definitions";
+import { GamePhaseHandler } from "../../features/game-phase/game-phase-handler";
+import { GamePhaseStore } from "../../features/game-phase/game-phase-store";
 import { TournamentStore } from "../../features/tournament/tournament-store";
 import { settings } from "../../game-settings";
 import { MarbleFootballServiceMessages } from "../../marble-football-service-messages";
@@ -15,6 +17,24 @@ const { render, handle } = Observer;
 export class TournamentContainer extends NodeContainer {
     private tournament: MarbleFootballServiceMessages.Tournament = null;
     private isShowingTournament = false;
+
+    private readonly delayHideTournament = 0.5;
+
+    onLoad() {
+        super.onLoad();
+
+        this.registerPhaseTournament();
+    }
+
+    @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
+    registerPhaseTournament() {
+        const config: GamePhaseConfig = {
+            id: PhaseId.Tournament,
+            begin: settings.durations.placingBet + settings.durations.tournament,
+            end: settings.durations.placingBet + 1 + this.delayHideTournament,
+        };
+        return config;
+    }
 
     @render(TournamentStore, (store) => store.tournament)
     private renderTournament(tournament: MarbleFootballServiceMessages.Tournament) {
@@ -59,16 +79,29 @@ export class TournamentContainer extends NodeContainer {
         }
     }
 
-    @render(gc.Rounds.RoundTimeStore, (store) => store.roundTime)
-    private renderRemaining(roundTime: number) {
-        const tournamentTimePoint = settings.durations.placingBet + settings.durations.tournament;
+    @render(GamePhaseStore, (store) => store.enterPhase)
+    private renderEnterPhase(phase: GamePhase) {
+        if (!phase) {
+            return;
+        }
+        const isPhaseTournament = phase.id === PhaseId.Tournament;
 
-        const showTournament = roundTime > settings.durations.placingBet && roundTime <= tournamentTimePoint;
-
-        if (showTournament) {
+        if (isPhaseTournament) {
             this.showTournament();
-        } else {
-            this.hideTournament();
+        }
+    }
+
+    @render(GamePhaseStore, (store) => store.exitPhase)
+    private renderExitPhase(phase: GamePhase) {
+        if (!phase) {
+            return;
+        }
+        const isPhaseTournament = phase.id === PhaseId.Tournament;
+
+        if (isPhaseTournament) {
+            this.scheduleOnce(() => {
+                this.hideTournament();
+            }, this.delayHideTournament);
         }
     }
 }

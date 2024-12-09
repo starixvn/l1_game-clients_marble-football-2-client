@@ -10,3 +10,8 @@ export interface GamePhaseConfig {
     end: number;
     duration?: number;
 }
+export enum PhaseId {
+    MatchWinner = "match-winner",
+    MatchStatistics = "match-statistics",
+    Tournament = "tournament",
+}
