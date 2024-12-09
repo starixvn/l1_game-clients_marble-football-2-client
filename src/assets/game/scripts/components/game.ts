@@ -54,17 +54,20 @@ export default class Game extends GameComponent {
         }
     }
 
+    private showWinningChoice(settlementResult: any) {
+        const betResults = ["away", "draw", "home"];
+
+        betResults.forEach((betResult) => {
+            this.betResultNode.getChildByPath(`result/${betResult}`).active = settlementResult[betResult];
+        });
+    }
+
     async showResult(
         result: gc.GameServiceMessage.TResult,
         hasAnimation: boolean,
         settlementResult: gc.GameServiceMessage.TSettlementResult
     ) {
         this.betResultNode.active = true;
-        const betResults = ["away", "draw", "home"];
-
-        betResults.forEach((betResult) => {
-            this.betResultNode.getChildByPath(`result/${betResult}`).active = settlementResult[betResult];
-        });
 
         if (hasAnimation) {
             await AnimationUtils.delayTime(settings.durations.generatingResult);
