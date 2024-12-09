@@ -1,8 +1,8 @@
-import { _decorator, CCInteger, CCString, Component, Node } from "cc";
+import { _decorator, CCInteger, CCString, Component } from "cc";
 const { ccclass, property } = _decorator;
 
-@ccclass("SetZIndex")
-export class SetZIndex extends Component {
+@ccclass("SetZIndexWebViewer")
+export class SetZIndexWebViewer extends Component {
     @property([CCString])
     id: string = "webview-wrapper";
 
@@ -10,6 +10,10 @@ export class SetZIndex extends Component {
     zIndex: number = 99;
 
     start() {
-        document.getElementById(this.id).style.zIndex = this.zIndex.toString();
+        const head = document.head;
+        const style = document.createElement("style");
+        style.type = "text/css";
+        style.innerHTML = `#${this.id} { z-index: ${this.zIndex}; }`;
+        head.appendChild(style);
     }
 }
