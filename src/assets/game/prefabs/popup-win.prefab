@@ -2693,7 +2693,7 @@
     "key": "MarbleFootball.1st_half",
     "format": 3,
     "prefix": "",
-    "suffix": "",
+    "suffix": ":",
     "_id": ""
   },
   {
@@ -3082,7 +3082,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 427.79296875,
-      "height": 30.240000000000002
+      "height": 50
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -3221,7 +3221,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -85,
+      "x": -104,
       "y": 0,
       "z": 0
     },
@@ -3360,7 +3360,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 85,
+      "x": 104,
       "y": 0,
       "z": 0
     },

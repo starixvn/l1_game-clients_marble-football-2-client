@@ -16,6 +16,7 @@ interface RoundResult {
 @injectable()
 export class MatchResultHandler {
     @inject(gc.RoundHistories.RoundHistoryStore) private readonly roundHistoryStore: gc.RoundHistories.RoundHistoryStore;
+    @inject(gc.Settlements.SettlementStore) private readonly settlementStore: gc.Settlements.SettlementStore;
     @inject(MatchResultStore) private readonly store: MatchResultStore;
     @inject(TournamentStore) private readonly tournamentStore: TournamentStore;
 
@@ -34,10 +35,26 @@ export class MatchResultHandler {
                 }
             );
         }, 0);
+
+        setTimeout(() => {
+            mobx.reaction(
+                () => this.settlementStore.currentFinish,
+                (currentFinish: RoundResult) => {
+                    if (!currentFinish) {
+                        return;
+                    }
+                    this.generateMatchResult(currentFinish);
+                }
+            );
+        }, 0);
     }
 
     generateMatchResult(roundResult: RoundResult) {
         const { roundId, result, settlementResult } = roundResult;
+
+        if (roundId === this.store.matchResult?.roundId) {
+            return;
+        }
 
         const miniGame = result.homeWinsOnDraw !== undefined && settlementResult.draw;
         const scores = this.parseMatchScore(result);
