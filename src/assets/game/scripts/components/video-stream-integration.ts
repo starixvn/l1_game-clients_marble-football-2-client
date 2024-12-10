@@ -8,6 +8,7 @@ import { VideoStreamStore } from "../features/video-stream/video-stream-store";
 import { settings } from "../game-settings";
 import { BreakTime } from "./break-time";
 import { SystemIndicator } from "./system-indcator";
+import { IntroOutro } from "./intro-outro";
 
 const { ccclass, property } = _decorator;
 const { render, handle } = Observer;
@@ -17,26 +18,24 @@ export default class VideoStreamIntegration extends ObserverComponent {
     @property(BackgroundVideoPlayer)
     private backgroundVideoPlayer: BackgroundVideoPlayer = null;
 
-    @property(Node)
-    private topOfVideo: Node = null;
-
     @property(BreakTime)
     private breakTime: BreakTime = null;
 
     @property(SystemIndicator)
     private systemIndicator: SystemIndicator = null;
 
+    @property(IntroOutro)
+    private introOutro: IntroOutro = null;
+
     onLoad(): void {
         super.onLoad();
 
         this.backgroundVideoPlayer?.node.on("hlsLevelSwitched", this.updateSystemIndicator, this);
         this.backgroundVideoPlayer?.node.on("hlsError", this.updateSystemIndicator, this);
-    }
 
-    staticVideos = {
-        intro: "cd99ef2549fe8aa77a7c8c65485a7d9f615f7cc8ee8d0d944f6d98497633fe2c_720p",
-        outro: "fdcd45cdf6e7f0be3a1c930854e3a753cf203f321cd67f0b53f52378a49769dd_720p",
-    };
+        this.backgroundVideoPlayer?.node.on("hlsManifestLoading", () => (this.introOutro.showField = true));
+        this.backgroundVideoPlayer?.node.on("hlsFragBuffered", () => (this.introOutro.showField = false));
+    }
 
     @render(gc.Rounds.RoundTimeStore, (store) => store.isStartRound)
     private onStartingRound(isStartRound: boolean) {
@@ -57,19 +56,15 @@ export default class VideoStreamIntegration extends ObserverComponent {
 
     @render(gc.Rounds.RoundTimeStore, (store) => store.roundTime)
     private onRoundTimeUpdate(roundTime: number) {
-        if (roundTime === settings.durations.introVideo) {
-            this.playStaticVideo("intro");
-        }
-
         if (roundTime === 0) {
-            this.playStaticVideo("outro");
+            this.introOutro.playOutroAnimation();
         }
 
-        if (roundTime === settings.durations.videoDuration + 1 || roundTime === settings.durations.introVideo - 1) {
+        if (roundTime === settings.durations.videoDuration + 1 || roundTime === settings.durations.introVideo) {
             this.breakTime?.playAnimation(0);
         }
 
-        this.topOfVideo!.active = roundTime > settings.durations.introVideo || roundTime < 0;
+        this.introOutro.showGameBackground = roundTime > settings.durations.introVideo || roundTime < 0;
     }
 
     @handle(VideoStreamHandlers, (handler) => handler.resetForNewRound())
@@ -78,13 +73,6 @@ export default class VideoStreamIntegration extends ObserverComponent {
     @handle(VideoStreamStore, (store, time: number) => store.updateWithRoundTime(time))
     private updateVideoTimeAndScore(currentTime: number) {
         return currentTime;
-    }
-
-    private playStaticVideo(videoName: string = "intro") {
-        const video = this.staticVideos[videoName];
-
-        this.backgroundVideoPlayer.currentTime = 0;
-        this.backgroundVideoPlayer.playVideoByName(video);
     }
 
     private updateSystemIndicator(data: { level?: number }) {
