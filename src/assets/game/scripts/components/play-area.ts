@@ -1,14 +1,17 @@
 import gc from "@sg/game-client-base";
 import { Node, Vec3, _decorator, tween, v3 } from "cc";
 import { ObserverComponent } from "db://shared-components/shared/common-components/observer-component/scripts/observer-component";
-import Observer from "observer";
-import { settings } from "../game-settings";
 import { AnimationUtils } from "db://shared-components/shared/utils";
+import Observer from "observer";
+import { GamePhase, GamePhaseConfig, TimePointShowMatchWinner } from "../features/game-phase/game-phase-definitions";
+import { GamePhaseHandler } from "../features/game-phase/game-phase-handler";
+import { GamePhaseStore } from "../features/game-phase/game-phase-store";
+import { settings } from "../game-settings";
 
 const { getUiOpacity } = AnimationUtils;
 const { ccclass, property } = _decorator;
 const { Rounds } = gc;
-const { render } = Observer;
+const { render, handle } = Observer;
 
 type TweenKey = "zoomInOut" | "fadeInOut" | "flyDown" | "flyUp";
 
@@ -71,6 +74,8 @@ export class PlayArea extends ObserverComponent {
         },
     };
 
+    private readonly ShowWinnerAndTournament = "show-winner-and-tournament";
+
     onLoad() {
         super.onLoad();
 
@@ -83,6 +88,43 @@ export class PlayArea extends ObserverComponent {
         this.disappearingNodes.forEach((node) => {
             this.mainPlayAreaTargets.push({ target: node, key: "fadeInOut" });
         });
+
+        this.registerPhaseMatchWinner();
+    }
+
+    @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
+    registerPhaseMatchWinner() {
+        const config: GamePhaseConfig = {
+            id: this.ShowWinnerAndTournament,
+            begin: TimePointShowMatchWinner + 1,
+            end: settings.durations.placingBet + 1,
+        };
+        return config;
+    }
+
+    @render(GamePhaseStore, (store) => store.enterPhase)
+    renderEnterPhase(phase: GamePhase) {
+        if (!phase) {
+            return;
+        }
+        if (phase.id === this.ShowWinnerAndTournament) {
+            this.fadeOutBetchoiceNode(true);
+        }
+    }
+
+    @render(GamePhaseStore, (store) => store.exitPhase)
+    renderExitPhase(phase: GamePhase) {
+        if (!phase) {
+            return;
+        }
+        if (phase.id === this.ShowWinnerAndTournament) {
+            this.fadeOutBetchoiceNode(false);
+        }
+    }
+
+    fadeOutBetchoiceNode(fadeOut: boolean) {
+        const opacity = fadeOut ? 1 : 255;
+        AnimationUtils.fadeTo(this.betChoices, 0.2, opacity);
     }
 
     @render(Rounds.RoundTimeStore, (store) => store.roundTime)

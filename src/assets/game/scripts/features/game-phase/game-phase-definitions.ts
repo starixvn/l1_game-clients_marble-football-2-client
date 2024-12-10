@@ -1,3 +1,5 @@
+import { settings } from "../../game-settings";
+
 export interface GamePhase {
     id: string;
     visible: boolean;
@@ -15,3 +17,7 @@ export enum PhaseId {
     MatchStatistics = "match-statistics",
     Tournament = "tournament",
 }
+
+export const TimePointTournament = settings.durations.placingBet + settings.durations.tournament;
+export const TimePointShowMatchWinner = TimePointTournament + settings.durations.matchWinner;
+export const TimePointShowMatchStatistics = TimePointShowMatchWinner + settings.durations.matchStatistics;

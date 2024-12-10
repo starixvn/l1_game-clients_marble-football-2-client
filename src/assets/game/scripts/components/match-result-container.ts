@@ -1,11 +1,17 @@
 import { _decorator, Node } from "cc";
 import Observer from "observer";
 import { MultipleNodeContainer } from "../../../../extensions/shared-components/assets/shared/common-components/node-container/multiple-node-container";
-import { GamePhase, GamePhaseConfig, PhaseId } from "../features/game-phase/game-phase-definitions";
+import {
+    GamePhase,
+    GamePhaseConfig,
+    PhaseId,
+    TimePointShowMatchStatistics,
+    TimePointShowMatchWinner,
+    TimePointTournament,
+} from "../features/game-phase/game-phase-definitions";
 import { GamePhaseHandler } from "../features/game-phase/game-phase-handler";
 import { GamePhaseStore } from "../features/game-phase/game-phase-store";
 import { IMatchResult, MatchResultStore } from "../features/match-result/match-result-store";
-import { settings } from "../game-settings";
 import { MiniGame } from "./mini-game";
 import { Winner } from "./winner";
 
@@ -14,10 +20,6 @@ const { render, handle } = Observer;
 
 @ccclass
 export class MatchResultContainer extends MultipleNodeContainer {
-    private readonly timePointTournament = settings.durations.placingBet + settings.durations.tournament;
-    private readonly timePointShowMatchWinner = this.timePointTournament + settings.durations.matchWinner;
-    private readonly timePointShowMatchStatistics = this.timePointShowMatchWinner + settings.durations.matchStatistics;
-
     private matchResult: IMatchResult = null;
     onLoad() {
         super.onLoad();
@@ -29,8 +31,8 @@ export class MatchResultContainer extends MultipleNodeContainer {
     registerPhaseMatchStatistics() {
         const config: GamePhaseConfig = {
             id: PhaseId.MatchStatistics,
-            begin: this.timePointShowMatchStatistics,
-            end: this.timePointShowMatchWinner + 1,
+            begin: TimePointShowMatchStatistics,
+            end: TimePointShowMatchWinner + 1,
         };
         return config;
     }
@@ -39,8 +41,8 @@ export class MatchResultContainer extends MultipleNodeContainer {
     registerPhaseMatchWinner() {
         const config: GamePhaseConfig = {
             id: PhaseId.MatchWinner,
-            begin: this.timePointShowMatchWinner,
-            end: this.timePointTournament + 1,
+            begin: TimePointShowMatchWinner,
+            end: TimePointTournament + 1,
         };
         return config;
     }
