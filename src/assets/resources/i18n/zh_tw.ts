@@ -194,6 +194,8 @@ export const languages = {
         "you_reach_max_win": "您達到了最大勝利"
     },
     "MarbleFootball": {
+        "bet_choice_over_4.5": "大 4.5",
+        "bet_choice_under_4.5": "小 4.5",
         "match_starts": "比賽開始!",
         "team_ACS": "布拉格斯巴達",
         "team_ARS": "阿仙奴",

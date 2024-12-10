@@ -196,6 +196,8 @@ export const languages = {
     "MarbleFootball": {
         "1st_half": "1st Half",
         "2nd_half": "2nd Half",
+        "bet_choice_over_4.5": "Over 4.5",
+        "bet_choice_under_4.5": "Under 4.5",
         "champion": "Champion",
         "congrat_champion": "Congratulations To The Champion!",
         "first_half": "First Half",

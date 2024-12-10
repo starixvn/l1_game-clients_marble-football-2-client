@@ -196,6 +196,8 @@ export const languages = {
     "MarbleFootball": {
         "1st_half": "Hiệp 1",
         "2nd_half": "Hiệp 2",
+        "bet_choice_over_4.5": "Tài 4.5",
+        "bet_choice_under_4.5": "Xỉu 4.5",
         "champion": "Nhà Vô Địch",
         "congrat_champion": "Chúc Mừng Nhà Vô Địch!",
         "first_half": "Hiệp 1",

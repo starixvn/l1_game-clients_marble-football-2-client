@@ -194,6 +194,8 @@ export const languages = {
         "you_reach_max_win": "Anda mencapai Maksimal Menang"
     },
     "MarbleFootball": {
+        "bet_choice_over_4.5": "Besar 4.5",
+        "bet_choice_under_4.5": "Kecil 4.5",
         "match_starts": "PERTANDINGAN DIMULAI!",
         "team_ACS": "Sparta Praha",
         "team_ARS": "Arsenal",

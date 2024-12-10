@@ -194,6 +194,8 @@ export const languages = {
         "you_reach_max_win": "คุณถึงยอดชนะสูงสุด"
     },
     "MarbleFootball": {
+        "bet_choice_over_4.5": "สูง 4.5",
+        "bet_choice_under_4.5": "ต่ำ 4.5",
         "match_starts": "เริ่มการแข่งขัน!",
         "team_ACS": "สปาร์ต้า ปราก",
         "team_ARS": "อาร์เซนอล",
