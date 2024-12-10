@@ -49,6 +49,9 @@ export class MatchResultContainer extends MultipleNodeContainer {
 
     @render(MatchResultStore, (store) => store.matchResult)
     renderMatchResult(matchResult: IMatchResult) {
+        if (!matchResult) {
+            return;
+        }
         this.matchResult = matchResult;
     }
 
