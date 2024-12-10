@@ -56,11 +56,15 @@ export default class VideoStreamIntegration extends ObserverComponent {
 
     @render(gc.Rounds.RoundTimeStore, (store) => store.roundTime)
     private onRoundTimeUpdate(roundTime: number) {
+        if (roundTime === settings.durations.introVideo) {
+            this.introOutro.playIntroAnimation();
+        }
+
         if (roundTime === 0) {
             this.introOutro.playOutroAnimation();
         }
 
-        if (roundTime === settings.durations.videoDuration + 1 || roundTime === settings.durations.introVideo) {
+        if (roundTime === settings.durations.videoDuration + 1 || roundTime === settings.durations.introVideo - 1) {
             this.breakTime?.playAnimation(0);
         }
 

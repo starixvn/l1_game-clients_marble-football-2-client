@@ -23,6 +23,20 @@ export class IntroOutro extends Component {
         this.field.opacity = value ? 255 : 0;
     }
 
+    playIntroAnimation(at = 0, duration = 2) {
+        if (at >= duration || at < 0 || duration < 0) {
+            return;
+        }
+
+        const percent = 1 - at / duration;
+
+        this.gameBackground.opacity = 255 * percent;
+
+        tween(this.gameBackground)
+            .to(duration - at, { opacity: 0 })
+            .start();
+    }
+
     playOutroAnimation(at = 0, duration = 2) {
         if (at >= duration || at < 0 || duration < 0) {
             return;
