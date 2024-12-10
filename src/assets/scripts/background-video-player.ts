@@ -115,6 +115,9 @@ export class BackgroundVideoPlayer extends Component {
             lowLatencyMode: true,
             liveSyncDuration: 0.9,
             liveMaxLatencyDuration: 1,
+            maxBufferSize: 2 * 1000_000, // 2MB
+            maxBufferLength: 3, // in seconds
+            maxMaxBufferLength: 6, // in seconds
         });
 
         hls.attachMedia(video);
