@@ -64,15 +64,15 @@ frame_away
   rotate: false
   xy: 714, 30
   size: 138, 138
-  orig: 140, 140
-  offset: 1, 1
+  orig: 138, 138
+  offset: 0, 0
   index: -1
 frame_home
   rotate: false
   xy: 854, 30
   size: 138, 138
-  orig: 140, 140
-  offset: 1, 1
+  orig: 138, 138
+  offset: 0, 0
   index: -1
 gold ball
   rotate: false
