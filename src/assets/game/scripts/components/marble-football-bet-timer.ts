@@ -11,7 +11,6 @@ const { render } = Observer;
 
 @ccclass("MarbleFootballBetTimer")
 export default class MarbleFootballBetTimer extends BetTimer {
-    @render(RoundTimeStore, (store) => store.countdownTimer)
     setTime(time: number) {
         const timeLeft = time - settings.durations.introVideo;
         super.setTime(timeLeft);
