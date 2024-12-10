@@ -258,7 +258,7 @@
             <key>size</key>
             <string>{512,1024}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:c195fb7d9ac00e92447f688111a68c8a:30215712e9ce0e655a515e37bbba4601:6f2dc11bc8c201b6f0e6add99f4edbc3$</string>
+            <string>$TexturePacker:SmartUpdate:a2a227780d29efefda5571fb25efc86f:e440895db348ad5d449c45501cd5bccc:6f2dc11bc8c201b6f0e6add99f4edbc3$</string>
             <key>textureFileName</key>
             <string>flags.png</string>
         </dict>
