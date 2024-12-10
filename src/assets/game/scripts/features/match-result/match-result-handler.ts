@@ -60,8 +60,8 @@ export class MatchResultHandler {
         const scores = this.parseMatchScore(result);
 
         const currentMatch = this.tournamentStore.currentMatch;
-        const isHomeWinner = settlementResult.home || (miniGame && result.homeWinsOnDraw);
-        const winner = isHomeWinner ? currentMatch.home : currentMatch.away;
+        const isHomeWin = settlementResult.home || (miniGame && result.homeWinsOnDraw);
+        const winner = isHomeWin ? currentMatch.home : currentMatch.away;
         const penalty = result.penalty;
 
         this.store.matchResult = {
@@ -70,6 +70,7 @@ export class MatchResultHandler {
             miniGame,
             penalty,
             winner,
+            isHomeWin,
             homeWinsOnDraw: !!result.homeWinsOnDraw,
             isFinal: this.tournamentStore.isFinal,
         };

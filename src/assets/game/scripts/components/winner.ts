@@ -12,14 +12,16 @@ export class Winner extends Component {
     @property(sp.Skeleton)
     private champion: sp.Skeleton = null;
 
-    playChampion(at = 0, winner: string) {
-        this.playAnimation(this.champion, "champion", at);
+    playChampion(at = 0, winner: string, isHomeWin: boolean) {
+        const animationName = "champion " + (isHomeWin ? "home" : "away");
+        this.playAnimation(this.champion, animationName, at);
         this.setWinnerName(this.champion.node, winner);
     }
 
-    playWinner(at = 0, winner: string) {
-        this.playAnimation(this.winner, "winner", at);
-        this.setWinnerName(this.winner.node, winner);
+    playWinner(at = 0, winnerName: string, isHomeWin: boolean) {
+        const animationName = "winner " + (isHomeWin ? "home" : "away");
+        this.playAnimation(this.winner, animationName, at);
+        this.setWinnerName(this.winner.node, winnerName);
     }
 
     setWinnerName(node: Node, name: string) {

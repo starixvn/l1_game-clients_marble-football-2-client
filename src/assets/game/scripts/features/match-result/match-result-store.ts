@@ -10,6 +10,7 @@ export interface IMatchResult {
     penalty: MarbleFootballServiceMessages.Penalty;
     scores: number[][];
     winner: string;
+    isHomeWin: boolean;
     homeWinsOnDraw: boolean;
     isFinal: boolean;
 }

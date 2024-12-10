@@ -78,10 +78,11 @@ export class MatchResultContainer extends MultipleNodeContainer {
     initForMatchWinner(node: Node, at: number) {
         const winnerComp = node.getComponent(Winner);
         const winner = this.matchResult.winner;
+        const isHomeWin = this.matchResult.isHomeWin;
         if (this.matchResult.isFinal) {
-            winnerComp.playChampion(at, winner);
+            winnerComp.playChampion(at, winner, isHomeWin);
         } else {
-            winnerComp.playWinner(at, winner);
+            winnerComp.playWinner(at, winner, isHomeWin);
         }
     }
 
