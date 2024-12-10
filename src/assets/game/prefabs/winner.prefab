@@ -967,9 +967,9 @@
     "_dstBlendFactor": 4,
     "_color": {
       "__type__": "cc.Color",
-      "r": 147,
-      "g": 93,
-      "b": 69,
+      "r": 68,
+      "g": 42,
+      "b": 30,
       "a": 255
     },
     "_string": "GNK Dinamo Zagreb",
