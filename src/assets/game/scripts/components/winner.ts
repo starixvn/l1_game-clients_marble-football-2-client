@@ -7,21 +7,12 @@ const { ccclass, property } = _decorator;
 @ccclass("Winner")
 export class Winner extends Component {
     @property(sp.Skeleton)
-    private winner: sp.Skeleton = null;
+    private spine: sp.Skeleton = null;
 
-    @property(sp.Skeleton)
-    private champion: sp.Skeleton = null;
-
-    playChampion(at = 0, winner: string, isHomeWin: boolean) {
-        const animationName = "champion " + (isHomeWin ? "home" : "away");
-        this.playAnimation(this.champion, animationName, at);
-        this.setWinnerName(this.champion.node, winner);
-    }
-
-    playWinner(at = 0, winnerName: string, isHomeWin: boolean) {
-        const animationName = "winner " + (isHomeWin ? "home" : "away");
-        this.playAnimation(this.winner, animationName, at);
-        this.setWinnerName(this.winner.node, winnerName);
+    showWinner(at = 0, winnerName: string, isHomeWin: boolean, isFinal: boolean) {
+        const animationName = isFinal ? "champion " : "winner " + (isHomeWin ? "home" : "away");
+        this.playAnimation(this.spine, animationName, at);
+        this.setWinnerName(this.spine.node, winnerName);
     }
 
     setWinnerName(node: Node, name: string) {
@@ -30,13 +21,11 @@ export class Winner extends Component {
     }
 
     protected onLoad(): void {
-        this.winner!.node.active = false;
-        this.champion!.node.active = false;
+        this.spine!.node.active = false;
     }
 
     protected onDisable(): void {
-        this.winner!.node.active = false;
-        this.champion!.node.active = false;
+        this.spine!.node.active = false;
     }
 
     private playAnimation(spine: sp.Skeleton, name: string, at = 0) {
