@@ -204,6 +204,7 @@ export const languages = {
         "full_time": "Full Time",
         "game_name": "Marble Football",
         "goal_scored": "Goal!",
+        "halftime": "Halftime",
         "live_indicator": "Live",
         "loses": "Loses",
         "match_starts": "MATCH STARTS!",

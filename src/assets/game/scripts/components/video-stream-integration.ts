@@ -1,5 +1,5 @@
 import gc from "@sg/game-client-base";
-import { _decorator, Node } from "cc";
+import { _decorator } from "cc";
 import { ObserverComponent } from "db://shared-components/shared/common-components/observer-component/scripts/observer-component";
 import Observer from "observer";
 import { BackgroundVideoPlayer } from "../../../scripts/background-video-player";
@@ -7,8 +7,8 @@ import { VideoStreamHandlers } from "../features/feature";
 import { VideoStreamStore } from "../features/video-stream/video-stream-store";
 import { settings } from "../game-settings";
 import { BreakTime } from "./break-time";
-import { SystemIndicator } from "./system-indcator";
 import { IntroOutro } from "./intro-outro";
+import { SystemIndicator } from "./system-indcator";
 
 const { ccclass, property } = _decorator;
 const { render, handle } = Observer;
@@ -64,7 +64,7 @@ export default class VideoStreamIntegration extends ObserverComponent {
             this.introOutro.playOutroAnimation();
         }
 
-        if (roundTime === settings.durations.videoDuration + 1 || roundTime === settings.durations.introVideo - 1) {
+        if (roundTime === settings.durations.introVideo - 1) {
             this.breakTime?.playAnimation(0);
         }
 

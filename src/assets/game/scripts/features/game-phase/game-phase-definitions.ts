@@ -16,8 +16,10 @@ export enum PhaseId {
     MatchWinner = "match-winner",
     MatchStatistics = "match-statistics",
     Tournament = "tournament",
+    Halftime = "halftime",
 }
 
 export const TimePointTournament = settings.durations.placingBet + settings.durations.tournament;
 export const TimePointShowMatchWinner = TimePointTournament + settings.durations.matchWinner;
 export const TimePointShowMatchStatistics = TimePointShowMatchWinner + settings.durations.matchStatistics;
+export const TimePointHalftime = settings.durations.videoDuration + 1;
