@@ -255,6 +255,7 @@ export const languages = {
         "team_STU": "Sturm Graz",
         "team_VFB": "VfB Stuttgart",
         "team_YB": "Young Boys",
+        "time_up": "Time Up",
         "tournament": "Tournament",
         "tournament_UCL": "UEFA Champions League",
         "tournament_final": "Final",

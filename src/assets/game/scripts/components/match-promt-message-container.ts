@@ -1,0 +1,31 @@
+import { _decorator } from "cc";
+import gc from "@sg/game-client-base";
+import { PromptMessageContainer } from "db://shared-components/game/prompt-message/scripts/prompt-message-container";
+import Observer from "observer";
+import { VideoStreamStore } from "../features/video-stream/video-stream-store";
+import { MatchPromptMessage } from "./match-promt-message";
+import { Durations } from "../../../../extensions/shared-components/assets/game-baccarat/gateway-panel/scripts/models/durations-interface";
+import { settings } from "../game-settings";
+const { ccclass } = _decorator;
+const { Rounds } = gc;
+const { render } = Observer;
+@ccclass("MatchPromptMessageContainer")
+export class MatchPromptMessageContainer extends PromptMessageContainer {
+    promptMessageComponent: MatchPromptMessage;
+
+    @render(Rounds.RoundTimeStore, (store) => store.roundTime)
+    async showMatchMessage(time: number) {
+        if (time === settings.durations.showingResult) {
+            this.scheduleOnce(() => this.getComponent().showTimeUpMessage(), 0.5);
+        }
+    }
+
+    getComponent() {
+        if (!this.promptMessageComponent) {
+            const node = this.createNode();
+            this.promptMessageComponent = node.getComponent(MatchPromptMessage);
+        }
+
+        return this.promptMessageComponent;
+    }
+}
