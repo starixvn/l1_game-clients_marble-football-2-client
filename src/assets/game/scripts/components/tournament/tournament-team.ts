@@ -14,6 +14,7 @@ export class TournamentTeam extends Component {
     setAnimation(animation: string) {
         const spine = this.getComponentsInChildren(sp.Skeleton)[0];
         if (spine) {
+            spine.premultipliedAlpha = animation === "out";
             spine.setAnimation(0, animation, false);
         }
     }

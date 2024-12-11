@@ -18,6 +18,7 @@ export class tournament_test extends Component {
             {
                 home: "LIV",
                 away: "PSG",
+                homeWins: false,
                 id: 34285,
             },
             {
@@ -100,6 +101,7 @@ export class tournament_test extends Component {
 
     onClickMatch() {
         this.matchId++;
+        this.matchId = this.matchId % 14;
         this.newMethod();
     }
 
