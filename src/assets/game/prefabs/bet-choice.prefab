@@ -367,7 +367,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 6.234375,
-      "height": 30.240000000000002
+      "height": 40.32
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -408,7 +408,7 @@
     "_actualFontSize": 24,
     "_fontSize": 24,
     "_fontFamily": "Arial",
-    "_lineHeight": 24,
+    "_lineHeight": 32,
     "_overflow": 0,
     "_enableWrapText": true,
     "_font": {
