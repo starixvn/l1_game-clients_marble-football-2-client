@@ -196,6 +196,13 @@ export const languages = {
     "MarbleFootball": {
         "bet_choice_over_4.5": "สูง 4.5",
         "bet_choice_under_4.5": "ต่ำ 4.5",
+        "glossary_away": "ทีมเยือน",
+        "glossary_draw": "เสมอ",
+        "glossary_even": "คู่",
+        "glossary_home": "ทีมเหย้า",
+        "glossary_odd": "คี่",
+        "glossary_over": "สูง 4.5",
+        "glossary_under": "ต่ำ 4.5",
         "match_starts": "เริ่มการแข่งขัน!",
         "team_ACS": "สปาร์ต้า ปราก",
         "team_ARS": "อาร์เซนอล",

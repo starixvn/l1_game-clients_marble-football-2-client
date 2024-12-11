@@ -196,6 +196,13 @@ export const languages = {
     "MarbleFootball": {
         "bet_choice_over_4.5": "大 4.5",
         "bet_choice_under_4.5": "小 4.5",
+        "glossary_away": "客队",
+        "glossary_draw": "平",
+        "glossary_even": "双",
+        "glossary_home": "主队",
+        "glossary_odd": "单",
+        "glossary_over": "大 4.5",
+        "glossary_under": "小 4.5",
         "match_starts": "比赛开始!",
         "team_ACS": "布拉格斯巴达",
         "team_ARS": "阿森纳",

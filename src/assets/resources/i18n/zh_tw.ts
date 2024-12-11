@@ -196,6 +196,13 @@ export const languages = {
     "MarbleFootball": {
         "bet_choice_over_4.5": "大 4.5",
         "bet_choice_under_4.5": "小 4.5",
+        "glossary_away": "客隊",
+        "glossary_draw": "平",
+        "glossary_even": "雙",
+        "glossary_home": "主隊",
+        "glossary_odd": "單",
+        "glossary_over": "大 4.5",
+        "glossary_under": "小 4.5",
         "match_starts": "比賽開始!",
         "team_ACS": "布拉格斯巴達",
         "team_ARS": "阿仙奴",

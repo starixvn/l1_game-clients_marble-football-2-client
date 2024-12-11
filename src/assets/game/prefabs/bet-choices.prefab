@@ -1291,7 +1291,7 @@
     "propertyPath": [
       "key"
     ],
-    "value": "Common.bet_choice_home"
+    "value": "MarbleFootball.glossary_home"
   },
   {
     "__type__": "cc.TargetInfo",
@@ -2199,7 +2199,7 @@
     "propertyPath": [
       "key"
     ],
-    "value": "Common.bet_choice_draw"
+    "value": "MarbleFootball.glossary_draw"
   },
   {
     "__type__": "cc.TargetInfo",
@@ -3155,7 +3155,7 @@
     "propertyPath": [
       "key"
     ],
-    "value": "Common.bet_choice_away"
+    "value": "MarbleFootball.glossary_away"
   },
   {
     "__type__": "cc.TargetInfo",
@@ -4069,7 +4069,7 @@
     "propertyPath": [
       "key"
     ],
-    "value": "Common.bet_choice_odd"
+    "value": "MarbleFootball.glossary_odd"
   },
   {
     "__type__": "cc.TargetInfo",
@@ -4964,7 +4964,7 @@
     "propertyPath": [
       "key"
     ],
-    "value": "Common.bet_choice_even"
+    "value": "MarbleFootball.glossary_even"
   },
   {
     "__type__": "cc.TargetInfo",
@@ -5772,7 +5772,7 @@
     "propertyPath": [
       "key"
     ],
-    "value": "MarbleFootball.bet_choice_over_4.5"
+    "value": "MarbleFootball.glossary_over"
   },
   {
     "__type__": "cc.TargetInfo",
@@ -6629,7 +6629,7 @@
     "propertyPath": [
       "key"
     ],
-    "value": "MarbleFootball.bet_choice_under_4.5"
+    "value": "MarbleFootball.glossary_under"
   },
   {
     "__type__": "cc.TargetInfo",

@@ -196,6 +196,13 @@ export const languages = {
     "MarbleFootball": {
         "bet_choice_over_4.5": "Besar 4.5",
         "bet_choice_under_4.5": "Kecil 4.5",
+        "glossary_away": "Tandang",
+        "glossary_draw": "Seri",
+        "glossary_even": "Genap",
+        "glossary_home": "Kandang",
+        "glossary_odd": "Ganjil",
+        "glossary_over": "Besar 4.5",
+        "glossary_under": "Kecil 4.5",
         "match_starts": "PERTANDINGAN DIMULAI!",
         "team_ACS": "Sparta Praha",
         "team_ARS": "Arsenal",
