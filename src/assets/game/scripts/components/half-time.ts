@@ -49,10 +49,11 @@ export class HalfTime extends ObserverComponent {
     show(show: boolean) {
         this.node.active = true;
 
+        const duration = 0.3;
         if (show) {
-            AnimationUtils.fadeIn(this.node, 0.5);
+            AnimationUtils.fadeIn(this.node, duration);
         } else {
-            AnimationUtils.fadeOut(this.node, 0.5).then(() => {
+            AnimationUtils.fadeOut(this.node, duration).then(() => {
                 this.node.active = false;
             });
         }
