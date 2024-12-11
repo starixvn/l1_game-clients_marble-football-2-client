@@ -1,10 +1,10 @@
 import { _decorator, Label } from "cc";
-import { Flag } from "./flag";
-import { VideoStreamStore } from "../features/video-stream/video-stream-store";
-import Observer from "observer";
 import { ObserverComponent } from "db://shared-components/shared/common-components/observer-component/scripts/observer-component";
+import Observer from "observer";
 import { LocalizedLabel } from "../../../../extensions/i18n/assets/LocalizedLabel";
+import { VideoStreamStore } from "../features/video-stream/video-stream-store";
 import { settings } from "../game-settings";
+import { Flag } from "./flag";
 
 const { ccclass, property } = _decorator;
 const { render } = Observer;
@@ -23,7 +23,7 @@ export class LiveScore extends ObserverComponent {
     @property(Label)
     private secondsLabel: Label = null;
 
-    @property([Label])
+    @property(Label)
     private half: Label = null;
 
     seconds = 0;
