@@ -1,4 +1,4 @@
-import { _decorator, Color, Component, Enum, Sprite } from "cc";
+import { _decorator, Color, Component, Enum, Node, Sprite } from "cc";
 
 const { ccclass, property } = _decorator;
 
@@ -18,8 +18,8 @@ export class SystemIndicator extends Component {
         [NetworkStatus.DISCONNECTED]: "#f63a39",
     };
 
-    @property(Sprite)
-    private icon: Sprite = null;
+    @property(Node)
+    private icon: Node = null;
 
     @property({ type: Enum(NetworkStatus) })
     get networkStatus() {
@@ -29,8 +29,8 @@ export class SystemIndicator extends Component {
     set networkStatus(value: NetworkStatus) {
         this._networkStatus = value;
 
-        if (this.icon) {
-            this.icon.color = new Color(this.statusColorMapping[value]);
-        }
+        this.icon.children.forEach((child, index) => {
+            child.active = index + 1 === value;
+        });
     }
 }

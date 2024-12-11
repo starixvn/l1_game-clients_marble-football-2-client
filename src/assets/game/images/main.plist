@@ -30,7 +30,7 @@
                 <key>spriteSourceSize</key>
                 <string>{1398,22}</string>
                 <key>textureRect</key>
-                <string>{{115,379},{1398,22}}</string>
+                <string>{{114,402},{1398,22}}</string>
                 <key>textureRotated</key>
                 <true/>
             </dict>
@@ -120,9 +120,39 @@
                 <key>spriteSourceSize</key>
                 <string>{31,23}</string>
                 <key>textureRect</key>
-                <string>{{115,346},{31,23}}</string>
+                <string>{{115,369},{31,23}}</string>
                 <key>textureRotated</key>
                 <true/>
+            </dict>
+            <key>icon_wifi_1_line.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,2}</string>
+                <key>spriteSize</key>
+                <string>{19,17}</string>
+                <key>spriteSourceSize</key>
+                <string>{31,23}</string>
+                <key>textureRect</key>
+                <string>{{122,313},{19,17}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>icon_wifi_2_line.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{-1,0}</string>
+                <key>spriteSize</key>
+                <string>{25,21}</string>
+                <key>spriteSourceSize</key>
+                <string>{31,23}</string>
+                <key>textureRect</key>
+                <string>{{115,346},{25,21}}</string>
+                <key>textureRotated</key>
+                <false/>
             </dict>
             <key>id_bg.png</key>
             <dict>
@@ -288,7 +318,7 @@
             <key>size</key>
             <string>{256,2048}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:b0d823eed208ce2d2c78e2b7839be40f:07350ae7e59f33818d8b0969235a1a66:693584bbba79ecadf35d6b2cf3a849c9$</string>
+            <string>$TexturePacker:SmartUpdate:1ea09888789d3a0c16926c8cbf92b792:f9c2c0228578836b1ed2a9b2b7282aba:693584bbba79ecadf35d6b2cf3a849c9$</string>
             <key>textureFileName</key>
             <string>main.png</string>
         </dict>
