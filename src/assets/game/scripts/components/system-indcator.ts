@@ -1,4 +1,4 @@
-import { _decorator, Color, Component, Enum, Node, Sprite } from "cc";
+import { _decorator, Component, Enum, Node } from "cc";
 
 const { ccclass, property } = _decorator;
 
@@ -11,12 +11,6 @@ enum NetworkStatus {
 @ccclass("SystemIndicator")
 export class SystemIndicator extends Component {
     private _networkStatus: NetworkStatus = NetworkStatus.GOOD;
-
-    private statusColorMapping = {
-        [NetworkStatus.GOOD]: "#47df53",
-        [NetworkStatus.BAD]: "#f6c439",
-        [NetworkStatus.DISCONNECTED]: "#f63a39",
-    };
 
     @property(Node)
     private icon: Node = null;
