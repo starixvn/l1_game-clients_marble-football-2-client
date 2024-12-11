@@ -1322,7 +1322,7 @@
     "__prefab": {
       "__id__": 51
     },
-    "key": "Common.bet_choice_home",
+    "key": "MarbleFootball.glossary_home",
     "format": 1,
     "prefix": "",
     "suffix": "",
@@ -1807,7 +1807,7 @@
     "__prefab": {
       "__id__": 75
     },
-    "key": "Common.bet_choice_away",
+    "key": "MarbleFootball.glossary_away",
     "format": 1,
     "prefix": "",
     "suffix": "",
@@ -2292,7 +2292,7 @@
     "__prefab": {
       "__id__": 99
     },
-    "key": "Common.bet_choice_draw",
+    "key": "MarbleFootball.glossary_draw",
     "format": 1,
     "prefix": "",
     "suffix": "",
@@ -4556,7 +4556,7 @@
     "__prefab": {
       "__id__": 214
     },
-    "key": "Common.bet_choice_odd",
+    "key": "MarbleFootball.glossary_odd",
     "format": 1,
     "prefix": "",
     "suffix": "",
@@ -5041,7 +5041,7 @@
     "__prefab": {
       "__id__": 238
     },
-    "key": "Common.bet_choice_even",
+    "key": "MarbleFootball.glossary_even",
     "format": 1,
     "prefix": "",
     "suffix": "",
@@ -7332,7 +7332,7 @@
     "__prefab": {
       "__id__": 355
     },
-    "key": "Common.bet_choice_over",
+    "key": "MarbleFootball.glossary_over",
     "format": 1,
     "prefix": "",
     "suffix": "",
@@ -7817,7 +7817,7 @@
     "__prefab": {
       "__id__": 379
     },
-    "key": "Common.bet_choice_under",
+    "key": "MarbleFootball.glossary_under",
     "format": 1,
     "prefix": "",
     "suffix": "",
