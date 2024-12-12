@@ -182,25 +182,25 @@ export class PlayArea extends ObserverComponent {
 
         // At the begin of streaming
         if (time === settings.durations.introVideo) {
-            this.playAnimForTarget(this.scoreBoard, this.tweenConfigs.flyUp.out);
+            this.playAnimForTarget(this.scoreBoard, this.tweenConfigs.fadeInOut.out);
             this.isScoreBoardOut = true;
         }
 
         // At the begin of placing bet
         if (this.isScoreBoardOut && time === settings.durations.placingBet) {
-            this.playAnimForTarget(this.scoreBoard, this.tweenConfigs.flyUp.in);
+            this.playAnimForTarget(this.scoreBoard, this.tweenConfigs.fadeInOut.in);
             this.isScoreBoardOut = false;
         }
 
         // before placing bet
         if (!this.isScoreBoardOut && time > settings.durations.placingBet) {
-            this.setStaticTarget(this.scoreBoard, this.tweenConfigs.flyUp.out);
+            this.setStaticTarget(this.scoreBoard, this.tweenConfigs.fadeInOut.out);
             this.isScoreBoardOut = true;
         }
 
         // during streaming
         if (!this.isScoreBoardOut && time < settings.durations.introVideo) {
-            this.setStaticTarget(this.scoreBoard, this.tweenConfigs.flyUp.out);
+            this.setStaticTarget(this.scoreBoard, this.tweenConfigs.fadeInOut.out);
             this.isScoreBoardOut = true;
         }
     }
