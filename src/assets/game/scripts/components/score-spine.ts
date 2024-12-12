@@ -7,10 +7,10 @@ const { render } = Observer;
 
 @ccclass("ScoreSpine")
 export class ScoreSpine extends Score {
-    @property({ type: Label, visible: false })
+    @property({ type: Label, visible: false, override: true })
     protected home: Label = null;
 
-    @property({ type: Label, visible: false })
+    @property({ type: Label, visible: false, override: true })
     protected away: Label = null;
 
     @property(sp.Skeleton)
