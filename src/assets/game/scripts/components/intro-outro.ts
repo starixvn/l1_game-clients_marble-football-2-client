@@ -10,17 +10,20 @@ export class IntroOutro extends Component {
     @property(UIOpacity)
     private field: UIOpacity = null;
 
+    private maxOpacity = 255;
+
     protected onLoad(): void {
-        this.field.opacity = 0;
-        this.gameBackground.opacity = 0;
+        this.showField = false;
+        this.showGameBackground = false;
+        this.gameBackground.opacity = this.maxOpacity;
     }
 
     set showGameBackground(value: boolean) {
-        this.gameBackground.opacity = value ? 255 : 0;
+        this.gameBackground.node.active = value;
     }
 
     set showField(value: boolean) {
-        this.field.opacity = value ? 255 : 0;
+        this.field.node.active = value;
     }
 
     playIntroAnimation(at = 0, duration = 2) {
@@ -30,7 +33,7 @@ export class IntroOutro extends Component {
 
         const percent = 1 - at / duration;
 
-        this.gameBackground.opacity = 255 * percent;
+        this.gameBackground.opacity = this.maxOpacity * percent;
 
         tween(this.gameBackground)
             .to(duration - at, { opacity: 0 })
@@ -44,10 +47,10 @@ export class IntroOutro extends Component {
 
         const percent = at / duration;
 
-        this.gameBackground.opacity = 255 * percent;
+        this.gameBackground.opacity = this.maxOpacity * percent;
 
         tween(this.gameBackground)
-            .to(duration - at, { opacity: 255 })
+            .to(duration - at, { opacity: this.maxOpacity })
             .start();
     }
 }
