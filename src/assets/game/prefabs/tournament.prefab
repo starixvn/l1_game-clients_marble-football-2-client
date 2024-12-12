@@ -28,9 +28,6 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 418
-      },
-      {
         "__id__": 420
       },
       {
@@ -38,10 +35,13 @@
       },
       {
         "__id__": 424
+      },
+      {
+        "__id__": 426
       }
     ],
     "_prefab": {
-      "__id__": 426
+      "__id__": 428
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -236,14 +236,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 413
+        "__id__": 415
       },
       {
-        "__id__": 415
+        "__id__": 417
       }
     ],
     "_prefab": {
-      "__id__": 417
+      "__id__": 419
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -306,10 +306,13 @@
       },
       {
         "__id__": 410
+      },
+      {
+        "__id__": 412
       }
     ],
     "_prefab": {
-      "__id__": 412
+      "__id__": 414
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -7866,6 +7869,25 @@
     "fileId": "5eP6l3TL9PIK170XQVw7Tx"
   },
   {
+    "__type__": "40764/59HZAvpWaye3NjMbf",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 11
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 413
+    },
+    "appearDuration": 0.3,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "9cd3rznatDIKERvyrqQG+u"
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -7888,7 +7910,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 414
+      "__id__": 416
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -7916,7 +7938,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 416
+      "__id__": 418
     },
     "_policy": 2,
     "_id": ""
@@ -7948,7 +7970,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 419
+      "__id__": 421
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -7976,7 +7998,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 421
+      "__id__": 423
     },
     "_alignFlags": 45,
     "_target": null,
@@ -8012,7 +8034,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 423
+      "__id__": 425
     },
     "labelTitle": {
       "__id__": 40
@@ -8041,7 +8063,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 425
+      "__id__": 427
     },
     "nodeFadeBackground": null,
     "nodeBody": {
