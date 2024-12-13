@@ -75,6 +75,7 @@ export class PlayArea extends ObserverComponent {
     };
 
     private readonly ShowWinnerAndTournament = "show-winner-and-tournament";
+    private readonly ShowWinnerAndTournamentTimeOffset = 1;
 
     onLoad() {
         super.onLoad();
@@ -96,8 +97,8 @@ export class PlayArea extends ObserverComponent {
     registerPhaseMatchWinner() {
         const config: GamePhaseConfig = {
             id: this.ShowWinnerAndTournament,
-            begin: TimePointShowMatchWinner + 1,
-            end: settings.durations.placingBet + 1,
+            begin: TimePointShowMatchWinner + this.ShowWinnerAndTournamentTimeOffset,
+            end: settings.durations.placingBet + this.ShowWinnerAndTournamentTimeOffset,
         };
         return config;
     }
@@ -108,7 +109,8 @@ export class PlayArea extends ObserverComponent {
             return;
         }
         if (phase.id === this.ShowWinnerAndTournament) {
-            this.fadeOutBetchoiceNode(true);
+            const duration = 0.2;
+            this.scheduleOnce(() => this.fadeOutBetchoiceNode(true, duration), this.ShowWinnerAndTournamentTimeOffset - duration);
         }
     }
 
@@ -118,13 +120,14 @@ export class PlayArea extends ObserverComponent {
             return;
         }
         if (phase.id === this.ShowWinnerAndTournament) {
-            this.fadeOutBetchoiceNode(false);
+            const duration = 0.2;
+            this.scheduleOnce(() => this.fadeOutBetchoiceNode(false, duration), this.ShowWinnerAndTournamentTimeOffset - duration);
         }
     }
 
-    fadeOutBetchoiceNode(fadeOut: boolean) {
+    fadeOutBetchoiceNode(fadeOut: boolean, duration: number) {
         const opacity = fadeOut ? 1 : 255;
-        AnimationUtils.fadeTo(this.betChoices, 0.2, opacity);
+        AnimationUtils.fadeTo(this.betChoices, duration, opacity);
     }
 
     @render(Rounds.RoundTimeStore, (store) => store.roundTime)
