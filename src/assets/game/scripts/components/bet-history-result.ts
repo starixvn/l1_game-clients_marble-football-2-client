@@ -47,7 +47,10 @@ export class BetHistoryResult extends BaseResultBodyItem {
         const { teamName, firstHalf, secondHalf } = result as RoundResult;
         this.setTeams(teamName.home, teamName.away);
         const fullScore = `${firstHalf}${secondHalf}`;
-        this.setScore(fullScore.split("H").length - 1, secondHalf.split("A").length - 1);
-        console.log("settlement", JSON.stringify(teamName));
+        this.setScore(this.countCharacters(fullScore, "H"), this.countCharacters(fullScore, "A"));
+    }
+
+    private countCharacters(str: string, char: string) {
+        return str.split(char).length - 1;
     }
 }
