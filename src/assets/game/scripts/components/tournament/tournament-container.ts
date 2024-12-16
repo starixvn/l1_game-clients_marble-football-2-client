@@ -31,7 +31,7 @@ export class TournamentContainer extends NodeContainer {
         const config: GamePhaseConfig = {
             id: PhaseId.Tournament,
             begin: settings.durations.placingBet + settings.durations.tournament,
-            end: settings.durations.placingBet + 1 + this.delayHideTournament,
+            end: settings.durations.placingBet + 1,
         };
         return config;
     }

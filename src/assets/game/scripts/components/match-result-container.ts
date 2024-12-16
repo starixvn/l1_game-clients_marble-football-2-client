@@ -42,7 +42,7 @@ export class MatchResultContainer extends MultipleNodeContainer {
         const config: GamePhaseConfig = {
             id: PhaseId.MatchWinner,
             begin: TimePointShowMatchWinner,
-            end: TimePointTournament + 1,
+            end: TimePointTournament,
         };
         return config;
     }

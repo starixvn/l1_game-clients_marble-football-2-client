@@ -21,7 +21,7 @@ export class HalfTime extends ObserverComponent {
         const config: GamePhaseConfig = {
             id: PhaseId.Halftime,
             begin: TimePointHalftime,
-            end: TimePointHalftime - 2,
+            end: TimePointHalftime - 3,
         };
         return config;
     }
