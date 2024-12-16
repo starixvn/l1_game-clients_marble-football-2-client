@@ -37,7 +37,7 @@ export class GamePhaseHandler {
     }
 
     checkConfig(config: GamePhaseConfig, roundTime: number) {
-        const visible = roundTime >= config.end && roundTime <= config.begin;
+        const visible = roundTime > config.end && roundTime <= config.begin;
 
         const cache = this.cache[config.id];
         if (cache?.visible === visible) {

@@ -14,10 +14,14 @@ export class GamePhaseStore {
     exitPhase: GamePhase = null;
 
     setEnterPhase(phase: GamePhase) {
-        this.enterPhase = phase;
+        setTimeout(() => {
+            this.enterPhase = phase;
+        }, 0);
     }
 
     setExitPhase(phase: GamePhase) {
-        this.exitPhase = phase;
+        setTimeout(() => {
+            this.exitPhase = phase;
+        }, 0);
     }
 }
