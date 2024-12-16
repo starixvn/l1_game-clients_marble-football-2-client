@@ -25,7 +25,7 @@ export class MatchResult extends ObserverComponent {
             this.renderPenalty(penalty);
         }
         const firstHalftScore = scores[0];
-        this.score1st.string = `${firstHalftScore[0]}-${firstHalftScore[1]}`;
+        this.score1st.string = `${firstHalftScore[0]} - ${firstHalftScore[1]}`;
 
         const scoreFinal = scores[2];
         this.renderFinalScore(scoreFinal);
