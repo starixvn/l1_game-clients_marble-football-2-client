@@ -25,9 +25,14 @@ export class MatchResultHandler {
 
         setTimeout(() => {
             mobx.reaction(
-                () => this.roundHistoryStore.histories,
+                () => {
+                    if (!this.tournamentStore.currentMatch) {
+                        return null;
+                    }
+                    return this.roundHistoryStore.histories;
+                },
                 (histories: gc.RoundHistories.RoundHistory[]) => {
-                    if (histories.length === 0) {
+                    if (!histories || histories.length === 0) {
                         return;
                     }
                     const lastRound = histories[0] as RoundResult;
@@ -38,7 +43,12 @@ export class MatchResultHandler {
 
         setTimeout(() => {
             mobx.reaction(
-                () => this.settlementStore.currentFinish,
+                () => {
+                    if (!this.tournamentStore.currentMatch) {
+                        return null;
+                    }
+                    return this.settlementStore.currentFinish;
+                },
                 (currentFinish: RoundResult) => {
                     if (!currentFinish) {
                         return;
