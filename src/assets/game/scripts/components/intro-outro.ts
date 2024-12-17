@@ -12,12 +12,6 @@ export class IntroOutro extends Component {
 
     private maxOpacity = 255;
 
-    protected onLoad(): void {
-        this.showField = false;
-        this.showGameBackground = false;
-        this.gameBackground.opacity = this.maxOpacity;
-    }
-
     set showGameBackground(value: boolean) {
         this.gameBackground.node.active = value;
     }
