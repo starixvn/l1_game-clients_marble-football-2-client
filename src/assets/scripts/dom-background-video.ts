@@ -51,6 +51,7 @@ export class DOMBackgroundVideo {
         video.style.zIndex = "10";
         video.width = size.width;
         video.height = size.height;
+        video.playsInline = true;
     }
 
     private static applyGameStyles(game: HTMLElement) {
