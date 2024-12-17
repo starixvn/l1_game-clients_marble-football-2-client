@@ -57,7 +57,7 @@ export class TournamentContainer extends NodeContainer {
     }
 
     private showTournament() {
-        if (this.isShowingTournament && !this.tournament) {
+        if (this.isShowingTournament || !this.tournament) {
             return;
         }
         this.isShowingTournament = true;
