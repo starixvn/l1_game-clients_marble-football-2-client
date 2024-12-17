@@ -8,15 +8,13 @@ const { sentryLogger } = gc;
 
 @ccclass("BackgroundVideoPlayer")
 export class BackgroundVideoPlayer extends Component {
-    static readonly BAND_WIDTH_FOR_HIGH_RESOLUTION = 500; // Bandwidth for HD resolution in KBps
-
     private hls: Hls = null;
     private native: HTMLVideoElement = null;
 
     private _videoSource: string = "";
     private _videoName: string = "";
     private liveStreamServer: string = "";
-    private _muted = false;
+    private _muted = true;
 
     private get initialized() {
         return !!this.hls && !!this.native;
@@ -128,8 +126,6 @@ export class BackgroundVideoPlayer extends Component {
         hls.on(Hls.Events.FRAG_BUFFERED, this.node.emit.bind(this.node));
         hls.on(Hls.Events.ERROR, this.node.emit.bind(this.node));
         hls.on(Hls.Events.ERROR, (event, data) => {
-            console.log("[Hls.Error]: ", event, data);
-
             if (data.details === Hls.ErrorDetails.BUFFER_STALLED_ERROR) {
                 sentryLogger.logError(
                     JSON.stringify({
