@@ -1,69 +1,34 @@
 
 bet-option-effect.png
-size: 544,1094
+size: 345,237
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-away win
+empty
   rotate: false
-  xy: 2, 170
-  size: 267, 312
-  orig: 269, 314
-  offset: 1, 1
+  xy: 264, 47
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
   index: -1
-draw win
-  rotate: false
-  xy: 2, 780
-  size: 289, 312
-  orig: 296, 314
-  offset: 4, 1
-  index: -1
-even win
-  rotate: false
+smoke big
+  rotate: true
   xy: 2, 2
-  size: 252, 166
-  orig: 256, 168
-  offset: 3, 1
+  size: 233, 237
+  orig: 249, 253
+  offset: 8, 8
   index: -1
-hightlight away
-  rotate: false
-  xy: 293, 798
-  size: 249, 294
-  orig: 251, 296
+smoke small
+  rotate: true
+  xy: 241, 50
+  size: 185, 102
+  orig: 187, 104
   offset: 1, 1
   index: -1
-hightlight draw
+star
   rotate: false
-  xy: 2, 484
-  size: 286, 294
-  orig: 288, 296
-  offset: 1, 1
-  index: -1
-hightlight even
-  rotate: false
-  xy: 271, 38
-  size: 240, 148
-  orig: 242, 150
-  offset: 1, 1
-  index: -1
-hightlight odd
-  rotate: false
-  xy: 290, 484
-  size: 205, 146
-  orig: 207, 148
-  offset: 1, 1
-  index: -1
-odd win
-  rotate: false
-  xy: 293, 632
-  size: 218, 164
-  orig: 222, 166
-  offset: 3, 1
-  index: -1
-white_line
-  rotate: false
-  xy: 271, 188
-  size: 263, 294
-  orig: 293, 294
-  offset: 26, 0
+  xy: 241, 27
+  size: 21, 21
+  orig: 25, 25
+  offset: 2, 2
   index: -1
