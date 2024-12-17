@@ -52,7 +52,7 @@ export class DOMBackgroundVideo {
         video.width = size.width;
         video.height = size.height;
         video.playsInline = true;
-        video.setAttribute("playsinline", "true");
+        video.autoplay = true;
         video.muted = true;
     }
 
