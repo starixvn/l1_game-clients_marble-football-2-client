@@ -10,5 +10,5 @@ export const containerOptions: gc.IContainerOptions = {
         container.bind(gc.GameConfigs.GameSetting).toConstantValue(settings as any);
         container.bind(LogStore).to(LogStore);
     },
-    features: [MarbleFootball, ...gc.defaultFeatures],
+    features: [MarbleFootball, gc.BetDetailsNew, ...gc.defaultFeatures],
 };
