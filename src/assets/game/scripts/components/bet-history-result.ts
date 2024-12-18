@@ -1,4 +1,4 @@
-import { _decorator, Component, Label, Node } from "cc";
+import { _decorator, Color, Component, Label, Node } from "cc";
 import gc from "@sg/game-client-base";
 import { BaseResultBodyItem } from "db://shared-components/game/bet-history/scripts/components/bet-history-body-item";
 import { Flag } from "./flag";
@@ -38,6 +38,13 @@ export class BetHistoryResult extends BaseResultBodyItem {
         this.awayCode.string = away;
     }
 
+    highlightLabels(label: Label[]) {
+        const highlight = new Color().fromHEX("F1E344");
+        for (const l of label) {
+            l.color = highlight;
+        }
+    }
+
     setScore(home: number, away: number) {
         this.homeScore.string = home.toString();
         this.awayScore.string = away.toString();
@@ -47,7 +54,17 @@ export class BetHistoryResult extends BaseResultBodyItem {
         const { teamName, firstHalf, secondHalf } = result as RoundResult;
         this.setTeams(teamName.home, teamName.away);
         const fullScore = `${firstHalf}${secondHalf}`;
-        this.setScore(this.countCharacters(fullScore, "H"), this.countCharacters(fullScore, "A"));
+        const homeScore = this.countCharacters(fullScore, "H");
+        const awayScore = this.countCharacters(fullScore, "A");
+        this.setScore(homeScore, awayScore);
+
+        if (homeScore > awayScore) {
+            this.highlightLabels([this.homeCode, this.homeScore]);
+        }
+
+        if (homeScore < awayScore) {
+            this.highlightLabels([this.awayCode, this.awayScore]);
+        }
     }
 
     private countCharacters(str: string, char: string) {
