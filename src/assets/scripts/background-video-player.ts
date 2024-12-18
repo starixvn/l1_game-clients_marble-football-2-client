@@ -51,13 +51,19 @@ export class BackgroundVideoPlayer extends Component {
         return bandwidthEstimate / 8_000;
     }
 
-    play() {
+    play(retry = 0, maxRetry = 3) {
         if (!this.initialized) {
             this.initialize();
         }
 
         this.hls.loadSource(this._videoSource);
-        this.native.play();
+
+        // Fix for iOS 17, video element is not playing immediately
+        this.native.play().catch(() => {
+            if (retry < maxRetry) {
+                this.play(retry + 1, maxRetry);
+            }
+        });
         this.muted = this._muted;
     }
 
