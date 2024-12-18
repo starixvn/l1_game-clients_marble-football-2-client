@@ -17,19 +17,31 @@ export class DrawOdds extends ObserverComponent {
     @property(Node)
     lblTextStatic: Node = null;
 
+    onLoad() {
+        this.setLabelsVisible(false);
+        super.onLoad();
+    }
+
+    setLabelsVisible(visible: boolean) {
+        this.lblOdds && (this.lblOdds.node.active = visible);
+        this.lblSign && (this.lblSign.node.active = visible);
+        this.lblTextStatic && (this.lblTextStatic.active = visible);
+    }
+
     @render(Rounds.RoundStore, (store) => store.roundOdds)
     renderOdds(roundOdds: gc.Rounds.RoundOdds) {
         const { odds, fractional } = roundOdds;
         const choice = this.node.name;
         const choiceOdd = odds[choice];
         if (choiceOdd) {
+            this.setLabelsVisible(true);
             this.lblOdds && (this.lblOdds.string = gc.FormatUtils.formatOdds(choiceOdd, fractional));
             this.updateLayoutOdd();
         }
     }
 
     updateLayoutOdd() {
-        this.lblOdds.updateRenderData();
+        this.lblOdds?.updateRenderData();
         const widthNode = this.node.getComponent(UITransform).width;
         const widthTextStatic = this.lblTextStatic.getComponent(UITransform).width;
         const widthOdds = this.lblOdds.getComponent(UITransform).width;
