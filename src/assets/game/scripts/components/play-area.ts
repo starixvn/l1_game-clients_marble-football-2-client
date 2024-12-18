@@ -151,11 +151,6 @@ export class PlayArea extends ObserverComponent {
             this.scheduleOnce(() => this.fadeOutBetchoiceNode(false, duration), this.ShowWinnerAndTournamentTimeOffset - duration);
             return;
         }
-
-        if (phase.id === this.ShowLiveScore) {
-            this.playAnimForTarget(this.teamScore, this.tweenConfigs.flyUp.out);
-            return;
-        }
     }
 
     fadeOutBetchoiceNode(fadeOut: boolean, duration: number) {
@@ -175,6 +170,7 @@ export class PlayArea extends ObserverComponent {
         if (this.isZoomOut) {
             this.zoomPlayArea("in");
         }
+        this.playAnimForTarget(this.teamScore, this.tweenConfigs.flyUp.out);
     }
 
     @render(Rounds.RoundTimeStore, (store) => store.roundTime)
