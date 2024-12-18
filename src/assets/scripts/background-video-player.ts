@@ -16,8 +16,10 @@ export class BackgroundVideoPlayer extends Component {
     private liveStreamServer: string = "";
     private _muted = true;
 
+    private hlsSupported = false;
+
     private get initialized() {
-        return !!this.hls && !!this.native;
+        return !!this.native && (!this.hlsSupported || !!this.hls);
     }
 
     currentTime = 0;
@@ -56,7 +58,11 @@ export class BackgroundVideoPlayer extends Component {
             this.initialize();
         }
 
-        this.hls.loadSource(this._videoSource);
+        if (this.hlsSupported) {
+            this.hls.loadSource(this._videoSource);
+        } else {
+            this.native.src = this._videoSource;
+        }
 
         // Fix for iOS 17, video element is not playing immediately
         this.native.play().catch(() => {
@@ -91,10 +97,13 @@ export class BackgroundVideoPlayer extends Component {
 
     stop() {
         if (this.initialized) {
-            this.hls.off(Hls.Events.ERROR);
             this.native.removeEventListener("timeupdate", this.syncCurrentTime.bind(this));
-            this.hls.detachMedia();
-            this.hls.destroy();
+
+            if (this.hlsSupported) {
+                this.hls.off(Hls.Events.ERROR);
+                this.hls.detachMedia();
+                this.hls.destroy();
+            }
         }
     }
 
@@ -108,6 +117,8 @@ export class BackgroundVideoPlayer extends Component {
 
     private initialize() {
         const video = DOMBackgroundVideo.createOrLoadVideoElement();
+
+        video.addEventListener("timeupdate", this.syncCurrentTime.bind(this));
 
         if (!Hls.isSupported()) {
             throw new Error("Hls.js is not supported.");
@@ -124,6 +135,8 @@ export class BackgroundVideoPlayer extends Component {
             maxMaxBufferLength: 6, // in seconds
         });
 
+        this.hlsSupported = true;
+
         hls.attachMedia(video);
 
         hls.on(Hls.Events.LEVEL_SWITCHED, this.node.emit.bind(this.node));
@@ -131,7 +144,7 @@ export class BackgroundVideoPlayer extends Component {
         hls.on(Hls.Events.MANIFEST_PARSED, this.node.emit.bind(this.node));
         hls.on(Hls.Events.FRAG_BUFFERED, this.node.emit.bind(this.node));
         hls.on(Hls.Events.ERROR, this.node.emit.bind(this.node));
-        hls.on(Hls.Events.ERROR, (event, data) => {
+        hls.on(Hls.Events.ERROR, (_, data) => {
             if (data.details === Hls.ErrorDetails.BUFFER_STALLED_ERROR) {
                 sentryLogger.logError(
                     JSON.stringify({
@@ -147,8 +160,6 @@ export class BackgroundVideoPlayer extends Component {
 
             this.syncCurrentTime();
         });
-
-        video.addEventListener("timeupdate", this.syncCurrentTime.bind(this));
 
         this.native = video;
         this.hls = hls;
