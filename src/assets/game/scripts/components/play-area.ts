@@ -33,7 +33,7 @@ interface TweenConfigs {
 export class PlayArea extends ObserverComponent {
     private isZoomOut: boolean = false;
     private isScoreBoardOut: boolean = false;
-    private isTeamScoreOut: boolean = false;
+    private isTeamScoreOut: boolean = true;
 
     private mainPlayAreaTargets: Array<{ target: Node; key: TweenKey }>;
 
@@ -78,8 +78,6 @@ export class PlayArea extends ObserverComponent {
     private readonly ShowWinnerAndTournamentTimeOffset = 1;
 
     onLoad() {
-        super.onLoad();
-
         this.mainPlayAreaTargets = [
             { target: this.betChoices, key: "zoomInOut" },
             { target: this.chipContainer, key: "zoomInOut" },
@@ -89,6 +87,9 @@ export class PlayArea extends ObserverComponent {
         this.disappearingNodes.forEach((node) => {
             this.mainPlayAreaTargets.push({ target: node, key: "fadeInOut" });
         });
+
+        this.setStaticTarget(this.teamScore, this.tweenConfigs.flyUp.out);
+        super.onLoad();
 
         this.registerPhaseMatchWinner();
     }
@@ -167,12 +168,6 @@ export class PlayArea extends ObserverComponent {
         // At the end of streaming
         if (!this.isTeamScoreOut && time === 0) {
             this.playAnimForTarget(this.teamScore, this.tweenConfigs.flyUp.out);
-            this.isTeamScoreOut = true;
-        }
-
-        // Before streaming
-        if (!this.isTeamScoreOut && time > settings.durations.streamingVideo + 1) {
-            this.setStaticTarget(this.teamScore, this.tweenConfigs.flyUp.out);
             this.isTeamScoreOut = true;
         }
     }
