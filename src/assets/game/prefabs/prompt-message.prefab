@@ -206,7 +206,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 286,
+      "x": 274,
       "y": 0,
       "z": 0
     },
@@ -324,7 +324,7 @@
     "_alignFlags": 32,
     "_target": null,
     "_left": 652,
-    "_right": 0,
+    "_right": 12,
     "_top": 0,
     "_bottom": 0,
     "_horizontalCenter": 0,
@@ -384,7 +384,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -286,
+      "x": -274,
       "y": 0,
       "z": 0
     },
@@ -397,7 +397,7 @@
     },
     "_lscale": {
       "__type__": "cc.Vec3",
-      "x": 1,
+      "x": -1,
       "y": 1,
       "z": 1
     },
@@ -501,7 +501,7 @@
     },
     "_alignFlags": 8,
     "_target": null,
-    "_left": 0,
+    "_left": 12,
     "_right": 0,
     "_top": 0,
     "_bottom": 0,
@@ -774,7 +774,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 328.8046875,
+      "width": 447.984375,
       "height": 60.480000000000004
     },
     "_anchorPoint": {
@@ -810,7 +810,7 @@
       "b": 255,
       "a": 255
     },
-    "_string": "NEXT MATCH",
+    "_string": "PLACE YOUR BETS",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
     "_actualFontSize": 48,
