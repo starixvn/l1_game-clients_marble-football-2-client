@@ -55,9 +55,6 @@ export class DOMBackgroundVideo {
         video.autoplay = true;
         video.muted = true;
         video.preload = "auto";
-
-        // Add playsinline attribute for old iOS versions
-        video.setAttribute("playsinline", "true");
     }
 
     private static applyGameStyles(game: HTMLElement) {

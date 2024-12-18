@@ -16,10 +16,8 @@ export class BackgroundVideoPlayer extends Component {
     private liveStreamServer: string = "";
     private _muted = true;
 
-    private hlsSupported = false;
-
     private get initialized() {
-        return !!this.native && (!this.hlsSupported || !!this.hls);
+        return !!this.native && !!this.hls;
     }
 
     currentTime = 0;
@@ -58,11 +56,7 @@ export class BackgroundVideoPlayer extends Component {
             this.initialize();
         }
 
-        if (this.hlsSupported) {
-            this.hls.loadSource(this._videoSource);
-        } else {
-            this.native.src = this._videoSource;
-        }
+        this.hls.loadSource(this._videoSource);
 
         // Fix for iOS 17, video element is not playing immediately
         this.native.play().catch(() => {
@@ -99,11 +93,9 @@ export class BackgroundVideoPlayer extends Component {
         if (this.initialized) {
             this.native.removeEventListener("timeupdate", this.syncCurrentTime.bind(this));
 
-            if (this.hlsSupported) {
-                this.hls.off(Hls.Events.ERROR);
-                this.hls.detachMedia();
-                this.hls.destroy();
-            }
+            this.hls.off(Hls.Events.ERROR);
+            this.hls.detachMedia();
+            this.hls.destroy();
         }
     }
 
@@ -118,9 +110,8 @@ export class BackgroundVideoPlayer extends Component {
     private initialize() {
         const video = DOMBackgroundVideo.createOrLoadVideoElement();
 
-        video.addEventListener("timeupdate", this.syncCurrentTime.bind(this));
-
         if (!Hls.isSupported()) {
+            this.node.emit("hlsNotSupported");
             throw new Error("Hls.js is not supported.");
         }
 
@@ -135,8 +126,7 @@ export class BackgroundVideoPlayer extends Component {
             maxMaxBufferLength: 6, // in seconds
         });
 
-        this.hlsSupported = true;
-
+        video.addEventListener("timeupdate", this.syncCurrentTime.bind(this));
         hls.attachMedia(video);
 
         hls.on(Hls.Events.LEVEL_SWITCHED, this.node.emit.bind(this.node));
@@ -161,7 +151,7 @@ export class BackgroundVideoPlayer extends Component {
             this.syncCurrentTime();
         });
 
-        this.native = video;
         this.hls = hls;
+        this.native = video;
     }
 }
