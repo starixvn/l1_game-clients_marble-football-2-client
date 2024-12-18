@@ -121,8 +121,13 @@ export class PlayArea extends ObserverComponent {
             return;
         }
         if (phase.id === this.ShowWinnerAndTournament) {
-            const duration = 0.2;
-            this.scheduleOnce(() => this.fadeOutBetchoiceNode(true, duration), this.ShowWinnerAndTournamentTimeOffset - duration);
+            if (phase.progress === 0) {
+                const duration = 0.2;
+                this.scheduleOnce(() => this.fadeOutBetchoiceNode(true, duration), this.ShowWinnerAndTournamentTimeOffset - duration);
+            } else {
+                this.fadeOutBetchoiceNode(true, 0);
+            }
+
             return;
         }
 
@@ -155,7 +160,11 @@ export class PlayArea extends ObserverComponent {
 
     fadeOutBetchoiceNode(fadeOut: boolean, duration: number) {
         const opacity = fadeOut ? 1 : 255;
-        AnimationUtils.fadeTo(this.betChoices, duration, opacity);
+        if (duration === 0) {
+            AnimationUtils.setOpacityNode(this.betChoices, opacity);
+        } else {
+            AnimationUtils.fadeTo(this.betChoices, duration, opacity);
+        }
     }
 
     @render(Rounds.RoundTimeStore, (store) => store.roundTime)
