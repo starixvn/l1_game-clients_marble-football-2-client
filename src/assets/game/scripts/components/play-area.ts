@@ -167,15 +167,20 @@ export class PlayArea extends ObserverComponent {
         }
     }
 
+    @render(gc.Settlements.SettlementStore, (store) => store.currentFinish)
+    showPlayArea(currentFinish: gc.GameServiceMessage.Finish) {
+        if (!currentFinish) {
+            return;
+        }
+        if (this.isZoomOut) {
+            this.zoomPlayArea("in");
+        }
+    }
+
     @render(Rounds.RoundTimeStore, (store) => store.roundTime)
     async setAnimAndPositionPlayArea(time: number) {
         if (time < 0) {
             return;
-        }
-
-        // At the end of streaming
-        if (this.isZoomOut && time === 0) {
-            this.zoomPlayArea("in");
         }
 
         // At the begin of streaming
