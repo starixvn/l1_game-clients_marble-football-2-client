@@ -33,7 +33,6 @@ interface TweenConfigs {
 export class PlayArea extends ObserverComponent {
     private isZoomOut: boolean = false;
     private isScoreBoardOut: boolean = false;
-    private isTeamScoreOut: boolean = true;
 
     private mainPlayAreaTargets: Array<{ target: Node; key: TweenKey }>;
 
@@ -75,6 +74,7 @@ export class PlayArea extends ObserverComponent {
     };
 
     private readonly ShowWinnerAndTournament = "show-winner-and-tournament";
+    private readonly ShowLiveScore = "show-live-score";
     private readonly ShowWinnerAndTournamentTimeOffset = 1;
 
     onLoad() {
@@ -92,6 +92,7 @@ export class PlayArea extends ObserverComponent {
         super.onLoad();
 
         this.registerPhaseMatchWinner();
+        this.registerPhaseShowLiveScore();
     }
 
     @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
@@ -104,6 +105,16 @@ export class PlayArea extends ObserverComponent {
         return config;
     }
 
+    @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
+    registerPhaseShowLiveScore() {
+        const config: GamePhaseConfig = {
+            id: this.ShowLiveScore,
+            begin: settings.durations.streamingVideo + 1,
+            end: 1,
+        };
+        return config;
+    }
+
     @render(GamePhaseStore, (store) => store.enterPhase)
     renderEnterPhase(phase: GamePhase) {
         if (!phase) {
@@ -112,6 +123,16 @@ export class PlayArea extends ObserverComponent {
         if (phase.id === this.ShowWinnerAndTournament) {
             const duration = 0.2;
             this.scheduleOnce(() => this.fadeOutBetchoiceNode(true, duration), this.ShowWinnerAndTournamentTimeOffset - duration);
+            return;
+        }
+
+        if (phase.id === this.ShowLiveScore) {
+            if (phase.progress === 0) {
+                this.playAnimForTarget(this.teamScore, this.tweenConfigs.flyUp.in);
+            } else {
+                this.setStaticTarget(this.teamScore, this.tweenConfigs.flyUp.in);
+            }
+            return;
         }
     }
 
@@ -123,6 +144,12 @@ export class PlayArea extends ObserverComponent {
         if (phase.id === this.ShowWinnerAndTournament) {
             const duration = 0.2;
             this.scheduleOnce(() => this.fadeOutBetchoiceNode(false, duration), this.ShowWinnerAndTournamentTimeOffset - duration);
+            return;
+        }
+
+        if (phase.id === this.ShowLiveScore) {
+            this.playAnimForTarget(this.teamScore, this.tweenConfigs.flyUp.out);
+            return;
         }
     }
 
@@ -150,25 +177,6 @@ export class PlayArea extends ObserverComponent {
         // During streaming
         if (!this.isZoomOut && time < settings.durations.introVideo && time > 0) {
             this.setStaticPlayArea("out");
-        }
-    }
-
-    @render(Rounds.RoundTimeStore, (store) => store.roundTime)
-    async setTeamScore(time: number) {
-        if (time < 0) {
-            return;
-        }
-
-        // At the begin of streaming
-        if (this.isTeamScoreOut && time === settings.durations.streamingVideo + 1) {
-            this.playAnimForTarget(this.teamScore, this.tweenConfigs.flyUp.in);
-            this.isTeamScoreOut = false;
-        }
-
-        // At the end of streaming
-        if (!this.isTeamScoreOut && time === 0) {
-            this.playAnimForTarget(this.teamScore, this.tweenConfigs.flyUp.out);
-            this.isTeamScoreOut = true;
         }
     }
 
