@@ -1,11 +1,9 @@
-import { _decorator } from "cc";
 import gc from "@sg/game-client-base";
+import { _decorator } from "cc";
 import { PromptMessageContainer } from "db://shared-components/game/prompt-message/scripts/prompt-message-container";
 import Observer from "observer";
-import { VideoStreamStore } from "../features/video-stream/video-stream-store";
-import { MatchPromptMessage } from "./match-promt-message";
-import { Durations } from "../../../../extensions/shared-components/assets/game-baccarat/gateway-panel/scripts/models/durations-interface";
 import { settings } from "../game-settings";
+import { MatchPromptMessage } from "./match-promt-message";
 const { ccclass } = _decorator;
 const { Rounds } = gc;
 const { render } = Observer;

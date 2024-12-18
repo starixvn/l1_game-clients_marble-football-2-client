@@ -69,9 +69,10 @@
       "__id__": 3
     },
     "prefab": {
-      "__uuid__": "8587c8b8-e3d4-4d43-a5f3-9b1187eb97d4",
+      "__uuid__": "96c6efa2-e858-420d-b7ed-6248337bc09e",
       "__expectedType__": "cc.Prefab"
     },
+    "shortLockingDuration": true,
     "_id": ""
   },
   {

@@ -109,6 +109,66 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
+            <key>icon_coin.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{80,76}</string>
+                <key>spriteSourceSize</key>
+                <string>{80,76}</string>
+                <key>textureRect</key>
+                <string>{{209,629},{80,76}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>icon_cup.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{69,64}</string>
+                <key>spriteSourceSize</key>
+                <string>{69,64}</string>
+                <key>textureRect</key>
+                <string>{{441,501},{69,64}}</string>
+                <key>textureRotated</key>
+                <true/>
+            </dict>
+            <key>icon_hand.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{55,66}</string>
+                <key>spriteSourceSize</key>
+                <string>{55,66}</string>
+                <key>textureRect</key>
+                <string>{{441,444},{55,66}}</string>
+                <key>textureRotated</key>
+                <true/>
+            </dict>
+            <key>icon_whistle.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{86,56}</string>
+                <key>spriteSourceSize</key>
+                <string>{86,56}</string>
+                <key>textureRect</key>
+                <string>{{441,645},{86,56}}</string>
+                <key>textureRotated</key>
+                <true/>
+            </dict>
             <key>icon_wifi.png</key>
             <dict>
                 <key>aliases</key>
@@ -210,7 +270,7 @@
                 <key>spriteSourceSize</key>
                 <string>{71,59}</string>
                 <key>textureRect</key>
-                <string>{{441,444},{71,59}}</string>
+                <string>{{441,572},{71,59}}</string>
                 <key>textureRotated</key>
                 <true/>
             </dict>
@@ -221,11 +281,11 @@
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{532,58}</string>
+                <string>{652,86}</string>
                 <key>spriteSourceSize</key>
-                <string>{532,58}</string>
+                <string>{652,86}</string>
                 <key>textureRect</key>
-                <string>{{441,517},{532,58}}</string>
+                <string>{{121,629},{652,86}}</string>
                 <key>textureRotated</key>
                 <true/>
             </dict>
@@ -315,7 +375,7 @@
                 <key>spriteSourceSize</key>
                 <string>{912,92}</string>
                 <key>textureRect</key>
-                <string>{{27,1051},{912,92}}</string>
+                <string>{{27,629},{912,92}}</string>
                 <key>textureRotated</key>
                 <true/>
             </dict>
@@ -393,7 +453,7 @@
             <key>size</key>
             <string>{512,2048}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:12d9676c288e5d0aa826d02a8ac0a36e:90dcc50e9feff737a9ea774771e72706:693584bbba79ecadf35d6b2cf3a849c9$</string>
+            <string>$TexturePacker:SmartUpdate:e446ebd3c7c59608e6b21a1b0d6777e7:847ba80ddd9aa35f94e5b68d7fad5011:693584bbba79ecadf35d6b2cf3a849c9$</string>
             <key>textureFileName</key>
             <string>main.png</string>
         </dict>
