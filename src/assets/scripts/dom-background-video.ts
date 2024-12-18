@@ -54,6 +54,7 @@ export class DOMBackgroundVideo {
         video.playsInline = true;
         video.autoplay = true;
         video.muted = true;
+        video.preload = "auto";
     }
 
     private static applyGameStyles(game: HTMLElement) {
