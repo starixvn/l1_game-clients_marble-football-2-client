@@ -40,7 +40,8 @@ export class GamePhaseHandler {
         const visible = roundTime > config.end && roundTime <= config.begin;
 
         const cache = this.cache[config.id];
-        if (cache?.visible === visible) {
+        const notVisibleFirst = !cache && !visible;
+        if (notVisibleFirst || cache?.visible === visible) {
             return;
         }
 
