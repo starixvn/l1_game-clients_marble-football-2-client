@@ -163,10 +163,13 @@ export class PlayArea extends ObserverComponent {
     }
 
     @render(gc.Settlements.SettlementStore, (store) => store.currentFinish)
-    showPlayArea(currentFinish: gc.GameServiceMessage.Finish) {
+    async showPlayArea(currentFinish: gc.GameServiceMessage.Finish) {
         if (!currentFinish) {
             return;
         }
+        try {
+            await AnimationUtils.delayTime(settings.durations.outro);
+        } catch (e) {}
         if (this.isZoomOut) {
             this.zoomPlayArea("in");
         }

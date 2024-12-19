@@ -12,6 +12,7 @@ import { siteConfigs } from "../../../scripts/site-configs";
 import { containerOptions } from "../container-options";
 import { StreamingVideo, VideoStreamStore } from "../features/video-stream/video-stream-store";
 import { settings } from "../game-settings";
+import { MatchResult } from "./match-result";
 
 startGame(settings.name, containerOptions, siteConfigs);
 
@@ -67,15 +68,26 @@ export default class Game extends GameComponent {
         hasAnimation: boolean,
         settlementResult: gc.GameServiceMessage.TSettlementResult
     ) {
-        this.betResultNode.active = true;
+        try {
+            const matchResult = this.betResultNode.getComponent(MatchResult);
 
-        if (hasAnimation) {
-            await AnimationUtils.delayTime(settings.durations.generatingResult);
-        }
+            if (hasAnimation) {
+                await AnimationUtils.delayTime(settings.durations.outro);
+                this.betResultNode.active = true;
+                await matchResult.show(hasAnimation);
+            } else {
+                this.betResultNode.active = true;
+                matchResult.show(false);
+            }
+        } catch (e) {}
     }
 
-    startNewRound(isStartRound: boolean) {
+    async startNewRound(isStartRound: boolean) {
         if (isStartRound) {
+            try {
+                const matchResult = this.betResultNode.getComponent(MatchResult);
+                await matchResult?.hide();
+            } catch (e) {}
             this.betResultNode.active = false;
         }
         super.startNewRound(isStartRound);

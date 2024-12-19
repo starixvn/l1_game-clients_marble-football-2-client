@@ -1,0 +1,41 @@
+
+final-match.png
+size: 325,137
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+connect
+  rotate: true
+  xy: 313, 105
+  size: 30, 10
+  orig: 32, 12
+  offset: 1, 1
+  index: -1
+empty
+  rotate: false
+  xy: 269, 4
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+fulltime bg
+  rotate: true
+  xy: 269, 7
+  size: 128, 42
+  orig: 130, 44
+  offset: 1, 1
+  index: -1
+penalty bg
+  rotate: false
+  xy: 2, 2
+  size: 265, 42
+  orig: 267, 44
+  offset: 1, 1
+  index: -1
+score bg
+  rotate: false
+  xy: 2, 46
+  size: 265, 89
+  orig: 267, 91
+  offset: 1, 1
+  index: -1

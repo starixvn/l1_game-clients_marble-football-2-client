@@ -9,13 +9,15 @@ export const settings = {
         streamingVideo: 103,
         videoDuration: 50,
         halfDuration: 45,
-        generatingResult: 3,
+        generatingResult: 2,
         showingResult: 5,
         startRound: 7,
 
         tournament: 4,
         matchWinner: 3,
-        matchStatistics: 5,
+        // matchStatistics: 5,
+
+        outro: 0.67,
     },
     numberOfRoundHistory: 100,
 };

@@ -10,7 +10,9 @@ export class Winner extends Component {
     private spine: sp.Skeleton = null;
 
     showWinner(at = 0, winnerName: string, isHomeWin: boolean, isFinal: boolean) {
-        const animationName = isFinal ? "champion " : "winner " + (isHomeWin ? "home" : "away");
+        const animationType = isFinal ? "champion" : "winner";
+        const teamSide = isHomeWin ? "home" : "away";
+        const animationName = `${animationType} ${teamSide}`;
         this.playAnimation(this.spine, animationName, at);
         this.setWinnerName(this.spine.node, winnerName);
     }

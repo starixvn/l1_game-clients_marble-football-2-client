@@ -54,14 +54,18 @@ export default class VideoStreamIntegration extends ObserverComponent {
         this.backgroundVideoPlayer.init(liveStreamServer);
     }
 
+    @render(gc.Settlements.SettlementStore, (store) => store.currentFinish)
+    showPlayArea(currentFinish: gc.GameServiceMessage.Finish) {
+        if (!currentFinish) {
+            return;
+        }
+        this.introOutro.playOutroAnimation(0, settings.durations.outro);
+    }
+
     @render(gc.Rounds.RoundTimeStore, (store) => store.roundTime)
     private onRoundTimeUpdate(roundTime: number) {
         if (roundTime === settings.durations.introVideo) {
             this.introOutro.playIntroAnimation();
-        }
-
-        if (roundTime === 0) {
-            this.introOutro.playOutroAnimation();
         }
 
         if (roundTime === settings.durations.introVideo - 1) {
