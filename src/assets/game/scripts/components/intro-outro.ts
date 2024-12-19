@@ -1,4 +1,5 @@
 import { _decorator, Component, UIOpacity, tween, Node, UITransform } from "cc";
+import { EDITOR } from "cc/env";
 
 const { ccclass, property } = _decorator;
 
@@ -29,15 +30,33 @@ export class IntroOutro extends Component {
     }
 
     set showField(value: boolean) {
+        this.field.node.active = value;
+    }
+
+    public onEnable(): void {
+        this.node.parent.on(Node.EventType.SIZE_CHANGED, this.updateDisplay, this);
+        this.node.on(Node.EventType.SIZE_CHANGED, this.updateDisplay, this);
+        this.updateDisplay();
+    }
+
+    public onDisable(): void {
+        this.node.parent.off(Node.EventType.SIZE_CHANGED, this.updateDisplay, this);
+        this.node.off(Node.EventType.SIZE_CHANGED, this.updateDisplay, this);
+    }
+
+    protected update(dt: number): void {
+        if (EDITOR) {
+            this.updateDisplay();
+        }
+    }
+
+    updateDisplay() {
         const fieldWidth = this.field.node.getComponent(UITransform).contentSize.width * this.field.node.scale.x;
         const fieldHeight = this.field.node.getComponent(UITransform).contentSize.height * this.field.node.scale.y;
         this.leftPanel.setPosition(-fieldWidth / 2, 0, 0);
         this.rightPanel.setPosition(fieldWidth / 2, 0, 0);
         this.topPanel.setPosition(0, fieldHeight / 2, 0);
         this.bottomPanel.setPosition(0, -fieldHeight / 2, 0);
-        this.leftPanel.active = value;
-        this.rightPanel.active = value;
-        this.field.node.active = value;
     }
 
     playIntroAnimation(at = 0, duration = 2) {
