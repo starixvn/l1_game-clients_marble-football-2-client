@@ -1,4 +1,4 @@
-import { _decorator, Component, Enum, Node } from "cc";
+import { _decorator, Component, Enum, Node, sp } from "cc";
 
 const { ccclass, property } = _decorator;
 
@@ -12,8 +12,8 @@ enum NetworkStatus {
 export class SystemIndicator extends Component {
     private _networkStatus: NetworkStatus = NetworkStatus.GOOD;
 
-    @property(Node)
-    private icon: Node = null;
+    @property(sp.Skeleton)
+    private icon: sp.Skeleton = null;
 
     @property({ type: Enum(NetworkStatus) })
     get networkStatus() {
@@ -23,8 +23,12 @@ export class SystemIndicator extends Component {
     set networkStatus(value: NetworkStatus) {
         this._networkStatus = value;
 
-        this.icon.children.forEach((child, index) => {
-            child.active = index + 1 === value;
-        });
+        if (value === NetworkStatus.GOOD) {
+            this.icon.animation = "wifi green";
+        } else if (value === NetworkStatus.BAD) {
+            this.icon.animation = "wifi yellow";
+        } else {
+            this.icon.animation = "wifi red";
+        }
     }
 }

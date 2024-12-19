@@ -1,0 +1,41 @@
+
+wifi-icon.png
+size: 58,30
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+empty
+  rotate: false
+  xy: 46, 15
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+wifi a
+  rotate: true
+  xy: 36, 4
+  size: 9, 20
+  orig: 11, 22
+  offset: 1, 1
+  index: -1
+wifi b
+  rotate: true
+  xy: 2, 2
+  size: 11, 32
+  orig: 13, 34
+  offset: 1, 1
+  index: -1
+wifi c
+  rotate: true
+  xy: 2, 15
+  size: 13, 42
+  orig: 15, 44
+  offset: 1, 1
+  index: -1
+wifi dot
+  rotate: false
+  xy: 46, 18
+  size: 10, 10
+  orig: 12, 12
+  offset: 1, 1
+  index: -1
