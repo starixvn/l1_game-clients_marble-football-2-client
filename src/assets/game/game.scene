@@ -337,7 +337,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 275,
-      "height": 720
+      "height": 720.0000000000001
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -386,7 +386,7 @@
     "_id": "72szhNxXFN6oSRZYpNHzYG"
   },
   {
-    "__type__": "5f091StlyZCR7fwiAyuiu3Y",
+    "__type__": "cc.Widget",
     "_name": "",
     "_objFlags": 0,
     "__editorExtras__": {},
@@ -395,8 +395,25 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "_policy": 1,
-    "_id": "desJxwSbtIEpjM85XJ1R5q"
+    "_alignFlags": 5,
+    "_target": null,
+    "_left": -300.20833333333326,
+    "_right": 1398,
+    "_top": 0,
+    "_bottom": 0,
+    "_horizontalCenter": 0,
+    "_verticalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 275,
+    "_originalHeight": 720,
+    "_alignMode": 2,
+    "_lockFlags": 0,
+    "_id": "06o0cbK5hA97R8+lRluOdv"
   },
   {
     "__type__": "cc.Node",
@@ -462,7 +479,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 275,
-      "height": 720
+      "height": 720.0000000000001
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -511,7 +528,7 @@
     "_id": "7a3qmGrDxNJYqc/2dY5cXh"
   },
   {
-    "__type__": "5f091StlyZCR7fwiAyuiu3Y",
+    "__type__": "cc.Widget",
     "_name": "",
     "_objFlags": 0,
     "__editorExtras__": {},
@@ -520,8 +537,25 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "_policy": 1,
-    "_id": "f5QSy6NmxMqowRw4I7HA94"
+    "_alignFlags": 5,
+    "_target": null,
+    "_left": 1398,
+    "_right": -300.20833333333326,
+    "_top": 0,
+    "_bottom": 0,
+    "_horizontalCenter": 0,
+    "_verticalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 275,
+    "_originalHeight": 720,
+    "_alignMode": 2,
+    "_lockFlags": 0,
+    "_id": "c5ktexBAhOIqZNBQ39J3wW"
   },
   {
     "__type__": "cc.Node",
@@ -636,7 +670,7 @@
     "_id": "3ad4SEOmpO26VZFGZGXxme"
   },
   {
-    "__type__": "5f091StlyZCR7fwiAyuiu3Y",
+    "__type__": "cc.Widget",
     "_name": "",
     "_objFlags": 0,
     "__editorExtras__": {},
@@ -645,8 +679,25 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "_policy": 0,
-    "_id": "4dHZTcEO1IIpITYHA6/ZRy"
+    "_alignFlags": 40,
+    "_target": null,
+    "_left": 0,
+    "_right": 0,
+    "_top": -300.3515625,
+    "_bottom": 786,
+    "_horizontalCenter": 0,
+    "_verticalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 1280,
+    "_originalHeight": 275,
+    "_alignMode": 2,
+    "_lockFlags": 0,
+    "_id": "97Reh2Mo9FZbBw8MZ5YvK9"
   },
   {
     "__type__": "cc.Node",
@@ -761,7 +812,7 @@
     "_id": "30wpCD0qdPI64Gb/FvbTJf"
   },
   {
-    "__type__": "5f091StlyZCR7fwiAyuiu3Y",
+    "__type__": "cc.Widget",
     "_name": "",
     "_objFlags": 0,
     "__editorExtras__": {},
@@ -770,8 +821,25 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "_policy": 0,
-    "_id": "28iNrmzBhD877vxjgClD9F"
+    "_alignFlags": 40,
+    "_target": null,
+    "_left": 0,
+    "_right": 0,
+    "_top": 786,
+    "_bottom": -300.3515625,
+    "_horizontalCenter": 0,
+    "_verticalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 1280,
+    "_originalHeight": 275,
+    "_alignMode": 2,
+    "_lockFlags": 0,
+    "_id": "3aBIWydERBm5Q+RdOGFJaV"
   },
   {
     "__type__": "cc.Node",
@@ -10613,18 +10681,6 @@
     },
     "field": {
       "__id__": 29
-    },
-    "leftPanel": {
-      "__id__": 5
-    },
-    "rightPanel": {
-      "__id__": 9
-    },
-    "topPanel": {
-      "__id__": 13
-    },
-    "bottomPanel": {
-      "__id__": 17
     },
     "_id": "63MyvMtmVPOpyKAuc4Va3u"
   },
