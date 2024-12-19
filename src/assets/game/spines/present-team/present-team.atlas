@@ -1,82 +1,89 @@
 
 present-team.png
-size: 1616,645
+size: 1918,554
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 S
   rotate: true
-  xy: 1103, 39
+  xy: 1599, 409
   size: 61, 90
   orig: 63, 93
   offset: 1, 1
   index: -1
 V
   rotate: true
-  xy: 2, 20
+  xy: 1599, 472
   size: 80, 89
   orig: 82, 92
   offset: 1, 1
   index: -1
 bg
   rotate: false
-  xy: 2, 102
+  xy: 2, 11
   size: 1282, 541
   orig: 1374, 567
   offset: 78, 20
   index: -1
 blue line
-  rotate: false
-  xy: 93, 2
+  rotate: true
+  xy: 1887, 344
   size: 208, 29
   orig: 211, 31
   offset: 1, 1
   index: -1
 empty
   rotate: false
-  xy: 1599, 343
+  xy: 301, 8
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
-light line
+glow spinner
   rotate: true
-  xy: 1599, 346
+  xy: 1286, 225
+  size: 327, 311
+  orig: 344, 327
+  offset: 8, 9
+  index: -1
+light line
+  rotate: false
+  xy: 2, 2
   size: 297, 7
   orig: 344, 11
   offset: 24, 2
   index: -1
 lue spinner
   rotate: false
-  xy: 1286, 4
-  size: 328, 310
+  xy: 1517, 14
+  size: 230, 209
   orig: 345, 326
-  offset: 9, 7
+  offset: 58, 60
   index: -1
 red line
-  rotate: false
-  xy: 303, 2
+  rotate: true
+  xy: 1887, 134
   size: 208, 29
   orig: 211, 31
   offset: 2, 1
   index: -1
 red spinner
-  rotate: true
-  xy: 1286, 316
-  size: 327, 311
+  rotate: false
+  xy: 1286, 13
+  size: 229, 210
   orig: 344, 327
-  offset: 8, 9
+  offset: 57, 57
   index: -1
 tag away
-  rotate: false
-  xy: 93, 33
+  rotate: true
+  xy: 1749, 49
   size: 503, 67
   orig: 506, 69
   offset: 1, 1
   index: -1
 tag home
-  rotate: false
-  xy: 598, 33
+  rotate: true
+  xy: 1818, 49
   size: 503, 67
   orig: 506, 69
   offset: 1, 1

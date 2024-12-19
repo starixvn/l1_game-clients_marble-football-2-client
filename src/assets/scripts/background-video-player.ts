@@ -100,6 +100,7 @@ export class BackgroundVideoPlayer extends Component {
     }
 
     private syncCurrentTime() {
+        this.node.emit("syncNativeCurrentTime", this.native.currentTime);
         const needSync = this.currentTime >= 0 && Math.abs(this.currentTime - this.native.currentTime) > 1;
 
         if (this.initialized && needSync) {
@@ -121,9 +122,9 @@ export class BackgroundVideoPlayer extends Component {
             lowLatencyMode: true,
             liveSyncDuration: 0.9,
             liveMaxLatencyDuration: 1,
-            maxBufferSize: 2 * 1000_000, // 2MB
-            maxBufferLength: 3, // in seconds
-            maxMaxBufferLength: 6, // in seconds
+            maxBufferSize: 2 * 1000_000, // MB
+            maxBufferLength: 1, // in seconds
+            maxMaxBufferLength: 3, // in seconds
         });
 
         video.addEventListener("timeupdate", this.syncCurrentTime.bind(this));

@@ -34,7 +34,7 @@ export default class VideoStreamIntegration extends ObserverComponent {
         this.backgroundVideoPlayer?.node.on("hlsError", this.updateSystemIndicator, this);
 
         this.backgroundVideoPlayer?.node.on("hlsManifestLoading", () => (this.introOutro.showField = true));
-        this.backgroundVideoPlayer?.node.on("hlsFragBuffered", () => (this.introOutro.showField = false));
+        this.backgroundVideoPlayer?.node.on("syncNativeCurrentTime", (time: number) => (this.introOutro.showField = time <= 0));
     }
 
     @render(gc.Rounds.RoundTimeStore, (store) => store.isStartRound)

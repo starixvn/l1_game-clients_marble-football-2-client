@@ -154,7 +154,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 146.806640625,
+      "width": 157.2216796875,
       "height": 37.8
     },
     "_anchorPoint": {
@@ -208,7 +208,7 @@
       "b": 229,
       "a": 255
     },
-    "_string": "ARSENAL",
+    "_string": "ARSONIST",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
     "_actualFontSize": 30,
@@ -326,7 +326,7 @@
     },
     "defaultSkin": "default",
     "defaultAnimation": "animation",
-    "_premultipliedAlpha": false,
+    "_premultipliedAlpha": true,
     "_timeScale": 1,
     "_preCacheMode": 0,
     "_cacheMode": 0,
@@ -433,7 +433,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 146.806640625,
+      "width": 157.2216796875,
       "height": 37.8
     },
     "_anchorPoint": {
@@ -487,7 +487,7 @@
       "b": 229,
       "a": 255
     },
-    "_string": "ARSENAL",
+    "_string": "ARSONIST",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
     "_actualFontSize": 30,
@@ -640,7 +640,7 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": -0.0000016541864396124612
+      "z": -0.0000017075472925031782
     },
     "_id": ""
   },
