@@ -7,6 +7,7 @@ import { MatchPromptMessage } from "./match-promt-message";
 const { ccclass } = _decorator;
 const { Rounds } = gc;
 const { render } = Observer;
+const NEXT_MATCH_TIME = 140;
 @ccclass("MatchPromptMessageContainer")
 export class MatchPromptMessageContainer extends PromptMessageContainer {
     promptMessageComponent: MatchPromptMessage;
@@ -15,6 +16,9 @@ export class MatchPromptMessageContainer extends PromptMessageContainer {
     async showMatchMessage(time: number) {
         if (time === settings.durations.showingResult) {
             this.scheduleOnce(() => this.getComponent().showTimeUpMessage(), 0.5);
+        }
+        if (time === NEXT_MATCH_TIME) {
+            this.scheduleOnce(() => this.getComponent().showNextMatchMessage(), 1);
         }
     }
 
