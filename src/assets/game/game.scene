@@ -1039,7 +1039,7 @@
     "node": {
       "__id__": 26
     },
-    "_enabled": false,
+    "_enabled": true,
     "__prefab": null,
     "_policy": 2,
     "_id": "1dPv+0/UlLsKHkgfomD3WK"
@@ -10693,8 +10693,12 @@
     "rightPanel": {
       "__id__": 14
     },
-    "topPanel": null,
-    "bottomPanel": null,
+    "topPanel": {
+      "__id__": 18
+    },
+    "bottomPanel": {
+      "__id__": 22
+    },
     "_id": "63MyvMtmVPOpyKAuc4Va3u"
   },
   {
