@@ -1,4 +1,4 @@
-import { _decorator, Component, UIOpacity, tween } from "cc";
+import { _decorator, Component, UIOpacity, tween, Node, UITransform } from "cc";
 
 const { ccclass, property } = _decorator;
 
@@ -10,6 +10,18 @@ export class IntroOutro extends Component {
     @property(UIOpacity)
     private field: UIOpacity = null;
 
+    @property(Node)
+    private leftPanel: Node = null;
+
+    @property(Node)
+    private rightPanel: Node = null;
+
+    @property(Node)
+    private topPanel: Node = null;
+
+    @property(Node)
+    private bottomPanel: Node = null;
+
     private maxOpacity = 255;
 
     set showGameBackground(value: boolean) {
@@ -17,6 +29,14 @@ export class IntroOutro extends Component {
     }
 
     set showField(value: boolean) {
+        const fieldWidth = this.field.node.getComponent(UITransform).contentSize.width * this.field.node.scale.x;
+        const fieldHeight = this.field.node.getComponent(UITransform).contentSize.height * this.field.node.scale.y;
+        this.leftPanel.setPosition(-fieldWidth / 2, 0, 0);
+        this.rightPanel.setPosition(fieldWidth / 2, 0, 0);
+        this.topPanel.setPosition(0, fieldHeight / 2, 0);
+        this.bottomPanel.setPosition(0, -fieldHeight / 2, 0);
+        this.leftPanel.active = value;
+        this.rightPanel.active = value;
         this.field.node.active = value;
     }
 
