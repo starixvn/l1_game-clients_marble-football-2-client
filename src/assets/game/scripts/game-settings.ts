@@ -13,9 +13,8 @@ export const settings = {
         showingResult: 5,
         startRound: 7,
 
-        tournament: 4,
+        tournament: 5,
         matchWinner: 3,
-        // matchStatistics: 5,
 
         outro: 0.67,
     },

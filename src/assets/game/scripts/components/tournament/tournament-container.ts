@@ -1,4 +1,4 @@
-import { _decorator } from "cc";
+import { _decorator, log } from "cc";
 import Observer from "observer";
 import { Dialog } from "../../../../../extensions/shared-components/assets/shared/common-components/dialogs/dialog";
 import { NodeContainer } from "../../../../../extensions/shared-components/assets/shared/common-components/node-container/node-container";
@@ -18,7 +18,7 @@ export class TournamentContainer extends NodeContainer {
     private tournament: MarbleFootballServiceMessages.Tournament = null;
     private isShowingTournament = false;
 
-    private readonly delayHideTournament = 0.5;
+    private readonly delayHideTournament = 1;
 
     onLoad() {
         super.onLoad();
@@ -31,7 +31,7 @@ export class TournamentContainer extends NodeContainer {
         const config: GamePhaseConfig = {
             id: PhaseId.Tournament,
             begin: settings.durations.placingBet + settings.durations.tournament,
-            end: settings.durations.placingBet + 1,
+            end: settings.durations.placingBet + 2,
         };
         return config;
     }
@@ -51,19 +51,26 @@ export class TournamentContainer extends NodeContainer {
         if (this.node.children.length === 0) {
             return;
         }
+        log("updateTournament =============== ");
         const node = this.node.children[0];
         const tournamentCmp = node.getComponent(Tournament);
         this.tournament && tournamentCmp?.setData(this.tournament);
     }
 
-    private showTournament() {
+    private async showTournament() {
         if (this.isShowingTournament || !this.tournament) {
             return;
         }
         this.isShowingTournament = true;
         const node = this.createNode();
         const tournamentCmp = node.getComponent(Tournament);
-        this.tournament && tournamentCmp.setData(this.tournament);
+        if (tournamentCmp) {
+            try {
+                await tournamentCmp.show();
+                log("show tournament =============== ");
+                this.tournament && tournamentCmp.setData(this.tournament);
+            } catch (e) {}
+        }
     }
 
     private hideTournament() {
@@ -73,7 +80,7 @@ export class TournamentContainer extends NodeContainer {
         this.isShowingTournament = false;
         this.tournament = null;
         const node = this.node.children[0];
-        if (node.isValid) {
+        if (node?.isValid) {
             const dialog = node.getComponent(Dialog);
             dialog?.hide();
         }

@@ -414,7 +414,7 @@
       "__expectedType__": "sp.SkeletonData"
     },
     "defaultSkin": "default",
-    "defaultAnimation": "normal",
+    "defaultAnimation": "<None>",
     "_premultipliedAlpha": false,
     "_timeScale": 1,
     "_preCacheMode": 0,
@@ -426,7 +426,7 @@
     "_debugBones": false,
     "_debugSlots": false,
     "_enableBatch": true,
-    "loop": true,
+    "loop": false,
     "_id": ""
   },
   {
@@ -627,7 +627,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 143.18115234375,
+      "width": 116.72607421875,
       "height": 25.2
     },
     "_anchorPoint": {
@@ -663,7 +663,7 @@
       "b": 255,
       "a": 255
     },
-    "_string": "Paris Saint Germain",
+    "_string": "Paris X Germain",
     "_horizontalAlign": 0,
     "_verticalAlign": 1,
     "_actualFontSize": 15,

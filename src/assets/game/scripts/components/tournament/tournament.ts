@@ -1,4 +1,5 @@
-import { _decorator, Component } from "cc";
+import { _decorator, Animation, Component, Node } from "cc";
+import { AnimationUtils } from "db://shared-components/shared/utils";
 import LocalizedLabelWithFormat from "../../../../../extensions/i18n/assets/LocalizedLabelWithFormat";
 import { MarbleFootballServiceMessages } from "../../marble-football-service-messages";
 import { TournamentGroupRound } from "./tournament-definitions";
@@ -13,6 +14,12 @@ enum RoundStartMatch {
 
 @ccclass("Tournament")
 export class Tournament extends Component {
+    @property(Animation)
+    animation: Animation = null;
+
+    @property(Node)
+    content: Node = null;
+
     @property(LocalizedLabelWithFormat)
     labelTitle: LocalizedLabelWithFormat = null;
 
@@ -22,6 +29,17 @@ export class Tournament extends Component {
     private getTitleKey(roundId: number) {
         const keys = ["tournament_round_of_16", "tournament_quarter_final", "tournament_semi_final", "tournament_final"];
         return `MarbleFootball.${keys[roundId]}`;
+    }
+
+    async show() {
+        try {
+            this.content.active = false;
+            this.animation.play();
+            await AnimationUtils.delayTime(this.animation.defaultClip.duration);
+            this.content.active = true;
+        } catch (e) {
+            this.content.active = false;
+        }
     }
 
     setData(tournament: MarbleFootballServiceMessages.Tournament) {

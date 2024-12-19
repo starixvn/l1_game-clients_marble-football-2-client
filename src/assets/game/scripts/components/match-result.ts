@@ -2,6 +2,8 @@ import { _decorator, Label, Node, sp } from "cc";
 import { AnimationUtils } from "db://shared-components/shared/utils";
 import Observer from "observer";
 import { ObserverComponent } from "../../../../extensions/shared-components/assets/shared/common-components/observer-component/scripts/observer-component";
+import { GamePhase, PhaseId } from "../features/game-phase/game-phase-definitions";
+import { GamePhaseStore } from "../features/game-phase/game-phase-store";
 import { IMatchResult, MatchResultStore } from "../features/match-result/match-result-store";
 import { MarbleFootballServiceMessages } from "../marble-football-service-messages";
 const { ccclass, property } = _decorator;
@@ -36,6 +38,16 @@ export class MatchResult extends ObserverComponent {
 
         const scoreFinal = scores[2];
         this.renderFinalScore(scoreFinal);
+    }
+
+    @render(GamePhaseStore, (store) => store.enterPhase)
+    private renderEnterPhase(phase: GamePhase) {
+        if (!phase) {
+            return;
+        }
+        if (phase.id === PhaseId.MatchWinner) {
+            this.hide().then(() => (this.node.active = false));
+        }
     }
 
     async show(animated: boolean) {

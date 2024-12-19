@@ -82,17 +82,6 @@ export default class Game extends GameComponent {
         } catch (e) {}
     }
 
-    async startNewRound(isStartRound: boolean) {
-        if (isStartRound) {
-            try {
-                const matchResult = this.betResultNode.getComponent(MatchResult);
-                await matchResult?.hide();
-            } catch (e) {}
-            this.betResultNode.active = false;
-        }
-        super.startNewRound(isStartRound);
-    }
-
     renderCurrentFinish(currentFinish: gc.GameServiceMessage.Finish) {
         if (!currentFinish) {
             return;

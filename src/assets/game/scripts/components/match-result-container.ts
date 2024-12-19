@@ -5,7 +5,6 @@ import {
     GamePhase,
     GamePhaseConfig,
     PhaseId,
-    TimePointShowMatchStatistics,
     TimePointShowMatchWinner,
     TimePointTournament,
 } from "../features/game-phase/game-phase-definitions";
@@ -24,17 +23,6 @@ export class MatchResultContainer extends MultipleNodeContainer {
     onLoad() {
         super.onLoad();
         this.registerPhaseMatchWinner();
-        // this.registerPhaseMatchStatistics();
-    }
-
-    @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
-    registerPhaseMatchStatistics() {
-        const config: GamePhaseConfig = {
-            id: PhaseId.MatchStatistics,
-            begin: TimePointShowMatchStatistics,
-            end: TimePointShowMatchWinner + 1,
-        };
-        return config;
     }
 
     @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))

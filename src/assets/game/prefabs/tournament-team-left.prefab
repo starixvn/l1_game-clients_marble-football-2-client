@@ -414,7 +414,7 @@
       "__expectedType__": "sp.SkeletonData"
     },
     "defaultSkin": "default",
-    "defaultAnimation": "normal",
+    "defaultAnimation": "<None>",
     "_premultipliedAlpha": false,
     "_timeScale": 1,
     "_preCacheMode": 0,
@@ -426,7 +426,7 @@
     "_debugBones": false,
     "_debugSlots": false,
     "_enableBatch": true,
-    "loop": true,
+    "loop": false,
     "_id": ""
   },
   {
@@ -576,7 +576,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 150.00732421875,
+      "width": 149.70703125,
       "height": 25.2
     },
     "_anchorPoint": {
@@ -612,7 +612,7 @@
       "b": 255,
       "a": 255
     },
-    "_string": "Bayer 04 Leverkusen",
+    "_string": "Bayern Leverkitchen",
     "_horizontalAlign": 0,
     "_verticalAlign": 1,
     "_actualFontSize": 15,
