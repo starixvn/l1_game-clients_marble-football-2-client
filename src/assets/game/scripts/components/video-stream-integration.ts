@@ -33,6 +33,7 @@ export default class VideoStreamIntegration extends ObserverComponent {
 
         this.backgroundVideoPlayer?.node.on("hlsLevelSwitched", this.updateSystemIndicator, this);
         this.backgroundVideoPlayer?.node.on("hlsError", this.updateSystemIndicator, this);
+
         this.backgroundVideoPlayer?.node.on("hlsError", this.onHLSError, this);
 
         this.backgroundVideoPlayer?.node.on("hlsManifestLoading", () => (this.introOutro.showField = true));
@@ -85,11 +86,19 @@ export default class VideoStreamIntegration extends ObserverComponent {
         return currentTime;
     }
 
-    private updateSystemIndicator(data: { level?: number }) {
-        if (typeof data.level === "number") {
+    private updateSystemIndicator(data: { level?: number } | string) {
+        if (typeof data === "object" && data.level !== undefined) {
+            // On level changed
             this.systemIndicator.networkStatus = data.level + 2;
         } else {
+            // On error, set to disconnected
             this.systemIndicator.networkStatus = 1;
+
+            const segmentTime = 3; // second
+
+            this.scheduleOnce(() => {
+                this.systemIndicator.networkStatus = this.backgroundVideoPlayer.level + 2;
+            }, segmentTime);
         }
     }
 

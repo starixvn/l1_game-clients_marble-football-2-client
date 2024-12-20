@@ -76,6 +76,10 @@ export class BackgroundVideoPlayer extends Component {
         }
     }
 
+    get level() {
+        return this.hls?.currentLevel ?? 0;
+    }
+
     protected lateUpdate(dt: number): void {
         this.currentTime += dt;
     }
