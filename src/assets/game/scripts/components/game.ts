@@ -96,7 +96,5 @@ export default class Game extends GameComponent {
             this.finishShowResult(result, settlementResult);
             this.chipFlying.callActionPayChips();
         });
-
-        this.playSound(gc.Audios.AudioIds.RECEIVE_FINISH);
     }
 }

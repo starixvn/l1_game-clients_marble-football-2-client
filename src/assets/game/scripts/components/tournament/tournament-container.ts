@@ -1,4 +1,5 @@
 import { _decorator } from "cc";
+import gc from "@sg/game-client-base";
 import Observer from "observer";
 import { Dialog } from "../../../../../extensions/shared-components/assets/shared/common-components/dialogs/dialog";
 import { NodeContainer } from "../../../../../extensions/shared-components/assets/shared/common-components/node-container/node-container";
@@ -10,8 +11,10 @@ import { settings } from "../../game-settings";
 import { MarbleFootballServiceMessages } from "../../marble-football-service-messages";
 import { Tournament } from "./tournament";
 
-const { ccclass, property } = _decorator;
+const { ccclass } = _decorator;
 const { render, handle } = Observer;
+
+const BRACKET_SHOW_SFX = "bracket-show";
 
 @ccclass
 export class TournamentContainer extends NodeContainer {
@@ -65,16 +68,23 @@ export class TournamentContainer extends NodeContainer {
         const tournamentCmp = node.getComponent(Tournament);
         if (tournamentCmp) {
             try {
+                this.playSound(BRACKET_SHOW_SFX);
                 await tournamentCmp.show();
                 this.tournament && tournamentCmp.setData(this.tournament);
             } catch (e) {}
         }
     }
 
+    @handle(gc.Audios.AudioHandler, (handler, id: string) => handler.playSFX(id))
+    private playSound(id: string) {
+        return id;
+    }
+
     private hideTournament() {
         if (!this.isShowingTournament) {
             return;
         }
+
         this.isShowingTournament = false;
         this.tournament = null;
         const node = this.node.children[0];

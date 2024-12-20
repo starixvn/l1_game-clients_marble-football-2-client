@@ -1,4 +1,16 @@
 {
+    "click": {
+        "bundle": "resources",
+        "path": "effects/click",
+        "type": "sfx",
+        "isLazyLoad": true
+    },
+    "single-chip": {
+        "bundle": "resources",
+        "path": "effects/chips",
+        "type": "sfx",
+        "isLazyLoad": true
+    },
     "countdown-end": {
         "bundle": "resources",
         "type": "sfx"
@@ -9,68 +21,19 @@
         "isLazyLoad": true,
         "path": "effects/countdown_timer_NEW_10secs"
     },
-    "dice-lifting": {
-        "bundle": "resources",
-        "type": "sfx"
-    },
-    "zoomin": {
-        "bundle": "resources",
-        "type": "sfx"
-    },
-    "zoomout": {
-        "bundle": "resources",
-        "type": "sfx"
-    },
-    "paymoney": {
-        "bundle": "resources",
-        "type": "sfx"
-    },
-    "logoteam-rollingin": {
-        "bundle": "resources",
-        "type": "sfx"
-    },
-    "match-win": {
-        "bundle": "resources",
-        "type": "sfx"
-    },
-    "match-lose": {
-        "bundle": "resources",
-        "type": "sfx"
-    },
-    "match-start": {
-        "bundle": "resources",
-        "type": "sfx"
-    },
-    "whistle-begin-settle": {
-        "bundle": "resources",
-        "type": "sfx"
-    },
-    "whistle-end-match": {
-        "bundle": "resources",
-        "type": "sfx"
-    },
-    "crowd-game": {
-        "bundle": "resources",
-        "type": "sfx"
-    },
-    "starting-round": {
-        "bundle": "shared-bundle",
-        "path": "starting-round"
-    },
-    "receive-finish": {
-        "bundle": "resources",
-        "path": "zoomout"
-    },
+    "starting-round": {},
+    "receive-finish": {},
     "bgm_lobby": {
         "bundle": "resources",
         "type": "music",
         "isMusicGame": true,
         "isLazyLoad": true
     },
-    "intro": {
+    "intro_video": {
         "bundle": "resources",
         "type": "sfx",
-        "path": "effects/logoteam_intro"
+        "path": "effects/logoteam_intro",
+        "isLazyLoad": true
     },
     "draw-single-card": {},
     "draw-single-domino-card": {},
@@ -90,6 +53,18 @@
         "bundle": "resources",
         "type": "sfx",
         "path": "effects/winner",
+        "isLazyLoad": true
+    },
+    "bracket-show": {
+        "bundle": "resources",
+        "type": "sfx",
+        "path": "effects/bracket_show",
+        "isLazyLoad": true
+    },
+    "bracket-hide": {
+        "bundle": "resources",
+        "type": "sfx",
+        "path": "effects/bracket_hide",
         "isLazyLoad": true
     },
     "start-betting_vi": {},

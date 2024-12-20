@@ -14,6 +14,8 @@ const { ccclass, property } = _decorator;
 const { render, handle } = Observer;
 const { sentryLogger } = gc;
 
+const INTRO_SFX = "intro_video";
+
 @ccclass
 export default class VideoStreamIntegration extends ObserverComponent {
     @property(BackgroundVideoPlayer)
@@ -68,6 +70,9 @@ export default class VideoStreamIntegration extends ObserverComponent {
     @render(gc.Rounds.RoundTimeStore, (store) => store.roundTime)
     private onRoundTimeUpdate(roundTime: number) {
         if (roundTime === settings.durations.introVideo) {
+            this.scheduleOnce(() => {
+                this.playSound();
+            }, 0.75);
             this.introOutro.playIntroAnimation();
         }
 
@@ -76,6 +81,11 @@ export default class VideoStreamIntegration extends ObserverComponent {
         }
 
         this.introOutro.showGameBackground = roundTime > settings.durations.introVideo || roundTime < 0;
+    }
+
+    @handle(gc.Audios.AudioHandler, (handler, id: string) => handler.playSFX(id))
+    playSound() {
+        return INTRO_SFX;
     }
 
     @handle(VideoStreamHandlers, (handler) => handler.resetForNewRound())

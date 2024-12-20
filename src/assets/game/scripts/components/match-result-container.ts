@@ -1,4 +1,5 @@
 import { _decorator, Node } from "cc";
+import gc from "@sg/game-client-base";
 import Observer from "observer";
 import { MultipleNodeContainer } from "../../../../extensions/shared-components/assets/shared/common-components/node-container/multiple-node-container";
 import {
@@ -16,6 +17,8 @@ import { Winner } from "./winner";
 
 const { ccclass, property } = _decorator;
 const { render, handle } = Observer;
+
+const WINNER_SFX = "winner";
 
 @ccclass
 export class MatchResultContainer extends MultipleNodeContainer {
@@ -53,9 +56,15 @@ export class MatchResultContainer extends MultipleNodeContainer {
         const node = this.getNode(phase.id);
         if (phase.id === PhaseId.MatchWinner) {
             this.initForMatchWinner(node, phase.progress);
+            this.playSound();
         } else if (phase.id === PhaseId.MatchStatistics) {
             this.initForMatchStatistics(node, phase.progress);
         }
+    }
+
+    @handle(gc.Audios.AudioHandler, (handler, id: string) => handler.playSFX(id))
+    private playSound() {
+        return WINNER_SFX;
     }
 
     initForMatchStatistics(node: Node, at: number) {
