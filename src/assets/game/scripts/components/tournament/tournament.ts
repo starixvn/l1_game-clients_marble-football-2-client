@@ -34,6 +34,7 @@ export class Tournament extends Component {
     async show() {
         try {
             this.content.active = false;
+            this.labelTitle.node.active = false;
             this.animation.play();
             await AnimationUtils.delayTime(this.animation.defaultClip.duration);
             this.content.active = true;
@@ -44,6 +45,7 @@ export class Tournament extends Component {
 
     setData(tournament: MarbleFootballServiceMessages.Tournament) {
         const data = tournament;
+        this.labelTitle.node.active = true;
         const roundId = this.calculateRoundId(data.currentMatch);
         this.labelTitle.setKey(this.getTitleKey(roundId));
 
