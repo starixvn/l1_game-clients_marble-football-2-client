@@ -10,6 +10,9 @@ const { ccclass, property } = _decorator;
 const { render, handle } = Observer;
 @ccclass("MiniGame")
 export class MatchResult extends ObserverComponent {
+    @property({ type: sp.Skeleton })
+    teamSpines: sp.Skeleton[] = [];
+
     @property(Node)
     penaltyNode: Node = null;
 
@@ -50,16 +53,34 @@ export class MatchResult extends ObserverComponent {
             this.scheduleOnce(() => this.hide().then(() => (this.node.active = false)), 1 - hideDuration);
         }
     }
-
-    async show(animated: boolean) {
-        const animationName = this.isPenalty ? "penalty on show" : "penalty off show";
-
+    async playSpine(spine: sp.Skeleton, animationName: string, animated: boolean) {
         if (!animated) {
-            const entry = this.spine.setAnimation(0, animationName, false);
+            const entry = spine.setAnimation(0, animationName, false);
             entry.trackTime = entry.animationEnd;
             return;
         }
-        await AnimationUtils.playSpine(this.spine, animationName, false);
+
+        await AnimationUtils.playSpine(spine, animationName, false);
+    }
+
+    async animationTeams(animated: boolean) {
+        await Promise.all(
+            ["home", "away"].map((team, index) => {
+                const spine = this.teamSpines[index];
+                return this.playSpine(spine, team, animated);
+            })
+        );
+    }
+
+    async show(animated: boolean) {
+        try {
+            this.spine.node.active = false;
+            this.animationTeams(animated);
+            await AnimationUtils.delayTime(0.33);
+            this.spine.node.active = true;
+            const animationName = this.isPenalty ? "penalty on show" : "penalty off show";
+            await this.playSpine(this.spine, animationName, animated);
+        } catch (e) {}
     }
 
     async hide() {

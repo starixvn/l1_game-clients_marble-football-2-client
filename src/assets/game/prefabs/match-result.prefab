@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.Prefab",
-    "_name": "popup-win",
+    "_name": "match-result",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_native": "",
@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "popup-win",
+    "_name": "match-result",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": null,
@@ -812,7 +812,7 @@
       "__expectedType__": "sp.SkeletonData"
     },
     "defaultSkin": "default",
-    "defaultAnimation": "penalty on",
+    "defaultAnimation": "penalty on show",
     "_premultipliedAlpha": true,
     "_timeScale": 1,
     "_preCacheMode": 0,
@@ -3968,6 +3968,14 @@
     "__prefab": {
       "__id__": 197
     },
+    "teamSpines": [
+      {
+        "__id__": 14
+      },
+      {
+        "__id__": 156
+      }
+    ],
     "penaltyNode": {
       "__id__": 88
     },
