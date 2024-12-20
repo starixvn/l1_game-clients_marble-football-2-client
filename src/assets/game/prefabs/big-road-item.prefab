@@ -239,7 +239,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "30ca2c7b-11e0-4a7f-9f4f-00818f3d1f7b@82cd0",
+      "__uuid__": "7cdac1cd-66f3-4c81-b75b-a629f488486d@ed5fa",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
@@ -254,7 +254,10 @@
     "_fillRange": 0,
     "_isTrimmedMode": true,
     "_useGrayscale": false,
-    "_atlas": null,
+    "_atlas": {
+      "__uuid__": "7cdac1cd-66f3-4c81-b75b-a629f488486d",
+      "__expectedType__": "cc.SpriteAtlas"
+    },
     "_id": ""
   },
   {
@@ -337,7 +340,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -8.5,
+      "y": -13.5,
       "z": 0
     },
     "_lrot": {
@@ -377,7 +380,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 18,
+      "width": 28,
       "height": 1
     },
     "_anchorPoint": {
@@ -414,7 +417,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "30ca2c7b-11e0-4a7f-9f4f-00818f3d1f7b@c484c",
+      "__uuid__": "7cdac1cd-66f3-4c81-b75b-a629f488486d@3e5ad",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
@@ -429,7 +432,10 @@
     "_fillRange": 0,
     "_isTrimmedMode": true,
     "_useGrayscale": false,
-    "_atlas": null,
+    "_atlas": {
+      "__uuid__": "7cdac1cd-66f3-4c81-b75b-a629f488486d",
+      "__expectedType__": "cc.SpriteAtlas"
+    },
     "_id": ""
   },
   {
@@ -511,7 +517,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -8.5,
+      "x": -13.5,
       "y": 0,
       "z": 0
     },
@@ -553,7 +559,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 1,
-      "height": 18
+      "height": 28
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -589,7 +595,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "30ca2c7b-11e0-4a7f-9f4f-00818f3d1f7b@a857b",
+      "__uuid__": "7cdac1cd-66f3-4c81-b75b-a629f488486d@19daf",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
@@ -604,7 +610,10 @@
     "_fillRange": 0,
     "_isTrimmedMode": true,
     "_useGrayscale": false,
-    "_atlas": null,
+    "_atlas": {
+      "__uuid__": "7cdac1cd-66f3-4c81-b75b-a629f488486d",
+      "__expectedType__": "cc.SpriteAtlas"
+    },
     "_id": ""
   },
   {

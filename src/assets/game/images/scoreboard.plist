@@ -34,6 +34,21 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
+            <key>L_27x27.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{27,27}</string>
+                <key>spriteSourceSize</key>
+                <string>{27,27}</string>
+                <key>textureRect</key>
+                <string>{{86,71},{27,27}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
             <key>border_big_road.png</key>
             <dict>
                 <key>aliases</key>
@@ -76,6 +91,21 @@
                 <string>{52,18}</string>
                 <key>textureRect</key>
                 <string>{{80,6},{52,18}}</string>
+                <key>textureRotated</key>
+                <true/>
+            </dict>
+            <key>doc_1x26.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{1,26}</string>
+                <key>spriteSourceSize</key>
+                <string>{1,26}</string>
+                <key>textureRect</key>
+                <string>{{3,247},{1,26}}</string>
                 <key>textureRotated</key>
                 <true/>
             </dict>
@@ -154,6 +184,21 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
+            <key>ngang_26x1.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{26,1}</string>
+                <key>spriteSourceSize</key>
+                <string>{26,1}</string>
+                <key>textureRect</key>
+                <string>{{3,244},{26,1}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
         </dict>
         <key>metadata</key>
         <dict>
@@ -168,7 +213,7 @@
             <key>size</key>
             <string>{128,256}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:356fff733f0719661a069f02e2d0610e:8b561079f0b3b25688b40340b1c37327:f5f11636fd87e0c16f842a128ed8c317$</string>
+            <string>$TexturePacker:SmartUpdate:cfb78796f51dffc2410465344d350081:f7eb31f5f15f14a50393fba8706267d2:f5f11636fd87e0c16f842a128ed8c317$</string>
             <key>textureFileName</key>
             <string>scoreboard.png</string>
         </dict>
