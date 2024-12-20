@@ -10,7 +10,7 @@ import "../../../resources/i18n";
 import { BackgroundVideoPlayer } from "../../../scripts/background-video-player";
 import { siteConfigs } from "../../../scripts/site-configs";
 import { containerOptions } from "../container-options";
-import { GamePhase, PhaseId } from "../features/game-phase/game-phase-definitions";
+import { GamePhase, PhaseId, TimePointTournament } from "../features/game-phase/game-phase-definitions";
 import { GamePhaseStore } from "../features/game-phase/game-phase-store";
 import { StreamingVideo, VideoStreamStore } from "../features/video-stream/video-stream-store";
 import { settings } from "../game-settings";
@@ -40,7 +40,7 @@ export default class Game extends GameComponent {
     private backgroundVideoPlayer: BackgroundVideoPlayer = null;
 
     private cacheRoundId = 0;
-    private isPhaseWinnerOrTournament = false;
+    private isPhaseWinner = false;
 
     override onHideGame() {
         this.backgroundVideoPlayer.stop();
@@ -53,15 +53,15 @@ export default class Game extends GameComponent {
 
     @render(GamePhaseStore, (store) => store.enterPhase)
     renderEnterPhase(phase: GamePhase) {
-        if (phase.id === PhaseId.MatchWinner || phase.id === PhaseId.Tournament) {
-            this.isPhaseWinnerOrTournament = true;
+        if (phase.id === PhaseId.MatchWinner) {
+            this.isPhaseWinner = true;
         }
     }
 
     @render(gc.Rounds.RoundTimeStore, (store) => store.roundTime)
     renderRoundTime(roundTime: number) {
-        if (this.isPhaseWinnerOrTournament && roundTime <= settings.durations.placingBet) {
-            this.isPhaseWinnerOrTournament = false;
+        if (this.isPhaseWinner && roundTime <= TimePointTournament) {
+            this.isPhaseWinner = false;
         }
     }
 
@@ -70,7 +70,7 @@ export default class Game extends GameComponent {
     }
 
     update() {
-        const roundId = this.isPhaseWinnerOrTournament ? this.cacheRoundId - 1 : this.cacheRoundId;
+        const roundId = this.isPhaseWinner ? this.cacheRoundId - 1 : this.cacheRoundId;
         this.lblRoundId.string = `#${roundId}`;
     }
 
