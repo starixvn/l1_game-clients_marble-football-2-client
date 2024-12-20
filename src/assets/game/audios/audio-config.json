@@ -5,7 +5,9 @@
     },
     "countdown-timer": {
         "bundle": "resources",
-        "type": "sfx"
+        "type": "sfx",
+        "isLazyLoad": true,
+        "path": "effects/countdown_timer_NEW_10secs"
     },
     "dice-lifting": {
         "bundle": "resources",
@@ -65,11 +67,31 @@
         "isMusicGame": true,
         "isLazyLoad": true
     },
-    //remove sounds
+    "intro": {
+        "bundle": "resources",
+        "type": "sfx",
+        "path": "effects/logoteam_intro"
+    },
     "draw-single-card": {},
     "draw-single-domino-card": {},
-    "start-betting_en": {},
-    "stop-betting_en": {},
+    "start-betting_en": {
+        "bundle": "resources",
+        "type": "sfx",
+        "path": "effects/start_bet",
+        "isLazyLoad": true
+    },
+    "stop-betting_en": {
+        "bundle": "resources",
+        "type": "sfx",
+        "path": "effects/stop_bet",
+        "isLazyLoad": true
+    },
+    "winner": {
+        "bundle": "resources",
+        "type": "sfx",
+        "path": "effects/winner",
+        "isLazyLoad": true
+    },
     "start-betting_vi": {},
     "stop-betting_vi": {},
     "start-betting_id": {},

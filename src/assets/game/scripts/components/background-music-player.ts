@@ -1,5 +1,4 @@
 import { _decorator, AudioSource } from "cc";
-import gc from "@sg/game-client-base";
 import MusicPlayer from "db://shared-components/game/audios/scripts/component/music-player";
 import Observer from "observer";
 import { VideoStreamSoundStore } from "../features/video-stream/video-stream-sound-store";
