@@ -45,10 +45,7 @@ export class BackgroundVideoPlayer extends Component {
     }
 
     get bandwidthEstimate() {
-        const bandwidthEstimate = this.hls?.bandwidthEstimate ?? 0;
-
-        // Convert bps to KBps
-        return bandwidthEstimate / 8_000;
+        return this.hls?.bandwidthEstimate ?? 0;
     }
 
     play(retry = 0, maxRetry = 3) {
@@ -122,9 +119,9 @@ export class BackgroundVideoPlayer extends Component {
             lowLatencyMode: true,
             liveSyncDuration: 0.9,
             liveMaxLatencyDuration: 1,
-            maxBufferSize: 2 * 1000_000, // MB
-            maxBufferLength: 1, // in seconds
-            maxMaxBufferLength: 3, // in seconds
+            // maxBufferSize: 2 * 1000_000, // MB
+            // maxBufferLength: 1, // in seconds
+            // maxMaxBufferLength: 3, // in seconds
         });
 
         video.addEventListener("timeupdate", this.syncCurrentTime.bind(this));

@@ -4,7 +4,7 @@ export const settings = {
     durations: {
         wholeRound: 150,
         placingBet: 135,
-        lockingBet: 107,
+        lockingBet: 108,
         introVideo: 105,
         streamingVideo: 103,
         videoDuration: 50,
