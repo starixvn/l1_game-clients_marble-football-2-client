@@ -11,7 +11,7 @@ export const settings = {
         halfDuration: 45,
         generatingResult: 2,
         showingResult: 5,
-        startRound: 7,
+        startRound: 8,
 
         tournament: 5,
         matchWinner: 3,
