@@ -1,4 +1,4 @@
-import { _decorator, log } from "cc";
+import { _decorator } from "cc";
 import Observer from "observer";
 import { Dialog } from "../../../../../extensions/shared-components/assets/shared/common-components/dialogs/dialog";
 import { NodeContainer } from "../../../../../extensions/shared-components/assets/shared/common-components/node-container/node-container";
@@ -51,9 +51,8 @@ export class TournamentContainer extends NodeContainer {
         if (this.node.children.length === 0) {
             return;
         }
-        log("updateTournament =============== ");
         const node = this.node.children[0];
-        const tournamentCmp = node.getComponent(Tournament);
+        const tournamentCmp = node?.getComponent(Tournament);
         this.tournament && tournamentCmp?.setData(this.tournament);
     }
 
@@ -67,7 +66,6 @@ export class TournamentContainer extends NodeContainer {
         if (tournamentCmp) {
             try {
                 await tournamentCmp.show();
-                log("show tournament =============== ");
                 this.tournament && tournamentCmp.setData(this.tournament);
             } catch (e) {}
         }
