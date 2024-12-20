@@ -19,4 +19,5 @@ export const settings = {
         outro: 0.67,
     },
     numberOfRoundHistory: 100,
+    durationShowPromptMessage: 1,
 };
