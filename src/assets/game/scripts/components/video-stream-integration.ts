@@ -12,6 +12,7 @@ import { SystemIndicator } from "./system-indcator";
 
 const { ccclass, property } = _decorator;
 const { render, handle } = Observer;
+const { sentryLogger } = gc;
 
 @ccclass
 export default class VideoStreamIntegration extends ObserverComponent {
@@ -32,6 +33,7 @@ export default class VideoStreamIntegration extends ObserverComponent {
 
         this.backgroundVideoPlayer?.node.on("hlsLevelSwitched", this.updateSystemIndicator, this);
         this.backgroundVideoPlayer?.node.on("hlsError", this.updateSystemIndicator, this);
+        this.backgroundVideoPlayer?.node.on("hlsError", this.onHLSError, this);
 
         this.backgroundVideoPlayer?.node.on("hlsManifestLoading", () => (this.introOutro.showField = true));
         this.backgroundVideoPlayer?.node.on("syncNativeCurrentTime", (time: number) => (this.introOutro.showField = time <= 0));
@@ -89,5 +91,9 @@ export default class VideoStreamIntegration extends ObserverComponent {
         } else {
             this.systemIndicator.networkStatus = 1;
         }
+    }
+
+    private onHLSError(_: string, data: any) {
+        sentryLogger.logError(data);
     }
 }
