@@ -10,6 +10,8 @@ import "../../../resources/i18n";
 import { BackgroundVideoPlayer } from "../../../scripts/background-video-player";
 import { siteConfigs } from "../../../scripts/site-configs";
 import { containerOptions } from "../container-options";
+import { GamePhase, PhaseId } from "../features/game-phase/game-phase-definitions";
+import { GamePhaseStore } from "../features/game-phase/game-phase-store";
 import { StreamingVideo, VideoStreamStore } from "../features/video-stream/video-stream-store";
 import { settings } from "../game-settings";
 import { MatchResult } from "./match-result";
@@ -37,13 +39,39 @@ export default class Game extends GameComponent {
     @property(BackgroundVideoPlayer)
     private backgroundVideoPlayer: BackgroundVideoPlayer = null;
 
+    private cacheRoundId = 0;
+    private isPhaseWinnerOrTournament = false;
+
     override onHideGame() {
         this.backgroundVideoPlayer.stop();
     }
 
     onLoad() {
-        super.onLoad();
         this.betResultNode.active = false;
+        super.onLoad();
+    }
+
+    @render(GamePhaseStore, (store) => store.enterPhase)
+    renderEnterPhase(phase: GamePhase) {
+        if (phase.id === PhaseId.MatchWinner || phase.id === PhaseId.Tournament) {
+            this.isPhaseWinnerOrTournament = true;
+        }
+    }
+
+    @render(gc.Rounds.RoundTimeStore, (store) => store.roundTime)
+    renderRoundTime(roundTime: number) {
+        if (this.isPhaseWinnerOrTournament && roundTime <= settings.durations.placingBet) {
+            this.isPhaseWinnerOrTournament = false;
+        }
+    }
+
+    override renderRoundId(roundId: number) {
+        this.cacheRoundId = roundId;
+    }
+
+    update() {
+        const roundId = this.isPhaseWinnerOrTournament ? this.cacheRoundId - 1 : this.cacheRoundId;
+        this.lblRoundId.string = `#${roundId}`;
     }
 
     @render(VideoStreamStore, (store) => store.currentVideo)
