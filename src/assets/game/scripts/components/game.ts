@@ -1,5 +1,6 @@
+import { DOMBackgroundImage } from "./../../../scripts/dom-background-image";
 import gc from "@sg/game-client-base";
-import { _decorator, Node } from "cc";
+import { _decorator, assetManager, ImageAsset, Node } from "cc";
 import { ChipFlying } from "db://shared-components/game/chip-flying/scripts/components/chip-flying";
 import GameComponent from "db://shared-components/game/scripts/components/game-component";
 import { startGame } from "db://shared-components/shared/scripts/startup";
@@ -49,6 +50,7 @@ export default class Game extends GameComponent {
     onLoad() {
         this.betResultNode.active = false;
         super.onLoad();
+        this.initBackgroundImage();
     }
 
     @render(GamePhaseStore, (store) => store.enterPhase)
@@ -72,6 +74,23 @@ export default class Game extends GameComponent {
     update() {
         const roundId = this.isPhaseWinner ? this.cacheRoundId - 1 : this.cacheRoundId;
         this.lblRoundId.string = `#${roundId}`;
+    }
+
+    initBackgroundImage() {
+        const backgroundImageElement = DOMBackgroundImage.createBackgroundImageElement();
+        const imagePath = "assets/resources/images/background.jpg";
+
+        assetManager.loadRemote<ImageAsset>(imagePath, (err, imageAsset) => {
+            if (err) {
+                console.error(`Failed to load image asset: ${imagePath}`, err);
+                return;
+            }
+
+            const nativeUrl = imageAsset.nativeUrl;
+
+            backgroundImageElement.src = nativeUrl;
+            console.log(`Image loaded and set to DOM element: ${nativeUrl}`);
+        });
     }
 
     @render(VideoStreamStore, (store) => store.currentVideo)

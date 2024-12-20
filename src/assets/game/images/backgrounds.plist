@@ -39,13 +39,13 @@
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
-                <string>{0,0}</string>
+                <string>{0,2}</string>
                 <key>spriteSize</key>
-                <string>{1280,275}</string>
+                <string>{1280,271}</string>
                 <key>spriteSourceSize</key>
                 <string>{1280,275}</string>
                 <key>textureRect</key>
-                <string>{{3,725},{1280,275}}</string>
+                <string>{{3,1002},{1280,271}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -90,7 +90,7 @@
                 <key>spriteSourceSize</key>
                 <string>{1280,275}</string>
                 <key>textureRect</key>
-                <string>{{3,1002},{1280,275}}</string>
+                <string>{{3,725},{1280,275}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -123,7 +123,7 @@
             <key>size</key>
             <string>{2048,2048}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:0af4d8b3432211d30e0aea354f601ede:2ca76f56a1eaab61637837a52046700c:bce6abbc637f2ec0d80b50ac3f5865b5$</string>
+            <string>$TexturePacker:SmartUpdate:376a47a952d6a506595ac9f652b0fa62:964b4cc84857e4813ba91f1020a822a0:bce6abbc637f2ec0d80b50ac3f5865b5$</string>
             <key>textureFileName</key>
             <string>backgrounds.png</string>
         </dict>
