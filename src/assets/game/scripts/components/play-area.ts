@@ -169,11 +169,11 @@ export class PlayArea extends ObserverComponent {
         }
         try {
             await AnimationUtils.delayTime(settings.durations.outro);
+            if (this.isZoomOut) {
+                this.zoomPlayArea("in");
+            }
+            this.playAnimForTarget(this.teamScore, this.tweenConfigs.flyUp.out);
         } catch (e) {}
-        if (this.isZoomOut) {
-            this.zoomPlayArea("in");
-        }
-        this.playAnimForTarget(this.teamScore, this.tweenConfigs.flyUp.out);
     }
 
     @render(Rounds.RoundTimeStore, (store) => store.roundTime)
