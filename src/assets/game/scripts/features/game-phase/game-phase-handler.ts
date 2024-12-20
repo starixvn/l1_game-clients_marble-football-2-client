@@ -39,6 +39,12 @@ export class GamePhaseHandler {
     checkConfig(config: GamePhaseConfig, roundTime: number) {
         const visible = roundTime > config.end && roundTime <= config.begin;
 
+        if (roundTime === config.begin + 1) {
+            this.gamePhaseStore.setBeforeEnterPhase({
+                id: config.id,
+            });
+        }
+
         const cache = this.cache[config.id];
         const notVisibleFirst = !cache && !visible;
         if (notVisibleFirst || cache?.visible === visible) {

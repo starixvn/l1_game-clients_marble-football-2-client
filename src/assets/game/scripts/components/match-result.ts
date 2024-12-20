@@ -40,13 +40,14 @@ export class MatchResult extends ObserverComponent {
         this.renderFinalScore(scoreFinal);
     }
 
-    @render(GamePhaseStore, (store) => store.enterPhase)
+    @render(GamePhaseStore, (store) => store.beforeEnterPhase)
     private renderEnterPhase(phase: GamePhase) {
         if (!phase) {
             return;
         }
         if (phase.id === PhaseId.MatchWinner) {
-            this.hide().then(() => (this.node.active = false));
+            const hideDuration = 0.3333;
+            this.scheduleOnce(() => this.hide().then(() => (this.node.active = false)), 1 - hideDuration);
         }
     }
 

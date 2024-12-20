@@ -12,6 +12,7 @@ export class GamePhaseStore {
 
     enterPhase: GamePhase = null;
     exitPhase: GamePhase = null;
+    beforeEnterPhase: GamePhase = null;
 
     setEnterPhase(phase: GamePhase) {
         setTimeout(() => {
@@ -22,6 +23,12 @@ export class GamePhaseStore {
     setExitPhase(phase: GamePhase) {
         setTimeout(() => {
             this.exitPhase = phase;
+        }, 0);
+    }
+
+    setBeforeEnterPhase(phase: GamePhase) {
+        setTimeout(() => {
+            this.beforeEnterPhase = phase;
         }, 0);
     }
 }

@@ -2,8 +2,8 @@ import { settings } from "../../game-settings";
 
 export interface GamePhase {
     id: string;
-    visible: boolean;
-    progress: number;
+    visible?: boolean;
+    progress?: number;
 }
 
 export interface GamePhaseConfig {
