@@ -53,7 +53,7 @@ export default class Game extends GameComponent {
 
     @render(GamePhaseStore, (store) => store.enterPhase)
     renderEnterPhase(phase: GamePhase) {
-        if (phase.id === PhaseId.MatchWinner) {
+        if (phase?.id === PhaseId.MatchWinner) {
             this.isPhaseWinner = true;
         }
     }
