@@ -78,7 +78,6 @@ export default class Game extends GameComponent {
 
     initBackgroundImage() {
         const { origin, pathname } = window.location;
-        const backgroundImageElement = DOMBackgroundImage.createBackgroundImageElement();
         const imagePath = `${origin}${pathname}splash-resources/background.jpg?v=1`;
 
         assetManager.loadRemote<ImageAsset>(imagePath, (err, imageAsset) => {
@@ -89,7 +88,7 @@ export default class Game extends GameComponent {
 
             const nativeUrl = imageAsset.nativeUrl;
 
-            backgroundImageElement.src = nativeUrl;
+            DOMBackgroundImage.createBackgroundImageElement(nativeUrl);
             console.log(`Image loaded and set to DOM element: ${nativeUrl}`);
         });
     }

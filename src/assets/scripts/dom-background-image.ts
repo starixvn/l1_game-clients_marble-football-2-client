@@ -4,7 +4,7 @@ export class DOMBackgroundImage {
 
     static readonly IMAGE_ID = "ImageBackground";
 
-    static createBackgroundImageElement(): HTMLImageElement {
+    static createBackgroundImageElement(imageSource: string): HTMLImageElement {
         const container = document.getElementById(DOMBackgroundImage.GAME_CONTAINER_ID);
         const image = document.getElementById(DOMBackgroundImage.IMAGE_ID) as HTMLImageElement;
 
@@ -19,11 +19,9 @@ export class DOMBackgroundImage {
             container.insertBefore(image, container.firstChild);
 
             DOMBackgroundImage.registerEvents();
-
-            return image;
         }
 
-        image.src = "resources/background.jpg";
+        image.src = imageSource;
 
         return image;
     }
@@ -43,16 +41,14 @@ export class DOMBackgroundImage {
     private static onResize() {
         const container = document.getElementById(DOMBackgroundImage.GAME_CONTAINER_ID);
         const size = container.getBoundingClientRect();
-        const image = DOMBackgroundImage.createBackgroundImageElement();
+        const image = document.getElementById(DOMBackgroundImage.IMAGE_ID) as HTMLImageElement;
 
-        DOMBackgroundImage.applyImageStyles(image, size);
+        if (image) {
+            DOMBackgroundImage.applyImageStyles(image, size);
+        }
     }
 
     private static registerEvents() {
         window.addEventListener("resize", DOMBackgroundImage.onResize);
-    }
-
-    private static unregisterEvents() {
-        window.removeEventListener("resize", DOMBackgroundImage.onResize);
     }
 }
