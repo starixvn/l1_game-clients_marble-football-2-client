@@ -162,7 +162,9 @@ export class PlayArea extends ObserverComponent {
         }
     }
 
-    @render(gc.Settlements.SettlementStore, (store) => store.currentFinish)
+    @render(gc.Settlements.SettlementStore, (store) => store.currentFinish, {
+        fireImmediately: false,
+    })
     async showPlayArea(currentFinish: gc.GameServiceMessage.Finish) {
         if (!currentFinish) {
             return;

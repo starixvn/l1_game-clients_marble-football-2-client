@@ -59,7 +59,9 @@ export default class VideoStreamIntegration extends ObserverComponent {
         this.backgroundVideoPlayer.init(liveStreamServer);
     }
 
-    @render(gc.Settlements.SettlementStore, (store) => store.currentFinish)
+    @render(gc.Settlements.SettlementStore, (store) => store.currentFinish, {
+        fireImmediately: false,
+    })
     showPlayArea(currentFinish: gc.GameServiceMessage.Finish) {
         if (!currentFinish) {
             return;
