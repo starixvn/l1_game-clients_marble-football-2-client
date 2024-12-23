@@ -57,7 +57,7 @@ export class PlayArea extends ObserverComponent {
     private readonly tweenConfigs: Record<TweenKey, TweenConfigs> = {
         zoomInOut: {
             in: { scale: v3(1, 1, 1), position: v3(0, -86, 0), time: 1 },
-            out: { scale: v3(0.551, 0.551, 1), position: v3(0, -300, 0), time: 1.5 },
+            out: { scale: v3(0.5, 0.5, 1), position: v3(0, -305, 0), time: 1.5 },
         },
         fadeInOut: {
             in: { opacity: 255, time: 1 },
