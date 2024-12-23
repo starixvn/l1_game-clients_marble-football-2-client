@@ -19,9 +19,9 @@ export class DOMBackgroundImage {
             container.insertBefore(image, container.firstChild);
 
             DOMBackgroundImage.registerEvents();
-        }
 
-        image.src = imageSource;
+            image.src = imageSource;
+        }
 
         return image;
     }
