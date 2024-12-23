@@ -6,7 +6,12 @@ export class DOMBackgroundImage {
 
     static createBackgroundImageElement(imageSource: string): HTMLImageElement {
         const container = document.getElementById(DOMBackgroundImage.GAME_CONTAINER_ID);
+        const game = document.getElementById(DOMBackgroundImage.GAME_CANVAS_ID);
         const image = document.getElementById(DOMBackgroundImage.IMAGE_ID) as HTMLImageElement;
+
+        if (game) {
+            DOMBackgroundImage.applyGameStyles(game);
+        }
 
         if (!image) {
             const image = document.createElement("img");
@@ -36,6 +41,11 @@ export class DOMBackgroundImage {
         image.style.zIndex = "9";
         image.width = size.width;
         image.height = size.height;
+    }
+
+    private static applyGameStyles(game: HTMLElement) {
+        game.style.zIndex = "11";
+        game.style.position = "relative";
     }
 
     private static onResize() {
