@@ -19,7 +19,7 @@ interface TweenConfig {
     scale?: Vec3;
     position?: Vec3;
     opacity?: number;
-    flyDistance?: number;
+    positionY?: number;
 
     time: number;
 }
@@ -64,12 +64,12 @@ export class PlayArea extends ObserverComponent {
             out: { opacity: 0, time: 1 },
         },
         flyDown: {
-            in: { flyDistance: 100, opacity: 255, time: 1 },
-            out: { flyDistance: -100, opacity: 0, time: 1 },
+            in: { positionY: -285, opacity: 255, time: 1 },
+            out: { positionY: -385, opacity: 0, time: 1 },
         },
         flyUp: {
-            in: { flyDistance: -500, opacity: 255, time: 1 },
-            out: { flyDistance: 500, opacity: 0, time: 1 },
+            in: { positionY: 330, opacity: 255, time: 1 },
+            out: { positionY: 830, opacity: 0, time: 1 },
         },
     };
 
@@ -245,9 +245,9 @@ export class PlayArea extends ObserverComponent {
                 tween(uiOpacity).to(config.time, { opacity: config.opacity }).call(resolve).start();
             }
 
-            if (config.flyDistance !== undefined) {
+            if (config.positionY !== undefined) {
                 tween(node)
-                    .to(config.time, { position: v3(node.position.x, node.position.y + config.flyDistance, node.position.z) })
+                    .to(config.time, { position: v3(node.position.x, config.positionY, node.position.z) })
                     .call(resolve)
                     .start();
             }
@@ -271,8 +271,8 @@ export class PlayArea extends ObserverComponent {
             uiOpacity.opacity = config.opacity;
         }
 
-        if (config.flyDistance !== undefined) {
-            node.setPosition(v3(node.position.x, node.position.y + config.flyDistance, node.position.z));
+        if (config.positionY !== undefined) {
+            node.setPosition(v3(node.position.x, config.positionY, node.position.z));
         }
     }
 
