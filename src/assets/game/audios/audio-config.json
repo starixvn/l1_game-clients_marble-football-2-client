@@ -67,16 +67,6 @@
         "path": "effects/bracket_hide",
         "isLazyLoad": true
     },
-    "start-betting_vi": {},
-    "stop-betting_vi": {},
-    "start-betting_id": {},
-    "stop-betting_id": {},
-    "start-betting_th": {},
-    "stop-betting_th": {},
-    "start-betting_zh_cn": {},
-    "stop-betting_zh_cn": {},
-    "start-betting_zh_tw": {},
-    "stop-betting_zh_tw": {},
     "bgm-song6": {},
     "bgm-song7": {}
 }
