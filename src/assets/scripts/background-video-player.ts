@@ -53,6 +53,13 @@ export class BackgroundVideoPlayer extends Component {
 
         this.hls.loadSource(this._videoSource);
 
+        if (!this.muted) {
+            this.muted = true;
+            setTimeout(() => {
+                this.muted = false;
+            }, 100);
+        }
+
         // Fix for iOS 17, video element is not playing immediately
         this.native.play().catch(() => {
             if (retry < maxRetry) {
