@@ -84,6 +84,10 @@ export class BackgroundVideoPlayer extends Component {
         this.currentTime += dt;
     }
 
+    onLoad() {
+        this.initialize();
+    }
+
     protected onDestroy(): void {
         this.stop();
     }

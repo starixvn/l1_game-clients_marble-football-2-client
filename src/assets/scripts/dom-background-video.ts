@@ -18,7 +18,7 @@ export class DOMBackgroundVideo {
             const size = container.getBoundingClientRect();
 
             video.id = DOMBackgroundVideo.VIDEO_ID;
-            video.muted = true;
+            // video.muted = true;
 
             DOMBackgroundVideo.applyVideoStyles(video, size);
 
@@ -53,7 +53,7 @@ export class DOMBackgroundVideo {
         video.height = size.height;
         video.playsInline = true;
         video.autoplay = true;
-        video.muted = true;
+        // video.muted = true;
         video.preload = "auto";
     }
 
