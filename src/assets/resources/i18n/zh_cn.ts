@@ -264,7 +264,7 @@ export const languages = {
         "tournament_round_of_16": "第16局",
         "tournament_semi_final": "半决赛",
         "vs": "vs",
-        "warning_livestream_not_supported": "您的设备当前的浏览器和操作系统版本不支持观看本游戏的直播（您仍然可以正常下注和领取奖励），请考虑更新到{recommulated_OS_version}或更高版本以充分享受游戏。",
+        "warning_livestream_not_supported": "您的设备当前浏览器和操作系统版本不支持观看本游戏直播（您仍可以正常下注、领取奖励），请考虑更新至游戏指南或以上版本，以充分享受游戏乐趣。",
         "winner": "赢家",
         "wins": "赢"
     }

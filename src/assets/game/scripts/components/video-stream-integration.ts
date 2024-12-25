@@ -1,15 +1,15 @@
 import gc from "@sg/game-client-base";
-import { _decorator } from "cc";
+import { _decorator, instantiate, Node, Prefab } from "cc";
 import { ObserverComponent } from "db://shared-components/shared/common-components/observer-component/scripts/observer-component";
 import Observer from "observer";
 import { BackgroundVideoPlayer } from "../../../scripts/background-video-player";
 import { VideoStreamHandlers } from "../features/feature";
+import { StreamingVideo, VideoStreamStore } from "../features/video-stream/video-stream-store";
 import { settings } from "../game-settings";
+import { MarbleFootballServiceMessages } from "../marble-football-service-messages";
 import { BreakTime } from "./break-time";
 import { IntroOutro } from "./intro-outro";
-import { SystemIndicator } from "./system-indcator";
-import { StreamingVideo, VideoStreamStore } from "../features/video-stream/video-stream-store";
-import { MarbleFootballServiceMessages } from "../marble-football-service-messages";
+import { NetworkStatus, SystemIndicator } from "./system-indcator";
 
 const { ccclass, property } = _decorator;
 const { render, handle } = Observer;
@@ -31,6 +31,12 @@ export default class VideoStreamIntegration extends ObserverComponent {
     @property(IntroOutro)
     private introOutro: IntroOutro = null;
 
+    @property(Prefab)
+    private warnPrefab: Prefab = null;
+
+    @property(Node)
+    private warnContainer: Node = null;
+
     onLoad(): void {
         super.onLoad();
 
@@ -40,6 +46,8 @@ export default class VideoStreamIntegration extends ObserverComponent {
         this.backgroundVideoPlayer?.node.on("hlsFragChanged", () => {
             this.introOutro.showField = false;
         });
+        this.backgroundVideoPlayer?.node.on("hlsNotSupported", this.onHSLNotSupported, this);
+        this.warnContainer?.removeAllChildren();
     }
 
     @render(VideoStreamStore, (store) => store.currentVideo)
@@ -131,7 +139,7 @@ export default class VideoStreamIntegration extends ObserverComponent {
             this.systemIndicator.networkStatus = data.level + 2;
         } else {
             // On error, set to disconnected
-            this.systemIndicator.networkStatus = 1;
+            this.systemIndicator.networkStatus = NetworkStatus.DISCONNECTED;
 
             const segmentTime = 3; // second
 
@@ -143,5 +151,15 @@ export default class VideoStreamIntegration extends ObserverComponent {
 
     private onHLSError(_: string, data: any) {
         sentryLogger.logError(data);
+    }
+
+    private onHSLNotSupported() {
+        const node = instantiate(this?.warnPrefab);
+        if (this.warnContainer?.children?.length > 0) {
+            return;
+        }
+
+        this.systemIndicator.networkStatus = NetworkStatus.DISCONNECTED;
+        node && this.warnContainer?.addChild(node);
     }
 }

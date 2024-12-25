@@ -264,7 +264,7 @@ export const languages = {
         "tournament_round_of_16": "Round of 16",
         "tournament_semi_final": "Semifinal",
         "vs": "vs",
-        "warning_livestream_not_supported": "Your device's current browser and OS version does not support viewing live streams in this game (you can still place bets and collect rewards normally), please consider updating to {recommended_OS_version} or above to fully enjoy the game.",
+        "warning_livestream_not_supported": "Your device's current browser and OS version does not support viewing live streams in this game (you can still place bets and collect rewards normally), please consider updating to the version mentioned in Game Guides or above to fully enjoy the game.",
         "winner": "Winner",
         "wins": "Wins"
     }
