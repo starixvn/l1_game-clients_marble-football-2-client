@@ -4,11 +4,12 @@ import { ObserverComponent } from "db://shared-components/shared/common-componen
 import Observer from "observer";
 import { BackgroundVideoPlayer } from "../../../scripts/background-video-player";
 import { VideoStreamHandlers } from "../features/feature";
-import { VideoStreamStore } from "../features/video-stream/video-stream-store";
 import { settings } from "../game-settings";
 import { BreakTime } from "./break-time";
 import { IntroOutro } from "./intro-outro";
 import { SystemIndicator } from "./system-indcator";
+import { StreamingVideo, VideoStreamStore } from "../features/video-stream/video-stream-store";
+import { MarbleFootballServiceMessages } from "../marble-football-service-messages";
 
 const { ccclass, property } = _decorator;
 const { render, handle } = Observer;
@@ -35,11 +36,40 @@ export default class VideoStreamIntegration extends ObserverComponent {
 
         this.backgroundVideoPlayer?.node.on("hlsLevelSwitched", this.updateSystemIndicator, this);
         this.backgroundVideoPlayer?.node.on("hlsError", this.updateSystemIndicator, this);
-
         this.backgroundVideoPlayer?.node.on("hlsError", this.onHLSError, this);
+        this.backgroundVideoPlayer?.node.on("hlsFragChanged", () => {
+            this.introOutro.showField = false;
+        });
+    }
 
-        this.backgroundVideoPlayer?.node.on("hlsManifestLoading", () => (this.introOutro.showField = true));
-        this.backgroundVideoPlayer?.node.on("syncNativeCurrentTime", (time: number) => (this.introOutro.showField = time <= 0));
+    @render(VideoStreamStore, (store) => store.currentVideo)
+    renderVideoSource(currentVideo: StreamingVideo) {
+        if (currentVideo.videoName) {
+            console.log("renderVideoSource", currentVideo);
+            this.backgroundVideoPlayer.currentTime = currentVideo.time;
+            this.backgroundVideoPlayer.playVideoByName(currentVideo.videoName);
+        }
+    }
+
+    @render(VideoStreamStore, (store) => store.videoResult)
+    bufferFirstHalfVideo(videoResult: MarbleFootballServiceMessages.VideoStream) {
+        console.log("bufferFirstHalfVideo", videoResult);
+        this.introOutro.showField = true;
+        this.backgroundVideoPlayer.currentTime = 0;
+        this.backgroundVideoPlayer.loadVideoByName(videoResult.firstHalfVideo);
+    }
+
+    @render(VideoStreamStore, (store) => ({
+        isBreakTime: store.isBreakTime,
+        videoResult: store.videoResult,
+    }))
+    bufferSecondHalfVideo({ isBreakTime, videoResult }: { isBreakTime: boolean; videoResult: MarbleFootballServiceMessages.VideoStream }) {
+        if (isBreakTime) {
+            console.log("bufferSecondHalfVideo", videoResult);
+            this.introOutro.showField = true;
+            this.backgroundVideoPlayer.currentTime = 0;
+            this.backgroundVideoPlayer.loadVideoByName(videoResult.secondHalfVideo);
+        }
     }
 
     @render(gc.Rounds.RoundTimeStore, (store) => store.isStartRound)
@@ -76,9 +106,6 @@ export default class VideoStreamIntegration extends ObserverComponent {
                 this.playSound();
             }, 0.75);
             this.introOutro.playIntroAnimation();
-        }
-
-        if (roundTime === settings.durations.introVideo - 1) {
             this.breakTime?.playAnimation(0);
         }
 

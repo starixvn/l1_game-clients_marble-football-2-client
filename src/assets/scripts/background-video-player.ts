@@ -24,15 +24,20 @@ export class BackgroundVideoPlayer extends Component {
         this.liveStreamServer = liveStreamServer;
     }
 
-    playVideoByName(videoName: string) {
-        if (videoName === "" || this.liveStreamServer === "") {
+    loadVideoByName(videoName: string) {
+        if (!videoName?.trim() || !this.liveStreamServer) {
             return;
         }
 
-        const videoUrl = new URL(`${videoName}.m3u8`, this.liveStreamServer).toString();
+        if (this._videoName !== videoName) {
+            this._videoName = videoName;
+            this._videoSource = new URL(`${videoName.trim()}.m3u8`, this.liveStreamServer).toString();
+            this.loadSource();
+        }
+    }
 
-        this._videoSource = videoUrl;
-        this._videoName = videoName;
+    playVideoByName(videoName: string) {
+        this.loadVideoByName(videoName);
 
         this.play();
     }
@@ -46,20 +51,16 @@ export class BackgroundVideoPlayer extends Component {
         return this.hls?.bandwidthEstimate ?? 0;
     }
 
-    play(retry = 0, maxRetry = 3) {
+    loadSource() {
         if (!this.initialized) {
             this.initialize();
         }
 
         this.hls.loadSource(this._videoSource);
+        this.pause();
+    }
 
-        if (!this.muted) {
-            this.muted = true;
-            setTimeout(() => {
-                this.muted = false;
-            }, 100);
-        }
-
+    play(retry = 0, maxRetry = 3) {
         // Fix for iOS 17, video element is not playing immediately
         this.native.play().catch(() => {
             if (retry < maxRetry) {
@@ -144,6 +145,7 @@ export class BackgroundVideoPlayer extends Component {
         hls.on(Hls.Events.MANIFEST_LOADING, this.node.emit.bind(this.node));
         hls.on(Hls.Events.MANIFEST_PARSED, this.node.emit.bind(this.node));
         hls.on(Hls.Events.FRAG_BUFFERED, this.node.emit.bind(this.node));
+        hls.on(Hls.Events.FRAG_CHANGED, this.node.emit.bind(this.node));
         hls.on(Hls.Events.ERROR, (event, data) => {
             this.node.emit(event, {
                 ...data,

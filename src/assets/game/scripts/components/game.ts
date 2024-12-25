@@ -13,7 +13,6 @@ import { siteConfigs } from "../../../scripts/site-configs";
 import { containerOptions } from "../container-options";
 import { GamePhase, PhaseId, TimePointTournament } from "../features/game-phase/game-phase-definitions";
 import { GamePhaseStore } from "../features/game-phase/game-phase-store";
-import { StreamingVideo, VideoStreamStore } from "../features/video-stream/video-stream-store";
 import { settings } from "../game-settings";
 import { MatchResult } from "./match-result";
 
@@ -92,15 +91,6 @@ export default class Game extends GameComponent {
             DOMBackgroundImage.createBackgroundImageElement(nativeUrl);
             console.log(`Image loaded and set to DOM element: ${nativeUrl}`);
         });
-    }
-
-    @render(VideoStreamStore, (store) => store.currentVideo)
-    renderVideoSource(currentVideo: StreamingVideo) {
-        if (currentVideo.videoName) {
-            this.backgroundVideoPlayer.currentTime = currentVideo.time;
-
-            this.backgroundVideoPlayer.playVideoByName(currentVideo.videoName);
-        }
     }
 
     private showWinningChoice(settlementResult: any) {
