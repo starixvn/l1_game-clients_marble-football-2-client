@@ -1,9 +1,9 @@
-import { DOMBackgroundImage } from "./../../../scripts/dom-background-image";
 import gc from "@sg/game-client-base";
 import { _decorator, assetManager, ImageAsset, Node } from "cc";
 import { ChipFlying } from "db://shared-components/game/chip-flying/scripts/components/chip-flying";
 import GameComponent from "db://shared-components/game/scripts/components/game-component";
 import { startGame } from "db://shared-components/shared/scripts/startup";
+import { DOMBackgroundImage } from "./../../../scripts/dom-background-image";
 
 import Observer from "observer";
 import { AnimationUtils } from "../../../../extensions/shared-components/assets/shared/utils";

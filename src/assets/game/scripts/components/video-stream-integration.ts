@@ -52,7 +52,7 @@ export default class VideoStreamIntegration extends ObserverComponent {
 
     @render(VideoStreamStore, (store) => store.currentVideo)
     renderVideoSource(currentVideo: StreamingVideo) {
-        if (currentVideo.videoName) {
+        if (currentVideo?.videoName) {
             console.log("renderVideoSource", currentVideo);
             this.backgroundVideoPlayer.currentTime = currentVideo.time;
             this.backgroundVideoPlayer.playVideoByName(currentVideo.videoName);
