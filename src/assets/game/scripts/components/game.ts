@@ -21,6 +21,7 @@ startGame(settings.name, containerOptions, siteConfigs);
 
 const { ccclass, property } = _decorator;
 const { observer, render } = Observer;
+const SHOW_RESULT_SOUND = "show-result";
 
 @ccclass
 @observer(settings.name)
@@ -143,5 +144,29 @@ export default class Game extends GameComponent {
             this.finishShowResult(result, settlementResult);
             this.chipFlying.callActionPayChips();
         });
+        this.scheduleOnce(() => {
+            this.playSound(SHOW_RESULT_SOUND);
+        }, 0.5);
+    }
+
+    @render(gc.Settlements.SettlementStore, (store) => ({ result: store.result, settlementResult: store.settlementResult }))
+    handleResult(data: { result: gc.GameServiceMessage.TResult; settlementResult: gc.GameServiceMessage.TSettlementResult }) {
+        if (this.enableFixHandleFinish) {
+            return;
+        }
+        const { result, settlementResult } = data;
+
+        if (!this.isValidResult(result, settlementResult)) {
+            this.isReceiveFinishBeforeRoundHistory = false;
+            return;
+        }
+
+        this.showResult(result, true, settlementResult).then(() => {
+            this.finishShowResult(result, settlementResult);
+        });
+        this.playSound(gc.Audios.AudioIds.RECEIVE_FINISH);
+        this.scheduleOnce(() => {
+            this.playSound(SHOW_RESULT_SOUND);
+        }, 0.5);
     }
 }

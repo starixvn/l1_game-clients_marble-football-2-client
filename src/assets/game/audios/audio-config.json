@@ -1,29 +1,31 @@
 {
     "click": {
         "bundle": "resources",
-        "path": "effects/click",
+        "path": "effects/click_V02",
         "type": "sfx",
         "isLazyLoad": true
     },
     "single-chip": {
         "bundle": "resources",
-        "path": "effects/chips",
+        "path": "effects/single_chip_V02",
         "type": "sfx",
         "isLazyLoad": true
-    },
-    "countdown-end": {
-        "bundle": "resources",
-        "type": "sfx"
     },
     "countdown-timer": {
         "bundle": "resources",
         "type": "sfx",
         "isLazyLoad": true,
-        "path": "effects/countdown_timer_NEW_10secs"
+        "path": "effects/countdown_V02"
     },
-    "starting-round": {},
+    "show-result": {
+        "bundle": "resources",
+        "type": "sfx",
+        "isLazyLoad": true,
+        "path": "effects/bettingboard_show"
+    },
     "receive-finish": {},
-    "bgm_lobby": {
+    "starting-round": {},
+    "bgm_marble_V02": {
         "bundle": "resources",
         "type": "music",
         "isMusicGame": true,
@@ -37,13 +39,13 @@
     },
     "draw-single-card": {},
     "draw-single-domino-card": {},
-    "start-betting_en": {
+    "start-betting": {
         "bundle": "resources",
         "type": "sfx",
-        "path": "effects/start_bet",
+        "path": "effects/start_bet_V02",
         "isLazyLoad": true
     },
-    "stop-betting_en": {
+    "stop-betting": {
         "bundle": "resources",
         "type": "sfx",
         "path": "effects/stop_bet",
@@ -67,6 +69,28 @@
         "path": "effects/bracket_hide",
         "isLazyLoad": true
     },
-    "bgm-song6": {},
-    "bgm-song7": {}
+    "next-match": {
+        "bundle": "resources",
+        "type": "sfx",
+        "path": "effects/nextmatch",
+        "isLazyLoad": true
+    },
+    "gather-chips": {
+        "bundle": "resources",
+        "type": "sfx",
+        "path": "effects/chips_paymoney1",
+        "isLazyLoad": true
+    },
+    "divide-chips": {
+        "bundle": "resources",
+        "type": "sfx",
+        "path": "effects/chips_paymoney2",
+        "isLazyLoad": true
+    },
+    "pay-chips": {
+        "bundle": "resources",
+        "type": "sfx",
+        "path": "effects/chips_paymoney3",
+        "isLazyLoad": true
+    }
 }

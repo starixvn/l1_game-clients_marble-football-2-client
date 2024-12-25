@@ -4,10 +4,19 @@ import { PromptMessageContainer } from "db://shared-components/game/prompt-messa
 import Observer from "observer";
 import { settings } from "../game-settings";
 import { MatchPromptMessage } from "./match-promt-message";
+
 const { ccclass } = _decorator;
 const { Rounds } = gc;
 const { render } = Observer;
+
 const NEXT_MATCH_TIME = 140;
+
+const PROMPT_SOUND_ID = {
+    START_BETTING: "start-betting",
+    NEXT_MATCH: "next-match",
+    STOP_BETTING: "stop-betting",
+};
+
 @ccclass("MatchPromptMessageContainer")
 export class MatchPromptMessageContainer extends PromptMessageContainer {
     promptMessageComponent: MatchPromptMessage;
@@ -18,7 +27,28 @@ export class MatchPromptMessageContainer extends PromptMessageContainer {
             this.scheduleOnce(() => this.getComponent().showTimeUpMessage(), 0.5);
         }
         if (time === NEXT_MATCH_TIME) {
-            this.scheduleOnce(() => this.getComponent().showNextMatchMessage(), 1);
+            this.scheduleOnce(() => {
+                this.getComponent().showNextMatchMessage();
+                this.playSound(PROMPT_SOUND_ID.NEXT_MATCH);
+            }, 1);
+        }
+    }
+
+    @render(Rounds.RoundTimeStore, (store) => store.isShowStartBetMessage)
+    showStartBetMessage(isStartingRound: boolean) {
+        if (isStartingRound) {
+            this.scheduleOnce(() => {
+                this.getComponent()?.showStartBetMessage();
+                this.playSound(PROMPT_SOUND_ID.START_BETTING);
+            }, 0.7);
+        }
+    }
+
+    @render(Rounds.RoundTimeStore, (store) => store.isStartLocking)
+    renderIsStartLocking(isStartLocking: boolean) {
+        if (!this.shortLockingDuration && isStartLocking) {
+            this.getComponent()?.showStopBetMessage();
+            this.playSound(PROMPT_SOUND_ID.STOP_BETTING);
         }
     }
 
