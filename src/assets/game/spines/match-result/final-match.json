@@ -1,1 +1,440 @@
-{"skeleton":{"hash":"DzrIGpU7udtuS4LIU8lgc9Ft45w","spine":"3.8.99","x":-305.5,"y":-138.09,"width":605.53,"height":230.41,"images":"./images/","audio":"D:/MYWORKFOLDER/20 soccer/spine/final match"},"bones":[{"name":"root","y":0.32},{"name":"fulltime","parent":"root","y":49.53},{"name":"fulltime-bg","parent":"fulltime"},{"name":"fulltime-text","parent":"fulltime","y":18.92},{"name":"score","parent":"root"},{"name":"score-home","parent":"score","x":-61.42},{"name":"score-away","parent":"score","x":65.56},{"name":"connect","parent":"score"},{"name":"score-bg","parent":"score"},{"name":"1st-Half","parent":"root","y":-65.88},{"name":"penalty","parent":"root","y":-125.41},{"name":"penalty-text","parent":"penalty","y":20.98},{"name":"penalty-home","parent":"penalty","x":-86.7,"y":20.98},{"name":"penalty-away","parent":"penalty","x":92.31,"y":20.98},{"name":"pen-bg","parent":"penalty","y":20.98},{"name":"home","parent":"root","x":-298.53,"y":-78.97},{"name":"logo-home","parent":"home","y":64.2},{"name":"teamname-home","parent":"home","y":-26.32},{"name":"away","parent":"root","x":298.53,"y":-78.97},{"name":"logo-away","parent":"away","y":64.2},{"name":"bone","parent":"root"},{"name":"teamname-away","parent":"away","y":-26.32}],"slots":[{"name":"BG","bone":"root","attachment":"empty"},{"name":"penalty-bg","bone":"pen-bg","attachment":"penalty bg"},{"name":"penalty-text","bone":"penalty-text","color":"ffffff00","attachment":"empty"},{"name":"penalty-home","bone":"penalty-home","color":"ffffff00","attachment":"empty"},{"name":"penalty-away","bone":"penalty-away","color":"ffffff00","attachment":"empty"},{"name":"teamname-home","bone":"teamname-home","color":"ffffff00","attachment":"empty"},{"name":"teamname-away","bone":"teamname-away","color":"ffffff00","attachment":"empty"},{"name":"logo-home","bone":"logo-home","color":"ffffff00","attachment":"empty"},{"name":"logo-away","bone":"logo-away","color":"ffffff00","attachment":"empty"},{"name":"fulltime-bg","bone":"fulltime-bg","attachment":"fulltime bg"},{"name":"fulltime-text","bone":"fulltime-text","color":"ffffff00","attachment":"empty"},{"name":"score-bg","bone":"score-bg","attachment":"score bg"},{"name":"score-home","bone":"score-home","color":"ffffff00","attachment":"empty"},{"name":"score-away","bone":"score-away","color":"ffffff00","attachment":"empty"},{"name":"connect","bone":"connect","color":"ffffff00","attachment":"connect"},{"name":"1st-Half","bone":"1st-Half","color":"ffffff00","attachment":"empty"}],"skins":[{"name":"default","attachments":{"1st-Half":{"empty":{"x":0.5,"y":1.38,"width":3,"height":3}},"BG":{"empty":{"x":3,"y":-136.91,"width":3,"height":3}},"connect":{"connect":{"y":-1,"width":32,"height":12}},"fulltime-bg":{"fulltime bg":{"y":20.47,"width":170,"height":44}},"fulltime-text":{"empty":{"x":1,"y":2.05,"width":3,"height":3}},"logo-away":{"empty":{"y":1.77,"width":3,"height":3}},"logo-home":{"empty":{"x":-0.47,"y":1.77,"width":3,"height":3}},"penalty-away":{"empty":{"x":0.69,"y":-0.57,"width":3,"height":3}},"penalty-bg":{"penalty bg":{"x":0.5,"y":-0.57,"width":267,"height":44}},"penalty-home":{"empty":{"x":-2.8,"y":-0.57,"width":3,"height":3}},"penalty-text":{"empty":{"x":1.5,"y":-0.07,"width":3,"height":3}},"score-away":{"empty":{"x":-3.06,"y":-1.5,"width":3,"height":3}},"score-bg":{"score bg":{"x":0.5,"y":-1.5,"width":267,"height":91}},"score-home":{"empty":{"x":-3.08,"y":-1.5,"width":3,"height":3}},"teamname-away":{"empty":{"x":-2.03,"y":-0.21,"width":3,"height":3}},"teamname-home":{"empty":{"x":-5.47,"y":-0.21,"width":3,"height":3}}}}],"animations":{"penalty off hide":{"slots":{"1st-Half":{"color":[{"time":0.0333,"color":"ffffffff"},{"time":0.2,"color":"ffffff00"}]},"connect":{"color":[{"time":0.0333,"color":"ffffffff"},{"time":0.2,"color":"ffffff00"}]},"fulltime-text":{"color":[{"time":0.0333,"color":"ffffffff"},{"time":0.2,"color":"ffffff00"}]},"logo-away":{"color":[{"time":0.0333,"color":"ffffffff"},{"time":0.2,"color":"ffffff00"}]},"logo-home":{"color":[{"time":0.0333,"color":"ffffffff"},{"time":0.2,"color":"ffffff00"}]},"score-away":{"color":[{"time":0.0333,"color":"ffffffff"},{"time":0.2,"color":"ffffff00"}]},"score-home":{"color":[{"time":0.0333,"color":"ffffffff"},{"time":0.2,"color":"ffffff00"}]},"teamname-away":{"color":[{"color":"ffffffff"},{"time":0.1667,"color":"ffffff00"}]},"teamname-home":{"color":[{"time":0.0333,"color":"ffffffff"},{"time":0.2,"color":"ffffff00"}]}},"bones":{"fulltime-bg":{"scale":[{"time":0.1667},{"time":0.3333,"x":0}]},"score-bg":{"scale":[{"time":0.1667},{"time":0.3333,"x":0}]},"fulltime-text":{"translate":[{"time":0.0333},{"time":0.2,"y":8}]},"score-home":{"translate":[{"time":0.0333},{"time":0.2,"y":9}]},"connect":{"translate":[{"time":0.0333},{"time":0.2,"y":8}]},"score-away":{"translate":[{"time":0.0333},{"time":0.2,"y":9}]},"1st-Half":{"translate":[{"time":0.0333},{"time":0.2,"y":9}]},"logo-away":{"scale":[{"time":0.0333},{"time":0.2,"x":0,"y":0}]},"logo-home":{"scale":[{"time":0.0333},{"time":0.2,"x":0,"y":0}]},"teamname-home":{"translate":[{"time":0.0333},{"time":0.2,"y":8}]},"teamname-away":{"translate":[{},{"time":0.1667,"y":8}]},"pen-bg":{"scale":[{"x":0}]}}},"penalty off show":{"slots":{"1st-Half":{"color":[{"time":0.7667,"color":"ffffff00"},{"time":1,"color":"ffffffff"}]},"connect":{"color":[{"time":0.7,"color":"ffffff00"},{"time":0.9333,"color":"ffffffff"}]},"fulltime-text":{"color":[{"time":0.6333,"color":"ffffff00"},{"time":0.8667,"color":"ffffffff"}]},"logo-away":{"color":[{"time":0.0333,"color":"ffffff00"},{"time":0.2667,"color":"ffffffff"}]},"logo-home":{"color":[{"time":0.0333,"color":"ffffff00"},{"time":0.2667,"color":"ffffffff"}]},"score-away":{"color":[{"time":0.7333,"color":"ffffff00"},{"time":0.9667,"color":"ffffffff"}]},"score-home":{"color":[{"time":0.6667,"color":"ffffff00"},{"time":0.9,"color":"ffffffff"}]},"teamname-away":{"color":[{"time":0.1,"color":"ffffff00"},{"time":0.3667,"color":"ffffffff"}]},"teamname-home":{"color":[{"time":0.1,"color":"ffffff00"},{"time":0.3667,"color":"ffffffff"}]}},"bones":{"fulltime-bg":{"scale":[{"x":0,"curve":"stepped"},{"time":0.4667,"x":0},{"time":0.6333,"x":1.02},{"time":0.7667}]},"score-bg":{"scale":[{"x":0,"curve":"stepped"},{"time":0.5667,"x":0},{"time":0.7667,"x":1.02},{"time":0.8667}]},"fulltime-text":{"translate":[{"y":8,"curve":"stepped"},{"time":0.6333,"y":8},{"time":0.8667}]},"score-home":{"translate":[{"y":9,"curve":"stepped"},{"time":0.6667,"y":9},{"time":0.9}]},"connect":{"translate":[{"y":8,"curve":"stepped"},{"time":0.7,"y":8},{"time":0.9333}]},"score-away":{"translate":[{"y":9,"curve":"stepped"},{"time":0.7333,"y":9},{"time":0.9667}]},"1st-Half":{"translate":[{"y":9,"curve":"stepped"},{"time":0.7667,"y":9},{"time":1}]},"pen-bg":{"scale":[{"x":0}]},"penalty-text":{"translate":[{"y":9}]},"penalty-home":{"translate":[{"x":6}]},"penalty-away":{"translate":[{"x":-5.36}]},"logo-away":{"scale":[{"x":0,"y":0,"curve":"stepped"},{"time":0.0333,"x":0,"y":0},{"time":0.2667,"x":1.1,"y":1.1},{"time":0.6}]},"logo-home":{"scale":[{"x":0,"y":0,"curve":"stepped"},{"time":0.0333,"x":0,"y":0,"curve":0.25,"c3":0.75},{"time":0.2667,"x":1.1,"y":1.1,"curve":0.25,"c3":0.75},{"time":0.6}]},"teamname-home":{"translate":[{"time":0.1,"y":8},{"time":0.3667}]},"teamname-away":{"translate":[{"time":0.1,"y":8},{"time":0.3667}]}}},"penalty on hide":{"slots":{"1st-Half":{"color":[{"time":0.0333,"color":"ffffffff"},{"time":0.2,"color":"ffffff00"}]},"connect":{"color":[{"time":0.0333,"color":"ffffffff"},{"time":0.2,"color":"ffffff00"}]},"fulltime-text":{"color":[{"time":0.0333,"color":"ffffffff"},{"time":0.2,"color":"ffffff00"}]},"logo-away":{"color":[{"time":0.0333,"color":"ffffffff"},{"time":0.2,"color":"ffffff00"}]},"logo-home":{"color":[{"time":0.0333,"color":"ffffffff"},{"time":0.2,"color":"ffffff00"}]},"penalty-away":{"color":[{"time":0.0333,"color":"ffffffff"},{"time":0.2,"color":"ffffff00"}]},"penalty-home":{"color":[{"time":0.0333,"color":"ffffffff"},{"time":0.2,"color":"ffffff00"}]},"penalty-text":{"color":[{"time":0.0333,"color":"ffffffff"},{"time":0.2,"color":"ffffff00"}]},"score-away":{"color":[{"time":0.0333,"color":"ffffffff"},{"time":0.2,"color":"ffffff00"}]},"score-home":{"color":[{"time":0.0333,"color":"ffffffff"},{"time":0.2,"color":"ffffff00"}]},"teamname-away":{"color":[{"color":"ffffffff"},{"time":0.1667,"color":"ffffff00"}]},"teamname-home":{"color":[{"time":0.0333,"color":"ffffffff"},{"time":0.2,"color":"ffffff00"}]}},"bones":{"fulltime-bg":{"scale":[{"time":0.1667},{"time":0.3333,"x":0}]},"score-bg":{"scale":[{"time":0.1667},{"time":0.3333,"x":0}]},"fulltime-text":{"translate":[{"time":0.0333},{"time":0.2,"y":8}]},"score-home":{"translate":[{"time":0.0333},{"time":0.2,"y":9}]},"connect":{"translate":[{"time":0.0333},{"time":0.2,"y":8}]},"score-away":{"translate":[{"time":0.0333},{"time":0.2,"y":9}]},"1st-Half":{"translate":[{"time":0.0333},{"time":0.2,"y":9}]},"pen-bg":{"scale":[{"time":0.1667},{"time":0.3333,"x":0}]},"penalty-text":{"translate":[{"time":0.0333},{"time":0.2,"y":9}]},"penalty-home":{"translate":[{"time":0.0333},{"time":0.2,"x":6}]},"penalty-away":{"translate":[{"time":0.0333},{"time":0.2,"x":-5.36}]},"logo-away":{"scale":[{"time":0.0333},{"time":0.2,"x":0,"y":0}]},"logo-home":{"scale":[{"time":0.0333},{"time":0.2,"x":0,"y":0}]},"teamname-home":{"translate":[{"time":0.0333},{"time":0.2,"y":8}]},"teamname-away":{"translate":[{},{"time":0.1667,"y":8}]}}},"penalty on show":{"slots":{"1st-Half":{"color":[{"time":0.7667,"color":"ffffff00"},{"time":1,"color":"ffffffff"}]},"connect":{"color":[{"time":0.7,"color":"ffffff00"},{"time":0.9333,"color":"ffffffff"}]},"fulltime-text":{"color":[{"time":0.6333,"color":"ffffff00"},{"time":0.8667,"color":"ffffffff"}]},"logo-away":{"color":[{"time":0.0333,"color":"ffffff00"},{"time":0.2667,"color":"ffffffff"}]},"logo-home":{"color":[{"time":0.0333,"color":"ffffff00"},{"time":0.2667,"color":"ffffffff"}]},"penalty-away":{"color":[{"time":1.0333,"color":"ffffff00"},{"time":1.1667,"color":"ffffffff"}]},"penalty-home":{"color":[{"time":0.9667,"color":"ffffff00"},{"time":1.1,"color":"ffffffff"}]},"penalty-text":{"color":[{"time":0.8333,"color":"ffffff00"},{"time":0.9667,"color":"ffffffff"}]},"score-away":{"color":[{"time":0.7333,"color":"ffffff00"},{"time":0.9667,"color":"ffffffff"}]},"score-home":{"color":[{"time":0.6667,"color":"ffffff00"},{"time":0.9,"color":"ffffffff"}]},"teamname-away":{"color":[{"time":0.1,"color":"ffffff00"},{"time":0.3667,"color":"ffffffff"}]},"teamname-home":{"color":[{"time":0.1,"color":"ffffff00"},{"time":0.3667,"color":"ffffffff"}]}},"bones":{"fulltime-bg":{"scale":[{"x":0,"curve":"stepped"},{"time":0.4667,"x":0},{"time":0.6333,"x":1.02},{"time":0.7667}]},"score-bg":{"scale":[{"x":0,"curve":"stepped"},{"time":0.5667,"x":0},{"time":0.7667,"x":1.02},{"time":0.8667}]},"fulltime-text":{"translate":[{"y":8,"curve":"stepped"},{"time":0.6333,"y":8},{"time":0.8667}]},"score-home":{"translate":[{"y":9,"curve":"stepped"},{"time":0.6667,"y":9},{"time":0.9}]},"connect":{"translate":[{"y":8,"curve":"stepped"},{"time":0.7,"y":8},{"time":0.9333}]},"score-away":{"translate":[{"y":9,"curve":"stepped"},{"time":0.7333,"y":9},{"time":0.9667}]},"1st-Half":{"translate":[{"y":9,"curve":"stepped"},{"time":0.7667,"y":9},{"time":1}]},"pen-bg":{"scale":[{"x":0,"curve":"stepped"},{"time":0.8,"x":0},{"time":0.9667,"x":1.02},{"time":1.1}]},"penalty-text":{"translate":[{"y":9,"curve":"stepped"},{"time":0.8333,"y":9},{"time":0.9667}]},"penalty-home":{"translate":[{"x":6,"curve":"stepped"},{"time":0.9667,"x":6},{"time":1.1}]},"penalty-away":{"translate":[{"x":-5.36,"curve":"stepped"},{"time":1.0333,"x":-5.36},{"time":1.1667}]},"logo-away":{"scale":[{"x":0,"y":0,"curve":"stepped"},{"time":0.0333,"x":0,"y":0},{"time":0.2667,"x":1.1,"y":1.1},{"time":0.6}]},"logo-home":{"scale":[{"x":0,"y":0,"curve":"stepped"},{"time":0.0333,"x":0,"y":0,"curve":0.25,"c3":0.75},{"time":0.2667,"x":1.1,"y":1.1,"curve":0.25,"c3":0.75},{"time":0.6}]},"teamname-home":{"translate":[{"time":0.1,"y":8},{"time":0.3667}]},"teamname-away":{"translate":[{"time":0.1,"y":8},{"time":0.3667}]}}}}}
+{
+    "skeleton": {
+        "hash": "DzrIGpU7udtuS4LIU8lgc9Ft45w",
+        "spine": "3.8.99",
+        "x": -305.5,
+        "y": -138.09,
+        "width": 605.53,
+        "height": 230.41,
+        "images": "./images/",
+        "audio": "D:/MYWORKFOLDER/20 soccer/spine/final match"
+    },
+    "bones": [
+        { "name": "root", "y": 0.32 },
+        { "name": "fulltime", "parent": "root", "y": 49.53 },
+        { "name": "fulltime-bg", "parent": "fulltime" },
+        { "name": "fulltime-text", "parent": "fulltime", "y": 18.92 },
+        { "name": "score", "parent": "root" },
+        { "name": "score-home", "parent": "score", "x": -61.42 },
+        { "name": "score-away", "parent": "score", "x": 65.56 },
+        { "name": "connect", "parent": "score" },
+        { "name": "score-bg", "parent": "score" },
+        { "name": "1st-Half", "parent": "root", "y": -65.88 },
+        { "name": "penalty", "parent": "root", "y": -125.41 },
+        { "name": "penalty-text", "parent": "penalty", "y": 20.98 },
+        { "name": "penalty-home", "parent": "penalty", "x": -104, "y": 20.98 },
+        { "name": "penalty-away", "parent": "penalty", "x": 104, "y": 20.98 },
+        { "name": "pen-bg", "parent": "penalty", "y": 20.98 },
+        { "name": "home", "parent": "root", "x": -298.53, "y": -78.97 },
+        { "name": "logo-home", "parent": "home", "y": 64.2 },
+        { "name": "teamname-home", "parent": "home", "y": -26.32 },
+        { "name": "away", "parent": "root", "x": 298.53, "y": -78.97 },
+        { "name": "logo-away", "parent": "away", "y": 64.2 },
+        { "name": "bone", "parent": "root" },
+        { "name": "teamname-away", "parent": "away", "y": -26.32 }
+    ],
+    "slots": [
+        { "name": "BG", "bone": "root", "attachment": "empty" },
+        { "name": "penalty-bg", "bone": "pen-bg", "attachment": "penalty bg" },
+        { "name": "penalty-text", "bone": "penalty-text", "color": "ffffff00", "attachment": "empty" },
+        { "name": "penalty-home", "bone": "penalty-home", "color": "ffffff00", "attachment": "empty" },
+        { "name": "penalty-away", "bone": "penalty-away", "color": "ffffff00", "attachment": "empty" },
+        { "name": "teamname-home", "bone": "teamname-home", "color": "ffffff00", "attachment": "empty" },
+        { "name": "teamname-away", "bone": "teamname-away", "color": "ffffff00", "attachment": "empty" },
+        { "name": "logo-home", "bone": "logo-home", "color": "ffffff00", "attachment": "empty" },
+        { "name": "logo-away", "bone": "logo-away", "color": "ffffff00", "attachment": "empty" },
+        { "name": "fulltime-bg", "bone": "fulltime-bg", "attachment": "fulltime bg" },
+        { "name": "fulltime-text", "bone": "fulltime-text", "color": "ffffff00", "attachment": "empty" },
+        { "name": "score-bg", "bone": "score-bg", "attachment": "score bg" },
+        { "name": "score-home", "bone": "score-home", "color": "ffffff00", "attachment": "empty" },
+        { "name": "score-away", "bone": "score-away", "color": "ffffff00", "attachment": "empty" },
+        { "name": "connect", "bone": "connect", "color": "ffffff00", "attachment": "connect" },
+        { "name": "1st-Half", "bone": "1st-Half", "color": "ffffff00", "attachment": "empty" }
+    ],
+    "skins": [
+        {
+            "name": "default",
+            "attachments": {
+                "1st-Half": { "empty": { "x": 0.5, "y": 1.38, "width": 3, "height": 3 } },
+                "BG": { "empty": { "x": 3, "y": -136.91, "width": 3, "height": 3 } },
+                "connect": { "connect": { "y": -1, "width": 32, "height": 12 } },
+                "fulltime-bg": { "fulltime bg": { "y": 20.47, "width": 170, "height": 44 } },
+                "fulltime-text": { "empty": { "x": 1, "y": 2.05, "width": 3, "height": 3 } },
+                "logo-away": { "empty": { "y": 1.77, "width": 3, "height": 3 } },
+                "logo-home": { "empty": { "x": -0.47, "y": 1.77, "width": 3, "height": 3 } },
+                "penalty-away": { "empty": { "x": 0.69, "y": -0.57, "width": 3, "height": 3 } },
+                "penalty-bg": { "penalty bg": { "x": 0.5, "y": -0.57, "width": 267, "height": 44 } },
+                "penalty-home": { "empty": { "x": -2.8, "y": -0.57, "width": 3, "height": 3 } },
+                "penalty-text": { "empty": { "x": 1.5, "y": -0.07, "width": 3, "height": 3 } },
+                "score-away": { "empty": { "x": -3.06, "y": -1.5, "width": 3, "height": 3 } },
+                "score-bg": { "score bg": { "x": 0.5, "y": -1.5, "width": 267, "height": 91 } },
+                "score-home": { "empty": { "x": -3.08, "y": -1.5, "width": 3, "height": 3 } },
+                "teamname-away": { "empty": { "x": -2.03, "y": -0.21, "width": 3, "height": 3 } },
+                "teamname-home": { "empty": { "x": -5.47, "y": -0.21, "width": 3, "height": 3 } }
+            }
+        }
+    ],
+    "animations": {
+        "penalty off hide": {
+            "slots": {
+                "1st-Half": {
+                    "color": [
+                        { "time": 0.0333, "color": "ffffffff" },
+                        { "time": 0.2, "color": "ffffff00" }
+                    ]
+                },
+                "connect": {
+                    "color": [
+                        { "time": 0.0333, "color": "ffffffff" },
+                        { "time": 0.2, "color": "ffffff00" }
+                    ]
+                },
+                "fulltime-text": {
+                    "color": [
+                        { "time": 0.0333, "color": "ffffffff" },
+                        { "time": 0.2, "color": "ffffff00" }
+                    ]
+                },
+                "logo-away": {
+                    "color": [
+                        { "time": 0.0333, "color": "ffffffff" },
+                        { "time": 0.2, "color": "ffffff00" }
+                    ]
+                },
+                "logo-home": {
+                    "color": [
+                        { "time": 0.0333, "color": "ffffffff" },
+                        { "time": 0.2, "color": "ffffff00" }
+                    ]
+                },
+                "score-away": {
+                    "color": [
+                        { "time": 0.0333, "color": "ffffffff" },
+                        { "time": 0.2, "color": "ffffff00" }
+                    ]
+                },
+                "score-home": {
+                    "color": [
+                        { "time": 0.0333, "color": "ffffffff" },
+                        { "time": 0.2, "color": "ffffff00" }
+                    ]
+                },
+                "teamname-away": { "color": [{ "color": "ffffffff" }, { "time": 0.1667, "color": "ffffff00" }] },
+                "teamname-home": {
+                    "color": [
+                        { "time": 0.0333, "color": "ffffffff" },
+                        { "time": 0.2, "color": "ffffff00" }
+                    ]
+                }
+            },
+            "bones": {
+                "fulltime-bg": { "scale": [{ "time": 0.1667 }, { "time": 0.3333, "x": 0 }] },
+                "score-bg": { "scale": [{ "time": 0.1667 }, { "time": 0.3333, "x": 0 }] },
+                "fulltime-text": { "translate": [{ "time": 0.0333 }, { "time": 0.2, "y": 8 }] },
+                "score-home": { "translate": [{ "time": 0.0333 }, { "time": 0.2, "y": 9 }] },
+                "connect": { "translate": [{ "time": 0.0333 }, { "time": 0.2, "y": 8 }] },
+                "score-away": { "translate": [{ "time": 0.0333 }, { "time": 0.2, "y": 9 }] },
+                "1st-Half": { "translate": [{ "time": 0.0333 }, { "time": 0.2, "y": 9 }] },
+                "logo-away": { "scale": [{ "time": 0.0333 }, { "time": 0.2, "x": 0, "y": 0 }] },
+                "logo-home": { "scale": [{ "time": 0.0333 }, { "time": 0.2, "x": 0, "y": 0 }] },
+                "teamname-home": { "translate": [{ "time": 0.0333 }, { "time": 0.2, "y": 8 }] },
+                "teamname-away": { "translate": [{}, { "time": 0.1667, "y": 8 }] },
+                "pen-bg": { "scale": [{ "x": 0 }] }
+            }
+        },
+        "penalty off show": {
+            "slots": {
+                "1st-Half": {
+                    "color": [
+                        { "time": 0.7667, "color": "ffffff00" },
+                        { "time": 1, "color": "ffffffff" }
+                    ]
+                },
+                "connect": {
+                    "color": [
+                        { "time": 0.7, "color": "ffffff00" },
+                        { "time": 0.9333, "color": "ffffffff" }
+                    ]
+                },
+                "fulltime-text": {
+                    "color": [
+                        { "time": 0.6333, "color": "ffffff00" },
+                        { "time": 0.8667, "color": "ffffffff" }
+                    ]
+                },
+                "logo-away": {
+                    "color": [
+                        { "time": 0.0333, "color": "ffffff00" },
+                        { "time": 0.2667, "color": "ffffffff" }
+                    ]
+                },
+                "logo-home": {
+                    "color": [
+                        { "time": 0.0333, "color": "ffffff00" },
+                        { "time": 0.2667, "color": "ffffffff" }
+                    ]
+                },
+                "score-away": {
+                    "color": [
+                        { "time": 0.7333, "color": "ffffff00" },
+                        { "time": 0.9667, "color": "ffffffff" }
+                    ]
+                },
+                "score-home": {
+                    "color": [
+                        { "time": 0.6667, "color": "ffffff00" },
+                        { "time": 0.9, "color": "ffffffff" }
+                    ]
+                },
+                "teamname-away": {
+                    "color": [
+                        { "time": 0.1, "color": "ffffff00" },
+                        { "time": 0.3667, "color": "ffffffff" }
+                    ]
+                },
+                "teamname-home": {
+                    "color": [
+                        { "time": 0.1, "color": "ffffff00" },
+                        { "time": 0.3667, "color": "ffffffff" }
+                    ]
+                }
+            },
+            "bones": {
+                "fulltime-bg": {
+                    "scale": [{ "x": 0, "curve": "stepped" }, { "time": 0.4667, "x": 0 }, { "time": 0.6333, "x": 1.02 }, { "time": 0.7667 }]
+                },
+                "score-bg": {
+                    "scale": [{ "x": 0, "curve": "stepped" }, { "time": 0.5667, "x": 0 }, { "time": 0.7667, "x": 1.02 }, { "time": 0.8667 }]
+                },
+                "fulltime-text": { "translate": [{ "y": 8, "curve": "stepped" }, { "time": 0.6333, "y": 8 }, { "time": 0.8667 }] },
+                "score-home": { "translate": [{ "y": 9, "curve": "stepped" }, { "time": 0.6667, "y": 9 }, { "time": 0.9 }] },
+                "connect": { "translate": [{ "y": 8, "curve": "stepped" }, { "time": 0.7, "y": 8 }, { "time": 0.9333 }] },
+                "score-away": { "translate": [{ "y": 9, "curve": "stepped" }, { "time": 0.7333, "y": 9 }, { "time": 0.9667 }] },
+                "1st-Half": { "translate": [{ "y": 9, "curve": "stepped" }, { "time": 0.7667, "y": 9 }, { "time": 1 }] },
+                "pen-bg": { "scale": [{ "x": 0 }] },
+                "penalty-text": { "translate": [{ "y": 9 }] },
+                "penalty-home": { "translate": [{ "x": 6 }] },
+                "penalty-away": { "translate": [{ "x": -5.36 }] },
+                "logo-away": {
+                    "scale": [
+                        { "x": 0, "y": 0, "curve": "stepped" },
+                        { "time": 0.0333, "x": 0, "y": 0 },
+                        { "time": 0.2667, "x": 1.1, "y": 1.1 },
+                        { "time": 0.6 }
+                    ]
+                },
+                "logo-home": {
+                    "scale": [
+                        { "x": 0, "y": 0, "curve": "stepped" },
+                        { "time": 0.0333, "x": 0, "y": 0, "curve": 0.25, "c3": 0.75 },
+                        { "time": 0.2667, "x": 1.1, "y": 1.1, "curve": 0.25, "c3": 0.75 },
+                        { "time": 0.6 }
+                    ]
+                },
+                "teamname-home": { "translate": [{ "time": 0.1, "y": 8 }, { "time": 0.3667 }] },
+                "teamname-away": { "translate": [{ "time": 0.1, "y": 8 }, { "time": 0.3667 }] }
+            }
+        },
+        "penalty on hide": {
+            "slots": {
+                "1st-Half": {
+                    "color": [
+                        { "time": 0.0333, "color": "ffffffff" },
+                        { "time": 0.2, "color": "ffffff00" }
+                    ]
+                },
+                "connect": {
+                    "color": [
+                        { "time": 0.0333, "color": "ffffffff" },
+                        { "time": 0.2, "color": "ffffff00" }
+                    ]
+                },
+                "fulltime-text": {
+                    "color": [
+                        { "time": 0.0333, "color": "ffffffff" },
+                        { "time": 0.2, "color": "ffffff00" }
+                    ]
+                },
+                "logo-away": {
+                    "color": [
+                        { "time": 0.0333, "color": "ffffffff" },
+                        { "time": 0.2, "color": "ffffff00" }
+                    ]
+                },
+                "logo-home": {
+                    "color": [
+                        { "time": 0.0333, "color": "ffffffff" },
+                        { "time": 0.2, "color": "ffffff00" }
+                    ]
+                },
+                "penalty-away": {
+                    "color": [
+                        { "time": 0.0333, "color": "ffffffff" },
+                        { "time": 0.2, "color": "ffffff00" }
+                    ]
+                },
+                "penalty-home": {
+                    "color": [
+                        { "time": 0.0333, "color": "ffffffff" },
+                        { "time": 0.2, "color": "ffffff00" }
+                    ]
+                },
+                "penalty-text": {
+                    "color": [
+                        { "time": 0.0333, "color": "ffffffff" },
+                        { "time": 0.2, "color": "ffffff00" }
+                    ]
+                },
+                "score-away": {
+                    "color": [
+                        { "time": 0.0333, "color": "ffffffff" },
+                        { "time": 0.2, "color": "ffffff00" }
+                    ]
+                },
+                "score-home": {
+                    "color": [
+                        { "time": 0.0333, "color": "ffffffff" },
+                        { "time": 0.2, "color": "ffffff00" }
+                    ]
+                },
+                "teamname-away": { "color": [{ "color": "ffffffff" }, { "time": 0.1667, "color": "ffffff00" }] },
+                "teamname-home": {
+                    "color": [
+                        { "time": 0.0333, "color": "ffffffff" },
+                        { "time": 0.2, "color": "ffffff00" }
+                    ]
+                }
+            },
+            "bones": {
+                "fulltime-bg": { "scale": [{ "time": 0.1667 }, { "time": 0.3333, "x": 0 }] },
+                "score-bg": { "scale": [{ "time": 0.1667 }, { "time": 0.3333, "x": 0 }] },
+                "fulltime-text": { "translate": [{ "time": 0.0333 }, { "time": 0.2, "y": 8 }] },
+                "score-home": { "translate": [{ "time": 0.0333 }, { "time": 0.2, "y": 9 }] },
+                "connect": { "translate": [{ "time": 0.0333 }, { "time": 0.2, "y": 8 }] },
+                "score-away": { "translate": [{ "time": 0.0333 }, { "time": 0.2, "y": 9 }] },
+                "1st-Half": { "translate": [{ "time": 0.0333 }, { "time": 0.2, "y": 9 }] },
+                "pen-bg": { "scale": [{ "time": 0.1667 }, { "time": 0.3333, "x": 0 }] },
+                "penalty-text": { "translate": [{ "time": 0.0333 }, { "time": 0.2, "y": 9 }] },
+                "penalty-home": { "translate": [{ "time": 0.0333 }, { "time": 0.2, "x": 6 }] },
+                "penalty-away": { "translate": [{ "time": 0.0333 }, { "time": 0.2, "x": -5.36 }] },
+                "logo-away": { "scale": [{ "time": 0.0333 }, { "time": 0.2, "x": 0, "y": 0 }] },
+                "logo-home": { "scale": [{ "time": 0.0333 }, { "time": 0.2, "x": 0, "y": 0 }] },
+                "teamname-home": { "translate": [{ "time": 0.0333 }, { "time": 0.2, "y": 8 }] },
+                "teamname-away": { "translate": [{}, { "time": 0.1667, "y": 8 }] }
+            }
+        },
+        "penalty on show": {
+            "slots": {
+                "1st-Half": {
+                    "color": [
+                        { "time": 0.7667, "color": "ffffff00" },
+                        { "time": 1, "color": "ffffffff" }
+                    ]
+                },
+                "connect": {
+                    "color": [
+                        { "time": 0.7, "color": "ffffff00" },
+                        { "time": 0.9333, "color": "ffffffff" }
+                    ]
+                },
+                "fulltime-text": {
+                    "color": [
+                        { "time": 0.6333, "color": "ffffff00" },
+                        { "time": 0.8667, "color": "ffffffff" }
+                    ]
+                },
+                "logo-away": {
+                    "color": [
+                        { "time": 0.0333, "color": "ffffff00" },
+                        { "time": 0.2667, "color": "ffffffff" }
+                    ]
+                },
+                "logo-home": {
+                    "color": [
+                        { "time": 0.0333, "color": "ffffff00" },
+                        { "time": 0.2667, "color": "ffffffff" }
+                    ]
+                },
+                "penalty-away": {
+                    "color": [
+                        { "time": 1.0333, "color": "ffffff00" },
+                        { "time": 1.1667, "color": "ffffffff" }
+                    ]
+                },
+                "penalty-home": {
+                    "color": [
+                        { "time": 0.9667, "color": "ffffff00" },
+                        { "time": 1.1, "color": "ffffffff" }
+                    ]
+                },
+                "penalty-text": {
+                    "color": [
+                        { "time": 0.8333, "color": "ffffff00" },
+                        { "time": 0.9667, "color": "ffffffff" }
+                    ]
+                },
+                "score-away": {
+                    "color": [
+                        { "time": 0.7333, "color": "ffffff00" },
+                        { "time": 0.9667, "color": "ffffffff" }
+                    ]
+                },
+                "score-home": {
+                    "color": [
+                        { "time": 0.6667, "color": "ffffff00" },
+                        { "time": 0.9, "color": "ffffffff" }
+                    ]
+                },
+                "teamname-away": {
+                    "color": [
+                        { "time": 0.1, "color": "ffffff00" },
+                        { "time": 0.3667, "color": "ffffffff" }
+                    ]
+                },
+                "teamname-home": {
+                    "color": [
+                        { "time": 0.1, "color": "ffffff00" },
+                        { "time": 0.3667, "color": "ffffffff" }
+                    ]
+                }
+            },
+            "bones": {
+                "fulltime-bg": {
+                    "scale": [{ "x": 0, "curve": "stepped" }, { "time": 0.4667, "x": 0 }, { "time": 0.6333, "x": 1.02 }, { "time": 0.7667 }]
+                },
+                "score-bg": {
+                    "scale": [{ "x": 0, "curve": "stepped" }, { "time": 0.5667, "x": 0 }, { "time": 0.7667, "x": 1.02 }, { "time": 0.8667 }]
+                },
+                "fulltime-text": { "translate": [{ "y": 8, "curve": "stepped" }, { "time": 0.6333, "y": 8 }, { "time": 0.8667 }] },
+                "score-home": { "translate": [{ "y": 9, "curve": "stepped" }, { "time": 0.6667, "y": 9 }, { "time": 0.9 }] },
+                "connect": { "translate": [{ "y": 8, "curve": "stepped" }, { "time": 0.7, "y": 8 }, { "time": 0.9333 }] },
+                "score-away": { "translate": [{ "y": 9, "curve": "stepped" }, { "time": 0.7333, "y": 9 }, { "time": 0.9667 }] },
+                "1st-Half": { "translate": [{ "y": 9, "curve": "stepped" }, { "time": 0.7667, "y": 9 }, { "time": 1 }] },
+                "pen-bg": {
+                    "scale": [{ "x": 0, "curve": "stepped" }, { "time": 0.8, "x": 0 }, { "time": 0.9667, "x": 1.02 }, { "time": 1.1 }]
+                },
+                "penalty-text": { "translate": [{ "y": 9, "curve": "stepped" }, { "time": 0.8333, "y": 9 }, { "time": 0.9667 }] },
+                "penalty-home": { "translate": [{ "x": 6, "curve": "stepped" }, { "time": 0.9667, "x": 6 }, { "time": 1.1 }] },
+                "penalty-away": { "translate": [{ "x": -5.36, "curve": "stepped" }, { "time": 1.0333, "x": -5.36 }, { "time": 1.1667 }] },
+                "logo-away": {
+                    "scale": [
+                        { "x": 0, "y": 0, "curve": "stepped" },
+                        { "time": 0.0333, "x": 0, "y": 0 },
+                        { "time": 0.2667, "x": 1.1, "y": 1.1 },
+                        { "time": 0.6 }
+                    ]
+                },
+                "logo-home": {
+                    "scale": [
+                        { "x": 0, "y": 0, "curve": "stepped" },
+                        { "time": 0.0333, "x": 0, "y": 0, "curve": 0.25, "c3": 0.75 },
+                        { "time": 0.2667, "x": 1.1, "y": 1.1, "curve": 0.25, "c3": 0.75 },
+                        { "time": 0.6 }
+                    ]
+                },
+                "teamname-home": { "translate": [{ "time": 0.1, "y": 8 }, { "time": 0.3667 }] },
+                "teamname-away": { "translate": [{ "time": 0.1, "y": 8 }, { "time": 0.3667 }] }
+            }
+        }
+    }
+}
