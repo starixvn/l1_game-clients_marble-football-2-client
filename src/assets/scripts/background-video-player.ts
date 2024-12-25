@@ -52,6 +52,7 @@ export class BackgroundVideoPlayer extends Component {
     }
 
     loadSource() {
+        console.log("loadSource", this._videoSource);
         if (!this.initialized) {
             this.initialize();
         }
@@ -61,6 +62,7 @@ export class BackgroundVideoPlayer extends Component {
     }
 
     play(retry = 0, maxRetry = 3) {
+        console.log("play", this._videoSource);
         // Fix for iOS 17, video element is not playing immediately
         this.native.play().catch(() => {
             if (retry < maxRetry) {
