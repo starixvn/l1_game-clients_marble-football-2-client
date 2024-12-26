@@ -28,10 +28,11 @@ export class BackgroundMusicPlayer extends MusicPlayer {
     playMusic(playBackgroundMusic: boolean) {
         this._stopBackgroundMusic = !playBackgroundMusic;
         if (playBackgroundMusic) {
-            if (this.musicSource.state === AudioSource.AudioState.STOPPED) {
+            if (this.musicSource.state === AudioSource.AudioState.STOPPED || this.musicSource.state === AudioSource.AudioState.INIT) {
                 this.musicSource.play();
                 this.callPlayMusic();
-            } else {
+            }
+            if (this.musicSource.volume <= 0) {
                 tween(this.musicSource).to(1, { volume: this._currentVolume }).start();
             }
         } else {
@@ -41,4 +42,6 @@ export class BackgroundMusicPlayer extends MusicPlayer {
             }
         }
     }
+
+    enableMusic(musicEnable: boolean): void {}
 }
