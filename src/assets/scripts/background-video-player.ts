@@ -79,7 +79,6 @@ export class BackgroundVideoPlayer extends Component {
                 this.play(retry + 1, maxRetry);
             }
         });
-        this.muted = this._muted;
     }
 
     pause() {
