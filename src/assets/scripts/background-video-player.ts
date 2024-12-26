@@ -30,7 +30,7 @@ export class BackgroundVideoPlayer extends Component {
             return;
         }
 
-        if (this._videoName !== videoName) {
+        if (this._videoName !== videoName || !this.initialized) {
             this._videoName = videoName;
             this._videoSource = new URL(`${videoName.trim()}.m3u8`, this.liveStreamServer).toString();
             this.loadSource();
@@ -123,7 +123,6 @@ export class BackgroundVideoPlayer extends Component {
     }
 
     private syncCurrentTime() {
-        this.node.emit("syncNativeCurrentTime", this.native.currentTime);
         const needSync = this.currentTime >= 0 && Math.abs(this.currentTime - this.native.currentTime) > 1;
 
         if (this.initialized && needSync) {
