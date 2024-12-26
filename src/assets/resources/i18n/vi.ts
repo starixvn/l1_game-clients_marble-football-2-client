@@ -264,7 +264,7 @@ export const languages = {
         "tournament_round_of_16": "Vòng 16 Đội",
         "tournament_semi_final": "Bán Kết",
         "vs": "và",
-        "warning_livestream_not_supported": "Phiên bản trình duyệt và hệ điều hành trên thiết bị của bạn hiện tại không hỗ trợ xem live stream trong trò chơi này (bạn vẫn có thể đặt cược và nhận thưởng bình thường), hãy nâng cấp lên {recommended_OS_version} hoặc mới hơn để có trải nghiệm chơi game đầy đủ nhất.",
+        "warning_livestream_not_supported": "Phiên bản trình duyệt và hệ điều hành trên thiết bị của bạn hiện tại không hỗ trợ xem live stream trong trò chơi này (bạn vẫn có thể đặt cược và nhận thưởng bình thường), hãy nâng cấp lên phiên bản trình duyệt và hệ điều hành được hỗ trợ trong mục Hướng Dẫn hoặc mới hơn để có trải nghiệm chơi game đầy đủ nhất.",
         "winner": "Đội Thắng",
         "wins": "Thắng"
     }

@@ -264,7 +264,7 @@ export const languages = {
         "tournament_round_of_16": "Babak 16 Besar",
         "tournament_semi_final": "Semi Final",
         "vs": "vs",
-        "warning_livestream_not_supported": "Versi browser dan OS perangkat Anda saat ini tidak mendukung penayangan streaming langsung permainan ini (Anda masih dapat memasang taruhan dan mengumpulkan hadiah secara normal), harap pertimbangkan untuk memperbarui ke {recommended_OS_version} atau lebih tinggi untuk menikmati permainan sepenuhnya.",
+        "warning_livestream_not_supported": "Versi browser dan OS perangkat Anda saat ini tidak mendukung penayangan siaran langsung dalam permainan ini (Anda tetap dapat memasang taruhan dan mengumpulkan hadiah secara normal), harap pertimbangkan untuk memperbarui ke versi yang disebutkan dalam Panduan Permainan atau di atasnya untuk menikmati permainan sepenuhnya.",
         "winner": "Pemenang",
         "wins": "MENANG"
     }
