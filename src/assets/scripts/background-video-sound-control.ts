@@ -10,7 +10,6 @@ const { render } = Observer;
 @ccclass("BackgroundVideoSoundControl")
 @requireComponent(BackgroundVideoPlayer)
 export class BackgroundVideoSoundControl extends ObserverComponent {
-    private muted = false;
     private videoPlayer: BackgroundVideoPlayer;
     onLoad(): void {
         this.videoPlayer = this.node.getComponent(BackgroundVideoPlayer);
@@ -23,8 +22,7 @@ export class BackgroundVideoSoundControl extends ObserverComponent {
 
     @render(UserSettings.UserSettingStore, (store) => store.musicEnable)
     private updateMusicStatus(musicEnable: boolean) {
-        this.muted = !musicEnable;
-        this.syncMuted();
+        this.syncMuted(!musicEnable);
     }
 
     onMouse() {
@@ -37,8 +35,7 @@ export class BackgroundVideoSoundControl extends ObserverComponent {
         this.videoPlayer.gotUserGesture();
     }
 
-    private syncMuted() {
-        console.log("syncMuted ", this.muted);
-        this.videoPlayer.muted = this.muted;
+    private syncMuted(isMute = false) {
+        this.videoPlayer.muted = isMute;
     }
 }

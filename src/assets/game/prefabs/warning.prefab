@@ -1029,7 +1029,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 1191.2359999999999,
-      "height": 114.797
+      "height": 119.28
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1064,14 +1064,14 @@
       "b": 255,
       "a": 255
     },
-    "_string": "Your device's current browser and OS version does not support viewing live streams in this game (you can still place bets and collect rewards normally), please consider updating to the version mentioned in Game Guides or above to fully enjoy the game.",
+    "_string": "Phiên bản trình duyệt và hệ điều hành trên thiết bị của bạn hiện tại không hỗ trợ xem live stream trong trò chơi này (bạn vẫn có thể đặt cược và nhận thưởng bình thường), hãy nâng cấp lên phiên bản trình duyệt và hệ điều hành được hỗ trợ trong mục Hướng Dẫn hoặc mới hơn để có trải nghiệm chơi game đầy đủ nhất.",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
     "_actualFontSize": 24,
     "_fontSize": 24,
     "_fontFamily": "Arial",
     "_lineHeight": 28,
-    "_overflow": 1,
+    "_overflow": 3,
     "_enableWrapText": false,
     "_font": {
       "__uuid__": "41a12541-a4db-4259-b803-4c477054c858",
