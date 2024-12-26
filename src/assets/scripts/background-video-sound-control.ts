@@ -1,5 +1,5 @@
 import gc from "@sg/game-client-base";
-import { _decorator, game } from "cc";
+import { _decorator, director, Node } from "cc";
 import { ObserverComponent } from "db://shared-components/shared/common-components/observer-component/scripts/observer-component";
 import Observer from "observer";
 import { BackgroundVideoPlayer } from "./background-video-player";
@@ -16,8 +16,8 @@ export class BackgroundVideoSoundControl extends ObserverComponent {
         this.videoPlayer = this.node.getComponent(BackgroundVideoPlayer);
         super.onLoad();
 
-        const canvas = game.canvas;
-        canvas.addEventListener("focus", this.onTouch.bind(this));
+        const canvasNode = director.getScene().getChildByName("Canvas");
+        canvasNode.on(Node.EventType.TOUCH_START, this.onTouch.bind(this));
     }
 
     @render(UserSettings.UserSettingStore, (store) => store.musicEnable)
@@ -28,11 +28,10 @@ export class BackgroundVideoSoundControl extends ObserverComponent {
 
     onTouch() {
         this.videoPlayer.gotUserGesture();
-        this.syncMuted();
     }
 
     private syncMuted() {
-        console.log("video sound sync muted ", this.muted);
+        console.log("syncMuted ", this.muted);
         this.videoPlayer.muted = this.muted;
     }
 }

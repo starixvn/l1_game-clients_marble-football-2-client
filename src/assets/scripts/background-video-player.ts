@@ -13,7 +13,6 @@ export class BackgroundVideoPlayer extends Component {
     private _videoName: string = "";
     private liveStreamServer: string = "";
     private _muted = true;
-    public touched = false;
 
     private get initialized() {
         return !!this.native && !!this.hls;
@@ -53,8 +52,10 @@ export class BackgroundVideoPlayer extends Component {
     }
 
     gotUserGesture() {
-        this.touched = true;
-        this.native.volume = 1;
+        if (this.native) {
+            console.log("video native set muted", this._muted);
+            this.native.muted = this._muted;
+        }
     }
 
     loadSource() {
@@ -67,12 +68,7 @@ export class BackgroundVideoPlayer extends Component {
     }
 
     play(retry = 0, maxRetry = 3) {
-        if (!this.touched) {
-            this.native.muted = true;
-            this.native.volume = 0;
-        }
         console.log("video play with muted ", this.native?.muted);
-
         // Fix for iOS 17, video element is not playing immediately
         this.native.play().catch(() => {
             if (retry < maxRetry) {
@@ -89,11 +85,6 @@ export class BackgroundVideoPlayer extends Component {
 
     set muted(value: boolean) {
         this._muted = value;
-
-        if (this.initialized) {
-            console.log("video player set muted ", value);
-            this.native.muted = value;
-        }
     }
 
     get level() {
