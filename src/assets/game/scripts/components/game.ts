@@ -15,11 +15,12 @@ import { GamePhase, PhaseId, TimePointTournament } from "../features/game-phase/
 import { GamePhaseStore } from "../features/game-phase/game-phase-store";
 import { settings } from "../game-settings";
 import { MatchResult } from "./match-result";
+import { NetworkStatus, SystemIndicator } from "./system-indcator";
 
 startGame(settings.name, containerOptions, siteConfigs);
 
 const { ccclass, property } = _decorator;
-const { observer, render } = Observer;
+const { observer, render, handle } = Observer;
 const SHOW_RESULT_SOUND = "show-result";
 
 @ccclass
@@ -40,6 +41,9 @@ export default class Game extends GameComponent {
     @property(BackgroundVideoPlayer)
     private backgroundVideoPlayer: BackgroundVideoPlayer = null;
 
+    @property(SystemIndicator)
+    private systemIndicator: SystemIndicator = null;
+
     private cacheRoundId = 0;
     private isPhaseWinner = false;
 
@@ -51,6 +55,21 @@ export default class Game extends GameComponent {
         this.betResultNode.active = false;
         super.onLoad();
         this.initBackgroundImage();
+    }
+
+    @handle(gc.Rounds.RoundRunningHandlers, (handle) => handle.stopRunner())
+    stopRoundTimeRunner() {}
+
+    @render(gc.Connection.ConnectionStore, (store) => store.isConnectFailed)
+    handleConnectFailed(isConnectFailed: boolean) {
+        if (isConnectFailed) {
+            console.log("Connection failed");
+            this.scheduleOnce(() => {
+                this.stopRoundTimeRunner();
+                this.backgroundVideoPlayer.pause();
+                this.systemIndicator.networkStatus = NetworkStatus.DISCONNECTED;
+            }, 3);
+        }
     }
 
     @render(GamePhaseStore, (store) => store.enterPhase)
