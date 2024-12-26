@@ -3,8 +3,8 @@ import { _decorator } from "cc";
 import inversify from "inversify";
 import mobx from "mobx";
 import { settings } from "../../game-settings";
+
 const { injectable, inject } = inversify;
-const ROUND_TIME_INIT = -99999;
 
 @injectable()
 export class VideoStreamSoundStore {
@@ -17,10 +17,6 @@ export class VideoStreamSoundStore {
 
     get isInMatch() {
         return this.roundTimeStore.roundTime < settings.durations.introVideo && this.roundTimeStore.roundTime > 0;
-    }
-
-    get isStopBackgroundMusic() {
-        return this.isInMatch && this.userSettingStore.musicEnable && this.roundTimeStore.roundTime !== ROUND_TIME_INIT;
     }
 
     get isPlayBackgroundMusic() {

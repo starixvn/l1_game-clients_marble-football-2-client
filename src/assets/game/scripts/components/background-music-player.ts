@@ -21,26 +21,24 @@ export class BackgroundMusicPlayer extends MusicPlayer {
     onMusicStarted() {
         if (this._stopBackgroundMusic) {
             this.musicSource.stop();
-            this._stopBackgroundMusic = false;
-        }
-    }
-
-    @render(VideoStreamSoundStore, (store) => store.isStopBackgroundMusic)
-    private stopMusic(stopBackgroundMusic: boolean) {
-        if (stopBackgroundMusic) {
-            this._currentVolume = this.musicSource.volume;
-            tween(this.musicSource).to(1, { volume: 0 }).start();
-            this._stopBackgroundMusic = true;
         }
     }
 
     @render(VideoStreamSoundStore, (store) => store.isPlayBackgroundMusic)
-    private playMusic(playBackgroundMusic: boolean) {
+    playMusic(playBackgroundMusic: boolean) {
+        this._stopBackgroundMusic = !playBackgroundMusic;
         if (playBackgroundMusic) {
             if (this.musicSource.state === AudioSource.AudioState.STOPPED) {
                 this.musicSource.play();
+                this.callPlayMusic();
+            } else {
+                tween(this.musicSource).to(1, { volume: this._currentVolume }).start();
             }
-            tween(this.musicSource).to(1, { volume: this._currentVolume }).start();
+        } else {
+            if (this.musicSource.state === AudioSource.AudioState.PLAYING) {
+                this._currentVolume = this.musicSource.volume;
+                tween(this.musicSource).to(1, { volume: 0 }).start();
+            }
         }
     }
 }
