@@ -34,7 +34,9 @@ export class ChipFlying extends ChipFlyingShared {
             })
             .delay(this.chipDelayFlyingTime)
             .call(() => {
-                this.handlePlaySound(CHIP_SOUND_ID.DIVIDE_CHIPS);
+                if (this.betItems?.winBetItems?.length > 0) {
+                    this.handlePlaySound(CHIP_SOUND_ID.DIVIDE_CHIPS);
+                }
                 ActionChipFlying.dealerPayChips(this.dealerChipBox, this.betItems?.winBetItems, this);
             })
             .delay(this.chipDelayFlyingTime)
