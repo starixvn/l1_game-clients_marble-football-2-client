@@ -47,7 +47,9 @@ export class VideoStreamStore {
         this._isFirstHalf =
             roundTime > settings.durations.videoDuration && roundTime <= settings.durations.placingBet + settings.durations.startRound;
 
-        this._isBreakTime = roundTime === settings.durations.streamingVideo - settings.durations.videoDuration;
+        this._isBreakTime =
+            roundTime <= settings.durations.streamingVideo - settings.durations.videoDuration &&
+            roundTime > settings.durations.videoDuration;
 
         this.updateCurrentVideoAndScores();
     }

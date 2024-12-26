@@ -24,9 +24,10 @@ export class BackgroundVideoPlayer extends Component {
         this.liveStreamServer = liveStreamServer;
     }
 
-    loadVideoByName(videoName: string) {
+    loadVideoByName(videoName: string): boolean {
         if (!videoName?.trim() || !this.liveStreamServer) {
-            return;
+            console.error(`Error loading video ${videoName} from server ${this.liveStreamServer}`);
+            return false;
         }
 
         if (this._videoName !== videoName || !this.initialized) {
@@ -34,12 +35,14 @@ export class BackgroundVideoPlayer extends Component {
             this._videoSource = new URL(`${videoName.trim()}.m3u8`, this.liveStreamServer).toString();
             this.loadSource();
         }
+
+        return true;
     }
 
     playVideoByName(videoName: string) {
-        this.loadVideoByName(videoName);
-
-        this.play();
+        if (this.loadVideoByName(videoName)) {
+            this.play();
+        }
     }
 
     resetAllSettings() {

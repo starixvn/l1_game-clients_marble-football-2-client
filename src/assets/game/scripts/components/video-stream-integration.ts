@@ -59,12 +59,29 @@ export default class VideoStreamIntegration extends ObserverComponent {
         }
     }
 
-    @render(VideoStreamStore, (store) => store.videoResult)
-    bufferFirstHalfVideo(videoResult: MarbleFootballServiceMessages.VideoStream) {
-        console.log("bufferFirstHalfVideo", videoResult);
+    @render(VideoStreamStore, (store) => ({
+        isFirstHalf: store.isFirstHalf,
+        isBreakTime: store.isBreakTime,
+        videoResult: store.videoResult,
+    }))
+    bufferVideoWhenReceiveResult({
+        isFirstHalf,
+        isBreakTime,
+        videoResult,
+    }: {
+        isFirstHalf: boolean;
+        isBreakTime: boolean;
+        videoResult: MarbleFootballServiceMessages.VideoStream;
+    }) {
         this.introOutro.showField = true;
         this.backgroundVideoPlayer.currentTime = 0;
-        this.backgroundVideoPlayer.loadVideoByName(videoResult.firstHalfVideo);
+        if (isFirstHalf && !isBreakTime) {
+            console.log(`buffer first half video ${videoResult.firstHalfVideo}`);
+            this.backgroundVideoPlayer.loadVideoByName(videoResult.firstHalfVideo);
+        } else {
+            console.log(`buffer second half video ${videoResult.secondHalfVideo}`);
+            this.backgroundVideoPlayer.loadVideoByName(videoResult.secondHalfVideo);
+        }
     }
 
     @render(VideoStreamStore, (store) => ({
@@ -73,7 +90,7 @@ export default class VideoStreamIntegration extends ObserverComponent {
     }))
     bufferSecondHalfVideo({ isBreakTime, videoResult }: { isBreakTime: boolean; videoResult: MarbleFootballServiceMessages.VideoStream }) {
         if (isBreakTime) {
-            console.log("bufferSecondHalfVideo", videoResult);
+            console.log(`buffer second half video ${videoResult.secondHalfVideo}`);
             this.introOutro.showField = true;
             this.backgroundVideoPlayer.currentTime = 0;
             this.backgroundVideoPlayer.loadVideoByName(videoResult.secondHalfVideo);
