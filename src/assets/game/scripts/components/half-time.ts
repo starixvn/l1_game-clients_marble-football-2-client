@@ -1,4 +1,5 @@
 import { _decorator } from "cc";
+import gc from "@sg/game-client-base";
 import Observer from "observer";
 import { ObserverComponent } from "../../../../extensions/shared-components/assets/shared/common-components/observer-component/scripts/observer-component";
 import { AnimationUtils } from "../../../../extensions/shared-components/assets/shared/utils";
@@ -7,6 +8,8 @@ import { GamePhaseHandler } from "../features/game-phase/game-phase-handler";
 import { GamePhaseStore } from "../features/game-phase/game-phase-store";
 const { render, handle } = Observer;
 const { ccclass, property } = _decorator;
+
+const HAFT_TIME_SOUND_ID = "show-result";
 
 @ccclass("HalfTime")
 export class HalfTime extends ObserverComponent {
@@ -33,8 +36,12 @@ export class HalfTime extends ObserverComponent {
         }
         if (phase.id === PhaseId.Halftime) {
             this.show(true);
+            this.playSound();
         }
     }
+
+    @handle(gc.Audios.AudioHandler, (handler) => handler.playSFX(HAFT_TIME_SOUND_ID))
+    private playSound() {}
 
     @render(GamePhaseStore, (store) => store.exitPhase)
     private renderExitPhase(phase: GamePhase) {
