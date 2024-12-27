@@ -11,6 +11,7 @@ const { render } = Observer;
 @requireComponent(BackgroundVideoPlayer)
 export class BackgroundVideoSoundControl extends ObserverComponent {
     private videoPlayer: BackgroundVideoPlayer;
+    private touched = false;
     onLoad(): void {
         this.videoPlayer = this.node.getComponent(BackgroundVideoPlayer);
         super.onLoad();
@@ -23,16 +24,19 @@ export class BackgroundVideoSoundControl extends ObserverComponent {
     @render(UserSettings.UserSettingStore, (store) => store.musicEnable)
     private updateMusicStatus(musicEnable: boolean) {
         this.syncMuted(!musicEnable);
+        if (this.touched) {
+            this.videoPlayer.setNativeMuted();
+        }
     }
 
     onMouse() {
-        console.log("onMouse");
-        this.videoPlayer.gotUserGesture();
+        this.touched = true;
+        this.videoPlayer.setNativeMuted();
     }
 
     onTouch() {
-        console.log("onTouch");
-        this.videoPlayer.gotUserGesture();
+        this.touched = true;
+        this.videoPlayer.setNativeMuted();
     }
 
     private syncMuted(isMute = false) {

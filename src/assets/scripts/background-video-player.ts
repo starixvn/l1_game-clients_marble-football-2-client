@@ -53,9 +53,8 @@ export class BackgroundVideoPlayer extends Component {
         return this.hls?.bandwidthEstimate ?? 0;
     }
 
-    gotUserGesture() {
+    setNativeMuted() {
         if (this.native) {
-            console.log("video native set muted", this._muted);
             this.native.muted = this._muted;
         }
     }
