@@ -1,11 +1,8 @@
 {
-  "__version__": "1.0.7",
+  "__version__": "1.0.10",
   "modules": {
     "cache": {
       "base": {
-        "_value": true
-      },
-      "graphcis": {
         "_value": true
       },
       "gfx-webgl": {
@@ -121,8 +118,14 @@
       "procedural-animation": {
         "_value": false
       },
-      "custom-pipeline": {
+      "graphics": {
         "_value": true
+      },
+      "custom-pipeline-post-process": {
+        "_value": true
+      },
+      "render-pipeline": {
+        "_option": "custom-pipeline"
       }
     },
     "includeModules": [
@@ -131,6 +134,7 @@
       "audio",
       "base",
       "custom-pipeline",
+      "custom-pipeline-post-process",
       "gfx-webgl",
       "intersection-2d",
       "particle-2d",
