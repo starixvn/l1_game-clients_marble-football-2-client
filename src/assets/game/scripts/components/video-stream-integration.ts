@@ -37,6 +37,8 @@ export default class VideoStreamIntegration extends ObserverComponent {
     @property(Node)
     private warnContainer: Node = null;
 
+    private isLiveVideo = false;
+
     onLoad(): void {
         super.onLoad();
 
@@ -167,12 +169,20 @@ export default class VideoStreamIntegration extends ObserverComponent {
     }
 
     private onHSLNotSupported() {
-        const node = instantiate(this?.warnPrefab);
-        if (this.warnContainer?.children?.length > 0) {
+        if (this.warnContainer?.children?.length > 0 || !this.isLiveVideo) {
             return;
         }
 
+        const node = instantiate(this?.warnPrefab);
         this.systemIndicator.networkStatus = NetworkStatus.DISCONNECTED;
         node && this.warnContainer?.addChild(node);
+    }
+
+    @render(VideoStreamStore, (store) => store.isLiveVideo)
+    private liveVideo(isLiveVideo: boolean) {
+        this.isLiveVideo = isLiveVideo;
+        if (!isLiveVideo) {
+            this.warnContainer?.removeAllChildren();
+        }
     }
 }
