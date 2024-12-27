@@ -84,9 +84,11 @@ export default class VideoStreamIntegration extends ObserverComponent {
         }
 
         if (isBreakTime) {
-            this.introOutro.showField = true;
             this.backgroundVideoPlayer.currentTime = 0;
-            this.backgroundVideoPlayer.loadVideoByName(videoResult.secondHalfVideo);
+            this.introOutro.showField = true;
+            this.scheduleOnce(() => {
+                this.backgroundVideoPlayer.loadVideoByName(videoResult.secondHalfVideo);
+            }, 0.1);
             return;
         }
     }

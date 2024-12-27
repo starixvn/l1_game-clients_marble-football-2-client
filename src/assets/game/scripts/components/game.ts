@@ -1,5 +1,5 @@
 import gc from "@sg/game-client-base";
-import { _decorator, assetManager, ImageAsset, Node } from "cc";
+import { _decorator, assetManager, ImageAsset, log, Node } from "cc";
 import { ChipFlying } from "db://shared-components/game/chip-flying/scripts/components/chip-flying";
 import GameComponent from "db://shared-components/game/scripts/components/game-component";
 import { startGame } from "db://shared-components/shared/scripts/startup";
@@ -22,7 +22,7 @@ startGame(settings.name, containerOptions, siteConfigs);
 const { ccclass, property } = _decorator;
 const { observer, render, handle } = Observer;
 const SHOW_RESULT_SOUND = "show-result";
-
+const { sentryLogger } = gc;
 @ccclass
 @observer(settings.name)
 export default class Game extends GameComponent {
@@ -63,7 +63,7 @@ export default class Game extends GameComponent {
     @render(gc.Connection.ConnectionStore, (store) => store.isConnectFailed)
     handleConnectFailed(isConnectFailed: boolean) {
         if (isConnectFailed) {
-            console.log("Connection failed");
+            log("Connection failed");
             this.scheduleOnce(() => {
                 this.stopRoundTimeRunner();
                 this.backgroundVideoPlayer.pause();
@@ -101,14 +101,13 @@ export default class Game extends GameComponent {
 
         assetManager.loadRemote<ImageAsset>(imagePath, (err, imageAsset) => {
             if (err) {
-                console.error(`Failed to load image asset: ${imagePath}`, err);
+                sentryLogger.logError(`Failed to load image asset ${imagePath} with error ${err}`);
                 return;
             }
 
             const nativeUrl = imageAsset.nativeUrl;
 
             DOMBackgroundImage.createBackgroundImageElement(nativeUrl);
-            console.log(`Image loaded and set to DOM element: ${nativeUrl}`);
         });
     }
 
