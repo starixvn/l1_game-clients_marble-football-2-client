@@ -48,7 +48,6 @@ export class DrawOdds extends ObserverComponent {
         const widthSign = widthNode - widthTextStatic - widthOdds;
         const numberSign = Math.floor(widthSign / 8);
         this.lblSign.string = "";
-        console.log("number sign", numberSign);
         for (let i = 0; i < numberSign; i++) {
             this.lblSign.string += ".";
         }

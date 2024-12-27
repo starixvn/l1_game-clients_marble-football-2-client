@@ -26,7 +26,6 @@ export class BackgroundVideoPlayer extends Component {
 
     loadVideoByName(videoName: string): boolean {
         if (!videoName?.trim() || !this.liveStreamServer) {
-            console.error(`Error loading video ${videoName} from server ${this.liveStreamServer}`);
             return false;
         }
 
@@ -62,7 +61,6 @@ export class BackgroundVideoPlayer extends Component {
     }
 
     loadSource() {
-        console.log("loadSource", this._videoSource);
         if (!this.initialized) {
             this.initialize();
         }

@@ -53,7 +53,6 @@ export default class VideoStreamIntegration extends ObserverComponent {
     @render(VideoStreamStore, (store) => store.currentVideo)
     renderVideoSource(currentVideo: StreamingVideo) {
         if (currentVideo?.videoName) {
-            console.log("renderVideoSource", currentVideo);
             this.backgroundVideoPlayer.currentTime = currentVideo.time;
             this.backgroundVideoPlayer.playVideoByName(currentVideo.videoName);
         }
@@ -73,10 +72,13 @@ export default class VideoStreamIntegration extends ObserverComponent {
         isBreakTime: boolean;
         videoResult: MarbleFootballServiceMessages.VideoStream;
     }) {
+        if (!videoResult || !videoResult.firstHalfVideo || !videoResult.secondHalfVideo) {
+            return;
+        }
+
         if (isFirstHalf && !isBreakTime) {
             this.backgroundVideoPlayer.currentTime = 0;
             this.introOutro.showField = true;
-            console.log(`buffer first half video ${videoResult.firstHalfVideo}`);
             this.backgroundVideoPlayer.loadVideoByName(videoResult.firstHalfVideo);
             return;
         }
@@ -84,7 +86,6 @@ export default class VideoStreamIntegration extends ObserverComponent {
         if (isBreakTime) {
             this.introOutro.showField = true;
             this.backgroundVideoPlayer.currentTime = 0;
-            console.log(`buffer second half video ${videoResult.secondHalfVideo}`);
             this.backgroundVideoPlayer.loadVideoByName(videoResult.secondHalfVideo);
             return;
         }
