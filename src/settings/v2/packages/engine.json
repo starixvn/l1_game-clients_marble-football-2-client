@@ -11,6 +11,9 @@
       "gfx-webgl2": {
         "_value": false
       },
+      "gfx-webgpu": {
+        "_value": false
+      },
       "animation": {
         "_value": true
       },
@@ -18,6 +21,9 @@
         "_value": false
       },
       "3d": {
+        "_value": false
+      },
+      "meshopt": {
         "_value": false
       },
       "2d": {
@@ -118,14 +124,20 @@
       "procedural-animation": {
         "_value": false
       },
-      "graphics": {
-        "_value": true
-      },
       "custom-pipeline-post-process": {
         "_value": true
       },
       "render-pipeline": {
-        "_option": "custom-pipeline"
+        "_option": "legacy-pipeline"
+      },
+      "custom-pipeline": {
+        "_value": true
+      },
+      "legacy-pipeline": {
+        "_value": false
+      },
+      "graphics": {
+        "_value": true
       }
     },
     "includeModules": [
@@ -133,10 +145,10 @@
       "animation",
       "audio",
       "base",
-      "custom-pipeline",
       "custom-pipeline-post-process",
       "gfx-webgl",
       "intersection-2d",
+      "legacy-pipeline",
       "particle-2d",
       "physics-2d-box2d",
       "profiler",
