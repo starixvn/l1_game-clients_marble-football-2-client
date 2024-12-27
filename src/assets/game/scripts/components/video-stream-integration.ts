@@ -160,7 +160,7 @@ export default class VideoStreamIntegration extends ObserverComponent {
         }
     }
 
-    private onHLSError(_: string, data: any) {
+    private onHLSError(data: any) {
         sentryLogger.logError(data);
     }
 
