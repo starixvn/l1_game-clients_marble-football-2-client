@@ -97,7 +97,7 @@ export default class Game extends GameComponent {
 
     initBackgroundImage() {
         const { origin, pathname } = window.location;
-        const imagePath = `${origin}${pathname}splash-resources/background.jpg?v=1`;
+        const imagePath = `${origin}${pathname}splash-resources/background.webp?v=1`;
 
         assetManager.loadRemote<ImageAsset>(imagePath, (err, imageAsset) => {
             if (err) {
