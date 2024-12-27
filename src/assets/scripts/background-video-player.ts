@@ -88,7 +88,6 @@ export class BackgroundVideoPlayer extends Component {
 
     set muted(value: boolean) {
         this._muted = value;
-        this.initialized && (this.native.muted = value);
     }
 
     get level() {
