@@ -46,6 +46,7 @@ export default class VideoStreamIntegration extends ObserverComponent {
         this.backgroundVideoPlayer?.node.on("hlsError", this.updateSystemIndicator, this);
         this.backgroundVideoPlayer?.node.on("hlsError", this.onHLSError, this);
         this.backgroundVideoPlayer?.node.on("hlsFragChanged", () => {
+            console.log("hlsFragChanged");
             this.introOutro.showField = false;
         });
         this.backgroundVideoPlayer?.node.on("hlsNotSupported", this.onHSLNotSupported, this);
