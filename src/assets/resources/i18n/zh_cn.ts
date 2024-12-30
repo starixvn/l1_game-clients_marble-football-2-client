@@ -202,7 +202,7 @@ export const languages = {
         "congrat_champion": "恭喜冠军!",
         "first_half": "上半场",
         "full_time": "全场时间",
-        "game_name": "旋转足球\n",
+        "game_name": "旋转足球",
         "glossary_away": "客队",
         "glossary_draw": "平",
         "glossary_even": "双",
