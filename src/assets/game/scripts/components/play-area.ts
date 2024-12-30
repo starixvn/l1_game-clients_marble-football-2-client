@@ -237,18 +237,21 @@ export class PlayArea extends ObserverComponent {
                     },
                     { easing: "sineInOut" }
                 )
-                .call(resolve)
+                .call(() => resolve())
                 .start();
 
             if (config.opacity !== undefined) {
                 const uiOpacity = getUiOpacity(node);
-                tween(uiOpacity).to(config.time, { opacity: config.opacity }).call(resolve).start();
+                tween(uiOpacity)
+                    .to(config.time, { opacity: config.opacity })
+                    .call(() => resolve())
+                    .start();
             }
 
             if (config.positionY !== undefined) {
                 tween(node)
                     .to(config.time, { position: v3(node.position.x, config.positionY, node.position.z) })
-                    .call(resolve)
+                    .call(() => resolve())
                     .start();
             }
         });

@@ -80,7 +80,6 @@ export default class VideoStreamIntegration extends ObserverComponent {
         if (isFirstHalf && !isBreakTime) {
             console.log("buffer first half: ", videoResult.firstHalfVideo);
             this.backgroundVideoPlayer.currentTime = 0;
-            this.introOutro.showField = true;
             this.backgroundVideoPlayer.loadVideoByName(videoResult.firstHalfVideo);
             return;
         }
@@ -88,7 +87,6 @@ export default class VideoStreamIntegration extends ObserverComponent {
         if (isBreakTime) {
             console.log("buffer second half: ", videoResult.secondHalfVideo);
             this.backgroundVideoPlayer.currentTime = 0;
-            this.introOutro.showField = true;
             this.backgroundVideoPlayer.loadVideoByName(videoResult.secondHalfVideo);
             return;
         }
