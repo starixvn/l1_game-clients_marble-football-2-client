@@ -42,11 +42,13 @@ export class DrawOdds extends ObserverComponent {
 
     updateLayoutOdd() {
         this.lblOdds?.updateRenderData();
-        const widthNode = this.node.getComponent(UITransform).width;
+        const widthNode = this.node.getParent().getComponent(UITransform).width;
         const widthTextStatic = this.lblTextStatic.getComponent(UITransform).width;
         const widthOdds = this.lblOdds.getComponent(UITransform).width;
-        const widthSign = widthNode - widthTextStatic - widthOdds;
+        const padding = 4;
+        const widthSign = widthNode - widthTextStatic - widthOdds - padding;
         const numberSign = Math.floor(widthSign / 8);
+
         this.lblSign.string = "";
         for (let i = 0; i < numberSign; i++) {
             this.lblSign.string += ".";
