@@ -26,12 +26,6 @@ export class MatchPromptMessageContainer extends PromptMessageContainer {
         if (time === settings.durations.showingResult) {
             this.scheduleOnce(() => this.getComponent().showTimeUpMessage(), 0.5);
         }
-        if (time === NEXT_MATCH_TIME) {
-            this.scheduleOnce(() => {
-                this.getComponent().showNextMatchMessage();
-                this.playSound(PROMPT_SOUND_ID.NEXT_MATCH);
-            }, 1);
-        }
     }
 
     @render(Rounds.RoundTimeStore, (store) => store.isShowStartBetMessage)
