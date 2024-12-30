@@ -127,7 +127,7 @@
   },
   "userData": {
     "type": "sprite-frame",
-    "fixAlphaTransparencyArtifacts": true,
+    "fixAlphaTransparencyArtifacts": false,
     "hasAlpha": true,
     "redirect": "33809eb4-68c3-4786-9721-1023fa6867f8@6c48a"
   }
