@@ -95,7 +95,7 @@ export class MatchPromptMessage extends PromptMessageComponent {
 
     showNextMatchMessage() {
         const message = Translator.gameTranslate("next_match").toUpperCase();
-        this.icon = IconName.HAND;
+        this.icon = IconName.CUP;
         this.content = message;
     }
 }
