@@ -45,10 +45,8 @@ export default class VideoStreamIntegration extends ObserverComponent {
         this.backgroundVideoPlayer?.node.on("hlsLevelSwitched", this.updateSystemIndicator, this);
         this.backgroundVideoPlayer?.node.on("hlsError", this.updateSystemIndicator, this);
         this.backgroundVideoPlayer?.node.on("hlsError", this.onHLSError, this);
-        this.backgroundVideoPlayer?.node.on("hlsFragChanged", () => {
-            console.log("hlsFragChanged");
-            this.introOutro.showField = false;
-        });
+        this.backgroundVideoPlayer?.node.on("hlsManifestLoading", () => (this.introOutro.showField = true));
+        this.backgroundVideoPlayer?.node.on("syncNativeCurrentTime", (time: number) => (this.introOutro.showField = time <= 0));
         this.backgroundVideoPlayer?.node.on("hlsNotSupported", this.onHSLNotSupported, this);
         this.warnContainer?.removeAllChildren();
     }
@@ -91,9 +89,7 @@ export default class VideoStreamIntegration extends ObserverComponent {
             console.log("buffer second half: ", videoResult.secondHalfVideo);
             this.backgroundVideoPlayer.currentTime = 0;
             this.introOutro.showField = true;
-            this.scheduleOnce(() => {
-                this.backgroundVideoPlayer.loadVideoByName(videoResult.secondHalfVideo);
-            }, 0.1);
+            this.backgroundVideoPlayer.loadVideoByName(videoResult.secondHalfVideo);
             return;
         }
     }

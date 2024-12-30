@@ -1,5 +1,5 @@
-import { _decorator, Component, log } from "cc";
-import Hls, { Events } from "hls.js";
+import { _decorator, Component } from "cc";
+import Hls from "hls.js";
 import { DOMBackgroundVideo } from "./dom-background-video";
 
 const { ccclass } = _decorator;
@@ -116,6 +116,8 @@ export class BackgroundVideoPlayer extends Component {
     }
 
     private syncCurrentTime() {
+        this.node.emit("syncNativeCurrentTime", this.native.currentTime);
+
         const needSync = this.currentTime >= 0 && Math.abs(this.currentTime - this.native.currentTime) > 1;
 
         if (this.initialized && needSync) {
