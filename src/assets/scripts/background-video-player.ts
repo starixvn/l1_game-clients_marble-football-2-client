@@ -1,5 +1,5 @@
-import { _decorator, Component } from "cc";
-import Hls from "hls.js";
+import { _decorator, Component, log } from "cc";
+import Hls, { Events } from "hls.js";
 import { DOMBackgroundVideo } from "./dom-background-video";
 
 const { ccclass } = _decorator;
@@ -25,6 +25,7 @@ export class BackgroundVideoPlayer extends Component {
     }
 
     loadVideoByName(videoName: string): boolean {
+        console.log("loadVideoByName", videoName);
         if (!videoName?.trim() || !this.liveStreamServer) {
             return false;
         }
@@ -60,6 +61,7 @@ export class BackgroundVideoPlayer extends Component {
     }
 
     loadSource() {
+        console.log("loadSource", this._videoSource);
         if (!this.initialized) {
             this.initialize();
         }
@@ -148,6 +150,15 @@ export class BackgroundVideoPlayer extends Component {
         hls.on(Hls.Events.MANIFEST_PARSED, this.node.emit.bind(this.node));
         hls.on(Hls.Events.FRAG_BUFFERED, this.node.emit.bind(this.node));
         hls.on(Hls.Events.FRAG_CHANGED, this.node.emit.bind(this.node));
+
+        hls.on(Hls.Events.FRAG_CHANGED, (event, data) => {
+            console.log("Fragment changed");
+        });
+
+        hls.on(Hls.Events.BUFFER_EOS, (event, data) => {
+            console.log("Playback has ended");
+        });
+
         hls.on(Hls.Events.ERROR, (event, data) => {
             this.node.emit(event, {
                 ...data,
