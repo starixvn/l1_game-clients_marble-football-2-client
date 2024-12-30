@@ -119,13 +119,13 @@
             <key>premultiplyAlpha</key>
             <false/>
             <key>realTextureFileName</key>
-            <string>backgrounds.png</string>
+            <string>backgrounds.webp</string>
             <key>size</key>
             <string>{2048,2048}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:376a47a952d6a506595ac9f652b0fa62:964b4cc84857e4813ba91f1020a822a0:bce6abbc637f2ec0d80b50ac3f5865b5$</string>
+            <string>$TexturePacker:SmartUpdate:77c052e3259c06184884f172a1f1db1c:964b4cc84857e4813ba91f1020a822a0:50d396e5ee50d30c72c827b4c94d9057$</string>
             <key>textureFileName</key>
-            <string>backgrounds.png</string>
+            <string>backgrounds.webp</string>
         </dict>
     </dict>
 </plist>

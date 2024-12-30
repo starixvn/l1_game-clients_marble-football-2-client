@@ -209,13 +209,13 @@
             <key>premultiplyAlpha</key>
             <false/>
             <key>realTextureFileName</key>
-            <string>scoreboard.png</string>
+            <string>scoreboard.webp</string>
             <key>size</key>
             <string>{128,256}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:cfb78796f51dffc2410465344d350081:f7eb31f5f15f14a50393fba8706267d2:f5f11636fd87e0c16f842a128ed8c317$</string>
+            <string>$TexturePacker:SmartUpdate:34d084375784b9678624e6248fc447a9:f7eb31f5f15f14a50393fba8706267d2:1c26ae758b59fc1786047c16287f2a5c$</string>
             <key>textureFileName</key>
-            <string>scoreboard.png</string>
+            <string>scoreboard.webp</string>
         </dict>
     </dict>
 </plist>

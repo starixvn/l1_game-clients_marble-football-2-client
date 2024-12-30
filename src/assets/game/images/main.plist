@@ -509,13 +509,13 @@
             <key>premultiplyAlpha</key>
             <false/>
             <key>realTextureFileName</key>
-            <string>main.png</string>
+            <string>main.webp</string>
             <key>size</key>
             <string>{512,2048}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:a9c78a2b20173fc44b1a9a4e106a4df1:8e6ea4e85b4a6b23476dba3b003b5d4b:693584bbba79ecadf35d6b2cf3a849c9$</string>
+            <string>$TexturePacker:SmartUpdate:29821ee5701ad225c177723c49144309:8e6ea4e85b4a6b23476dba3b003b5d4b:b0f8fbd393ae9d1a95baaa51e50f3d50$</string>
             <key>textureFileName</key>
-            <string>main.png</string>
+            <string>main.webp</string>
         </dict>
     </dict>
 </plist>
