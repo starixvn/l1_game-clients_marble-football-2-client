@@ -60,7 +60,7 @@ export default class VideoStreamIntegration extends ObserverComponent {
         if (currentVideoTime === settings.durations.videoDuration - 1) {
             this.scheduleOnce(() => {
                 this.introOutro.showField = true;
-            }, 0.8);
+            }, 0.9);
         }
     }
 
