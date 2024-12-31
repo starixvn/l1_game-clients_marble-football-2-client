@@ -47,21 +47,14 @@ export default class VideoStreamIntegration extends ObserverComponent {
         this.backgroundVideoPlayer?.node.on("hlsError", this.updateSystemIndicator, this);
         this.backgroundVideoPlayer?.node.on("hlsError", this.onHLSError, this);
         this.backgroundVideoPlayer?.node.on("hlsManifestLoading", () => (this.introOutro.showField = true));
-        this.backgroundVideoPlayer?.node.on("syncNativeCurrentTime", (time: number) => (this.introOutro.showField = time <= 0));
+        this.backgroundVideoPlayer?.node.on("syncNativeCurrentTime", (time: number) => {
+            const showField = time <= 0 || time >= 49.8;
+            this.introOutro.showField = showField;
+        });
         this.backgroundVideoPlayer?.node.on("hlsNotSupported", this.onHSLNotSupported, this);
         this.warnContainer?.removeAllChildren();
 
         super.onLoad();
-    }
-
-    @render(VideoStreamStore, (store) => store.currentVideoTime)
-    showFieldBeforeBreakTime(currentVideoTime: number) {
-        // Show field before break time 200ms
-        if (currentVideoTime === settings.durations.videoDuration - 1) {
-            this.scheduleOnce(() => {
-                this.introOutro.showField = true;
-            }, 0.9);
-        }
     }
 
     @render(VideoStreamStore, (store) => store.currentVideo)
@@ -91,14 +84,12 @@ export default class VideoStreamIntegration extends ObserverComponent {
         }
 
         if (isFirstHalf && !isBreakTime) {
-            console.log("buffer first half: ", videoResult.firstHalfVideo);
             this.backgroundVideoPlayer.currentTime = 0;
             this.backgroundVideoPlayer.loadVideoByName(videoResult.firstHalfVideo);
             return;
         }
 
         if (isBreakTime) {
-            console.log("buffer second half: ", videoResult.secondHalfVideo);
             this.backgroundVideoPlayer.currentTime = 0;
             this.backgroundVideoPlayer.loadVideoByName(videoResult.secondHalfVideo);
         }
