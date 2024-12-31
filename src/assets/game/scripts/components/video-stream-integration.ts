@@ -42,22 +42,44 @@ export default class VideoStreamIntegration extends ObserverComponent {
 
     private isLiveVideo = false;
 
+    private blockShowFieldWithSyncNativeCurrentTime = false;
+
     onLoad(): void {
         this.backgroundVideoPlayer?.node.on("hlsLevelSwitched", this.updateSystemIndicator, this);
         this.backgroundVideoPlayer?.node.on("hlsError", this.updateSystemIndicator, this);
         this.backgroundVideoPlayer?.node.on("hlsError", this.onHLSError, this);
         this.backgroundVideoPlayer?.node.on("hlsManifestLoading", () => (this.introOutro.showField = true));
         this.backgroundVideoPlayer?.node.on("syncNativeCurrentTime", (time: number) => {
-            // Show field before end video 200ms
-            const timeStartToShowField = settings.durations.videoDuration - 0.2;
+            if (this.blockShowFieldWithSyncNativeCurrentTime) {
+                return;
+            }
 
-            const showField = time <= 0 || time >= timeStartToShowField;
+            const showField = time <= 0;
+            console.log("show field on sync: ", showField);
             this.introOutro.showField = showField;
         });
         this.backgroundVideoPlayer?.node.on("hlsNotSupported", this.onHSLNotSupported, this);
         this.warnContainer?.removeAllChildren();
 
         super.onLoad();
+    }
+
+    @render(VideoStreamStore, (store) => store.currentVideoTime)
+    showFieldBeforeVideoEnd(currentVideoTime: number) {
+        // Show field before end video 100ms
+        if (currentVideoTime === settings.durations.videoDuration - 1) {
+            this.scheduleOnce(() => {
+                console.log("show field before video end");
+                this.introOutro.showField = true;
+                this.blockShowFieldWithSyncNativeCurrentTime = true;
+
+                // Unblock show field after 2 seconds
+                this.scheduleOnce(() => {
+                    console.log("unblock show field before video end");
+                    this.blockShowFieldWithSyncNativeCurrentTime = false;
+                }, 2);
+            }, 0.9);
+        }
     }
 
     @render(VideoStreamStore, (store) => store.currentVideo)
