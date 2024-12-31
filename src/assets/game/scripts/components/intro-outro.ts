@@ -13,12 +13,10 @@ export class IntroOutro extends Component {
     private maxOpacity = 255;
 
     set showGameBackground(value: boolean) {
-        console.log("showGameBackground", value);
         this.gameBackground.node.active = value;
     }
 
     set showField(value: boolean) {
-        console.log("showField", value);
         this.field.node.active = value;
     }
 

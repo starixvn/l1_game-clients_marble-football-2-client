@@ -38,7 +38,6 @@ export class VideoStreamStore {
     }
 
     updateWithRoundTime(roundTime: number) {
-        console.log("roundTime: ", roundTime);
         this._roundTime = roundTime;
         this._currentVideoTime = this.calculateCurrentVideoTime();
 

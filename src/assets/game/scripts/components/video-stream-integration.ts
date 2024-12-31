@@ -48,7 +48,10 @@ export default class VideoStreamIntegration extends ObserverComponent {
         this.backgroundVideoPlayer?.node.on("hlsError", this.onHLSError, this);
         this.backgroundVideoPlayer?.node.on("hlsManifestLoading", () => (this.introOutro.showField = true));
         this.backgroundVideoPlayer?.node.on("syncNativeCurrentTime", (time: number) => {
-            const showField = time <= 0 || time >= 49.8;
+            // Show field before end video 200ms
+            const timeStartToShowField = settings.durations.videoDuration - 0.2;
+
+            const showField = time <= 0 || time >= timeStartToShowField;
             this.introOutro.showField = showField;
         });
         this.backgroundVideoPlayer?.node.on("hlsNotSupported", this.onHSLNotSupported, this);

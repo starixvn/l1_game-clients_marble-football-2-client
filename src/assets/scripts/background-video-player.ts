@@ -153,14 +153,6 @@ export class BackgroundVideoPlayer extends Component {
         hls.on(Hls.Events.FRAG_BUFFERED, this.node.emit.bind(this.node));
         hls.on(Hls.Events.FRAG_CHANGED, this.node.emit.bind(this.node));
 
-        hls.on(Hls.Events.FRAG_CHANGED, (event, data) => {
-            console.log("Fragment changed: ", data.frag.sn);
-        });
-
-        hls.on(Hls.Events.BUFFER_EOS, (event, data) => {
-            console.log("Playback has ended");
-        });
-
         hls.on(Hls.Events.ERROR, (event, data) => {
             this.node.emit(event, {
                 ...data,
