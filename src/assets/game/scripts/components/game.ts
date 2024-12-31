@@ -64,10 +64,10 @@ export default class Game extends GameComponent {
     handleConnectFailed(isConnectFailed: boolean) {
         if (isConnectFailed) {
             log("Connection failed");
+            this.systemIndicator.networkStatus = NetworkStatus.DISCONNECTED;
             this.scheduleOnce(() => {
                 this.stopRoundTimeRunner();
                 this.backgroundVideoPlayer.pause();
-                this.systemIndicator.networkStatus = NetworkStatus.DISCONNECTED;
             }, 3);
         }
     }
