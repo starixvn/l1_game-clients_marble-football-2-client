@@ -25,7 +25,6 @@ export class BackgroundVideoPlayer extends Component {
     }
 
     loadVideoByName(videoName: string): boolean {
-        console.log("loadVideoByName", videoName);
         if (!videoName?.trim() || !this.liveStreamServer) {
             return false;
         }
@@ -61,7 +60,6 @@ export class BackgroundVideoPlayer extends Component {
     }
 
     loadSource() {
-        console.log("loadSource", this._videoSource);
         if (!this.initialized) {
             this.initialize();
         }
@@ -70,7 +68,6 @@ export class BackgroundVideoPlayer extends Component {
     }
 
     play(retry = 0, maxRetry = 3) {
-        console.log("video play with muted ", this.native?.muted);
         // Fix for iOS 17, video element is not playing immediately
         this.native.play().catch(() => {
             if (retry < maxRetry) {

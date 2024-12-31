@@ -55,7 +55,6 @@ export default class VideoStreamIntegration extends ObserverComponent {
             }
 
             const showField = time <= 0;
-            console.log("show field on sync: ", showField);
             this.introOutro.showField = showField;
         });
         this.backgroundVideoPlayer?.node.on("hlsNotSupported", this.onHSLNotSupported, this);
@@ -64,18 +63,19 @@ export default class VideoStreamIntegration extends ObserverComponent {
         super.onLoad();
     }
 
-    @render(VideoStreamStore, (store) => store.currentVideoTime)
-    showFieldBeforeVideoEnd(currentVideoTime: number) {
-        // Show field before end video 100ms
-        if (currentVideoTime === settings.durations.videoDuration - 1) {
+    @render(VideoStreamStore, (store) => ({
+        isFirstHalf: store.isFirstHalf,
+        currentVideoTime: store.currentVideoTime,
+    }))
+    showFieldBeforeFirstHalfVideoEnd({ isFirstHalf, currentVideoTime }: { isFirstHalf: boolean; currentVideoTime: number }) {
+        // Show field before first half video end 100ms
+        if (isFirstHalf && currentVideoTime === settings.durations.videoDuration - 1) {
             this.scheduleOnce(() => {
-                console.log("show field before video end");
                 this.introOutro.showField = true;
                 this.blockShowFieldWithSyncNativeCurrentTime = true;
 
                 // Unblock show field after 2 seconds
                 this.scheduleOnce(() => {
-                    console.log("unblock show field before video end");
                     this.blockShowFieldWithSyncNativeCurrentTime = false;
                 }, 2);
             }, 0.9);
