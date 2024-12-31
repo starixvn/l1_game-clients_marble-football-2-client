@@ -54,6 +54,16 @@ export default class VideoStreamIntegration extends ObserverComponent {
         super.onLoad();
     }
 
+    @render(VideoStreamStore, (store) => store.currentVideoTime)
+    showFieldBeforeBreakTime(currentVideoTime: number) {
+        // Show field before break time 200ms
+        if (currentVideoTime === settings.durations.videoDuration - 1) {
+            this.scheduleOnce(() => {
+                this.introOutro.showField = true;
+            }, 0.8);
+        }
+    }
+
     @render(VideoStreamStore, (store) => store.currentVideo)
     renderVideoSource(currentVideo: StreamingVideo) {
         if (currentVideo?.videoName) {
@@ -82,7 +92,6 @@ export default class VideoStreamIntegration extends ObserverComponent {
 
         if (isFirstHalf && !isBreakTime) {
             console.log("buffer first half: ", videoResult.firstHalfVideo);
-            this.introOutro.showField = true;
             this.backgroundVideoPlayer.currentTime = 0;
             this.backgroundVideoPlayer.loadVideoByName(videoResult.firstHalfVideo);
             return;
@@ -90,7 +99,6 @@ export default class VideoStreamIntegration extends ObserverComponent {
 
         if (isBreakTime) {
             console.log("buffer second half: ", videoResult.secondHalfVideo);
-            this.introOutro.showField = true;
             this.backgroundVideoPlayer.currentTime = 0;
             this.backgroundVideoPlayer.loadVideoByName(videoResult.secondHalfVideo);
         }
