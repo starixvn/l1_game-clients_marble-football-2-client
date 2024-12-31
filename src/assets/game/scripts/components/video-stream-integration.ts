@@ -1,9 +1,12 @@
 import gc from "@sg/game-client-base";
 import { _decorator, instantiate, Node, Prefab } from "cc";
 import { ObserverComponent } from "db://shared-components/shared/common-components/observer-component/scripts/observer-component";
+import { AnimationUtils } from "db://shared-components/shared/utils";
 import Observer from "observer";
 import { BackgroundVideoPlayer } from "../../../scripts/background-video-player";
 import { VideoStreamHandlers } from "../features/feature";
+import { GamePhase, PhaseId } from "../features/game-phase/game-phase-definitions";
+import { GamePhaseStore } from "../features/game-phase/game-phase-store";
 import { StreamingVideo, VideoStreamStore } from "../features/video-stream/video-stream-store";
 import { settings } from "../game-settings";
 import { MarbleFootballServiceMessages } from "../marble-football-service-messages";
@@ -40,8 +43,6 @@ export default class VideoStreamIntegration extends ObserverComponent {
     private isLiveVideo = false;
 
     onLoad(): void {
-        super.onLoad();
-
         this.backgroundVideoPlayer?.node.on("hlsLevelSwitched", this.updateSystemIndicator, this);
         this.backgroundVideoPlayer?.node.on("hlsError", this.updateSystemIndicator, this);
         this.backgroundVideoPlayer?.node.on("hlsError", this.onHLSError, this);
@@ -49,6 +50,8 @@ export default class VideoStreamIntegration extends ObserverComponent {
         this.backgroundVideoPlayer?.node.on("syncNativeCurrentTime", (time: number) => (this.introOutro.showField = time <= 0));
         this.backgroundVideoPlayer?.node.on("hlsNotSupported", this.onHSLNotSupported, this);
         this.warnContainer?.removeAllChildren();
+
+        super.onLoad();
     }
 
     @render(VideoStreamStore, (store) => store.currentVideo)
@@ -176,8 +179,9 @@ export default class VideoStreamIntegration extends ObserverComponent {
             return;
         }
 
-        const node = instantiate(this?.warnPrefab);
         this.systemIndicator.networkStatus = NetworkStatus.DISCONNECTED;
+
+        const node = instantiate(this?.warnPrefab);
         node && this.warnContainer?.addChild(node);
     }
 
@@ -186,6 +190,26 @@ export default class VideoStreamIntegration extends ObserverComponent {
         this.isLiveVideo = isLiveVideo;
         if (!isLiveVideo) {
             this.warnContainer?.removeAllChildren();
+        }
+    }
+
+    @render(GamePhaseStore, (store) => store.enterPhase)
+    private renderEnterPhase(phase: GamePhase) {
+        if (!phase) {
+            return;
+        }
+        if (phase.id === PhaseId.Halftime) {
+            AnimationUtils.fadeOut(this.warnContainer, 0.2);
+        }
+    }
+
+    @render(GamePhaseStore, (store) => store.exitPhase)
+    private renderExitPhase(phase: GamePhase) {
+        if (!phase) {
+            return;
+        }
+        if (phase.id === PhaseId.Halftime) {
+            AnimationUtils.fadeIn(this.warnContainer, 0.2);
         }
     }
 }
