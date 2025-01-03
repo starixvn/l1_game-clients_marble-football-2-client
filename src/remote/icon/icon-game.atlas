@@ -1,201 +1,194 @@
 
 icon-game.png
-size: 598,523
+size: 517,237
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 BG
   rotate: false
-  xy: 2, 318
-  size: 203, 203
-  orig: 205, 205
-  offset: 1, 1
+  xy: 2, 32
+  size: 202, 203
+  orig: 203, 203
+  offset: 0, 0
   index: -1
 ball
   rotate: false
-  xy: 463, 440
+  xy: 372, 3
   size: 40, 40
   orig: 42, 42
   offset: 1, 1
   index: -1
+blue spinner 1
+  rotate: false
+  xy: 108, 5
+  size: 20, 25
+  orig: 23, 30
+  offset: 3, 4
+  index: -1
+blue spinner 2
+  rotate: false
+  xy: 86, 4
+  size: 20, 26
+  orig: 23, 30
+  offset: 3, 3
+  index: -1
+blue spinner 3
+  rotate: false
+  xy: 62, 3
+  size: 22, 27
+  orig: 23, 30
+  offset: 0, 2
+  index: -1
+blue spinner 4
+  rotate: false
+  xy: 37, 3
+  size: 23, 27
+  orig: 23, 30
+  offset: 0, 3
+  index: -1
 effect ball 1
   rotate: true
-  xy: 411, 465
+  xy: 414, 20
   size: 56, 50
   orig: 83, 84
   offset: 10, 10
   index: -1
 effect ball 2
   rotate: false
-  xy: 411, 415
+  xy: 466, 33
   size: 49, 48
   orig: 83, 84
   offset: 16, 20
   index: -1
 effect ball 3
-  rotate: true
-  xy: 506, 69
+  rotate: false
+  xy: 393, 78
   size: 58, 65
   orig: 83, 84
   offset: 9, 9
   index: -1
 empty
   rotate: false
-  xy: 2, 2
+  xy: 2, 4
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
+firework a
+  rotate: true
+  xy: 351, 145
+  size: 46, 48
+  orig: 47, 48
+  offset: 1, 0
+  index: -1
+firework b
+  rotate: false
+  xy: 449, 179
+  size: 56, 56
+  orig: 56, 56
+  offset: 0, 0
+  index: -1
 flower paper
   rotate: true
-  xy: 2, 5
+  xy: 130, 7
   size: 7, 5
   orig: 9, 7
   offset: 1, 1
   index: -1
 glove
   rotate: false
-  xy: 543, 141
+  xy: 2, 7
   size: 33, 23
   orig: 35, 25
   offset: 1, 1
   index: -1
 light circle
   rotate: false
-  xy: 406, 19
-  size: 98, 98
-  orig: 100, 100
-  offset: 1, 1
+  xy: 453, 127
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
   index: -1
 light spinner
-  rotate: false
-  xy: 506, 433
+  rotate: true
+  xy: 261, 145
   size: 90, 88
   orig: 94, 92
   offset: 2, 2
   index: -1
+mid spinner 1
+  rotate: false
+  xy: 351, 193
+  size: 96, 42
+  orig: 103, 42
+  offset: 0, 0
+  index: -1
+mid spinner 2
+  rotate: true
+  xy: 261, 42
+  size: 101, 42
+  orig: 103, 42
+  offset: 0, 0
+  index: -1
+mid spinner 3
+  rotate: true
+  xy: 305, 43
+  size: 100, 42
+  orig: 103, 42
+  offset: 0, 0
+  index: -1
+mid spinner 4
+  rotate: true
+  xy: 349, 45
+  size: 98, 42
+  orig: 103, 42
+  offset: 0, 0
+  index: -1
 net goal
   rotate: false
-  xy: 465, 129
+  xy: 206, 3
   size: 76, 35
   orig: 76, 35
   offset: 0, 0
   index: -1
+red spinner 1
+  rotate: true
+  xy: 284, 2
+  size: 38, 42
+  orig: 42, 42
+  offset: 4, 0
+  index: -1
+red spinner 2
+  rotate: false
+  xy: 453, 83
+  size: 37, 42
+  orig: 42, 42
+  offset: 5, 0
+  index: -1
+red spinner 3
+  rotate: false
+  xy: 401, 149
+  size: 38, 42
+  orig: 42, 42
+  offset: 2, 0
+  index: -1
+red spinner 4
+  rotate: true
+  xy: 328, 2
+  size: 39, 42
+  orig: 42, 42
+  offset: 1, 0
+  index: -1
 slash light
   rotate: false
-  xy: 406, 3
+  xy: 130, 16
   size: 14, 14
   orig: 18, 17
   offset: 2, 1
   index: -1
-spinner blue
-  rotate: false
-  xy: 465, 482
-  size: 39, 39
-  orig: 41, 41
-  offset: 1, 1
-  index: -1
-spinner blue top
-  rotate: false
-  xy: 9, 7
-  size: 11, 5
-  orig: 13, 7
-  offset: 1, 1
-  index: -1
-spinner bottom
-  rotate: true
-  xy: 465, 413
-  size: 25, 37
-  orig: 27, 39
-  offset: 1, 1
-  index: -1
-spinner red
-  rotate: false
-  xy: 465, 166
-  size: 121, 118
-  orig: 123, 120
-  offset: 1, 1
-  index: -1
-spinner red top
-  rotate: true
-  xy: 443, 379
-  size: 34, 17
-  orig: 36, 19
-  offset: 1, 1
-  index: -1
-spinner shadow
-  rotate: false
-  xy: 465, 286
-  size: 129, 125
-  orig: 133, 130
-  offset: 2, 2
-  index: -1
-splash png/splash_1
-  rotate: true
-  xy: 2, 116
-  size: 200, 100
-  orig: 200, 100
-  offset: 0, 0
-  index: -1
-splash png/splash_2
-  rotate: false
-  xy: 2, 14
-  size: 200, 100
-  orig: 200, 100
-  offset: 0, 0
-  index: -1
-splash png/splash_3
-  rotate: true
-  xy: 104, 116
-  size: 200, 100
-  orig: 200, 100
-  offset: 0, 0
-  index: -1
-splash png/splash_4
-  rotate: false
-  xy: 204, 14
-  size: 200, 100
-  orig: 200, 100
-  offset: 0, 0
-  index: -1
-splash png/splash_5
-  rotate: true
-  xy: 206, 116
-  size: 200, 100
-  orig: 200, 100
-  offset: 0, 0
-  index: -1
-splash png/splash_6
-  rotate: true
-  xy: 207, 321
-  size: 200, 100
-  orig: 200, 100
-  offset: 0, 0
-  index: -1
-splash png/splash_7
-  rotate: true
-  xy: 308, 119
-  size: 200, 100
-  orig: 200, 100
-  offset: 0, 0
-  index: -1
-splash png/splash_8
-  rotate: true
-  xy: 309, 321
-  size: 200, 100
-  orig: 200, 100
-  offset: 0, 0
-  index: -1
-stage light 2
-  rotate: false
-  xy: 411, 324
-  size: 30, 87
-  orig: 38, 127
-  offset: 4, 37
-  index: -1
 top light frame
   rotate: true
-  xy: 410, 124
+  xy: 206, 40
   size: 195, 53
   orig: 197, 77
   offset: 1, 23
