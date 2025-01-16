@@ -60,7 +60,7 @@ export class PlayArea extends ObserverComponent {
             out: { scale: v3(0.5, 0.5, 1), position: v3(0, -305, 0), time: 1.5 },
         },
         fadeInOut: {
-            in: { opacity: 255, time: 1 },
+            in: { opacity: 255, time: 0.5 },
             out: { opacity: 1, time: 1 },
         },
         flyDown: {
