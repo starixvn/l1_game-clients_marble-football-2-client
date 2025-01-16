@@ -21,7 +21,7 @@ export class TournamentContainer extends NodeContainer {
     private tournament: MarbleFootballServiceMessages.Tournament = null;
     private isShowingTournament = false;
 
-    private readonly delayHideTournament = 1;
+    private readonly delayHideTournament = 0.5;
 
     onLoad() {
         super.onLoad();

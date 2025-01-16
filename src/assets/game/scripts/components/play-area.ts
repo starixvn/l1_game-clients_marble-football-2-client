@@ -61,15 +61,15 @@ export class PlayArea extends ObserverComponent {
         },
         fadeInOut: {
             in: { opacity: 255, time: 1 },
-            out: { opacity: 0, time: 1 },
+            out: { opacity: 1, time: 1 },
         },
         flyDown: {
             in: { positionY: -285, opacity: 255, time: 1 },
             out: { positionY: -385, opacity: 0, time: 1 },
         },
         flyUp: {
-            in: { positionY: 330, opacity: 255, time: 1 },
-            out: { positionY: 830, opacity: 0, time: 1 },
+            in: { positionY: 330, opacity: 255, time: 0.5 },
+            out: { positionY: 630, opacity: 0, time: 0.75 },
         },
     };
 
