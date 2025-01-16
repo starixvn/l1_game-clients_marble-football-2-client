@@ -190,7 +190,9 @@ export default class VideoStreamIntegration extends ObserverComponent {
     }
 
     private onHLSError(data: any) {
-        sentryLogger.logError(JSON.stringify(data));
+        if (data.type !== "mediaError") {
+            sentryLogger.logError(JSON.stringify(data));
+        }
     }
 
     private onHSLNotSupported() {
