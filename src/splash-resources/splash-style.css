@@ -2,10 +2,16 @@
     background-image: url("./game_background.webp?v=1");
 }
 
-.splash_bg_game {
-    background-size: auto 71.76vh !important;
+.splash-container .splash_bg_game {
+    background-size: auto 71.76vh;
 }
 
 .splash-container #splash_game_name {
     display: none !important;
+}
+
+@media only screen and (min-width: 320px) and (max-width: 1024px) and (orientation: portrait) {
+    .splash-container .splash_bg_game {
+        background-size: auto 70vw;
+    }
 }
