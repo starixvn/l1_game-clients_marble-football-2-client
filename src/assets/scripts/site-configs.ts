@@ -25,7 +25,7 @@ const defaultConfig: gc.Configs.SiteConfigs = {
     },
     mainObserverNamespace: "MarbleFootball",
     tolgeeUrl: "",
-    boostedOddsDelayTimeByMinutes: 2,
+    boostedOddsDelayTimeByMinutes: 1,
 };
 
 let configDev = {
