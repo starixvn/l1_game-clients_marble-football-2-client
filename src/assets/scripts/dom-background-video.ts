@@ -46,12 +46,14 @@ export class DOMBackgroundVideo {
     }
 
     private static applyVideoStyles(video: HTMLVideoElement, size: DOMRect) {
+        const isPortrait = size.width < size.height;
+
         video.style.visibility = "visible";
         video.style.position = "absolute";
         video.style.bottom = "0px";
         video.style.left = "0px";
-        video.style.width = `${size.width}px`;
-        video.style.height = `${size.height}px`;
+        video.style.width = `${isPortrait ? size.height : size.width}px`;
+        video.style.height = `${isPortrait ? size.width : size.height}px`;
         video.style.zIndex = "10";
         video.width = size.width;
         video.height = size.height;

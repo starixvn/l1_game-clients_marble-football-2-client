@@ -36,12 +36,14 @@ export class DOMBackgroundImage {
     }
 
     private static applyImageStyles(image: HTMLImageElement, size: DOMRect) {
+        const isPortrait = size.width < size.height;
+
         image.style.visibility = "visible";
         image.style.position = "absolute";
         image.style.bottom = "0px";
         image.style.left = "0px";
-        image.style.width = `${size.width}px`;
-        image.style.height = `${size.height}px`;
+        image.style.width = `${isPortrait ? size.height : size.width}px`;
+        image.style.height = `${isPortrait ? size.width : size.height}px`;
         image.style.zIndex = "9";
         image.width = size.width;
         image.height = size.height;
