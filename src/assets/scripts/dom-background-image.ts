@@ -4,6 +4,10 @@ export class DOMBackgroundImage {
 
     static readonly IMAGE_ID = "ImageBackground";
 
+    static resizeObserver: ResizeObserver = new ResizeObserver(() => {
+        DOMBackgroundImage.onResize();
+    });
+
     static createBackgroundImageElement(imageSource: string): HTMLImageElement {
         const container = document.getElementById(DOMBackgroundImage.GAME_CONTAINER_ID);
         const game = document.getElementById(DOMBackgroundImage.GAME_CANVAS_ID);
@@ -59,6 +63,12 @@ export class DOMBackgroundImage {
     }
 
     private static registerEvents() {
-        window.addEventListener("resize", DOMBackgroundImage.onResize);
+        const container = document.getElementById(DOMBackgroundImage.GAME_CONTAINER_ID);
+
+        DOMBackgroundImage.resizeObserver.observe(container);
+    }
+
+    private static unregisterEvents() {
+        DOMBackgroundImage.resizeObserver.disconnect();
     }
 }

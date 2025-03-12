@@ -4,6 +4,10 @@ export class DOMBackgroundVideo {
 
     static readonly VIDEO_ID = "VideoBackground";
 
+    static resizeObserver: ResizeObserver = new ResizeObserver(() => {
+        DOMBackgroundVideo.onResize();
+    });
+
     static createOrLoadVideoElement(): HTMLVideoElement {
         const container = document.getElementById(DOMBackgroundVideo.GAME_CONTAINER_ID);
         const game = document.getElementById(DOMBackgroundVideo.GAME_CANVAS_ID);
@@ -70,10 +74,12 @@ export class DOMBackgroundVideo {
     }
 
     private static registerEvents() {
-        window.addEventListener("resize", DOMBackgroundVideo.onResize);
+        const container = document.getElementById(DOMBackgroundVideo.GAME_CONTAINER_ID);
+
+        DOMBackgroundVideo.resizeObserver.observe(container);
     }
 
     private static unregisterEvents() {
-        window.removeEventListener("resize", DOMBackgroundVideo.onResize);
+        DOMBackgroundVideo.resizeObserver.disconnect();
     }
 }
