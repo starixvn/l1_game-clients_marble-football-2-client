@@ -8,5 +8,5 @@ window.envConfig = {
     enableMsgpackParserOnNotification: false,
     SGConnectSubDomain: "l2-connect-2",
     backgroundNoTranslate: true,
-    boostedOddsDelayTimeByMinutes: 2,
+    boostedOddsDelayTimeByMinutes: 1,
 };
