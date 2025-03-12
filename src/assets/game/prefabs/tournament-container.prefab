@@ -28,10 +28,13 @@
       },
       {
         "__id__": 6
+      },
+      {
+        "__id__": 8
       }
     ],
     "_prefab": {
-      "__id__": 8
+      "__id__": 10
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -63,28 +66,6 @@
     "_id": ""
   },
   {
-    "__type__": "43a36FibctNdY0zMryxKF9m",
-    "_name": "",
-    "_objFlags": 0,
-    "__editorExtras__": {},
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "__prefab": {
-      "__id__": 3
-    },
-    "prefab": {
-      "__uuid__": "78f0f500-3953-49e0-8351-c719990f468e",
-      "__expectedType__": "cc.Prefab"
-    },
-    "_id": ""
-  },
-  {
-    "__type__": "cc.CompPrefabInfo",
-    "fileId": "03tVpB+JZDYqrJtNK8DRcp"
-  },
-  {
     "__type__": "cc.UITransform",
     "_name": "",
     "_objFlags": 0,
@@ -94,7 +75,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 5
+      "__id__": 3
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -122,7 +103,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 7
+      "__id__": 5
     },
     "_alignFlags": 45,
     "_target": null,
@@ -149,6 +130,45 @@
     "fileId": "3eszzLRZxP/INZEM6bz7hN"
   },
   {
+    "__type__": "b2e22DJkwFIHIMjsmiCJcpb",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 7
+    },
+    "bundleName": "resources",
+    "path": "prefabs/tounament",
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "d8Xp1HV71PYIBwySh7szL3"
+  },
+  {
+    "__type__": "43a36FibctNdY0zMryxKF9m",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 9
+    },
+    "prefab": null,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "6caD9LOZ5FBa9BHjc4/tO4"
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -157,6 +177,7 @@
       "__id__": 0
     },
     "fileId": "40wSkg689DA7HysC96noU1",
+    "instance": null,
     "targetOverrides": null
   }
 ]

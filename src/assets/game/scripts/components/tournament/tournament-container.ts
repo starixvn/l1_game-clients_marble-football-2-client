@@ -1,8 +1,8 @@
-import { _decorator } from "cc";
 import gc from "@sg/game-client-base";
+import { _decorator } from "cc";
+import { LazyloadNodeContainer } from "db://shared-components/shared/common-components/node-container/lazyload-node-container";
 import Observer from "observer";
 import { Dialog } from "../../../../../extensions/shared-components/assets/shared/common-components/dialogs/dialog";
-import { NodeContainer } from "../../../../../extensions/shared-components/assets/shared/common-components/node-container/node-container";
 import { GamePhase, GamePhaseConfig, PhaseId } from "../../features/game-phase/game-phase-definitions";
 import { GamePhaseHandler } from "../../features/game-phase/game-phase-handler";
 import { GamePhaseStore } from "../../features/game-phase/game-phase-store";
@@ -17,7 +17,7 @@ const { render, handle } = Observer;
 const BRACKET_SHOW_SFX = "bracket-show";
 
 @ccclass
-export class TournamentContainer extends NodeContainer {
+export class TournamentContainer extends LazyloadNodeContainer {
     private tournament: MarbleFootballServiceMessages.Tournament = null;
     private isShowingTournament = false;
 
@@ -64,7 +64,7 @@ export class TournamentContainer extends NodeContainer {
             return;
         }
         this.isShowingTournament = true;
-        const node = this.createNode();
+        const node = await this.createNodeAsync();
         const tournamentCmp = node.getComponent(Tournament);
         if (tournamentCmp) {
             try {
