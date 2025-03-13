@@ -446,7 +446,7 @@
     },
     "defaultSkin": "default",
     "defaultAnimation": "home",
-    "_premultipliedAlpha": true,
+    "_premultipliedAlpha": false,
     "_timeScale": 1,
     "_preCacheMode": 0,
     "_cacheMode": 0,
@@ -3533,7 +3533,7 @@
     },
     "defaultSkin": "default",
     "defaultAnimation": "away",
-    "_premultipliedAlpha": true,
+    "_premultipliedAlpha": false,
     "_timeScale": 1,
     "_preCacheMode": 0,
     "_cacheMode": 0,
@@ -4230,6 +4230,7 @@
       "__id__": 0
     },
     "fileId": "56obReeEZFQaFXnLu8oTFc",
+    "instance": null,
     "targetOverrides": null
   }
 ]
