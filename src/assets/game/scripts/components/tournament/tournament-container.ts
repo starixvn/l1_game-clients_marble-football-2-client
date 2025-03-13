@@ -63,6 +63,7 @@ export class TournamentContainer extends LazyloadNodeContainer {
         if (this.isShowingTournament || !this.tournament) {
             return;
         }
+        this.node.active = true;
         this.isShowingTournament = true;
         const node = await this.createNodeAsync();
         const tournamentCmp = node.getComponent(Tournament);
@@ -85,6 +86,7 @@ export class TournamentContainer extends LazyloadNodeContainer {
             return;
         }
 
+        this.node.active = false;
         this.isShowingTournament = false;
         this.tournament = null;
         const node = this.node.children[0];

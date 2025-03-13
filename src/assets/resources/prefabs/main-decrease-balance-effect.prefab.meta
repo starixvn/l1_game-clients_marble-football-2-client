@@ -2,12 +2,12 @@
   "ver": "1.1.50",
   "importer": "prefab",
   "imported": true,
-  "uuid": "c203385b-60a6-44fb-9014-3b66c2d0cbb1",
+  "uuid": "9b977bf1-08a7-4bac-8a1a-e3068c66adde",
   "files": [
     ".json"
   ],
   "subMetas": {},
   "userData": {
-    "syncNodeName": "score"
+    "syncNodeName": "main-decrease-balance-effect"
   }
 }

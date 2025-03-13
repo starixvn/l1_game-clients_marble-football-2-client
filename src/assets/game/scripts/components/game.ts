@@ -1,6 +1,5 @@
 import gc from "@sg/game-client-base";
 import { _decorator, assetManager, ImageAsset, log, Node } from "cc";
-import { ChipFlying } from "db://shared-components/game/chip-flying/scripts/components/chip-flying";
 import GameComponent from "db://shared-components/game/scripts/components/game-component";
 import { startGame } from "db://shared-components/shared/scripts/startup";
 import { DOMBackgroundImage } from "./../../../scripts/dom-background-image";
@@ -14,6 +13,7 @@ import { containerOptions } from "../container-options";
 import { GamePhase, PhaseId, TimePointTournament } from "../features/game-phase/game-phase-definitions";
 import { GamePhaseStore } from "../features/game-phase/game-phase-store";
 import { settings } from "../game-settings";
+import { ChipFlying } from "./chip-flying";
 import { MatchResult } from "./match-result";
 import { NetworkStatus, SystemIndicator } from "./system-indcator";
 
@@ -32,8 +32,8 @@ export default class Game extends GameComponent {
     @property({ visible: false, override: true })
     override lblMaxBet = null;
 
-    @property(ChipFlying)
-    chipFlying: ChipFlying = null;
+    @property(Node)
+    nodeChipFlying: Node = null;
 
     @property(Node)
     betResultNode: Node = null;
@@ -41,11 +41,29 @@ export default class Game extends GameComponent {
     @property(BackgroundVideoPlayer)
     private backgroundVideoPlayer: BackgroundVideoPlayer = null;
 
-    @property(SystemIndicator)
-    private systemIndicator: SystemIndicator = null;
+    @property(Node)
+    private nodeSystemIndicator: Node = null;
+
+    private _systemIndicator: SystemIndicator = null;
+
+    get systemIndicator() {
+        if (!this._systemIndicator) {
+            this._systemIndicator = this.nodeSystemIndicator.getComponentInChildren(SystemIndicator);
+        }
+        return this._systemIndicator;
+    }
 
     private cacheRoundId = 0;
     private isPhaseWinner = false;
+
+    private _chipFlying: ChipFlying = null;
+
+    get chipFlying() {
+        if (!this._chipFlying) {
+            this._chipFlying = this.nodeChipFlying.getComponentInChildren(ChipFlying);
+        }
+        return this._chipFlying;
+    }
 
     override onHideGame() {
         this.backgroundVideoPlayer.stop();
@@ -125,15 +143,17 @@ export default class Game extends GameComponent {
         settlementResult: gc.GameServiceMessage.TSettlementResult
     ) {
         try {
-            const matchResult = this.betResultNode.getComponent(MatchResult);
+            const matchResult = this.betResultNode.getComponentInChildren(MatchResult);
 
             if (hasAnimation) {
                 await AnimationUtils.delayTime(settings.durations.outro);
                 this.betResultNode.active = true;
                 await matchResult.show(hasAnimation);
+                this.betResultNode.active = false;
             } else {
                 this.betResultNode.active = true;
                 matchResult.show(false);
+                this.betResultNode.active = false;
             }
         } catch (e) {}
     }

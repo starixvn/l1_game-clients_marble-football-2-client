@@ -25,11 +25,11 @@ export default class VideoStreamIntegration extends ObserverComponent {
     @property(BackgroundVideoPlayer)
     private backgroundVideoPlayer: BackgroundVideoPlayer = null;
 
-    @property(BreakTime)
-    private breakTime: BreakTime = null;
+    @property(Node)
+    private nodeBreakTime: Node = null;
 
-    @property(SystemIndicator)
-    private systemIndicator: SystemIndicator = null;
+    @property(Node)
+    private nodeSystemIndicator: Node = null;
 
     @property(IntroOutro)
     private introOutro: IntroOutro = null;
@@ -43,6 +43,23 @@ export default class VideoStreamIntegration extends ObserverComponent {
     private isLiveVideo = false;
 
     private blockShowFieldWithSyncNativeCurrentTime = false;
+    private _systemIndicator: SystemIndicator = null;
+
+    get systemIndicator() {
+        if (!this._systemIndicator) {
+            this._systemIndicator = this.nodeSystemIndicator.getComponentInChildren(SystemIndicator);
+        }
+        return this._systemIndicator;
+    }
+
+    private _breakTime: BreakTime = null;
+
+    get breakTime() {
+        if (!this._breakTime) {
+            this._breakTime = this.nodeBreakTime.getComponentInChildren(BreakTime);
+        }
+        return this._breakTime;
+    }
 
     onLoad(): void {
         this.backgroundVideoPlayer?.node.on("hlsLevelSwitched", this.updateSystemIndicator, this);
