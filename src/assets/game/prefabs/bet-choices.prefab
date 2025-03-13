@@ -209,10 +209,7 @@
     "_fillRange": 0,
     "_isTrimmedMode": true,
     "_useGrayscale": false,
-    "_atlas": {
-      "__uuid__": "48e32e32-b2c5-4512-85cd-b595ce379420",
-      "__expectedType__": "cc.SpriteAtlas"
-    },
+    "_atlas": null,
     "_id": ""
   },
   {
@@ -4344,6 +4341,15 @@
     },
     "lblBetPercentage": {
       "__id__": 148
+    },
+    "enableBoostedOdds": false,
+    "highlightOdds": null,
+    "boostedOddsColor": {
+      "__type__": "cc.Color",
+      "r": 250,
+      "g": 58,
+      "b": 53,
+      "a": 255
     },
     "_id": ""
   },
