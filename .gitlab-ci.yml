@@ -50,6 +50,13 @@ variables:
         echo -e "\033[0;31mFolder build is empty, please check the build script"
         exit 1
       fi
+    - |
+      BUILD_SIZE=$(du -sm "./$COCOS_PROJECT_DIR/build/web-mobile" | cut -f1)
+      if [ "$BUILD_SIZE" -lt 5 ]; then
+        echo -e "\033[0;31mBuild folder size is less than 5MB (${BUILD_SIZE}MB). This might indicate an incomplete or corrupted build."
+        exit 1
+      fi
+
   tags:
    - cocos-new
   artifacts:
