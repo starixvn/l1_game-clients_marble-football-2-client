@@ -4,21 +4,6 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>background.jpg</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{1280,720}</string>
-                <key>spriteSourceSize</key>
-                <string>{1280,720}</string>
-                <key>textureRect</key>
-                <string>{{3,3},{1280,720}}</string>
-                <key>textureRotated</key>
-                <false/>
-            </dict>
             <key>bet_options.png</key>
             <dict>
                 <key>aliases</key>
@@ -30,9 +15,9 @@
                 <key>spriteSourceSize</key>
                 <string>{1098,296}</string>
                 <key>textureRect</key>
-                <string>{{3,725},{1098,296}}</string>
+                <string>{{725,3},{1098,296}}</string>
                 <key>textureRotated</key>
-                <false/>
+                <true/>
             </dict>
             <key>field.jpg</key>
             <dict>
@@ -45,7 +30,7 @@
                 <key>spriteSourceSize</key>
                 <string>{1280,720}</string>
                 <key>textureRect</key>
-                <string>{{1285,3},{1280,720}}</string>
+                <string>{{3,3},{1280,720}}</string>
                 <key>textureRotated</key>
                 <true/>
             </dict>
@@ -61,9 +46,9 @@
             <key>realTextureFileName</key>
             <string>backgrounds.webp</string>
             <key>size</key>
-            <string>{2048,2048}</string>
+            <string>{1024,2048}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:c173db540aa73159a4c083b3f493a1db:e8ea0ff303ff29e6c4b283c29026759e:50d396e5ee50d30c72c827b4c94d9057$</string>
+            <string>$TexturePacker:SmartUpdate:dc98613b2e2f250530f190f9b6202a6b:e445b90f218617179c30383e75aa62aa:50d396e5ee50d30c72c827b4c94d9057$</string>
             <key>textureFileName</key>
             <string>backgrounds.webp</string>
         </dict>
