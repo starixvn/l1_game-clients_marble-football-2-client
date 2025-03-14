@@ -70,7 +70,6 @@ export default class Game extends GameComponent {
     }
 
     onLoad() {
-        this.betResultNode.active = false;
         super.onLoad();
         this.initBackgroundImage();
     }
@@ -147,15 +146,13 @@ export default class Game extends GameComponent {
 
             if (hasAnimation) {
                 await AnimationUtils.delayTime(settings.durations.outro);
-                this.betResultNode.active = true;
                 await matchResult.show(hasAnimation);
-                this.betResultNode.active = false;
             } else {
-                this.betResultNode.active = true;
                 matchResult.show(false);
-                this.betResultNode.active = false;
             }
-        } catch (e) {}
+        } catch (e) {
+            log("showResult error", e);
+        }
     }
 
     renderCurrentFinish(currentFinish: gc.GameServiceMessage.Finish) {

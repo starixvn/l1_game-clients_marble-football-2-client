@@ -27,6 +27,11 @@ export class MatchResult extends ObserverComponent {
 
     private isPenalty = false;
 
+    onLoad() {
+        this.node.active = false;
+        super.onLoad();
+    }
+
     @render(MatchResultStore, (store) => store.matchResult)
     renderMatchResult(matchResult: IMatchResult) {
         const { miniGame, penalty, scores } = matchResult;
@@ -74,6 +79,7 @@ export class MatchResult extends ObserverComponent {
 
     async show(animated: boolean) {
         try {
+            this.node.active = true;
             this.spine.node.active = false;
             this.animationTeams(animated);
             await AnimationUtils.delayTime(0.33);
