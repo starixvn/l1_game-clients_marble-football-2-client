@@ -15,9 +15,9 @@ export class Score extends ObserverComponent {
     protected away: Label = null;
 
     onLoad() {
-        super.onLoad();
         this.setHome(0);
         this.setAway(0);
+        super.onLoad();
     }
 
     @render(VideoStreamStore, (store) => store.homeScore)
