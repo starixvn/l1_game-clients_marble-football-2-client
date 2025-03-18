@@ -34,6 +34,10 @@ export class MatchResult extends ObserverComponent {
 
     @render(MatchResultStore, (store) => store.matchResult)
     renderMatchResult(matchResult: IMatchResult) {
+        if (!matchResult) {
+            return;
+        }
+
         const { miniGame, penalty, scores } = matchResult;
         this.isPenalty = miniGame;
         this.penaltyNode.active = this.isPenalty;
