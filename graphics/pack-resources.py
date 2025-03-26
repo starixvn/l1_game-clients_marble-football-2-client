@@ -31,9 +31,7 @@ if __name__ == '__main__':
     # Danh sách các thư mục cần pack
     input_dirs = [
         'images',
-        'images/backgrounds',
-        'images/scoreboard', 
-        'images/flags'
+        'images/backgrounds'
     ]
     
     output_path = os.path.join(project_dir, '..\\', 'src\\assets\\game\\images')
