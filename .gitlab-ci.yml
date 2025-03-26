@@ -59,7 +59,7 @@ variables:
       fi
 
   tags:
-   - cocos-v3.8.5
+   - cocos-3.8.5
   artifacts:
     when: always
     paths:
