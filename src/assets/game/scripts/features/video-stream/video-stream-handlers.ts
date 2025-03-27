@@ -17,7 +17,6 @@ export class VideoStreamHandlers {
     }
 
     resetForNewRound() {
-        console.log("resetForNewRound");
         this.videoStreamStore.resetForNewRound();
     }
 
