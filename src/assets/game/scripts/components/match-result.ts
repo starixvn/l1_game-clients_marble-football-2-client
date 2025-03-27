@@ -95,6 +95,7 @@ export class MatchResult extends ObserverComponent {
 
     async hide() {
         try {
+            console.log("hide match result");
             const animationName = this.isPenalty ? "penalty on hide" : "penalty off hide";
             await AnimationUtils.playSpine(this.spine, animationName, false);
         } catch (e) {}

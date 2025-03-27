@@ -109,7 +109,7 @@ export class PlayArea extends ObserverComponent {
     registerPhaseShowLiveScore() {
         const config: GamePhaseConfig = {
             id: this.ShowLiveScore,
-            begin: settings.durations.streamingVideo + 1,
+            begin: settings.durations.streamingFirstHalfVideo + 1,
             end: 1,
         };
         return config;

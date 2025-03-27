@@ -1,5 +1,5 @@
 import inversify from "inversify";
-import mobx from "mobx";
+import mobx, { set } from "mobx";
 import { MarbleFootballServiceMessages } from "../../marble-football-service-messages";
 import { settings } from "./../../game-settings";
 
@@ -45,14 +45,14 @@ export class VideoStreamStore {
             this._currentMatchTime++;
         }
 
+        const firstHalfVideoDuration = settings.durations.streamingFirstHalfVideo - settings.durations.videoDuration;
+
         this._isFirstHalf =
-            roundTime > settings.durations.videoDuration && roundTime <= settings.durations.placingBet + settings.durations.startRound;
+            roundTime > firstHalfVideoDuration && roundTime <= settings.durations.placingBet + settings.durations.startRound;
 
-        this._isBreakTime =
-            roundTime <= settings.durations.streamingVideo - settings.durations.videoDuration &&
-            roundTime > settings.durations.videoDuration;
+        this._isBreakTime = roundTime <= firstHalfVideoDuration && roundTime > firstHalfVideoDuration - settings.durations.breakTime;
 
-        this._isLiveVideo = !this._isBreakTime && roundTime >= 0 && roundTime <= settings.durations.streamingVideo;
+        this._isLiveVideo = !this._isBreakTime && roundTime >= 0 && roundTime <= settings.durations.streamingFirstHalfVideo;
 
         this.updateCurrentVideoAndScores();
     }
@@ -92,14 +92,14 @@ export class VideoStreamStore {
         let time = currentMatchTime;
 
         if (time >= settings.durations.halfDuration) {
-            homeScore = this._videoResult.firstHalf.split("H").length - 1;
-            awayScore = this._videoResult.firstHalf.split("A").length - 1;
+            homeScore = this._videoResult.firstHalf?.split("H").length - 1;
+            awayScore = this._videoResult.firstHalf?.split("A").length - 1;
             time -= settings.durations.halfDuration;
         }
 
         if (time >= settings.durations.halfDuration) {
-            homeScore += this._videoResult.secondHalf.split("H").length - 1;
-            awayScore += this._videoResult.secondHalf.split("A").length - 1;
+            homeScore += this._videoResult.secondHalf?.split("H").length - 1;
+            awayScore += this._videoResult.secondHalf?.split("A").length - 1;
             time -= settings.durations.halfDuration;
         }
 
@@ -150,17 +150,22 @@ export class VideoStreamStore {
     calculateCurrentVideoTime() {
         const roundTime = this._roundTime;
 
-        if (roundTime > settings.durations.streamingVideo) {
+        if (roundTime > settings.durations.streamingFirstHalfVideo) {
             return -1;
         }
 
-        if (roundTime <= settings.durations.streamingVideo && roundTime > settings.durations.videoDuration) {
-            const videoTime = settings.durations.streamingVideo - roundTime;
+        const endOfFirstHalfVideoTime = settings.durations.streamingFirstHalfVideo - settings.durations.videoDuration;
+
+        if (roundTime <= settings.durations.streamingFirstHalfVideo && roundTime > endOfFirstHalfVideoTime) {
+            const videoTime = settings.durations.streamingFirstHalfVideo - roundTime;
             return videoTime <= settings.durations.videoDuration ? videoTime : -1;
         }
 
-        if (roundTime <= settings.durations.videoDuration && roundTime >= 0) {
-            return settings.durations.videoDuration - roundTime;
+        const streamingSecondHalfVideoTime =
+            settings.durations.streamingFirstHalfVideo - settings.durations.videoDuration - settings.durations.breakTime;
+
+        if (roundTime <= streamingSecondHalfVideoTime && roundTime >= 0) {
+            return streamingSecondHalfVideoTime - roundTime;
         }
 
         return -1;
@@ -173,13 +178,18 @@ export class VideoStreamStore {
             return settings.durations.halfDuration * 2;
         }
 
-        if (roundTime <= settings.durations.streamingVideo && roundTime > settings.durations.videoDuration) {
-            const matchTime = settings.durations.streamingVideo - roundTime;
+        const endOfFirstHalfVideoTime = settings.durations.streamingFirstHalfVideo - settings.durations.videoDuration;
+
+        if (roundTime <= settings.durations.streamingFirstHalfVideo && roundTime > endOfFirstHalfVideoTime) {
+            const matchTime = settings.durations.streamingFirstHalfVideo - roundTime;
             return matchTime < settings.durations.halfDuration ? matchTime : settings.durations.halfDuration;
         }
 
-        if (roundTime <= settings.durations.videoDuration && roundTime >= 0) {
-            const secondHalfTime = settings.durations.videoDuration - roundTime;
+        const streamingSecondHalfVideoTime =
+            settings.durations.streamingFirstHalfVideo - settings.durations.videoDuration - settings.durations.breakTime;
+
+        if (roundTime <= streamingSecondHalfVideoTime && roundTime > settings.durations.showingResult) {
+            const secondHalfTime = streamingSecondHalfVideoTime - roundTime;
             const matchTime =
                 secondHalfTime < settings.durations.halfDuration
                     ? secondHalfTime + settings.durations.halfDuration

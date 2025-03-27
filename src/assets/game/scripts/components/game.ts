@@ -143,9 +143,9 @@ export default class Game extends GameComponent {
     ) {
         try {
             const matchResult = this.betResultNode.getComponentInChildren(MatchResult);
-
             if (hasAnimation) {
                 await AnimationUtils.delayTime(settings.durations.outro);
+
                 await matchResult.show(hasAnimation);
             } else {
                 matchResult.show(false);
