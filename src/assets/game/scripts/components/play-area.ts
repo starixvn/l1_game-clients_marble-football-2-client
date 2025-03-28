@@ -3,10 +3,11 @@ import { Node, Vec3, _decorator, tween, v3 } from "cc";
 import { ObserverComponent } from "db://shared-components/shared/common-components/observer-component/scripts/observer-component";
 import { AnimationUtils } from "db://shared-components/shared/utils";
 import Observer from "observer";
-import { GamePhase, GamePhaseConfig, TimePointShowMatchWinner } from "../features/game-phase/game-phase-definitions";
+import { GamePhase, GamePhaseConfig, PhaseId, TimePointShowMatchWinner } from "../features/game-phase/game-phase-definitions";
 import { GamePhaseHandler } from "../features/game-phase/game-phase-handler";
 import { GamePhaseStore } from "../features/game-phase/game-phase-store";
 import { settings } from "../game-settings";
+import { BetChoicesContainer } from "./bet-options/bet-choices-container";
 
 const { getUiOpacity } = AnimationUtils;
 const { ccclass, property } = _decorator;
@@ -39,8 +40,8 @@ export class PlayArea extends ObserverComponent {
     @property(Node)
     private chipContainer: Node = null;
 
-    @property(Node)
-    private betChoices: Node = null;
+    @property(BetChoicesContainer)
+    private betChoicesContainer: BetChoicesContainer = null;
 
     @property(Node)
     private scoreBoard: Node = null;
@@ -76,10 +77,12 @@ export class PlayArea extends ObserverComponent {
     private readonly ShowWinnerAndTournament = "show-winner-and-tournament";
     private readonly ShowLiveScore = "show-live-score";
     private readonly ShowWinnerAndTournamentTimeOffset = 1;
+    private readonly ShowBetChoicesTwoMatch = "show-bet-choices-two-match";
 
     onLoad() {
         this.mainPlayAreaTargets = [
-            { target: this.betChoices, key: "zoomInOut" },
+            { target: this.betChoicesContainer.firstHalfBetChoices, key: "zoomInOut" },
+            { target: this.betChoicesContainer.secondHalfBetChoices, key: "zoomInOut" },
             { target: this.chipContainer, key: "zoomInOut" },
             { target: this.chips, key: "flyDown" },
         ];
@@ -115,17 +118,32 @@ export class PlayArea extends ObserverComponent {
         return config;
     }
 
+    @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
+    registerPhaseShowBetChoicesTwoMatch() {
+        const config: GamePhaseConfig = {
+            id: this.ShowBetChoicesTwoMatch,
+            begin: settings.durations.streamingFirstHalfVideo - settings.durations.videoDuration - settings.durations.showHaftTime,
+            end: 3,
+        };
+        return config;
+    }
+
     @render(GamePhaseStore, (store) => store.enterPhase)
     renderEnterPhase(phase: GamePhase) {
         if (!phase) {
             return;
         }
+
+        console.log("renderEnterPhase", phase.id);
         if (phase.id === this.ShowWinnerAndTournament) {
             if (phase.progress === 0) {
                 const duration = 0.2;
-                this.scheduleOnce(() => this.fadeOutBetchoiceNode(true, duration), this.ShowWinnerAndTournamentTimeOffset - duration);
+                this.scheduleOnce(
+                    () => this.fadeOutBetChoiceNode(this.betChoicesContainer.firstHalfBetChoices, true, duration),
+                    this.ShowWinnerAndTournamentTimeOffset - duration
+                );
             } else {
-                this.fadeOutBetchoiceNode(true, 0);
+                this.fadeOutBetChoiceNode(this.betChoicesContainer.firstHalfBetChoices, true, 0);
             }
 
             return;
@@ -139,6 +157,10 @@ export class PlayArea extends ObserverComponent {
             }
             return;
         }
+
+        if (phase.id === this.ShowBetChoicesTwoMatch) {
+            this.betChoicesContainer.setFirstHalfBetChoicesDisabledState(true);
+        }
     }
 
     @render(GamePhaseStore, (store) => store.exitPhase)
@@ -146,19 +168,34 @@ export class PlayArea extends ObserverComponent {
         if (!phase) {
             return;
         }
+
+        console.log("renderExitPhase", phase.id);
         if (phase.id === this.ShowWinnerAndTournament) {
             const duration = 0.2;
-            this.scheduleOnce(() => this.fadeOutBetchoiceNode(false, duration), this.ShowWinnerAndTournamentTimeOffset - duration);
+            this.scheduleOnce(() => {
+                this.betChoicesContainer.setFirstHalfBetChoicesDisabledState(false);
+                this.fadeOutBetChoiceNode(this.betChoicesContainer.firstHalfBetChoices, false, duration);
+            }, this.ShowWinnerAndTournamentTimeOffset - duration);
+            return;
+        }
+
+        if (phase.id === PhaseId.Halftime) {
+            const duration = 0.2;
+            this.scheduleOnce(() => {
+                this.betChoicesContainer.setButtonsActiveState(true);
+                this.betChoicesContainer.setFirstHalfBetChoicesDisabledState(true);
+                this.fadeOutBetChoiceNode(this.betChoicesContainer.secondHalfBetChoices, false, duration);
+            }, this.ShowWinnerAndTournamentTimeOffset - duration);
             return;
         }
     }
 
-    fadeOutBetchoiceNode(fadeOut: boolean, duration: number) {
+    fadeOutBetChoiceNode(node: Node, fadeOut: boolean, duration: number) {
         const opacity = fadeOut ? 1 : 255;
         if (duration === 0) {
-            AnimationUtils.setOpacityNode(this.betChoices, opacity);
+            AnimationUtils.setOpacityNode(node, opacity);
         } else {
-            AnimationUtils.fadeTo(this.betChoices, duration, opacity);
+            AnimationUtils.fadeTo(node, duration, opacity);
         }
     }
 

@@ -2,13 +2,16 @@ import { _decorator, Component, instantiate, Node, sp, v3 } from "cc";
 import BetItem from "../../../extensions/shared-components/assets/game/bets/scripts/components/bet-item";
 const { ccclass, property } = _decorator;
 
-@ccclass("helper_betchoices")
-export class helper_betchoices extends Component {
+@ccclass("HelperBetChoices")
+export class HelperBetChoices extends Component {
     @property(Node)
     container: Node = null;
 
     @property(Node)
     sample: Node = null;
+
+    @property(Node)
+    bgDisable: Node = null;
 
     onLoad(): void {
         this.generate();

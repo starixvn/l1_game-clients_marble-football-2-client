@@ -33,6 +33,7 @@ export class GamePhaseHandler {
     }
 
     updateWithRoundTime(roundTime: number) {
+        console.log("updateWithRoundTime: ", roundTime);
         this.configs.forEach((config) => this.checkConfig(config, roundTime));
     }
 

@@ -5,6 +5,7 @@ import { ChipFlying as ChipFlyingShared, IChipFlyingInfo } from "db://shared-com
 import Observer from "observer";
 import { TBalanceEffect, TWinningEffect } from "db://shared-components/game/balance-effect/scripts/stores/balance-effect-store";
 import { AroundTablePlayerUtils } from "db://shared-components/game/around-table-player/scripts/utils";
+import { BetChoicesContainer } from "./bet-options/bet-choices-container";
 
 const { ccclass, property } = _decorator;
 const { handle } = Observer;
@@ -17,6 +18,9 @@ const CHIP_SOUND_ID = {
 
 @ccclass("ChipFlying")
 export class ChipFlying extends ChipFlyingShared {
+    @property(BetChoicesContainer)
+    private betChoicesContainer: BetChoicesContainer = null;
+
     actionPayChips(animated: boolean) {
         if (!animated) {
             ActionChipFlying.dealerGetChips(this.dealerChipBox, this.betItems?.lostBetItems, this);
