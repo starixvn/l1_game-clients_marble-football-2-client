@@ -26,6 +26,7 @@ export class HalfTime extends ObserverComponent {
             begin: TimePointHalftime,
             end: TimePointHalftime - 3,
         };
+        
         return config;
     }
 

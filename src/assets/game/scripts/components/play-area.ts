@@ -178,6 +178,7 @@ export class PlayArea extends ObserverComponent {
         }
 
         console.log("renderExitPhase", phase.id);
+
         // H1
         if (phase.id === this.ShowWinnerAndTournament) {
             const duration = 0.2;
@@ -271,7 +272,12 @@ export class PlayArea extends ObserverComponent {
         }
 
         // during streaming
-        if (!this.isScoreBoardOut && time < settings.durations.introVideo) {
+        const isDuringStreaming =
+            (time < settings.durations.streamingFirstHalfVideo &&
+                time < settings.durations.streamingFirstHalfVideo - settings.durations.videoDuration) ||
+            time < settings.durations.streamingSecondHalfVideo;
+
+        if (!this.isScoreBoardOut && isDuringStreaming) {
             this.setStaticTarget(this.scoreBoard, this.tweenConfigs.fadeInOut.out);
             this.isScoreBoardOut = true;
         }
