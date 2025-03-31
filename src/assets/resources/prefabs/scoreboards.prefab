@@ -1123,7 +1123,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "home",
+    "_name": "secondHalfHome",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -1390,7 +1390,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "home",
+    "_name": "secondHalfHome",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -1654,7 +1654,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "away",
+    "_name": "secondHalfAway",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -1921,7 +1921,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "away",
+    "_name": "secondHalfAway",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -2185,7 +2185,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "draw",
+    "_name": "secondHalfDraw",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -2452,7 +2452,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "draw",
+    "_name": "secondHalfDraw",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -3105,7 +3105,7 @@
       "0",
       "value"
     ],
-    "value": "draw"
+    "value": "secondHalfDraw"
   },
   {
     "__type__": "cc.TargetInfo",
@@ -3123,7 +3123,7 @@
       "1",
       "value"
     ],
-    "value": "home"
+    "value": "secondHalfHome"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -3586,7 +3586,7 @@
       }
     ],
     "labelContainer": null,
-    "supportChoices": "home,away,draw",
+    "supportChoices": "secondHalfHome,secondHalfAway,secondHalfDraw",
     "enablePercentage": true,
     "showSignPercentage": true,
     "_id": ""
@@ -4517,7 +4517,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "odd",
+    "_name": "secondHalfOdd",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -4784,7 +4784,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "odd",
+    "_name": "secondHalfOdd",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -5048,7 +5048,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "even",
+    "_name": "secondHalfEven",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -5315,7 +5315,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "even",
+    "_name": "secondHalfEven",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -5974,7 +5974,7 @@
       "0",
       "value"
     ],
-    "value": "odd"
+    "value": "secondHalfOdd"
   },
   {
     "__type__": "cc.TargetInfo",
@@ -6476,7 +6476,7 @@
       }
     ],
     "labelContainer": null,
-    "supportChoices": "odd,even",
+    "supportChoices": "secondHalfEven,secondHalfOdd",
     "enablePercentage": true,
     "showSignPercentage": true,
     "_id": ""
@@ -7407,7 +7407,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "over",
+    "_name": "secondHalfOver",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -7674,7 +7674,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "over",
+    "_name": "secondHalfOver",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -7938,7 +7938,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "under",
+    "_name": "secondHalfUnder",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -8205,7 +8205,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "under",
+    "_name": "secondHalfUnder",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -8882,7 +8882,7 @@
       "0",
       "value"
     ],
-    "value": "over"
+    "value": "secondHalfOver"
   },
   {
     "__type__": "cc.TargetInfo",
@@ -9396,7 +9396,7 @@
       }
     ],
     "labelContainer": null,
-    "supportChoices": "over,under",
+    "supportChoices": "secondHalfOver,secondHalfUnder",
     "enablePercentage": true,
     "showSignPercentage": true,
     "_id": ""
@@ -9591,7 +9591,10 @@
     "_fillRange": 0,
     "_isTrimmedMode": true,
     "_useGrayscale": false,
-    "_atlas": null,
+    "_atlas": {
+      "__uuid__": "7cdac1cd-66f3-4c81-b75b-a629f488486d",
+      "__expectedType__": "cc.SpriteAtlas"
+    },
     "_id": ""
   },
   {
@@ -9814,7 +9817,10 @@
     "_fillRange": 0,
     "_isTrimmedMode": true,
     "_useGrayscale": false,
-    "_atlas": null,
+    "_atlas": {
+      "__uuid__": "7cdac1cd-66f3-4c81-b75b-a629f488486d",
+      "__expectedType__": "cc.SpriteAtlas"
+    },
     "_id": ""
   },
   {
