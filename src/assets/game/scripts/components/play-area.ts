@@ -14,7 +14,7 @@ const { ccclass, property } = _decorator;
 const { Rounds } = gc;
 const { render, handle } = Observer;
 
-type TweenKey = "zoomInOut" | "fadeInOut" | "flyDown" | "flyUp";
+type TweenKey = "chipContainerZoomInOut" | "fadeInOut" | "chipsFlyDown" | "teamScoreFlyUp" | "betChoiceZoomInOut";
 
 interface TweenConfig {
     scale?: Vec3;
@@ -56,19 +56,23 @@ export class PlayArea extends ObserverComponent {
     private disappearingNodes: Node[] = [];
 
     private readonly tweenConfigs: Record<TweenKey, TweenConfigs> = {
-        zoomInOut: {
+        betChoiceZoomInOut: {
+            in: { scale: v3(1, 1, 1), position: v3(0, -94, 0), time: 1 },
+            out: { scale: v3(1, 1, 1), position: v3(0, -570, 0), time: 1.5 },
+        },
+        chipContainerZoomInOut: {
             in: { scale: v3(1, 1, 1), position: v3(0, -86, 0), time: 1 },
-            out: { scale: v3(0.5, 0.5, 1), position: v3(0, -305, 0), time: 1.5 },
+            out: { scale: v3(1, 1, 1), position: v3(0, -570, 0), time: 1.5 },
         },
         fadeInOut: {
             in: { opacity: 255, time: 0.5 },
             out: { opacity: 1, time: 1 },
         },
-        flyDown: {
+        chipsFlyDown: {
             in: { positionY: -285, opacity: 255, time: 1 },
             out: { positionY: -385, opacity: 0, time: 1 },
         },
-        flyUp: {
+        teamScoreFlyUp: {
             in: { positionY: 303, opacity: 255, time: 0.5 },
             out: { positionY: 630, opacity: 0, time: 0.75 },
         },
@@ -79,19 +83,22 @@ export class PlayArea extends ObserverComponent {
     private readonly ShowWinnerAndTournamentTimeOffset = 1;
     private readonly ShowBetChoicesTwoMatch = "show-bet-choices-two-match";
 
+    protected containerBets: Node = null;
+
     onLoad() {
+        this.containerBets = this.betChoicesContainer.firstHalfBetChoices.parent;
         this.mainPlayAreaTargets = [
-            { target: this.betChoicesContainer.firstHalfBetChoices, key: "zoomInOut" },
-            { target: this.betChoicesContainer.secondHalfBetChoices, key: "zoomInOut" },
-            { target: this.chipContainer, key: "zoomInOut" },
-            { target: this.chips, key: "flyDown" },
+            { target: this.containerBets, key: "betChoiceZoomInOut" },
+            { target: this.containerBets, key: "betChoiceZoomInOut" },
+            { target: this.chipContainer, key: "chipContainerZoomInOut" },
+            { target: this.chips, key: "chipsFlyDown" },
         ];
 
         this.disappearingNodes.forEach((node) => {
             this.mainPlayAreaTargets.push({ target: node, key: "fadeInOut" });
         });
 
-        this.setStaticTarget(this.teamScore, this.tweenConfigs.flyUp.out);
+        this.setStaticTarget(this.teamScore, this.tweenConfigs.teamScoreFlyUp.out);
         super.onLoad();
 
         this.registerPhaseMatchWinner();
@@ -103,7 +110,7 @@ export class PlayArea extends ObserverComponent {
         const config: GamePhaseConfig = {
             id: this.ShowWinnerAndTournament,
             begin: TimePointShowMatchWinner + this.ShowWinnerAndTournamentTimeOffset,
-            end: settings.durations.placingBet + this.ShowWinnerAndTournamentTimeOffset,
+            end: settings.durations.placingBetPreMatch + this.ShowWinnerAndTournamentTimeOffset,
         };
         return config;
     }
@@ -135,15 +142,16 @@ export class PlayArea extends ObserverComponent {
         }
 
         console.log("renderEnterPhase", phase.id);
+        // H1
         if (phase.id === this.ShowWinnerAndTournament) {
             if (phase.progress === 0) {
                 const duration = 0.2;
                 this.scheduleOnce(
-                    () => this.fadeOutBetChoiceNode(this.betChoicesContainer.firstHalfBetChoices, true, duration),
+                    () => this.fadeOutBetChoiceNode(this.containerBets, true, duration),
                     this.ShowWinnerAndTournamentTimeOffset - duration
                 );
             } else {
-                this.fadeOutBetChoiceNode(this.betChoicesContainer.firstHalfBetChoices, true, 0);
+                this.fadeOutBetChoiceNode(this.containerBets, true, 0);
             }
 
             return;
@@ -151,15 +159,15 @@ export class PlayArea extends ObserverComponent {
 
         if (phase.id === this.ShowLiveScore) {
             if (phase.progress === 0) {
-                this.playAnimForTarget(this.teamScore, this.tweenConfigs.flyUp.in);
+                this.playAnimForTarget(this.teamScore, this.tweenConfigs.teamScoreFlyUp.in);
             } else {
-                this.setStaticTarget(this.teamScore, this.tweenConfigs.flyUp.in);
+                this.setStaticTarget(this.teamScore, this.tweenConfigs.teamScoreFlyUp.in);
             }
             return;
         }
 
         if (phase.id === this.ShowBetChoicesTwoMatch) {
-            this.betChoicesContainer.setFirstHalfBetChoicesDisabledState(true);
+            this.betChoicesContainer.setFirstHalfDisabled(true);
         }
     }
 
@@ -170,21 +178,24 @@ export class PlayArea extends ObserverComponent {
         }
 
         console.log("renderExitPhase", phase.id);
+        // H1
         if (phase.id === this.ShowWinnerAndTournament) {
             const duration = 0.2;
             this.scheduleOnce(() => {
-                this.betChoicesContainer.setFirstHalfBetChoicesDisabledState(false);
-                this.fadeOutBetChoiceNode(this.betChoicesContainer.firstHalfBetChoices, false, duration);
+                this.betChoicesContainer.setNavigationButtonState(false);
+                this.betChoicesContainer.setEnableFirstHalfBets();
+                this.fadeOutBetChoiceNode(this.containerBets, false, duration);
             }, this.ShowWinnerAndTournamentTimeOffset - duration);
             return;
         }
 
+        // H2
         if (phase.id === PhaseId.Halftime) {
             const duration = 0.2;
             this.scheduleOnce(() => {
-                this.betChoicesContainer.setButtonsActiveState(true);
-                this.betChoicesContainer.setFirstHalfBetChoicesDisabledState(true);
-                this.fadeOutBetChoiceNode(this.betChoicesContainer.secondHalfBetChoices, false, duration);
+                // this.betChoicesContainer.setNavigationButtonState(true);
+                this.betChoicesContainer.setEnableAllBets();
+                this.fadeOutBetChoiceNode(this.containerBets, false, duration);
             }, this.ShowWinnerAndTournamentTimeOffset - duration);
             return;
         }
@@ -192,11 +203,14 @@ export class PlayArea extends ObserverComponent {
 
     fadeOutBetChoiceNode(node: Node, fadeOut: boolean, duration: number) {
         const opacity = fadeOut ? 1 : 255;
+
         if (duration === 0) {
             AnimationUtils.setOpacityNode(node, opacity);
-        } else {
-            AnimationUtils.fadeTo(node, duration, opacity);
+            node.active = !fadeOut;
+            return;
         }
+
+        fadeOut ? AnimationUtils.fadeOutAndDeactivate(node, duration) : AnimationUtils.fadeInAndActivate(node, duration);
     }
 
     @render(gc.Settlements.SettlementStore, (store) => store.currentFinish, {
@@ -211,7 +225,7 @@ export class PlayArea extends ObserverComponent {
             if (this.isZoomOut) {
                 this.zoomPlayArea("in");
             }
-            this.playAnimForTarget(this.teamScore, this.tweenConfigs.flyUp.out);
+            this.playAnimForTarget(this.teamScore, this.tweenConfigs.teamScoreFlyUp.out);
         } catch (e) {}
     }
 
@@ -245,13 +259,13 @@ export class PlayArea extends ObserverComponent {
         }
 
         // At the begin of placing bet
-        if (this.isScoreBoardOut && time === settings.durations.placingBet) {
+        if (this.isScoreBoardOut && (time === settings.durations.placingBetPreMatch || time === settings.durations.placingBetLiveMatch)) {
             this.playAnimForTarget(this.scoreBoard, this.tweenConfigs.fadeInOut.in);
             this.isScoreBoardOut = false;
         }
 
         // before placing bet
-        if (!this.isScoreBoardOut && time > settings.durations.placingBet) {
+        if (!this.isScoreBoardOut && (time > settings.durations.placingBetPreMatch || time > settings.durations.placingBetLiveMatch)) {
             this.setStaticTarget(this.scoreBoard, this.tweenConfigs.fadeInOut.out);
             this.isScoreBoardOut = true;
         }

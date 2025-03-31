@@ -3,6 +3,8 @@ import { Label, Node, UITransform, _decorator } from "cc";
 import Observer from "observer";
 import { ObserverComponent } from "../../../../../extensions/shared-components/assets/shared/common-components/observer-component/scripts/observer-component";
 import { HelperBetChoices } from "../../helper-betchoices";
+import { StatusButton } from "db://shared-components/shared/common-components/button/status-button";
+import { StatusBetsButton } from "./status-bets-button";
 const { ccclass, property } = _decorator;
 
 const { Rounds } = gc;
@@ -17,17 +19,23 @@ export class BetChoicesContainer extends ObserverComponent {
     secondHalfBetChoices: Node = null;
 
     @property(Node)
-    buttons: Node = null;
+    navigationButton: Node = null;
+
+    @property(Node)
+    showHideBetsButton: Node = null;
+
+    protected statusBetsButton: StatusBetsButton = null;
 
     onLoad(): void {
         this.firstHalfBetChoices.active = false;
         this.secondHalfBetChoices.active = false;
-        this.setButtonsActiveState(false);
+        this.setNavigationButtonState(false);
+        this.statusBetsButton = this.showHideBetsButton.getComponentInChildren(StatusBetsButton);
         super.onLoad();
     }
 
-    setButtonsActiveState(isActive: boolean) {
-        this.buttons.active = isActive;
+    setNavigationButtonState(isActive: boolean) {
+        this.navigationButton.active = isActive;
     }
 
     @handle(gc.Audios.AudioHandler, (handle) => handle.playSFX(gc.Audios.AudioIds.CLICK))
@@ -50,8 +58,25 @@ export class BetChoicesContainer extends ObserverComponent {
         this.secondHalfBetChoices.active = !isFirstActive;
     }
 
-    setFirstHalfBetChoicesDisabledState(isDisabled: boolean) {
+    setFirstHalfDisabled(isDisabled: boolean) {
         const bgDisable = this.firstHalfBetChoices.getComponent(HelperBetChoices).bgDisable;
         bgDisable.active = isDisabled;
+    }
+
+    setEnableFirstHalfBets() {
+        this.setFirstHalfDisabled(false);
+        this.firstHalfBetChoices.active = true;
+        this.secondHalfBetChoices.active = false;
+    }
+
+    setEnableAllBets() {
+        this.setFirstHalfDisabled(true);
+        this.firstHalfBetChoices.active = true;
+        this.secondHalfBetChoices.active = true;
+    }
+
+    @handle(gc.Audios.AudioHandler, (handle) => handle.playSFX(gc.Audios.AudioIds.CLICK))
+    private showHideBets() {
+        this.statusBetsButton.toggleStatus();
     }
 }
