@@ -24,7 +24,6 @@ export default class BetItemCustomize extends BetItem {
         }
         const deltaOdd = oddsWithConfig.deltaOdds[betChoice] || 0;
         if (deltaOdd > 0) {
-            console.log("increaseOdd", deltaOdd);
             this.increaseOdd!.active = true;
             this.decreaseOdd!.active = false;
         } else {
