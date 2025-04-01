@@ -454,6 +454,21 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
+            <key>swap-icon.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{56,56}</string>
+                <key>spriteSourceSize</key>
+                <string>{56,56}</string>
+                <key>textureRect</key>
+                <string>{{333,832},{56,56}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
             <key>tag_mini_game.png</key>
             <dict>
                 <key>aliases</key>
@@ -573,7 +588,7 @@
             <key>size</key>
             <string>{512,2048}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:7a04c4e9d17c1c424444a14c4282d612:79bd9e9cd85402098499628428e01dec:b0f8fbd393ae9d1a95baaa51e50f3d50$</string>
+            <string>$TexturePacker:SmartUpdate:06558fb526b9d8d94458ab3cd896c7de:5eeda7b663e49cfd7a9305c83c9cfecc:b0f8fbd393ae9d1a95baaa51e50f3d50$</string>
             <key>textureFileName</key>
             <string>main.webp</string>
         </dict>

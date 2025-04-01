@@ -11,13 +11,28 @@
                 <key>spriteOffset</key>
                 <string>{0,1}</string>
                 <key>spriteSize</key>
-                <string>{1092,338}</string>
+                <string>{1092,310}</string>
                 <key>spriteSourceSize</key>
-                <string>{1096,340}</string>
+                <string>{1096,312}</string>
                 <key>textureRect</key>
-                <string>{{3,725},{1092,338}}</string>
+                <string>{{3,725},{1092,310}}</string>
                 <key>textureRotated</key>
                 <true/>
+            </dict>
+            <key>disable-frame.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{42,44}</string>
+                <key>spriteSourceSize</key>
+                <string>{48,48}</string>
+                <key>textureRect</key>
+                <string>{{3,1819},{42,44}}</string>
+                <key>textureRotated</key>
+                <false/>
             </dict>
             <key>field.jpg</key>
             <dict>
@@ -31,6 +46,21 @@
                 <string>{1280,720}</string>
                 <key>textureRect</key>
                 <string>{{3,3},{1280,720}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>title-bet.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{264,32}</string>
+                <key>spriteSourceSize</key>
+                <string>{264,32}</string>
+                <key>textureRect</key>
+                <string>{{3,1865},{264,32}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -48,7 +78,7 @@
             <key>size</key>
             <string>{2048,2048}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:58b608b5e4187f55edf875385fed0f6e:5cd94413f9a87b0d96f2ce212d2c09aa:50d396e5ee50d30c72c827b4c94d9057$</string>
+            <string>$TexturePacker:SmartUpdate:a82847302b8562c07a7397bcb2e1c0b2:1725e7346914ff48a57bea8626c9b731:50d396e5ee50d30c72c827b4c94d9057$</string>
             <key>textureFileName</key>
             <string>backgrounds.webp</string>
         </dict>
