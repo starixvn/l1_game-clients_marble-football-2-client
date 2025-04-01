@@ -1,10 +1,10 @@
 import gc from "@sg/game-client-base";
-import { Label, Node, UITransform, _decorator } from "cc";
-import Observer from "observer";
+import { Node, _decorator } from "cc";
+import { BetItems } from "db://shared-components/game/bets/scripts/components/bet-items";
 import { ObserverComponent } from "db://shared-components/shared/common-components/observer-component/scripts/observer-component";
+import Observer from "observer";
 import { HelperBetChoices } from "../../helper-betchoices";
 import { StatusBetsButton } from "./status-bets-button";
-import { BetItems } from "db://shared-components/game/bets/scripts/components/bet-items";
 const { ccclass, property } = _decorator;
 
 const { Rounds } = gc;
@@ -63,7 +63,7 @@ export class BetChoicesContainer extends ObserverComponent {
 
     setEnableAllBets() {
         this.setFirstHalfDisabled(true);
-        this.firstHalfBetChoices.active = true;
+        this.firstHalfBetChoices.active = false;
         this.secondHalfBetChoices.active = true;
     }
 

@@ -175,11 +175,4 @@ export class ChipFlying extends ChipFlyingShared {
             roundTime > settings.points.lockingBetPreMatch - settings.durations.lockingBet
         );
     }
-
-    isPlacingBetLiveMatch(roundTime: number) {
-        return (
-            roundTime <= settings.points.placingBetLiveMatch &&
-            roundTime > settings.points.lockingBetLiveMatch - settings.durations.lockingBet
-        );
-    }
 }
