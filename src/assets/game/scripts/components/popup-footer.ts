@@ -15,7 +15,7 @@ export class PopupFooter extends ObserverComponent {
     @property(Label)
     private timer: Label = null;
 
-    @render(RoundTimeStore, (store) => store.roundTime - settings.durations.lockingBetPreMatch)
+    @render(RoundTimeStore, (store) => store.roundTime - settings.points.lockingBetPreMatch)
     updateTimer(time: number) {
         this.timer.string = time.toString().padStart(2, "0");
     }

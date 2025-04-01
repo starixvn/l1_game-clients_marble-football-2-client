@@ -13,7 +13,7 @@ const COUNTDOWN_TIMER = "countdown-timer";
 @ccclass("MarbleFootballBetTimer")
 export default class MarbleFootballBetTimer extends BetTimer {
     setTime(time: number) {
-        const timeLeft = time - settings.durations.introVideo;
+        const timeLeft = time - settings.points.introVideo;
         super.setTime(timeLeft);
         if (timeLeft <= 10 && timeLeft > 0 && timeLeft !== 3) {
             this.playSound();

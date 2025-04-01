@@ -43,19 +43,19 @@ export class MarbleRoundTimeStore {
     }
 
     get placingBetPreMatch() {
-        return this.gameSetting.durations.placingBetPreMatch;
+        return this.gameSetting.points.placingBetPreMatch;
     }
 
     get placingBetLiveMatch() {
-        return this.gameSetting.durations.placingBetLiveMatch;
+        return this.gameSetting.points.placingBetLiveMatch;
     }
 
     get lockingBetPreMatch() {
-        return this.gameSetting.durations.lockingBetPreMatch;
+        return this.gameSetting.points.lockingBetPreMatch;
     }
 
     get lockingBetLiveMatch() {
-        return this.gameSetting.durations.lockingBetLiveMatch;
+        return this.gameSetting.points.lockingBetLiveMatch;
     }
 
     get generatingResult() {
@@ -84,10 +84,10 @@ export class MarbleRoundTimeStore {
 
     get isLocking() {
         return (
-            ((this.roundTime <= this.gameSetting.durations.lockingBetPreMatch &&
-                this.roundTime > this.gameSetting.durations.lockingBetPreMatch - this.durationLockingBet) ||
-                (this.roundTime <= this.gameSetting.durations.lockingBetLiveMatch &&
-                    this.roundTime > this.gameSetting.durations.lockingBetLiveMatch - this.durationLockingBet)) &&
+            ((this.roundTime <= this.gameSetting.points.lockingBetPreMatch &&
+                this.roundTime > this.gameSetting.points.lockingBetPreMatch - this.durationLockingBet) ||
+                (this.roundTime <= this.gameSetting.points.lockingBetLiveMatch &&
+                    this.roundTime > this.gameSetting.points.lockingBetLiveMatch - this.durationLockingBet)) &&
             this.roundTime > 0
         );
     }

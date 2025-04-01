@@ -166,7 +166,7 @@ export default class VideoStreamIntegration extends ObserverComponent {
 
     @render(gc.Rounds.RoundTimeStore, (store) => store.roundTime)
     private onRoundTimeUpdate(roundTime: number) {
-        if (roundTime === settings.durations.introVideo) {
+        if (roundTime === settings.points.introVideo) {
             this.scheduleOnce(() => {
                 this.playSound();
             }, 0.75);
@@ -174,7 +174,7 @@ export default class VideoStreamIntegration extends ObserverComponent {
             this.breakTime?.playAnimation(0);
         }
 
-        this.introOutro.showGameBackground = roundTime > settings.durations.introVideo || roundTime < 0;
+        this.introOutro.showGameBackground = roundTime > settings.points.introVideo || roundTime < 0;
     }
 
     @handle(gc.Audios.AudioHandler, (handler, id: string) => handler.playSFX(id))

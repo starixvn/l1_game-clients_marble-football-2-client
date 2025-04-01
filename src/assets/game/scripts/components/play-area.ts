@@ -110,7 +110,7 @@ export class PlayArea extends ObserverComponent {
         const config: GamePhaseConfig = {
             id: this.ShowWinnerAndTournament,
             begin: TimePointShowMatchWinner + this.ShowWinnerAndTournamentTimeOffset,
-            end: settings.durations.placingBetPreMatch + this.ShowWinnerAndTournamentTimeOffset,
+            end: settings.points.placingBetPreMatch + this.ShowWinnerAndTournamentTimeOffset,
         };
         return config;
     }
@@ -119,7 +119,7 @@ export class PlayArea extends ObserverComponent {
     registerPhaseShowLiveScore() {
         const config: GamePhaseConfig = {
             id: this.ShowLiveScore,
-            begin: settings.durations.streamingFirstHalfVideo + 1,
+            begin: settings.points.streamingFirstHalfVideo + 1,
             end: 1,
         };
         return config;
@@ -129,7 +129,7 @@ export class PlayArea extends ObserverComponent {
     registerPhaseShowBetChoicesTwoMatch() {
         const config: GamePhaseConfig = {
             id: this.ShowBetChoicesTwoMatch,
-            begin: settings.durations.streamingFirstHalfVideo - settings.durations.videoDuration - settings.durations.showHaftTime,
+            begin: settings.points.streamingFirstHalfVideo - settings.durations.videoDuration - settings.durations.showHaftTime,
             end: 3,
         };
         return config;
@@ -142,6 +142,7 @@ export class PlayArea extends ObserverComponent {
         }
 
         console.log("renderEnterPhase", phase.id);
+
         // H1
         if (phase.id === this.ShowWinnerAndTournament) {
             if (phase.progress === 0) {
@@ -180,10 +181,10 @@ export class PlayArea extends ObserverComponent {
         console.log("renderExitPhase", phase.id);
 
         // H1
-        if (phase.id === this.ShowWinnerAndTournament) {
+        if (phase.id === PhaseId.Tournament) {
             const duration = 0.2;
             this.scheduleOnce(() => {
-                this.betChoicesContainer.setNavigationButtonState(false);
+                // this.betChoicesContainer.setNavigationButtonState(false);
                 this.betChoicesContainer.setEnableFirstHalfBets();
                 this.fadeOutBetChoiceNode(this.containerBets, false, duration);
             }, this.ShowWinnerAndTournamentTimeOffset - duration);
@@ -237,12 +238,12 @@ export class PlayArea extends ObserverComponent {
         }
 
         // At the begin of streaming
-        if (time === settings.durations.introVideo) {
+        if (time === settings.points.introVideo) {
             this.zoomPlayArea("out");
         }
 
         // During streaming
-        if (!this.isZoomOut && time < settings.durations.introVideo && time > 0) {
+        if (!this.isZoomOut && time < settings.points.introVideo && time > 0) {
             this.setStaticPlayArea("out");
         }
     }
@@ -253,31 +254,15 @@ export class PlayArea extends ObserverComponent {
             return;
         }
 
-        // At the begin of streaming
-        if (time === settings.durations.introVideo) {
-            this.playAnimForTarget(this.scoreBoard, this.tweenConfigs.fadeInOut.out);
-            this.isScoreBoardOut = true;
-        }
+        // Show scoreboard only during specific time ranges place bet
+        const shouldShowScoreboard =
+            (time <= settings.points.placingBetPreMatch && time > settings.points.introVideo) || // First range: 110-90 seconds
+            (time <= settings.points.placingBetLiveMatch && time > settings.points.streamingSecondHalfVideo); // Second range: 52-32 seconds
 
-        // At the begin of placing bet
-        if (this.isScoreBoardOut && (time === settings.durations.placingBetPreMatch || time === settings.durations.placingBetLiveMatch)) {
+        if (shouldShowScoreboard && this.isScoreBoardOut) {
             this.playAnimForTarget(this.scoreBoard, this.tweenConfigs.fadeInOut.in);
             this.isScoreBoardOut = false;
-        }
-
-        // before placing bet
-        if (!this.isScoreBoardOut && (time > settings.durations.placingBetPreMatch || time > settings.durations.placingBetLiveMatch)) {
-            this.setStaticTarget(this.scoreBoard, this.tweenConfigs.fadeInOut.out);
-            this.isScoreBoardOut = true;
-        }
-
-        // during streaming
-        const isDuringStreaming =
-            (time < settings.durations.streamingFirstHalfVideo &&
-                time < settings.durations.streamingFirstHalfVideo - settings.durations.videoDuration) ||
-            time < settings.durations.streamingSecondHalfVideo;
-
-        if (!this.isScoreBoardOut && isDuringStreaming) {
+        } else if (!shouldShowScoreboard && !this.isScoreBoardOut) {
             this.setStaticTarget(this.scoreBoard, this.tweenConfigs.fadeInOut.out);
             this.isScoreBoardOut = true;
         }

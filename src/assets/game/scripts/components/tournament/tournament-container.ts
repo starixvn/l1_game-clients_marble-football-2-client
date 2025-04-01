@@ -33,10 +33,10 @@ export class TournamentContainer extends LazyloadNodeContainer {
     registerPhaseTournament() {
         const config: GamePhaseConfig = {
             id: PhaseId.Tournament,
-            begin: settings.durations.placingBetPreMatch + settings.durations.tournament,
-            end: settings.durations.placingBetPreMatch + 1,
+            begin: settings.points.placingBetPreMatch + settings.durations.tournament,
+            end: settings.points.placingBetPreMatch + 1,
         };
-        
+
         return config;
     }
 

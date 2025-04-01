@@ -16,7 +16,7 @@ export class VideoStreamSoundStore {
     }
 
     get isInMatch() {
-        return this.roundTimeStore.roundTime < settings.durations.introVideo && this.roundTimeStore.roundTime > 0;
+        return this.roundTimeStore.roundTime < settings.points.introVideo && this.roundTimeStore.roundTime > 0;
     }
 
     get isPlayBackgroundMusic() {

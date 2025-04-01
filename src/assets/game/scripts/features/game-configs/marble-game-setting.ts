@@ -2,17 +2,22 @@ import gc from "@sg/game-client-base";
 
 export type DurationSetting = {
     wholeRound: number;
-    placingBetPreMatch: number;
-    placingBetLiveMatch: number;
-    lockingBetPreMatch: number;
-    lockingBetLiveMatch: number;
     showingResult?: number;
     generatingResult?: number;
     startRound?: number;
     introVideo: number;
-    streamingFirstHalfVideo: number;
     placingBet: number;
     lockingBet: number;
+};
+
+export type PointsSetting = {
+    introVideo: number;
+    streamingFirstHalfVideo: number;
+    streamingSecondHalfVideo: number;
+    placingBetPreMatch: number;
+    placingBetLiveMatch: number;
+    lockingBetPreMatch: number;
+    lockingBetLiveMatch: number;
 };
 
 export class MarbleGameSetting extends gc.GameConfigs.GameSetting {
@@ -27,4 +32,5 @@ export class MarbleGameSetting extends gc.GameConfigs.GameSetting {
     validateBalanceWhenBet?: boolean;
     durationShowPromptMessage?: number;
     isMiniGame?: boolean;
+    points?: PointsSetting;
 }
