@@ -47,10 +47,10 @@ export class OddsStore {
     }
 
     deltaForAllBetOptions(odds: Record<string, number>) {
-        const betOptionNames = ["Away", "Draw", "Home", "Draw4", "Even", "Odd", "Over", "Under"];
+        const betOptionNames = ["away", "draw", "home", "draw4", "even", "odd", "over", "under"];
         const deltaOdds = {};
         for (const betOptionName of betOptionNames) {
-            deltaOdds[`secondHalf${betOptionName}`] = this.deltaOdds(odds[`firstHalf${betOptionName}`], odds[`secondHalf${betOptionName}`]);
+            deltaOdds[`${betOptionName}Live`] = this.deltaOdds(odds[`${betOptionName}`] || 0, odds[`${betOptionName}Live`] || 0);
         }
         return deltaOdds;
     }

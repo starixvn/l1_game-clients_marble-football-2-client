@@ -17,13 +17,14 @@ export default class BetItemCustomize extends BetItem {
     @render(OddsStore, (store) => store.oddsWithConfig)
     renderIncreaseOdds(oddsWithConfig: any) {
         const betChoice = this.betChoice;
-        if (betChoice.includes("firstHalf")) {
+        if (!betChoice.includes("Live")) {
             this.increaseOdd!.active = false;
             this.decreaseOdd!.active = false;
             return;
         }
         const deltaOdd = oddsWithConfig.deltaOdds[betChoice] || 0;
         if (deltaOdd > 0) {
+            console.log("increaseOdd", deltaOdd);
             this.increaseOdd!.active = true;
             this.decreaseOdd!.active = false;
         } else {
