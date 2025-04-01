@@ -203,7 +203,7 @@
     "propertyPath": [
       "_name"
     ],
-    "value": "first-half-bet-choices"
+    "value": "bet-choices"
   },
   {
     "__type__": "cc.TargetInfo",
@@ -19051,7 +19051,7 @@
     "propertyPath": [
       "_name"
     ],
-    "value": "second-half-bet-choices"
+    "value": "bet-choices-live"
   },
   {
     "__type__": "cc.TargetInfo",

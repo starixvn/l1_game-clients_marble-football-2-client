@@ -1,5 +1,12 @@
 {
-    "lobbyNames": {},
+    "lobbyNames": {
+        "en": "Marble Football X",
+        "id": "Marble Football X",
+        "th": "Marble Football X",
+        "vi": "Marble Football X",
+        "zh_cn": "Marble Football X",
+        "zh_tw": "Marble Football X"
+    },
     "gameNames": {
         "en": "Spinner Soccer X",
         "id": "Spinner Soccer X",

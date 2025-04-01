@@ -82,6 +82,7 @@ export class PlayArea extends ObserverComponent {
     private readonly ShowLiveScore = "show-live-score";
     private readonly ShowWinnerAndTournamentTimeOffset = 1;
     private readonly ShowBetChoicesTwoMatch = "show-bet-choices-two-match";
+    private readonly Settlement = "settlement";
 
     protected containerBets: Node = null;
 
@@ -135,6 +136,16 @@ export class PlayArea extends ObserverComponent {
         return config;
     }
 
+    @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
+    registerSettlement() {
+        const config: GamePhaseConfig = {
+            id: this.Settlement,
+            begin: settings.durations.wholeRound,
+            end: settings.durations.wholeRound - settings.durations.startRound,
+        };
+        return config;
+    }
+
     @render(GamePhaseStore, (store) => store.enterPhase)
     renderEnterPhase(phase: GamePhase) {
         if (!phase) {
@@ -153,6 +164,20 @@ export class PlayArea extends ObserverComponent {
                 );
             } else {
                 this.fadeOutBetChoiceNode(this.containerBets, true, 0);
+            }
+
+            return;
+        }
+
+        if (phase.id === this.Settlement) {
+            if (phase.progress === 0) {
+                const duration = 0.2;
+                this.scheduleOnce(
+                    () => this.fadeOutBetChoiceNode(this.containerBets, false, duration),
+                    this.ShowWinnerAndTournamentTimeOffset - duration
+                );
+            } else {
+                this.fadeOutBetChoiceNode(this.containerBets, false, 0);
             }
 
             return;
@@ -238,8 +263,12 @@ export class PlayArea extends ObserverComponent {
         }
 
         // At the begin of streaming
-        if (time === settings.points.introVideo) {
+        if (time === settings.points.introVideo || time === settings.points.streamingSecondHalfVideo) {
             this.zoomPlayArea("out");
+        }
+
+        if (time === settings.points.placingBetPreMatch || time === settings.points.placingBetLiveMatch) {
+            this.zoomPlayArea("in");
         }
 
         // During streaming

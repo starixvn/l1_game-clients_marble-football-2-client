@@ -50,6 +50,10 @@ export class MarbleRoundTimeStore {
         return this.gameSetting.points.placingBetLiveMatch;
     }
 
+    get blockingBet() {
+        return this.gameSetting.durations.lockingBet;
+    }
+
     get lockingBetPreMatch() {
         return this.gameSetting.points.lockingBetPreMatch;
     }
@@ -70,6 +74,14 @@ export class MarbleRoundTimeStore {
         return this.gameSetting.durations.startRound;
     }
 
+    get tournament() {
+        return this.gameSetting.durations.tournament;
+    }
+
+    get matchWinner() {
+        return this.gameSetting.durations.matchWinner;
+    }
+
     get initialized() {
         return this.roundTime !== RoundTimeInitValue;
     }
@@ -82,12 +94,34 @@ export class MarbleRoundTimeStore {
         return this.roundTime === this.wholeRound;
     }
 
+    get placingBet() {
+        return this.gameSetting.durations.placingBet;
+    }
+
+    get lockingBet() {
+        return this.gameSetting.durations.lockingBet;
+    }
+
     get isLocking() {
         return (
-            ((this.roundTime <= this.gameSetting.points.lockingBetPreMatch &&
-                this.roundTime > this.gameSetting.points.lockingBetPreMatch - this.durationLockingBet) ||
-                (this.roundTime <= this.gameSetting.points.lockingBetLiveMatch &&
-                    this.roundTime > this.gameSetting.points.lockingBetLiveMatch - this.durationLockingBet)) &&
+            ((this.roundTime <= this.lockingBetPreMatch && this.roundTime > this.lockingBetPreMatch - this.durationLockingBet) ||
+                (this.roundTime <= this.lockingBetLiveMatch && this.roundTime > this.lockingBetLiveMatch - this.durationLockingBet)) &&
+            this.roundTime > 0
+        );
+    }
+
+    get isLockingPreMatch() {
+        return (
+            this.roundTime <= this.lockingBetPreMatch &&
+            this.roundTime > this.lockingBetPreMatch - this.durationLockingBet &&
+            this.roundTime > 0
+        );
+    }
+
+    get isLockingLiveMatch() {
+        return (
+            this.roundTime <= this.lockingBetLiveMatch &&
+            this.roundTime > this.lockingBetLiveMatch - this.durationLockingBet &&
             this.roundTime > 0
         );
     }
@@ -105,6 +139,14 @@ export class MarbleRoundTimeStore {
             (this.roundTime <= this.placingBetPreMatch && this.roundTime > this.lockingBetPreMatch) ||
             (this.roundTime <= this.placingBetLiveMatch && this.roundTime > this.lockingBetLiveMatch)
         );
+    }
+
+    get isPlacingBetPreMatch() {
+        return this.roundTime <= this.placingBetPreMatch && this.roundTime > this.lockingBetPreMatch;
+    }
+
+    get isPlacingBetLiveMatch() {
+        return this.roundTime <= this.placingBetLiveMatch && this.roundTime > this.lockingBetLiveMatch;
     }
 
     get isStartPlacingBet() {
@@ -191,17 +233,24 @@ export class MarbleRoundTimeStore {
         }
 
         if (this.isShowResult) {
-            let duration = this.roundTime - this.placingBetPreMatch - this.startRound;
-
+            const duration = this.roundTime - this.placingBetPreMatch - this.startRound;
             this._countdownTimer = duration;
         }
 
-        if (this.isPlacingBet) {
-            this._countdownTimer = this.roundTime;
+        if (this.isPlacingBetPreMatch) {
+            this._countdownTimer = this.roundTime - this.lockingBetPreMatch + this.blockingBet;
         }
 
-        if (this.isLocking) {
-            this._countdownTimer = this.roundTime;
+        if (this.isPlacingBetLiveMatch) {
+            this._countdownTimer = this.roundTime - this.lockingBetLiveMatch + this.blockingBet;
+        }
+
+        if (this.isLockingPreMatch) {
+            this._countdownTimer = this.roundTime - this.lockingBetPreMatch + this.blockingBet;
+        }
+
+        if (this.isLockingLiveMatch) {
+            this._countdownTimer = this.roundTime - this.lockingBetLiveMatch + this.blockingBet;
         }
     }
 

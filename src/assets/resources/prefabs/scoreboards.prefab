@@ -1123,7 +1123,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "secondHalfHome",
+    "_name": "homeLive",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -1390,7 +1390,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "secondHalfHome",
+    "_name": "homeLive",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -1654,7 +1654,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "secondHalfAway",
+    "_name": "awayLive",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -1921,7 +1921,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "secondHalfAway",
+    "_name": "awayLive",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -2185,7 +2185,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "secondHalfDraw",
+    "_name": "drawLive",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -2452,7 +2452,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "secondHalfDraw",
+    "_name": "drawLive",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -3105,7 +3105,7 @@
       "0",
       "value"
     ],
-    "value": "secondHalfDraw"
+    "value": "drawLive"
   },
   {
     "__type__": "cc.TargetInfo",
@@ -3123,7 +3123,7 @@
       "1",
       "value"
     ],
-    "value": "secondHalfHome"
+    "value": "homeLive"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -3538,7 +3538,7 @@
     "fileId": "18AKNydQlBPZVV0f5DLEoj"
   },
   {
-    "__type__": "7c15fCIv8JEEJXs3ToN0h0H",
+    "__type__": "f16efe06uZAQZlz/hFkRe1r",
     "_name": "",
     "_objFlags": 0,
     "__editorExtras__": {},
@@ -3559,7 +3559,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "3bnH+1rKlKcolAUcxrVZM/"
+    "fileId": "aemmb33PZHWIJjyXNxwwVo"
   },
   {
     "__type__": "20e5eac6QFPG5bvYIr1iyuP",
@@ -3586,7 +3586,7 @@
       }
     ],
     "labelContainer": null,
-    "supportChoices": "secondHalfHome,secondHalfAway,secondHalfDraw",
+    "supportChoices": "homeLive,awayLive,drawLive",
     "enablePercentage": true,
     "showSignPercentage": true,
     "_id": ""
@@ -4517,7 +4517,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "secondHalfOdd",
+    "_name": "oddLive",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -4784,7 +4784,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "secondHalfOdd",
+    "_name": "oddLive",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -5048,7 +5048,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "secondHalfEven",
+    "_name": "evenLive",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -5315,7 +5315,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "secondHalfEven",
+    "_name": "evenLive",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -5974,7 +5974,7 @@
       "0",
       "value"
     ],
-    "value": "secondHalfOdd"
+    "value": "oddLive"
   },
   {
     "__type__": "cc.TargetInfo",
@@ -6431,7 +6431,7 @@
     "fileId": "2bozhIIxFMGaI9mYK5T3Co"
   },
   {
-    "__type__": "7c15fCIv8JEEJXs3ToN0h0H",
+    "__type__": "f16efe06uZAQZlz/hFkRe1r",
     "_name": "",
     "_objFlags": 0,
     "__editorExtras__": {},
@@ -6452,7 +6452,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "cbrdHKGk9NU5yUrmazhNWh"
+    "fileId": "9bdu2IXEFFsKV4Iv7s5HVW"
   },
   {
     "__type__": "20e5eac6QFPG5bvYIr1iyuP",
@@ -6476,7 +6476,7 @@
       }
     ],
     "labelContainer": null,
-    "supportChoices": "secondHalfEven,secondHalfOdd",
+    "supportChoices": "evenLive,oddLive",
     "enablePercentage": true,
     "showSignPercentage": true,
     "_id": ""
@@ -7407,7 +7407,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "secondHalfOver",
+    "_name": "overLive",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -7674,7 +7674,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "secondHalfOver",
+    "_name": "overLive",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -7938,7 +7938,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "secondHalfUnder",
+    "_name": "underLive",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -8205,7 +8205,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "secondHalfUnder",
+    "_name": "underLive",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -8882,7 +8882,7 @@
       "0",
       "value"
     ],
-    "value": "secondHalfOver"
+    "value": "overLive"
   },
   {
     "__type__": "cc.TargetInfo",
@@ -9351,7 +9351,7 @@
     "fileId": "35bV60tlBNDZrBoHu/dCrt"
   },
   {
-    "__type__": "7c15fCIv8JEEJXs3ToN0h0H",
+    "__type__": "f16efe06uZAQZlz/hFkRe1r",
     "_name": "",
     "_objFlags": 0,
     "__editorExtras__": {},
@@ -9372,7 +9372,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "35r5eUI3BJDZpao4gGE/VS"
+    "fileId": "79RRuNssNEkaaQBndFiTpx"
   },
   {
     "__type__": "20e5eac6QFPG5bvYIr1iyuP",
@@ -9396,7 +9396,7 @@
       }
     ],
     "labelContainer": null,
-    "supportChoices": "secondHalfOver,secondHalfUnder",
+    "supportChoices": "overLive,underLive",
     "enablePercentage": true,
     "showSignPercentage": true,
     "_id": ""
@@ -10355,6 +10355,29 @@
   {
     "__type__": "cc.TargetOverrideInfo",
     "source": {
+      "__id__": 168
+    },
+    "sourceInfo": null,
+    "propertyPath": [
+      "scoreboards",
+      "0"
+    ],
+    "target": {
+      "__id__": 122
+    },
+    "targetInfo": {
+      "__id__": 519
+    }
+  },
+  {
+    "__type__": "cc.TargetInfo",
+    "localID": [
+      "89EWZa5BdKhq1J9eDGj7aN"
+    ]
+  },
+  {
+    "__type__": "cc.TargetOverrideInfo",
+    "source": {
       "__id__": 311
     },
     "sourceInfo": null,
@@ -10366,7 +10389,7 @@
       "__id__": 263
     },
     "targetInfo": {
-      "__id__": 519
+      "__id__": 521
     }
   },
   {
@@ -10387,29 +10410,6 @@
     ],
     "target": {
       "__id__": 406
-    },
-    "targetInfo": {
-      "__id__": 521
-    }
-  },
-  {
-    "__type__": "cc.TargetInfo",
-    "localID": [
-      "89EWZa5BdKhq1J9eDGj7aN"
-    ]
-  },
-  {
-    "__type__": "cc.TargetOverrideInfo",
-    "source": {
-      "__id__": 168
-    },
-    "sourceInfo": null,
-    "propertyPath": [
-      "scoreboards",
-      "0"
-    ],
-    "target": {
-      "__id__": 122
     },
     "targetInfo": {
       "__id__": 523

@@ -37,7 +37,7 @@ export class HelperBetChoices extends Component {
                     node.setScale(v3(node.scale.x * revert, node.scale.y, node.scale.z));
 
                     const spine = node.getComponent(sp.Skeleton);
-                    const cleanName = betItem.node.name.replace(/(secondHalf|firstHalf)/, "").toLowerCase();
+                    const cleanName = betItem.node.name.replace(/(Live)/, "").toLowerCase();
                     const nodeName = `${cleanName} win`;
                     node.name = nodeName;
                     spine.setAnimation(0, nodeName, true);

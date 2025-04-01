@@ -281,7 +281,10 @@ export const languages = {
         "wins": "Wins"
     },
     "MarbleFootball2": {
-        "game_name": "Spinner Soccer X"
+        "game_icon_name": "Marble Football X",
+        "game_name": "Spinner Soccer X",
+        "live": "Live",
+        "pre_match": "Pre-match"
     }
 };
 

@@ -8,6 +8,8 @@ export type DurationSetting = {
     introVideo: number;
     placingBet: number;
     lockingBet: number;
+    tournament: number;
+    matchWinner: number;
 };
 
 export type PointsSetting = {
