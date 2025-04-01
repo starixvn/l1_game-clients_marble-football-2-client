@@ -280,7 +280,12 @@ export const languages = {
         "winner": "贏家",
         "wins": "赢"
     },
-    "MarbleFootball2": {}
+    "MarbleFootball2": {
+        "game_icon_name": "Marble Football X",
+        "game_name": "Spinner Soccer X",
+        "live": "Live",
+        "pre_match": "Pre-match"
+    }
 };
 
 if (!win.languages) {
