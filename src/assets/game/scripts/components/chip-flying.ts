@@ -6,9 +6,14 @@ import Observer from "observer";
 import { TBalanceEffect, TWinningEffect } from "db://shared-components/game/balance-effect/scripts/stores/balance-effect-store";
 import { AroundTablePlayerUtils } from "db://shared-components/game/around-table-player/scripts/utils";
 import { BetChoicesContainer } from "./bet-options/bet-choices-container";
+import BetItemCustomize from "./bet-options/bet-item-customize";
+import { GamePhaseStore } from "../features/game-phase/game-phase-store";
+import { GamePhase, PhaseId } from "../features/game-phase/game-phase-definitions";
+import { BetItems } from "db://shared-components/game/bets/scripts/components/bet-items";
+import { settings } from "../game-settings";
 
 const { ccclass, property } = _decorator;
-const { handle } = Observer;
+const { handle, render } = Observer;
 
 const CHIP_SOUND_ID = {
     GATHER_CHIPS: "gather-chips",
@@ -20,6 +25,8 @@ const CHIP_SOUND_ID = {
 export class ChipFlying extends ChipFlyingShared {
     @property(BetChoicesContainer)
     private betChoicesContainer: BetChoicesContainer = null;
+
+    isJoinGame = false;
 
     actionPayChips(animated: boolean) {
         if (!animated) {
@@ -130,5 +137,49 @@ export class ChipFlying extends ChipFlyingShared {
     @handle(gc.Audios.AudioHandler, (handle, id: string) => handle.playSFX(id))
     playSound(id: string) {
         return id;
+    }
+
+    private setBetItemsAndJoinState(betItems: BetItems) {
+        if (betItems) {
+            this.betItems = betItems;
+            this.isJoinGame = true;
+        }
+    }
+
+    @render(GamePhaseStore, (store) => store.exitPhase)
+    renderExitPhase(phase: GamePhase) {
+        if (phase?.id === PhaseId.Tournament) {
+            this.setBetItemsAndJoinState(this.betChoicesContainer.getBetItemsPrevMath());
+        } else if (phase?.id === PhaseId.Halftime) {
+            this.setBetItemsAndJoinState(this.betChoicesContainer.getBetItemsLive());
+        }
+    }
+
+    @render(gc.Rounds.RoundTimeStore, (store) => store.roundTime)
+    async setCurrentBetItems(roundTime: number) {
+        if (this.isJoinGame || roundTime < 0) {
+            return;
+        }
+
+        if (this.isPlacingBetPreMatch(roundTime)) {
+            this.setBetItemsAndJoinState(this.betChoicesContainer.getBetItemsPrevMath());
+            return;
+        }
+
+        this.setBetItemsAndJoinState(this.betChoicesContainer.getBetItemsLive());
+    }
+
+    isPlacingBetPreMatch(roundTime: number) {
+        return (
+            roundTime <= settings.points.placingBetPreMatch &&
+            roundTime > settings.points.lockingBetPreMatch - settings.durations.lockingBet
+        );
+    }
+
+    isPlacingBetLiveMatch(roundTime: number) {
+        return (
+            roundTime <= settings.points.placingBetLiveMatch &&
+            roundTime > settings.points.lockingBetLiveMatch - settings.durations.lockingBet
+        );
     }
 }

@@ -1,10 +1,10 @@
 import gc from "@sg/game-client-base";
 import { Label, Node, UITransform, _decorator } from "cc";
 import Observer from "observer";
-import { ObserverComponent } from "../../../../../extensions/shared-components/assets/shared/common-components/observer-component/scripts/observer-component";
+import { ObserverComponent } from "db://shared-components/shared/common-components/observer-component/scripts/observer-component";
 import { HelperBetChoices } from "../../helper-betchoices";
-import { StatusButton } from "db://shared-components/shared/common-components/button/status-button";
 import { StatusBetsButton } from "./status-bets-button";
+import { BetItems } from "db://shared-components/game/bets/scripts/components/bet-items";
 const { ccclass, property } = _decorator;
 
 const { Rounds } = gc;
@@ -19,9 +19,6 @@ export class BetChoicesContainer extends ObserverComponent {
     secondHalfBetChoices: Node = null;
 
     @property(Node)
-    navigationButton: Node = null;
-
-    @property(Node)
     showHideBetsButton: Node = null;
 
     protected statusBetsButton: StatusBetsButton = null;
@@ -29,13 +26,8 @@ export class BetChoicesContainer extends ObserverComponent {
     onLoad(): void {
         this.firstHalfBetChoices.active = false;
         this.secondHalfBetChoices.active = false;
-        this.setNavigationButtonState(false);
         this.statusBetsButton = this.showHideBetsButton.getComponentInChildren(StatusBetsButton);
         super.onLoad();
-    }
-
-    setNavigationButtonState(isActive: boolean) {
-        this.navigationButton.active = isActive;
     }
 
     @handle(gc.Audios.AudioHandler, (handle) => handle.playSFX(gc.Audios.AudioIds.CLICK))
@@ -59,8 +51,8 @@ export class BetChoicesContainer extends ObserverComponent {
     }
 
     setFirstHalfDisabled(isDisabled: boolean) {
-        const bgDisable = this.firstHalfBetChoices.getComponent(HelperBetChoices).bgDisable;
-        bgDisable.active = isDisabled;
+        const bgDisable = this.firstHalfBetChoices.getComponent(HelperBetChoices)?.bgDisable;
+        bgDisable && (bgDisable.active = isDisabled);
     }
 
     setEnableFirstHalfBets() {
@@ -78,5 +70,13 @@ export class BetChoicesContainer extends ObserverComponent {
     @handle(gc.Audios.AudioHandler, (handle) => handle.playSFX(gc.Audios.AudioIds.CLICK))
     private showHideBets() {
         this.statusBetsButton.toggleStatus();
+    }
+
+    getBetItemsPrevMath() {
+        return this.firstHalfBetChoices.getComponent(BetItems);
+    }
+
+    getBetItemsLive() {
+        return this.secondHalfBetChoices.getComponent(BetItems);
     }
 }

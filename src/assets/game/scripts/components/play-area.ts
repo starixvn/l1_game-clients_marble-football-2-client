@@ -34,6 +34,7 @@ interface TweenConfigs {
 export class PlayArea extends ObserverComponent {
     private isZoomOut: boolean = false;
     private isScoreBoardOut: boolean = false;
+    private isStaticPlayAreaIn: boolean = false;
 
     private mainPlayAreaTargets: Array<{ target: Node; key: TweenKey }>;
 
@@ -268,12 +269,25 @@ export class PlayArea extends ObserverComponent {
         }
 
         if (time === settings.points.placingBetPreMatch || time === settings.points.placingBetLiveMatch) {
+            this.isStaticPlayAreaIn = true;
             this.zoomPlayArea("in");
         }
 
         // During streaming
         if (!this.isZoomOut && time < settings.points.introVideo && time > 0) {
-            this.setStaticPlayArea("out");
+            if (!this.isStaticPlayAreaIn) {
+                this.setStaticPlayArea("out");
+                this.isStaticPlayAreaIn = false;
+            }
+        }
+
+        const isPlaceBet =
+            (time < settings.points.placingBetPreMatch && time > settings.points.lockingBetPreMatch - settings.durations.lockingBet) ||
+            (time < settings.points.placingBetLiveMatch && time > settings.points.lockingBetLiveMatch - settings.durations.lockingBet);
+
+        if (isPlaceBet && !this.isStaticPlayAreaIn) {
+            this.setStaticPlayArea("in");
+            this.isStaticPlayAreaIn = true;
         }
     }
 
