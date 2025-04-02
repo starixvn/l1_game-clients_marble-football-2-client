@@ -36,10 +36,18 @@ export class PlayArea extends ObserverComponent {
     private isScoreBoardOut: boolean = false;
     private isStaticPlayAreaIn: boolean = false;
 
-    private mainPlayAreaTargets: Array<{ target: Node; key: TweenKey }>;
+    private mainPlayAreaTargetsPrev: Array<{ target: Node; key: TweenKey }>;
+    private mainPlayAreaTargetsLive: Array<{ target: Node; key: TweenKey }>;
+    private mainPlayAreaTargetsFinal: Array<{ target: Node; key: TweenKey }>;
 
     @property(Node)
-    private chipContainer: Node = null;
+    private chipContainerPrev: Node = null;
+
+    @property(Node)
+    private chipContainerLive: Node = null;
+
+    @property(Node)
+    private chipContainerFinal: Node = null;
 
     @property(BetChoicesContainer)
     private betChoicesContainer: BetChoicesContainer = null;
@@ -83,21 +91,25 @@ export class PlayArea extends ObserverComponent {
     private readonly ShowLiveScore = "show-live-score";
     private readonly ShowWinnerAndTournamentTimeOffset = 1;
     private readonly ShowBetChoicesTwoMatch = "show-bet-choices-two-match";
-    private readonly Settlement = "settlement";
 
     protected containerBets: Node = null;
+    protected chipContainers: Node[] = [];
 
     onLoad() {
+        this.chipContainers = [this.chipContainerPrev, this.chipContainerLive, this.chipContainerFinal];
         this.containerBets = this.betChoicesContainer.betChoicesPrev.parent;
-        this.mainPlayAreaTargets = [
-            { target: this.containerBets, key: "betChoiceZoomInOut" },
-            { target: this.containerBets, key: "betChoiceZoomInOut" },
-            // { target: this.chipContainer, key: "chipContainerZoomInOut" },
-            { target: this.chips, key: "chipsFlyDown" },
+        const commonTargets = [
+            { target: this.containerBets, key: "betChoiceZoomInOut" as TweenKey },
+            { target: this.containerBets, key: "betChoiceZoomInOut" as TweenKey },
+            { target: this.chips, key: "chipsFlyDown" as TweenKey },
         ];
 
+        this.mainPlayAreaTargetsPrev = [...commonTargets, { target: this.chipContainerPrev, key: "chipContainerZoomInOut" }];
+        this.mainPlayAreaTargetsLive = [...commonTargets, { target: this.chipContainerLive, key: "chipContainerZoomInOut" }];
+        this.mainPlayAreaTargetsFinal = [...commonTargets, { target: this.chipContainerFinal, key: "chipContainerZoomInOut" }];
+
         this.disappearingNodes.forEach((node) => {
-            this.mainPlayAreaTargets.push({ target: node, key: "fadeInOut" });
+            this.mainPlayAreaTargetsPrev.push({ target: node, key: "fadeInOut" });
         });
 
         this.setStaticTarget(this.teamScore, this.tweenConfigs.teamScoreFlyUp.out);
@@ -105,6 +117,8 @@ export class PlayArea extends ObserverComponent {
 
         this.registerPhaseMatchWinner();
         this.registerPhaseShowLiveScore();
+        this.registerPhaseShowBetChoicesTwoMatch();
+        this.registerSettlement();
     }
 
     @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
@@ -140,8 +154,8 @@ export class PlayArea extends ObserverComponent {
     @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
     registerSettlement() {
         const config: GamePhaseConfig = {
-            id: this.Settlement,
-            begin: settings.durations.wholeRound,
+            id: PhaseId.Settlement,
+            begin: settings.durations.wholeRound - 1,
             end: settings.durations.wholeRound - settings.durations.startRound,
         };
         return config;
@@ -170,7 +184,8 @@ export class PlayArea extends ObserverComponent {
             return;
         }
 
-        if (phase.id === this.Settlement) {
+        if (phase.id === PhaseId.Settlement) {
+            this.betChoicesContainer.setEnableBetChoicesFinal();
             if (phase.progress === 0) {
                 const duration = 0.2;
                 this.scheduleOnce(
@@ -210,7 +225,6 @@ export class PlayArea extends ObserverComponent {
         if (phase.id === PhaseId.Tournament) {
             const duration = 0.2;
             this.scheduleOnce(() => {
-                // this.betChoicesContainer.setNavigationButtonState(false);
                 this.betChoicesContainer.setEnableBetChoicesPrev();
                 this.fadeOutBetChoiceNode(this.containerBets, false, duration);
             }, this.ShowWinnerAndTournamentTimeOffset - duration);
@@ -221,8 +235,7 @@ export class PlayArea extends ObserverComponent {
         if (phase.id === PhaseId.Halftime) {
             const duration = 0.2;
             this.scheduleOnce(() => {
-                // this.betChoicesContainer.setNavigationButtonState(true);
-                this.betChoicesContainer.setEnableAllBets();
+                this.betChoicesContainer.setEnableBetChoicesLive();
                 this.fadeOutBetChoiceNode(this.containerBets, false, duration);
             }, this.ShowWinnerAndTournamentTimeOffset - duration);
             return;
@@ -251,7 +264,7 @@ export class PlayArea extends ObserverComponent {
         try {
             await AnimationUtils.delayTime(settings.durations.outro);
             if (this.isZoomOut) {
-                this.zoomPlayArea("in");
+                this.zoomPlayArea("in", "final");
             }
             this.playAnimForTarget(this.teamScore, this.tweenConfigs.teamScoreFlyUp.out);
         } catch (e) {}
@@ -263,30 +276,50 @@ export class PlayArea extends ObserverComponent {
             return;
         }
 
-        // At the begin of streaming
-        if (time === settings.points.introVideo || time === settings.points.streamingSecondHalfVideo) {
-            this.zoomPlayArea("out");
-        }
-
-        if (time === settings.points.placingBetPreMatch || time === settings.points.placingBetLiveMatch) {
+        // Handle zoomPlayArea
+        if (!this.isZoomOut && time === settings.points.introVideo) {
             this.isStaticPlayAreaIn = true;
-            this.zoomPlayArea("in");
+            this.zoomPlayArea("out", "prev");
         }
 
-        // During streaming
-        if (!this.isZoomOut && time < settings.points.introVideo && time > 0) {
-            if (!this.isStaticPlayAreaIn) {
-                this.setStaticPlayArea("out");
-                this.isStaticPlayAreaIn = false;
-            }
+        if (!this.isZoomOut && time === settings.points.streamingSecondHalfVideo) {
+            this.isStaticPlayAreaIn = true;
+            this.zoomPlayArea("out", "live");
         }
 
-        const isPlaceBet =
-            (time < settings.points.placingBetPreMatch && time > settings.points.lockingBetPreMatch - settings.durations.lockingBet) ||
-            (time < settings.points.placingBetLiveMatch && time > settings.points.lockingBetLiveMatch - settings.durations.lockingBet);
+        if (this.isZoomOut && time === settings.points.placingBetPreMatch) {
+            this.isStaticPlayAreaIn = true;
+            this.zoomPlayArea("in", "prev");
+        }
 
-        if (isPlaceBet && !this.isStaticPlayAreaIn) {
-            this.setStaticPlayArea("in");
+        if (this.isZoomOut && time === settings.points.placingBetLiveMatch) {
+            this.isStaticPlayAreaIn = true;
+            this.zoomPlayArea("in", "live");
+        }
+
+        // Handle static play area
+        // if (!this.isZoomOut && time < settings.points.introVideo && time > 0) {
+        //     if (!this.isStaticPlayAreaIn) {
+        //         this.setStaticPlayArea("out", "prev");
+        //         this.isStaticPlayAreaIn = false;
+        //     }
+        // }
+
+        const isPlaceBetPreMatch =
+            time < settings.points.placingBetPreMatch && time > settings.points.lockingBetPreMatch - settings.durations.lockingBet;
+
+        if (isPlaceBetPreMatch && !this.isStaticPlayAreaIn) {
+            this.betChoicesContainer.setEnableBetChoicesPrev();
+            this.setStaticPlayArea("in", "prev");
+            this.isStaticPlayAreaIn = true;
+        }
+
+        const isPlaceBetLive =
+            time < settings.points.placingBetLiveMatch && time > settings.points.lockingBetLiveMatch - settings.durations.lockingBet;
+
+        if (isPlaceBetLive && !this.isStaticPlayAreaIn) {
+            this.betChoicesContainer.setEnableBetChoicesLive();
+            this.setStaticPlayArea("in", "live");
             this.isStaticPlayAreaIn = true;
         }
     }
@@ -342,11 +375,11 @@ export class PlayArea extends ObserverComponent {
         });
     }
 
-    private async zoomPlayArea(direction: "in" | "out"): Promise<void> {
+    private async zoomPlayArea(direction: "in" | "out", state: "prev" | "live" | "final"): Promise<void> {
         this.isZoomOut = direction === "out";
 
         await Promise.all(
-            this.mainPlayAreaTargets.map(({ target, key }) => this.playAnimForTarget(target, this.tweenConfigs[key][direction]))
+            this.getMainPlayAreaTargets(state).map(({ target, key }) => this.playAnimForTarget(target, this.tweenConfigs[key][direction]))
         );
     }
 
@@ -364,11 +397,19 @@ export class PlayArea extends ObserverComponent {
         }
     }
 
-    private async setStaticPlayArea(direction: "in" | "out"): Promise<void> {
+    private async setStaticPlayArea(direction: "in" | "out", state: "prev" | "live" | "final"): Promise<void> {
         this.isZoomOut = direction === "out";
 
         await Promise.all(
-            this.mainPlayAreaTargets.map(({ target, key }) => this.setStaticTarget(target, this.tweenConfigs[key][direction]))
+            this.getMainPlayAreaTargets(state)?.map(({ target, key }) => this.setStaticTarget(target, this.tweenConfigs[key][direction]))
         );
+    }
+
+    private getMainPlayAreaTargets(state: "prev" | "live" | "final"): Array<{ target: Node; key: TweenKey }> {
+        return state === "prev"
+            ? this.mainPlayAreaTargetsPrev
+            : state === "live"
+            ? this.mainPlayAreaTargetsLive
+            : this.mainPlayAreaTargetsFinal;
     }
 }

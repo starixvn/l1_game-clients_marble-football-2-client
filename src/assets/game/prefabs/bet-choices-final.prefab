@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.Prefab",
-    "_name": "final-bet-choices",
+    "_name": "bet-choices-final",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_native": "",
@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "final-bet-choices",
+    "_name": "bet-choices-final",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": null,
@@ -67,7 +67,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -94,
+      "y": 0,
       "z": 0
     },
     "_lrot": {
@@ -17222,8 +17222,6 @@
     "__prefab": {
       "__id__": 737
     },
-    "enableFixSingleCamera3D": false,
-    "debugSample": null,
     "_id": ""
   },
   {

@@ -17,6 +17,7 @@ export enum PhaseId {
     MatchStatistics = "match-statistics",
     Tournament = "tournament",
     Halftime = "halftime",
+    Settlement = "settlement",
 }
 
 export const TimePointTournament = settings.points.placingBetPreMatch + settings.durations.tournament;

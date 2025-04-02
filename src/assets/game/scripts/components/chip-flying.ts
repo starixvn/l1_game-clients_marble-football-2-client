@@ -13,6 +13,7 @@ import { BetChoicesContainer } from "./bet-options/bet-choices-container";
 
 const { ccclass, property } = _decorator;
 const { handle, render } = Observer;
+const { Chips } = gc;
 
 const CHIP_SOUND_ID = {
     GATHER_CHIPS: "gather-chips",
@@ -35,6 +36,13 @@ export class ChipFlying extends ChipFlyingShared {
     chipContainerFinal: Node = null;
 
     isJoinGame = false;
+    chipContainers: Node[] = [];
+
+    onLoad(): void {
+        this.chipContainers = [this.chipContainerPrev, this.chipContainerLive, this.chipContainerFinal];
+        this.chipContainers.forEach((container) => (container.active = false));
+        super.onLoad();
+    }
 
     actionPayChips(animated: boolean) {
         if (!animated) {
@@ -163,14 +171,22 @@ export class ChipFlying extends ChipFlyingShared {
         }
     }
 
+    @render(GamePhaseStore, (store) => store.enterPhase)
+    renderEnterPhase(phase: GamePhase) {
+        if (!phase) {
+            return;
+        }
+
+        if (phase.id === PhaseId.Settlement) {
+            this.updateBetState(this.chipContainerFinal, this.betChoicesContainer.getBetItemsFinal());
+        }
+    }
+
     @render(gc.Rounds.RoundTimeStore, (store) => store.roundTime)
     async setCurrentBetItems(roundTime: number) {
         if (this.isJoinGame || roundTime < 0) {
             return;
         }
-
-        const chipContainers = [this.chipContainerPrev, this.chipContainerLive, this.chipContainerFinal];
-        chipContainers.forEach((container) => (container.active = false));
 
         if (this.isPlacingBetPreMatch(roundTime)) {
             this.updateBetState(this.chipContainerPrev, this.betChoicesContainer.getBetItemsPrevMath());
@@ -183,7 +199,7 @@ export class ChipFlying extends ChipFlyingShared {
         }
 
         if (!this.isPlacingBet(roundTime)) {
-            this.updateBetState(this.chipContainerFinal, this.betChoicesContainer.getBetItemsLive());
+            this.updateBetState(this.chipContainerFinal, this.betChoicesContainer.getBetItemsFinal());
         }
     }
 
@@ -212,5 +228,13 @@ export class ChipFlying extends ChipFlyingShared {
             (roundTime <= settings.points.placingBetPreMatch && roundTime > settings.points.lockingBetPreMatch) ||
             (roundTime <= settings.points.placingBetLiveMatch && roundTime > settings.points.lockingBetLiveMatch)
         );
+    }
+
+    @render(Chips.ChipStore, (store) => store.clearAllChips, { fireImmediately: false })
+    clearChipsForAllBetItems() {
+        this.chipStorage = {};
+        this.chipContainers.forEach((container) => {
+            container.destroyAllChildren();
+        });
     }
 }
