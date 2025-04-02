@@ -1,13 +1,15 @@
 import gc from "@sg/game-client-base";
 import { _decorator, Node } from "cc";
+import BetItem from "db://shared-components/game/bets/scripts/components/bet-item";
 import { BetItemsPolygon as BetItemsPolygonBase } from "db://shared-components/game/bets/scripts/components/bet-items-polygon";
+import { FunctionUtils } from "db://shared-components/shared/utils";
 import Observer from "observer";
 const { ccclass } = _decorator;
-const { render } = Observer;
+const { render, useObserver } = Observer;
 const { Rounds } = gc;
 
-@ccclass("FinalBetItems")
-export class FinalBetItems extends BetItemsPolygonBase {
+@ccclass("BetItemsFinal")
+export class BetItemsFinal extends BetItemsPolygonBase {
     @render(Rounds.RoundStore, (store) => store.ownBets, { fireImmediately: false })
     renderOwnBets(ownBets: gc.GameServiceMessage.OwnBets) {
         this.betItemComponents.forEach((betItem) => {
@@ -24,5 +26,17 @@ export class FinalBetItems extends BetItemsPolygonBase {
             const sum = totalBets[choice] || 0 + totalBets[`${choice}Live`] || 0;
             betItem.renderTotalBet(gc.FormatUtils.numberWithCommas(sum));
         });
+    }
+
+    get lostBetItems(): BetItem[] {
+        return this.betItemComponents.filter(
+            (item: BetItem) => !this.settlementResult?.[item.betChoice] && !this.settlementResult?.[`${item.betChoice}Live`]
+        );
+    }
+
+    get winBetItems(): BetItem[] {
+        return this.betItemComponents.filter(
+            (item: BetItem) => this.settlementResult?.[item.betChoice] || this.settlementResult?.[`${item.betChoice}Live`]
+        );
     }
 }

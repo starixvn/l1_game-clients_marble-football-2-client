@@ -192,6 +192,7 @@ export class ChipFlying extends ChipFlyingShared {
         });
 
         this.updateBetState(this.chipContainerFinal, this.betChoicesContainer.getBetItemsFinal());
+        this.betItems.updateSettlementResult(settlementResult);
 
         if (!this.node.activeInHierarchy) {
             this.actionPayChips(false);
