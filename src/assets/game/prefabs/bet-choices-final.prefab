@@ -14017,7 +14017,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "secondHalfDraw",
+    "_name": "draw",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -14156,7 +14156,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "secondHalfAway",
+    "_name": "away",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -14295,7 +14295,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "secondHalfEven",
+    "_name": "even",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -14434,7 +14434,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "secondHalfOdd",
+    "_name": "odd",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -14573,7 +14573,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "secondHalfHome",
+    "_name": "home",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -14712,7 +14712,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "secondHalfUnder",
+    "_name": "under",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -14851,7 +14851,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "secondHalfOver",
+    "_name": "over",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -15236,7 +15236,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "secondHalfDraw",
+    "_name": "draw",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -15499,7 +15499,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "secondHalfAway",
+    "_name": "away",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -15762,7 +15762,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "secondHalfEven",
+    "_name": "even",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -16025,7 +16025,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "secondHalfOdd",
+    "_name": "odd",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -16288,7 +16288,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "secondHalfHome",
+    "_name": "home",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -16551,7 +16551,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "secondHalfUnder",
+    "_name": "under",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -16814,7 +16814,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "secondHalfOver",
+    "_name": "over",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
