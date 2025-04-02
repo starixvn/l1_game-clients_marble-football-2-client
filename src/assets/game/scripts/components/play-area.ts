@@ -185,7 +185,7 @@ export class PlayArea extends ObserverComponent {
         }
 
         if (phase.id === PhaseId.Settlement) {
-            this.betChoicesContainer.setEnableBetChoicesFinal();
+            this.betChoicesContainer.setEnableBetChoices("final");
             if (phase.progress === 0) {
                 const duration = 0.2;
                 this.scheduleOnce(
@@ -225,7 +225,7 @@ export class PlayArea extends ObserverComponent {
         if (phase.id === PhaseId.Tournament) {
             const duration = 0.2;
             this.scheduleOnce(() => {
-                this.betChoicesContainer.setEnableBetChoicesPrev();
+                this.betChoicesContainer.setEnableBetChoices("prev");
                 this.fadeOutBetChoiceNode(this.containerBets, false, duration);
             }, this.ShowWinnerAndTournamentTimeOffset - duration);
             return;
@@ -235,7 +235,7 @@ export class PlayArea extends ObserverComponent {
         if (phase.id === PhaseId.Halftime) {
             const duration = 0.2;
             this.scheduleOnce(() => {
-                this.betChoicesContainer.setEnableBetChoicesLive();
+                this.betChoicesContainer.setEnableBetChoices("live");
                 this.fadeOutBetChoiceNode(this.containerBets, false, duration);
             }, this.ShowWinnerAndTournamentTimeOffset - duration);
             return;
@@ -309,7 +309,7 @@ export class PlayArea extends ObserverComponent {
             time < settings.points.placingBetPreMatch && time > settings.points.lockingBetPreMatch - settings.durations.lockingBet;
 
         if (isPlaceBetPreMatch && !this.isStaticPlayAreaIn) {
-            this.betChoicesContainer.setEnableBetChoicesPrev();
+            this.betChoicesContainer.setEnableBetChoices("prev");
             this.setStaticPlayArea("in", "prev");
             this.isStaticPlayAreaIn = true;
         }
@@ -318,7 +318,7 @@ export class PlayArea extends ObserverComponent {
             time < settings.points.placingBetLiveMatch && time > settings.points.lockingBetLiveMatch - settings.durations.lockingBet;
 
         if (isPlaceBetLive && !this.isStaticPlayAreaIn) {
-            this.betChoicesContainer.setEnableBetChoicesLive();
+            this.betChoicesContainer.setEnableBetChoices("live");
             this.setStaticPlayArea("in", "live");
             this.isStaticPlayAreaIn = true;
         }

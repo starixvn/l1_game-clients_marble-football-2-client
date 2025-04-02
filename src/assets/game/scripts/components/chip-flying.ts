@@ -165,9 +165,9 @@ export class ChipFlying extends ChipFlyingShared {
     @render(GamePhaseStore, (store) => store.exitPhase)
     renderExitPhase(phase: GamePhase) {
         if (phase?.id === PhaseId.Tournament) {
-            this.setBetItemsAndJoinState(this.betChoicesContainer.getBetItemsPrevMath());
+            this.updateBetState(this.chipContainerPrev, this.betChoicesContainer.getBetItemsPrevMath());
         } else if (phase?.id === PhaseId.Halftime) {
-            this.setBetItemsAndJoinState(this.betChoicesContainer.getBetItemsLive());
+            this.updateBetState(this.chipContainerLive, this.betChoicesContainer.getBetItemsLive());
         }
     }
 
@@ -193,17 +193,21 @@ export class ChipFlying extends ChipFlyingShared {
             return;
         }
 
-        if (this.isPlacingBetLiveMatch(roundTime)) {
+        if (this.isPlacingBetLive(roundTime)) {
             this.updateBetState(this.chipContainerLive, this.betChoicesContainer.getBetItemsLive());
             return;
         }
 
-        if (!this.isPlacingBet(roundTime)) {
+        if (this.isSettlement(roundTime)) {
             this.updateBetState(this.chipContainerFinal, this.betChoicesContainer.getBetItemsFinal());
         }
     }
 
     private updateBetState(container: any, betItems: any = []) {
+        this.chipContainers.forEach((chipContainer) => {
+            chipContainer.active = false;
+        });
+
         this.currentChipContainer = container;
         container.active = true;
         this.setBetItemsAndJoinState(betItems);
@@ -216,7 +220,7 @@ export class ChipFlying extends ChipFlyingShared {
         );
     }
 
-    isPlacingBetLiveMatch(roundTime: number) {
+    isPlacingBetLive(roundTime: number) {
         return (
             roundTime <= settings.points.placingBetLiveMatch &&
             roundTime > settings.points.lockingBetLiveMatch - settings.durations.lockingBet
@@ -228,6 +232,10 @@ export class ChipFlying extends ChipFlyingShared {
             (roundTime <= settings.points.placingBetPreMatch && roundTime > settings.points.lockingBetPreMatch) ||
             (roundTime <= settings.points.placingBetLiveMatch && roundTime > settings.points.lockingBetLiveMatch)
         );
+    }
+
+    isSettlement(roundTime: number) {
+        return roundTime <= settings.durations.wholeRound && roundTime < settings.durations.wholeRound - settings.durations.startRound;
     }
 
     @render(Chips.ChipStore, (store) => store.clearAllChips, { fireImmediately: false })

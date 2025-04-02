@@ -1,5 +1,5 @@
 import gc from "@sg/game-client-base";
-import { Node, _decorator } from "cc";
+import { EventTouch, Node, _decorator } from "cc";
 import { BetItems } from "db://shared-components/game/bets/scripts/components/bet-items";
 import { BetItemsPolygon } from "db://shared-components/game/bets/scripts/components/bet-items-polygon";
 import { ObserverComponent } from "db://shared-components/shared/common-components/observer-component/scripts/observer-component";
@@ -26,11 +26,14 @@ export class BetChoicesContainer extends ObserverComponent {
     showHideBetsButton: Node = null;
 
     protected statusBetsButton: StatusBetsButton = null;
+    protected betItemsPrev: BetItemsPolygon = null;
+    protected betItemsLive: BetItemsPolygon = null;
 
     onLoad(): void {
-        this.betChoicesPrev.active = false;
-        this.betChoicesLive.active = false;
-        this.betChoicesFinal.active = false;
+        this.betItemsPrev = this.betChoicesPrev.getComponent(BetItemsPolygon);
+        this.betItemsLive = this.betChoicesLive.getComponent(BetItemsPolygon);
+
+        [this.betChoicesPrev, this.betChoicesLive, this.betChoicesFinal].forEach((choice) => (choice.active = false));
         this.statusBetsButton = this.showHideBetsButton.getComponentInChildren(StatusBetsButton);
         super.onLoad();
     }
@@ -72,26 +75,19 @@ export class BetChoicesContainer extends ObserverComponent {
         bgDisable && (bgDisable.active = isDisabled);
     }
 
-    setEnableBetChoicesPrev() {
-        this.setFirstHalfDisabled(false);
-        this.betChoicesPrev.active = true;
-        this.betChoicesLive.active = false;
-        this.betChoicesFinal.active = false;
-        this.initTouchEvent(false);
-    }
+    setEnableBetChoices(state: "prev" | "live" | "final") {
+        const isLive = state === "live";
+        if (state !== "final") {
+            this.setFirstHalfDisabled(isLive);
+        }
 
-    setEnableBetChoicesLive() {
-        this.setFirstHalfDisabled(true);
-        this.betChoicesLive.active = true;
-        this.betChoicesPrev.active = false;
-        this.betChoicesFinal.active = false;
-        this.initTouchEvent(true);
-    }
+        this.betChoicesPrev.active = state === "prev";
+        this.betChoicesLive.active = state === "live";
+        this.betChoicesFinal.active = state === "final";
 
-    setEnableBetChoicesFinal() {
-        this.betChoicesFinal.active = true;
-        this.betChoicesPrev.active = false;
-        this.betChoicesLive.active = false;
+        if (state !== "final") {
+            this.initTouchEvent(isLive);
+        }
     }
 
     @handle(gc.Audios.AudioHandler, (handle) => handle.playSFX(gc.Audios.AudioIds.CLICK))
@@ -112,14 +108,36 @@ export class BetChoicesContainer extends ObserverComponent {
     }
 
     initTouchEvent(isLive: boolean) {
-        const betItemsPrev = this.betChoicesPrev.getComponent(BetItemsPolygon);
-        const betItemsLive = this.betChoicesLive.getComponent(BetItemsPolygon);
         if (isLive) {
-            betItemsLive.node.on(Node.EventType.TOUCH_END, betItemsLive.handleBetItemClick, betItemsLive);
-            betItemsPrev.node.off(Node.EventType.TOUCH_END, betItemsPrev.handleBetItemClick, betItemsPrev);
+            this.betItemsLive.node.on(
+                Node.EventType.TOUCH_END,
+                (event: EventTouch) => {
+                    this.betItemsLive.handleBetItemClick(event);
+                },
+                this.betItemsLive
+            );
+            this.betItemsPrev.node.off(
+                Node.EventType.TOUCH_END,
+                (event: EventTouch) => {
+                    this.betItemsPrev.handleBetItemClick(event);
+                },
+                this.betItemsPrev
+            );
         } else {
-            betItemsPrev.node.on(Node.EventType.TOUCH_END, betItemsPrev.handleBetItemClick, betItemsPrev);
-            betItemsLive.node.off(Node.EventType.TOUCH_END, betItemsLive.handleBetItemClick, betItemsLive);
+            this.betItemsPrev.node.on(
+                Node.EventType.TOUCH_END,
+                (event: EventTouch) => {
+                    this.betItemsPrev.handleBetItemClick(event);
+                },
+                this.betItemsPrev
+            );
+            this.betItemsLive.node.off(
+                Node.EventType.TOUCH_END,
+                (event: EventTouch) => {
+                    this.betItemsLive.handleBetItemClick(event);
+                },
+                this.betItemsLive
+            );
         }
     }
 }
