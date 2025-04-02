@@ -1,11 +1,11 @@
 import { _decorator } from "cc";
-import { BetItems as BetItemsBase } from "db://shared-components/game/bets/scripts/components/bet-items";
+import { BetItemsPolygon as BetItemsPolygonBase } from "db://shared-components/game/bets/scripts/components/bet-items-polygon";
 import { OddsWithConfig } from "../../features/dynamic-odds/odds-store";
 
 const { ccclass } = _decorator;
 
-@ccclass("BetItems")
-export class BetItems extends BetItemsBase {
+@ccclass
+export class BetItemsPolygon extends BetItemsPolygonBase {
     renderOdds(oddsWithConfig: OddsWithConfig) {
         const { odds, fractional } = oddsWithConfig;
         console.log("odds", odds);

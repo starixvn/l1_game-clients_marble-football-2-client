@@ -5,6 +5,7 @@ import { ObserverComponent } from "db://shared-components/shared/common-componen
 import Observer from "observer";
 import { HelperBetChoices } from "../../helper-betchoices";
 import { StatusBetsButton } from "./status-bets-button";
+import { BetItemsPolygon } from "./bet-items";
 const { ccclass, property } = _decorator;
 
 const { Rounds } = gc;
@@ -13,10 +14,10 @@ const { render, handle } = Observer;
 @ccclass
 export class BetChoicesContainer extends ObserverComponent {
     @property(Node)
-    firstHalfBetChoices: Node = null;
+    betChoicesPrev: Node = null;
 
     @property(Node)
-    secondHalfBetChoices: Node = null;
+    betChoicesLLive: Node = null;
 
     @property(Node)
     showHideBetsButton: Node = null;
@@ -24,8 +25,8 @@ export class BetChoicesContainer extends ObserverComponent {
     protected statusBetsButton: StatusBetsButton = null;
 
     onLoad(): void {
-        this.firstHalfBetChoices.active = false;
-        this.secondHalfBetChoices.active = false;
+        this.betChoicesPrev.active = false;
+        this.betChoicesLLive.active = false;
         this.statusBetsButton = this.showHideBetsButton.getComponentInChildren(StatusBetsButton);
         super.onLoad();
     }
@@ -41,30 +42,44 @@ export class BetChoicesContainer extends ObserverComponent {
     }
 
     private toggleChoices(): void {
-        const isFirstActive = this.firstHalfBetChoices.active;
+        const isFirstActive = this.betChoicesPrev.active;
         this.setActiveState(!isFirstActive);
     }
 
     private setActiveState(isFirstActive: boolean): void {
-        this.firstHalfBetChoices.active = isFirstActive;
-        this.secondHalfBetChoices.active = !isFirstActive;
+        this.betChoicesPrev.active = isFirstActive;
+        this.betChoicesLLive.active = !isFirstActive;
+
+        // Get BetItemsPolygon component and bind touch event
+        const activeNode = isFirstActive ? this.betChoicesPrev : this.betChoicesLLive;
+        const betItemsPolygon = activeNode.getComponent(BetItemsPolygon);
+        if (betItemsPolygon) {
+            betItemsPolygon.node.on(Node.EventType.TOUCH_END, betItemsPolygon.handleBetItemClick, betItemsPolygon);
+        }
+    }
+
+    private handleBetItemClick(event: any): void {
+        // Handle bet item click event
+        console.log("Bet item clicked");
     }
 
     setFirstHalfDisabled(isDisabled: boolean) {
-        const bgDisable = this.firstHalfBetChoices.getComponent(HelperBetChoices)?.bgDisable;
+        const bgDisable = this.betChoicesPrev.getComponent(HelperBetChoices)?.bgDisable;
         bgDisable && (bgDisable.active = isDisabled);
     }
 
-    setEnableFirstHalfBets() {
+    setEnableBetChoicesPrev() {
         this.setFirstHalfDisabled(false);
-        this.firstHalfBetChoices.active = true;
-        this.secondHalfBetChoices.active = false;
+        this.betChoicesPrev.active = true;
+        this.betChoicesLLive.active = false;
+        this.initTouchEvent(false);
     }
 
     setEnableAllBets() {
         this.setFirstHalfDisabled(true);
-        this.firstHalfBetChoices.active = false;
-        this.secondHalfBetChoices.active = true;
+        this.betChoicesPrev.active = false;
+        this.betChoicesLLive.active = true;
+        this.initTouchEvent(true);
     }
 
     @handle(gc.Audios.AudioHandler, (handle) => handle.playSFX(gc.Audios.AudioIds.CLICK))
@@ -73,10 +88,22 @@ export class BetChoicesContainer extends ObserverComponent {
     }
 
     getBetItemsPrevMath() {
-        return this.firstHalfBetChoices.getComponent(BetItems);
+        return this.betChoicesPrev.getComponent(BetItems);
     }
 
     getBetItemsLive() {
-        return this.secondHalfBetChoices.getComponent(BetItems);
+        return this.betChoicesLLive.getComponent(BetItems);
+    }
+
+    initTouchEvent(isLive: boolean) {
+        const betItemsPrev = this.betChoicesPrev.getComponent(BetItemsPolygon);
+        const betItemsLive = this.betChoicesLLive.getComponent(BetItemsPolygon);
+        if (isLive) {
+            betItemsLive.node.on(Node.EventType.TOUCH_END, betItemsLive.handleBetItemClick, betItemsLive);
+            betItemsPrev.node.off(Node.EventType.TOUCH_END, betItemsPrev.handleBetItemClick, betItemsPrev);
+        } else {
+            betItemsPrev.node.on(Node.EventType.TOUCH_END, betItemsPrev.handleBetItemClick, betItemsPrev);
+            betItemsLive.node.off(Node.EventType.TOUCH_END, betItemsLive.handleBetItemClick, betItemsLive);
+        }
     }
 }

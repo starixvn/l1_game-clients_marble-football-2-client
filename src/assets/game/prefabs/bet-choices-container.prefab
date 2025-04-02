@@ -200,7 +200,7 @@
     "propertyPath": [
       "_name"
     ],
-    "value": "bet-choices"
+    "value": "bet-choices-prev"
   },
   {
     "__type__": "cc.TargetInfo",
@@ -19857,7 +19857,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 1398,
-      "height": 786
+      "height": 786.0000000000001
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -19918,10 +19918,10 @@
     "__prefab": {
       "__id__": 874
     },
-    "firstHalfBetChoices": {
+    "betChoicesPrev": {
       "__id__": 3
     },
-    "secondHalfBetChoices": {
+    "betChoicesLLive": {
       "__id__": 822
     },
     "showHideBetsButton": {

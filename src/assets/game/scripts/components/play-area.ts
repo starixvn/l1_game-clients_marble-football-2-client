@@ -88,7 +88,7 @@ export class PlayArea extends ObserverComponent {
     protected containerBets: Node = null;
 
     onLoad() {
-        this.containerBets = this.betChoicesContainer.firstHalfBetChoices.parent;
+        this.containerBets = this.betChoicesContainer.betChoicesPrev.parent;
         this.mainPlayAreaTargets = [
             { target: this.containerBets, key: "betChoiceZoomInOut" },
             { target: this.containerBets, key: "betChoiceZoomInOut" },
@@ -211,7 +211,7 @@ export class PlayArea extends ObserverComponent {
             const duration = 0.2;
             this.scheduleOnce(() => {
                 // this.betChoicesContainer.setNavigationButtonState(false);
-                this.betChoicesContainer.setEnableFirstHalfBets();
+                this.betChoicesContainer.setEnableBetChoicesPrev();
                 this.fadeOutBetChoiceNode(this.containerBets, false, duration);
             }, this.ShowWinnerAndTournamentTimeOffset - duration);
             return;
