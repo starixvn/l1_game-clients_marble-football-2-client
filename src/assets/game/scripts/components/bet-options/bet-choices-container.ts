@@ -5,7 +5,7 @@ import { ObserverComponent } from "db://shared-components/shared/common-componen
 import Observer from "observer";
 import { HelperBetChoices } from "../../helper-betchoices";
 import { StatusBetsButton } from "./status-bets-button";
-import { BetItemsPolygon } from "./bet-items";
+import { BetItemsPolygon } from "db://shared-components/game/bets/scripts/components/bet-items-polygon";
 const { ccclass, property } = _decorator;
 
 const { Rounds } = gc;
