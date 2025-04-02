@@ -12,7 +12,6 @@ export type OddsWithConfig = {
 
 @injectable()
 export class OddsStore {
-    @inject(gc.Rounds.RoundStore) private roundStore: gc.Rounds.RoundStore;
     constructor() {
         mobx.makeAutoObservable(this);
     }
@@ -20,28 +19,15 @@ export class OddsStore {
     private _odds = {};
 
     get odds() {
-        const odds = this.roundStore.roundOdds?.odds || {};
-        return {
-            ...odds,
-            ...this._odds,
-        };
+        return this._odds;
     }
 
     get oddsWithConfig(): OddsWithConfig {
-        const odds = this.roundStore.roundOdds?.odds || {};
-        const newOdds: Record<string, number> = {
-            ...odds,
-            ...this._odds,
-        };
-
-        const deltaOdds = this.deltaForAllBetOptions(newOdds);
+        const deltaOdds = this.deltaForAllBetOptions(this._odds);
 
         return {
-            odds: {
-                ...odds,
-                ...this._odds,
-            },
-            fractional: this.roundStore.roundOdds?.fractional || false,
+            odds: this._odds,
+            fractional: false,
             deltaOdds,
         };
     }
