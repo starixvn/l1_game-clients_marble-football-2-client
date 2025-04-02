@@ -92,7 +92,7 @@ export class PlayArea extends ObserverComponent {
         this.mainPlayAreaTargets = [
             { target: this.containerBets, key: "betChoiceZoomInOut" },
             { target: this.containerBets, key: "betChoiceZoomInOut" },
-            { target: this.chipContainer, key: "chipContainerZoomInOut" },
+            // { target: this.chipContainer, key: "chipContainerZoomInOut" },
             { target: this.chips, key: "chipsFlyDown" },
         ];
 

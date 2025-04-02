@@ -1,16 +1,15 @@
-import { _decorator, Component, Node, tween } from "cc";
 import gc from "@sg/game-client-base";
+import { _decorator, Node, tween } from "cc";
+import { AroundTablePlayerUtils } from "db://shared-components/game/around-table-player/scripts/utils";
+import { TBalanceEffect, TWinningEffect } from "db://shared-components/game/balance-effect/scripts/stores/balance-effect-store";
+import { BetItems } from "db://shared-components/game/bets/scripts/components/bet-items";
 import { ActionChipFlying } from "db://shared-components/game/chip-flying/scripts/components/actions";
 import { ChipFlying as ChipFlyingShared, IChipFlyingInfo } from "db://shared-components/game/chip-flying/scripts/components/chip-flying";
 import Observer from "observer";
-import { TBalanceEffect, TWinningEffect } from "db://shared-components/game/balance-effect/scripts/stores/balance-effect-store";
-import { AroundTablePlayerUtils } from "db://shared-components/game/around-table-player/scripts/utils";
-import { BetChoicesContainer } from "./bet-options/bet-choices-container";
-import BetItemCustomize from "./bet-options/bet-item-customize";
-import { GamePhaseStore } from "../features/game-phase/game-phase-store";
 import { GamePhase, PhaseId } from "../features/game-phase/game-phase-definitions";
-import { BetItems } from "db://shared-components/game/bets/scripts/components/bet-items";
+import { GamePhaseStore } from "../features/game-phase/game-phase-store";
 import { settings } from "../game-settings";
+import { BetChoicesContainer } from "./bet-options/bet-choices-container";
 
 const { ccclass, property } = _decorator;
 const { handle, render } = Observer;
@@ -25,6 +24,15 @@ const CHIP_SOUND_ID = {
 export class ChipFlying extends ChipFlyingShared {
     @property(BetChoicesContainer)
     private betChoicesContainer: BetChoicesContainer = null;
+
+    @property(Node)
+    chipContainerPrev: Node = null;
+
+    @property(Node)
+    chipContainerLive: Node = null;
+
+    @property(Node)
+    chipContainerFinal: Node = null;
 
     isJoinGame = false;
 
@@ -161,18 +169,48 @@ export class ChipFlying extends ChipFlyingShared {
             return;
         }
 
+        const chipContainers = [this.chipContainerPrev, this.chipContainerLive, this.chipContainerFinal];
+        chipContainers.forEach((container) => (container.active = false));
+
         if (this.isPlacingBetPreMatch(roundTime)) {
-            this.setBetItemsAndJoinState(this.betChoicesContainer.getBetItemsPrevMath());
+            this.updateBetState(this.chipContainerPrev, this.betChoicesContainer.getBetItemsPrevMath());
             return;
         }
 
-        this.setBetItemsAndJoinState(this.betChoicesContainer.getBetItemsLive());
+        if (this.isPlacingBetLiveMatch(roundTime)) {
+            this.updateBetState(this.chipContainerLive, this.betChoicesContainer.getBetItemsLive());
+            return;
+        }
+
+        if (!this.isPlacingBet(roundTime)) {
+            this.updateBetState(this.chipContainerFinal, this.betChoicesContainer.getBetItemsLive());
+        }
+    }
+
+    private updateBetState(container: any, betItems: any = []) {
+        this.currentChipContainer = container;
+        container.active = true;
+        this.setBetItemsAndJoinState(betItems);
     }
 
     isPlacingBetPreMatch(roundTime: number) {
         return (
             roundTime <= settings.points.placingBetPreMatch &&
             roundTime > settings.points.lockingBetPreMatch - settings.durations.lockingBet
+        );
+    }
+
+    isPlacingBetLiveMatch(roundTime: number) {
+        return (
+            roundTime <= settings.points.placingBetLiveMatch &&
+            roundTime > settings.points.lockingBetLiveMatch - settings.durations.lockingBet
+        );
+    }
+
+    isPlacingBet(roundTime: number) {
+        return (
+            (roundTime <= settings.points.placingBetPreMatch && roundTime > settings.points.lockingBetPreMatch) ||
+            (roundTime <= settings.points.placingBetLiveMatch && roundTime > settings.points.lockingBetLiveMatch)
         );
     }
 }
