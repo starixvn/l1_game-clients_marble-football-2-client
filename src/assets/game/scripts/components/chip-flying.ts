@@ -21,6 +21,8 @@ const CHIP_SOUND_ID = {
     PAY_CHIPS: "pay-chips",
 };
 
+const PHASE_GATHER_CHIP = "show-live-score";
+
 @ccclass("ChipFlying")
 export class ChipFlying extends ChipFlyingShared {
     @property(BetChoicesContainer)
@@ -171,6 +173,40 @@ export class ChipFlying extends ChipFlyingShared {
         }
     }
 
+    moveChipsToFinalContainer(chipContainer: Node) {
+        const children = [...chipContainer.children];
+        for (const child of children) {
+            this.chipContainerFinal.addChild(child);
+            chipContainer.removeChild(child);
+        }
+    }
+
+    @render(gc.Settlements.SettlementStore, (store) => store.settlementResult, { fireImmediately: false })
+    payChipsWhenReceivingSettlementResult(settlementResult: gc.GameServiceMessage.TSettlementResult) {
+        if (!this || !settlementResult || !this.enablePlaceChips || !this.node) {
+            return;
+        }
+
+        [this.chipContainerPrev, this.chipContainerLive].forEach((chipContainer) => {
+            this.moveChipsToFinalContainer(chipContainer);
+        });
+
+        this.updateBetState(this.chipContainerFinal, this.betChoicesContainer.getBetItemsFinal());
+
+        if (!this.node.activeInHierarchy) {
+            this.actionPayChips(false);
+        } else {
+            this.startShowResultAnimation = true;
+
+            if (this.usingDelayPayChips) {
+                tween(this.node)
+                    .delay(this.delayAnimPayChips)
+                    .call(() => this.actionPayChips(true))
+                    .start();
+            }
+        }
+    }
+
     @render(GamePhaseStore, (store) => store.enterPhase)
     renderEnterPhase(phase: GamePhase) {
         if (!phase) {
@@ -178,7 +214,7 @@ export class ChipFlying extends ChipFlyingShared {
         }
 
         if (phase.id === PhaseId.Settlement) {
-            this.updateBetState(this.chipContainerFinal, this.betChoicesContainer.getBetItemsFinal());
+            //this.updateBetState(this.chipContainerFinal, this.betChoicesContainer.getBetItemsFinal());
         }
     }
 

@@ -6,12 +6,6 @@ const { ccclass } = _decorator;
 const { render } = Observer;
 const { Rounds } = gc;
 
-const BET_STAGE = ["firstHalf", "secondHalf"];
-
-type TContainerStatics = {
-    [groupId: number]: Node[];
-};
-
 @ccclass("FinalBetItems")
 export class FinalBetItems extends BetItemsPolygonBase {
     @render(Rounds.RoundStore, (store) => store.ownBets, { fireImmediately: false })
