@@ -59,6 +59,10 @@ export class ChipFlying extends ChipFlyingShared {
                 if (this.betItems?.lostBetItems?.length > 0) {
                     this.handlePlaySound(CHIP_SOUND_ID.GATHER_CHIPS);
                 }
+                console.log(
+                    "dealerGetChips lose",
+                    this.betItems?.lostBetItems.map((item) => item.betChoice)
+                );
                 ActionChipFlying.dealerGetChips(this.dealerChipBox, this.betItems?.lostBetItems, this);
             })
             .delay(this.chipDelayFlyingTime)
@@ -66,6 +70,10 @@ export class ChipFlying extends ChipFlyingShared {
                 if (this.betItems?.winBetItems?.length > 0) {
                     this.handlePlaySound(CHIP_SOUND_ID.DIVIDE_CHIPS);
                 }
+                console.log(
+                    "dealerPayChips win",
+                    this.betItems?.winBetItems.map((item) => item.betChoice)
+                );
                 ActionChipFlying.dealerPayChips(this.dealerChipBox, this.betItems?.winBetItems, this);
             })
             .delay(this.chipDelayFlyingTime)
@@ -73,6 +81,12 @@ export class ChipFlying extends ChipFlyingShared {
                 this.payChipToAllPlayersNew();
             })
             .start();
+    }
+
+    getChipsByChoice(choice: string): Node[] {
+        const pre = this.chipStorage[choice] ?? [];
+        const live = this.chipStorage[`${choice}Live`] ?? [];
+        return [...pre, ...live];
     }
 
     payChipToAllPlayersNew() {
@@ -191,7 +205,6 @@ export class ChipFlying extends ChipFlyingShared {
             this.moveChipsToFinalContainer(chipContainer);
         });
 
-        this.updateBetState(this.chipContainerFinal, this.betChoicesContainer.getBetItemsFinal());
         this.betItems.updateSettlementResult(settlementResult);
 
         if (!this.node.activeInHierarchy) {
@@ -215,7 +228,7 @@ export class ChipFlying extends ChipFlyingShared {
         }
 
         if (phase.id === PhaseId.Settlement) {
-            //this.updateBetState(this.chipContainerFinal, this.betChoicesContainer.getBetItemsFinal());
+            this.updateBetState(this.chipContainerFinal, this.betChoicesContainer.getBetItemsFinal());
         }
     }
 
