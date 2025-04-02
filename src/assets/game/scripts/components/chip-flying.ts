@@ -8,7 +8,6 @@ import { ChipFlying as ChipFlyingShared, IChipFlyingInfo } from "db://shared-com
 import Observer from "observer";
 import { GamePhase, PhaseId } from "../features/game-phase/game-phase-definitions";
 import { GamePhaseStore } from "../features/game-phase/game-phase-store";
-import { settings } from "../game-settings";
 import { BetChoicesContainer } from "./bet-options/bet-choices-container";
 
 const { ccclass, property } = _decorator;
@@ -167,15 +166,6 @@ export class ChipFlying extends ChipFlyingShared {
         if (betItems) {
             this.betItems = betItems;
             this.isJoinGame = true;
-        }
-    }
-
-    @render(GamePhaseStore, (store) => store.exitPhase)
-    renderExitPhase(phase: GamePhase) {
-        if (phase?.id === PhaseId.Tournament) {
-            this.updateBetState(this.chipContainerPrev, this.betChoicesContainer.getBetItemsPrevMath());
-        } else if (phase?.id === PhaseId.Halftime) {
-            this.updateBetState(this.chipContainerLive, this.betChoicesContainer.getBetItemsLive());
         }
     }
 
