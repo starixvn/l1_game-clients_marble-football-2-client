@@ -28,6 +28,22 @@ export class BetItemsFinal extends BetItemsPolygonBase {
         });
     }
 
+    @render(Rounds.RoundStore, (store) => store.highLightAnim, { fireImmediately: false })
+    handleHighlightAnim(highLightInfo: gc.Rounds.THighlightAnim) {
+        const { settlementResult, isAnim } = highLightInfo;
+        if (highLightInfo?.settlementResult) {
+            this.betItemComponents.forEach((betItem) => {
+                const choice = betItem.node.name;
+                const winPre = this.isWinning(+settlementResult?.[choice]);
+                const winLive = this.isWinning(+settlementResult?.[`${choice}Live`]);
+                const win = winPre || winLive;
+                betItem.handleHighlightAnim(win && isAnim);
+            });
+        } else {
+            this.clearHighlightAnim();
+        }
+    }
+
     get lostBetItems(): BetItem[] {
         return this.betItemComponents.filter(
             (item: BetItem) => !this.settlementResult?.[item.betChoice] && !this.settlementResult?.[`${item.betChoice}Live`]

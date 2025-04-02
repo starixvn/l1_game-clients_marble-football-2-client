@@ -20,8 +20,6 @@ const CHIP_SOUND_ID = {
     PAY_CHIPS: "pay-chips",
 };
 
-const PHASE_GATHER_CHIP = "show-live-score";
-
 @ccclass("ChipFlying")
 export class ChipFlying extends ChipFlyingShared {
     @property(BetChoicesContainer)
