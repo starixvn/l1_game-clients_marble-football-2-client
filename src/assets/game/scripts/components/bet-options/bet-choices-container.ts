@@ -84,10 +84,6 @@ export class BetChoicesContainer extends ObserverComponent {
         this.betChoicesPrev.active = state === "prev";
         this.betChoicesLive.active = state === "live";
         this.betChoicesFinal.active = state === "final";
-
-        if (state !== "final") {
-            this.initTouchEvent(isLive);
-        }
     }
 
     @handle(gc.Audios.AudioHandler, (handle) => handle.playSFX(gc.Audios.AudioIds.CLICK))
@@ -105,39 +101,5 @@ export class BetChoicesContainer extends ObserverComponent {
 
     getBetItemsFinal() {
         return this.betChoicesFinal.getComponent(BetItems);
-    }
-
-    initTouchEvent(isLive: boolean) {
-        if (isLive) {
-            this.betItemsLive.node.on(
-                Node.EventType.TOUCH_END,
-                (event: EventTouch) => {
-                    this.betItemsLive.handleBetItemClick(event);
-                },
-                this.betItemsLive
-            );
-            this.betItemsPrev.node.off(
-                Node.EventType.TOUCH_END,
-                (event: EventTouch) => {
-                    this.betItemsPrev.handleBetItemClick(event);
-                },
-                this.betItemsPrev
-            );
-        } else {
-            this.betItemsPrev.node.on(
-                Node.EventType.TOUCH_END,
-                (event: EventTouch) => {
-                    this.betItemsPrev.handleBetItemClick(event);
-                },
-                this.betItemsPrev
-            );
-            this.betItemsLive.node.off(
-                Node.EventType.TOUCH_END,
-                (event: EventTouch) => {
-                    this.betItemsLive.handleBetItemClick(event);
-                },
-                this.betItemsLive
-            );
-        }
     }
 }
