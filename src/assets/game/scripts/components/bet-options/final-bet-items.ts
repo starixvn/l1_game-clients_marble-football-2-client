@@ -4,7 +4,7 @@ import Observer from "observer";
 import { FinalBetItem } from "./final-bet-item";
 import { StaticGroupId } from "db://shared-components/shared/common-components/static-node/scripts/static-node-info";
 import { StaticNode } from "db://shared-components/shared/common-components/static-node/scripts/static-node";
-import { BetItems as BetItemsBase } from "db://shared-components/game/bets/scripts/components/bet-items";
+import { BetItemsPolygon as BetItemsPolygonBase } from "db://shared-components/game/bets/scripts/components/bet-items-polygon";
 const { ccclass, property } = _decorator;
 const { render } = Observer;
 const { Rounds } = gc;
@@ -16,7 +16,7 @@ type TContainerStatics = {
 };
 
 @ccclass("FinalBetItems")
-export class FinalBetItems extends BetItemsBase {
+export class FinalBetItems extends BetItemsPolygonBase {
     @render(Rounds.RoundStore, (store) => store.ownBets, { fireImmediately: false })
     renderOwnBets(ownBets: gc.GameServiceMessage.OwnBets) {
         this.betItemComponents.forEach((betItem) => {
