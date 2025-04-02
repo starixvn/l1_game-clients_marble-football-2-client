@@ -17,7 +17,7 @@ import { ChipFlying } from "./chip-flying";
 import { MatchResult } from "./match-result";
 import { NetworkStatus, SystemIndicator } from "./system-indicator";
 
-startGame(settings.name, containerOptions, siteConfigs);
+startGame(settings.name, containerOptions, siteConfigs, settings.namespaces);
 
 const { ccclass, property } = _decorator;
 const { observer, render, handle } = Observer;
