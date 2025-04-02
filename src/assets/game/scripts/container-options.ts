@@ -12,5 +12,6 @@ export const containerOptions: gc.IContainerOptions = {
         container.bind(LogStore).to(LogStore);
         container.bind(gc.Rounds.RoundTimeStore).to(MarbleRoundTimeStore as any);
     },
+    disabledFeatures: ["odds"],
     features: [MarbleFootball, gc.BetDetailsNew, ...gc.defaultFeatures],
 };

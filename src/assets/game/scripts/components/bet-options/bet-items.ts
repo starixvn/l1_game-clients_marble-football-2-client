@@ -11,7 +11,6 @@ export class BetItems extends BetItemsPolygonBase {
     @render(OddsStore, (store) => store.oddsWithConfig)
     renderOdds(oddsWithConfig: OddsWithConfig) {
         const { odds, fractional } = oddsWithConfig;
-        console.log("odds", odds);
         Object.keys(odds || {}).forEach((choice) => {
             const betItem = this.filterBetItem(choice);
             betItem?.renderOdd(odds[choice], fractional);
