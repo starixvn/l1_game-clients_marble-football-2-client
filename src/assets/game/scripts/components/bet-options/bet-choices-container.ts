@@ -28,10 +28,12 @@ export class BetChoicesContainer extends ObserverComponent {
     protected statusBetsButton: StatusBetsButton = null;
     protected betItemsPrev: BetItemsPolygon = null;
     protected betItemsLive: BetItemsPolygon = null;
+    protected betChoicesInMatch = [];
 
     onLoad(): void {
         this.betItemsPrev = this.betChoicesPrev.getComponent(BetItemsPolygon);
         this.betItemsLive = this.betChoicesLive.getComponent(BetItemsPolygon);
+        this.betChoicesInMatch = [this.betItemsPrev, this.betItemsLive];
 
         [this.betChoicesPrev, this.betChoicesLive, this.betChoicesFinal].forEach((choice) => (choice.active = false));
         this.statusBetsButton = this.showHideBetsButton.getComponentInChildren(StatusBetsButton);
@@ -84,6 +86,12 @@ export class BetChoicesContainer extends ObserverComponent {
         this.betChoicesPrev.active = state === "prev";
         this.betChoicesLive.active = state === "live";
         this.betChoicesFinal.active = state === "final";
+    }
+
+    setDisableBetChoicesInMatch() {
+        this.betChoicesInMatch.forEach((node) => {
+            node && (node.active = false);
+        });
     }
 
     @handle(gc.Audios.AudioHandler, (handle) => handle.playSFX(gc.Audios.AudioIds.CLICK))

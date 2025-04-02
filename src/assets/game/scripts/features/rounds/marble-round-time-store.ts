@@ -134,6 +134,10 @@ export class MarbleRoundTimeStore {
         return this.roundTime === this.lockingBetLiveMatch;
     }
 
+    get isStartLocking() {
+        return this.isStartLockingPreMatch || this.isStartLockingLiveMatch;
+    }
+
     get isPlacingBet() {
         return (
             (this.roundTime <= this.placingBetPreMatch && this.roundTime > this.lockingBetPreMatch) ||
@@ -182,11 +186,15 @@ export class MarbleRoundTimeStore {
     }
 
     get isShowStartBetMessageLiveMatch() {
-        return this.roundTime <= this.placingBetLiveMatch + this.durationShowPromptMessage && this.roundTime > this.placingBetLiveMatch;
+        return this.roundTime < this.placingBetLiveMatch + this.durationShowPromptMessage && this.roundTime > this.placingBetLiveMatch;
     }
 
     get isShowStartBetMessagePreMatch() {
-        return this.roundTime <= this.placingBetPreMatch + this.durationShowPromptMessage && this.roundTime > this.placingBetPreMatch;
+        return this.roundTime < this.placingBetPreMatch + this.durationShowPromptMessage && this.roundTime > this.placingBetPreMatch;
+    }
+
+    get isShowStartBetMessage() {
+        return this.isShowStartBetMessageLiveMatch || this.isShowStartBetMessagePreMatch;
     }
 
     resetRoundTime() {

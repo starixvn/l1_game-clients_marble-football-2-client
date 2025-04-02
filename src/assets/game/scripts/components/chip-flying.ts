@@ -219,65 +219,32 @@ export class ChipFlying extends ChipFlyingShared {
             return;
         }
 
-        if (phase.id === PhaseId.Settlement) {
-            this.updateBetState(this.chipContainerFinal, this.betChoicesContainer.getBetItemsFinal());
-        }
-    }
-
-    @render(gc.Rounds.RoundTimeStore, (store) => store.roundTime)
-    async setCurrentBetItems(roundTime: number) {
-        if (this.isJoinGame || roundTime < 0) {
+        if (phase.id === PhaseId.ShowIntroVideo || phase.id === PhaseId.ShowLiveVideo) {
+            this.inActiveAllChipContainers();
             return;
         }
 
-        if (this.isPlacingBetPreMatch(roundTime)) {
+        if (phase.id === PhaseId.Settlement) {
+            this.updateBetState(this.chipContainerFinal, this.betChoicesContainer.getBetItemsFinal());
+            return;
+        }
+
+        if (phase.id === PhaseId.ShowBetChoicesPrev) {
             this.updateBetState(this.chipContainerPrev, this.betChoicesContainer.getBetItemsPrevMath());
             return;
         }
 
-        if (this.isPlacingBetLive(roundTime)) {
+        if (phase.id === PhaseId.ShowBetChoicesLive) {
             this.updateBetState(this.chipContainerLive, this.betChoicesContainer.getBetItemsLive());
             return;
-        }
-
-        if (this.isSettlement(roundTime)) {
-            this.updateBetState(this.chipContainerFinal, this.betChoicesContainer.getBetItemsFinal());
         }
     }
 
     private updateBetState(container: any, betItems: any = []) {
-        this.chipContainers.forEach((chipContainer) => {
-            chipContainer.active = false;
-        });
-
+        this.inActiveAllChipContainers();
         this.currentChipContainer = container;
         container.active = true;
         this.setBetItemsAndJoinState(betItems);
-    }
-
-    isPlacingBetPreMatch(roundTime: number) {
-        return (
-            roundTime <= settings.points.placingBetPreMatch &&
-            roundTime > settings.points.lockingBetPreMatch - settings.durations.lockingBet
-        );
-    }
-
-    isPlacingBetLive(roundTime: number) {
-        return (
-            roundTime <= settings.points.placingBetLiveMatch &&
-            roundTime > settings.points.lockingBetLiveMatch - settings.durations.lockingBet
-        );
-    }
-
-    isPlacingBet(roundTime: number) {
-        return (
-            (roundTime <= settings.points.placingBetPreMatch && roundTime > settings.points.lockingBetPreMatch) ||
-            (roundTime <= settings.points.placingBetLiveMatch && roundTime > settings.points.lockingBetLiveMatch)
-        );
-    }
-
-    isSettlement(roundTime: number) {
-        return roundTime <= settings.durations.wholeRound && roundTime < settings.durations.wholeRound - settings.durations.startRound;
     }
 
     @render(Chips.ChipStore, (store) => store.clearAllChips, { fireImmediately: false })
@@ -285,6 +252,12 @@ export class ChipFlying extends ChipFlyingShared {
         this.chipStorage = {};
         this.chipContainers.forEach((container) => {
             container.destroyAllChildren();
+        });
+    }
+
+    protected inActiveAllChipContainers() {
+        this.chipContainers?.forEach((container) => {
+            container && (container.active = false);
         });
     }
 }

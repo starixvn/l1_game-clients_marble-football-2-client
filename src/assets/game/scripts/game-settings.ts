@@ -16,6 +16,7 @@ export const settings = {
         matchWinner: 3,
         outro: 0.67,
         showHaftTime: 3,
+        introVideo: 3,
     },
     points: {
         placingBetPreMatch: 110,
@@ -25,6 +26,7 @@ export const settings = {
         introVideo: 90,
         streamingFirstHalfVideo: 87,
         streamingSecondHalfVideo: 32,
+        timeUp: 2,
     },
     numberOfRoundHistory: 100,
     durationShowPromptMessage: 1,

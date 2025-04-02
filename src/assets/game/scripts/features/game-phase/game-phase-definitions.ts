@@ -18,6 +18,10 @@ export enum PhaseId {
     Tournament = "tournament",
     Halftime = "halftime",
     Settlement = "settlement",
+    ShowIntroVideo = "show-intro-video",
+    ShowLiveVideo = "show-live-video",
+    ShowBetChoicesLive = "show-bet-choices-live",
+    ShowBetChoicesPrev = "show-bet-choices-prev",
 }
 
 export const TimePointTournament = settings.points.placingBetPreMatch + settings.durations.tournament;

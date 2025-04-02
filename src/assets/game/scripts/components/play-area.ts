@@ -32,14 +32,6 @@ interface TweenConfigs {
 
 @ccclass("PlayArea")
 export class PlayArea extends ObserverComponent {
-    private isZoomOut: boolean = false;
-    private isScoreBoardOut: boolean = false;
-    private isStaticPlayAreaIn: boolean = false;
-
-    private mainPlayAreaTargetsPrev: Array<{ target: Node; key: TweenKey }>;
-    private mainPlayAreaTargetsLive: Array<{ target: Node; key: TweenKey }>;
-    private mainPlayAreaTargetsFinal: Array<{ target: Node; key: TweenKey }>;
-
     @property(Node)
     private chipContainerPrev: Node = null;
 
@@ -64,14 +56,18 @@ export class PlayArea extends ObserverComponent {
     @property([Node])
     private disappearingNodes: Node[] = [];
 
+    private isZoomOut: boolean = false;
+    private mainPlayAreaTargetsPrev: Array<{ target: Node; key: TweenKey }>;
+    private mainPlayAreaTargetsLive: Array<{ target: Node; key: TweenKey }>;
+    private mainPlayAreaTargetsFinal: Array<{ target: Node; key: TweenKey }>;
     private readonly tweenConfigs: Record<TweenKey, TweenConfigs> = {
         betChoiceZoomInOut: {
-            in: { scale: v3(1, 1, 1), position: v3(0, -94, 0), time: 1 },
-            out: { scale: v3(1, 1, 1), position: v3(0, -570, 0), time: 1.5 },
+            in: { scale: v3(1, 1, 1), position: v3(0, -94, 0), time: 0.5 },
+            out: { scale: v3(1, 1, 1), position: v3(0, -570, 0), time: 1 },
         },
         chipContainerZoomInOut: {
-            in: { scale: v3(1, 1, 1), position: v3(0, -86, 0), time: 1 },
-            out: { scale: v3(1, 1, 1), position: v3(0, -570, 0), time: 1.5 },
+            in: { scale: v3(1, 1, 1), position: v3(0, -86, 0), time: 0.5 },
+            out: { scale: v3(1, 1, 1), position: v3(0, -570, 0), time: 1 },
         },
         fadeInOut: {
             in: { opacity: 255, time: 0.5 },
@@ -86,11 +82,9 @@ export class PlayArea extends ObserverComponent {
             out: { positionY: 630, opacity: 0, time: 0.75 },
         },
     };
-
     private readonly ShowWinnerAndTournament = "show-winner-and-tournament";
     private readonly ShowLiveScore = "show-live-score";
     private readonly ShowWinnerAndTournamentTimeOffset = 1;
-    private readonly ShowBetChoicesTwoMatch = "show-bet-choices-two-match";
 
     protected containerBets: Node = null;
     protected chipContainers: Node[] = [];
@@ -99,7 +93,6 @@ export class PlayArea extends ObserverComponent {
         this.chipContainers = [this.chipContainerPrev, this.chipContainerLive, this.chipContainerFinal];
         this.containerBets = this.betChoicesContainer.betChoicesPrev.parent;
         const commonTargets = [
-            { target: this.containerBets, key: "betChoiceZoomInOut" as TweenKey },
             { target: this.containerBets, key: "betChoiceZoomInOut" as TweenKey },
             { target: this.chips, key: "chipsFlyDown" as TweenKey },
         ];
@@ -110,14 +103,19 @@ export class PlayArea extends ObserverComponent {
 
         this.disappearingNodes.forEach((node) => {
             this.mainPlayAreaTargetsPrev.push({ target: node, key: "fadeInOut" });
+            this.mainPlayAreaTargetsLive.push({ target: node, key: "fadeInOut" });
         });
 
         this.setStaticTarget(this.teamScore, this.tweenConfigs.teamScoreFlyUp.out);
+        this.setStaticTarget(this.scoreBoard, this.tweenConfigs.fadeInOut.out);
         super.onLoad();
 
         this.registerPhaseMatchWinner();
         this.registerPhaseShowLiveScore();
-        this.registerPhaseShowBetChoicesTwoMatch();
+        this.registerPhaseShowBetChoicesPrev();
+        this.registerPhaseShowBetChoicesLive();
+        this.registerPhaseShowIntroVideo();
+        this.registerPhaseShowLiveVideo();
         this.registerSettlement();
     }
 
@@ -142,11 +140,41 @@ export class PlayArea extends ObserverComponent {
     }
 
     @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
-    registerPhaseShowBetChoicesTwoMatch() {
+    registerPhaseShowBetChoicesPrev() {
         const config: GamePhaseConfig = {
-            id: this.ShowBetChoicesTwoMatch,
-            begin: settings.points.streamingFirstHalfVideo - settings.durations.videoDuration - settings.durations.showHaftTime,
-            end: 3,
+            id: PhaseId.ShowBetChoicesPrev,
+            begin: settings.points.placingBetPreMatch,
+            end: settings.points.placingBetPreMatch - settings.durations.placingBet,
+        };
+        return config;
+    }
+
+    @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
+    registerPhaseShowBetChoicesLive() {
+        const config: GamePhaseConfig = {
+            id: PhaseId.ShowBetChoicesLive,
+            begin: settings.points.placingBetLiveMatch,
+            end: settings.points.placingBetLiveMatch - settings.durations.placingBet,
+        };
+        return config;
+    }
+
+    @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
+    registerPhaseShowIntroVideo() {
+        const config: GamePhaseConfig = {
+            id: PhaseId.ShowIntroVideo,
+            begin: settings.points.introVideo,
+            end: settings.points.introVideo - settings.durations.introVideo,
+        };
+        return config;
+    }
+
+    @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
+    registerPhaseShowLiveVideo() {
+        const config: GamePhaseConfig = {
+            id: PhaseId.ShowLiveVideo,
+            begin: settings.points.streamingSecondHalfVideo,
+            end: settings.points.streamingSecondHalfVideo - settings.durations.videoDuration,
         };
         return config;
     }
@@ -155,7 +183,7 @@ export class PlayArea extends ObserverComponent {
     registerSettlement() {
         const config: GamePhaseConfig = {
             id: PhaseId.Settlement,
-            begin: settings.durations.wholeRound - 1,
+            begin: settings.durations.wholeRound,
             end: settings.durations.wholeRound - settings.durations.startRound,
         };
         return config;
@@ -167,9 +195,6 @@ export class PlayArea extends ObserverComponent {
             return;
         }
 
-        console.log("renderEnterPhase", phase.id);
-
-        // H1
         if (phase.id === this.ShowWinnerAndTournament) {
             if (phase.progress === 0) {
                 const duration = 0.2;
@@ -186,14 +211,42 @@ export class PlayArea extends ObserverComponent {
 
         if (phase.id === PhaseId.Settlement) {
             this.betChoicesContainer.setEnableBetChoices("final");
+            this.fadeOutBetChoiceNode(this.containerBets, false, 0);
+
+            return;
+        }
+
+        if (phase.id === PhaseId.ShowBetChoicesPrev || phase.id === PhaseId.ShowBetChoicesLive) {
+            this.betChoicesContainer.setFirstHalfDisabled(phase.id === PhaseId.ShowBetChoicesLive);
             if (phase.progress === 0) {
-                const duration = 0.2;
-                this.scheduleOnce(
-                    () => this.fadeOutBetChoiceNode(this.containerBets, false, duration),
-                    this.ShowWinnerAndTournamentTimeOffset - duration
-                );
+                this.playAnimForTarget(this.scoreBoard, this.tweenConfigs.fadeInOut.in);
             } else {
-                this.fadeOutBetChoiceNode(this.containerBets, false, 0);
+                this.setStaticTarget(this.scoreBoard, this.tweenConfigs.fadeInOut.in);
+                if (phase.id === PhaseId.ShowBetChoicesPrev) {
+                    this.betChoicesContainer.setEnableBetChoices("prev");
+                    this.setStaticPlayArea("in", "prev");
+                } else {
+                    this.betChoicesContainer.setEnableBetChoices("live");
+                    this.setStaticPlayArea("in", "live");
+                }
+            }
+
+            if (this.isZoomOut) {
+                this.zoomPlayArea("in", phase.id === PhaseId.ShowBetChoicesPrev ? "prev" : "live");
+            }
+
+            return;
+        }
+
+        if (phase.id === PhaseId.ShowIntroVideo || phase.id === PhaseId.ShowLiveVideo) {
+            if (phase.progress === 0) {
+                this.playAnimForTarget(this.scoreBoard, this.tweenConfigs.fadeInOut.out);
+            } else {
+                this.setStaticTarget(this.scoreBoard, this.tweenConfigs.fadeInOut.out);
+            }
+
+            if (!this.isZoomOut) {
+                this.zoomPlayArea("out", phase.id === PhaseId.ShowIntroVideo ? "prev" : "live");
             }
 
             return;
@@ -205,11 +258,8 @@ export class PlayArea extends ObserverComponent {
             } else {
                 this.setStaticTarget(this.teamScore, this.tweenConfigs.teamScoreFlyUp.in);
             }
-            return;
-        }
 
-        if (phase.id === this.ShowBetChoicesTwoMatch) {
-            this.betChoicesContainer.setFirstHalfDisabled(true);
+            return;
         }
     }
 
@@ -221,7 +271,6 @@ export class PlayArea extends ObserverComponent {
 
         console.log("renderExitPhase", phase.id);
 
-        // H1
         if (phase.id === PhaseId.Tournament) {
             const duration = 0.2;
             this.scheduleOnce(() => {
@@ -231,7 +280,6 @@ export class PlayArea extends ObserverComponent {
             return;
         }
 
-        // H2
         if (phase.id === PhaseId.Halftime) {
             const duration = 0.2;
             this.scheduleOnce(() => {
@@ -268,80 +316,6 @@ export class PlayArea extends ObserverComponent {
             }
             this.playAnimForTarget(this.teamScore, this.tweenConfigs.teamScoreFlyUp.out);
         } catch (e) {}
-    }
-
-    @render(Rounds.RoundTimeStore, (store) => store.roundTime)
-    async setAnimAndPositionPlayArea(time: number) {
-        if (time < 0) {
-            return;
-        }
-
-        // Handle zoomPlayArea
-        if (!this.isZoomOut && time === settings.points.introVideo) {
-            this.isStaticPlayAreaIn = true;
-            this.zoomPlayArea("out", "prev");
-        }
-
-        if (!this.isZoomOut && time === settings.points.streamingSecondHalfVideo) {
-            this.isStaticPlayAreaIn = true;
-            this.zoomPlayArea("out", "live");
-        }
-
-        if (this.isZoomOut && time === settings.points.placingBetPreMatch) {
-            this.isStaticPlayAreaIn = true;
-            this.zoomPlayArea("in", "prev");
-        }
-
-        if (this.isZoomOut && time === settings.points.placingBetLiveMatch) {
-            this.isStaticPlayAreaIn = true;
-            this.zoomPlayArea("in", "live");
-        }
-
-        // Handle static play area
-        // if (!this.isZoomOut && time < settings.points.introVideo && time > 0) {
-        //     if (!this.isStaticPlayAreaIn) {
-        //         this.setStaticPlayArea("out", "prev");
-        //         this.isStaticPlayAreaIn = false;
-        //     }
-        // }
-
-        const isPlaceBetPreMatch =
-            time < settings.points.placingBetPreMatch && time > settings.points.lockingBetPreMatch - settings.durations.lockingBet;
-
-        if (isPlaceBetPreMatch && !this.isStaticPlayAreaIn) {
-            this.betChoicesContainer.setEnableBetChoices("prev");
-            this.setStaticPlayArea("in", "prev");
-            this.isStaticPlayAreaIn = true;
-        }
-
-        const isPlaceBetLive =
-            time < settings.points.placingBetLiveMatch && time > settings.points.lockingBetLiveMatch - settings.durations.lockingBet;
-
-        if (isPlaceBetLive && !this.isStaticPlayAreaIn) {
-            this.betChoicesContainer.setEnableBetChoices("live");
-            this.setStaticPlayArea("in", "live");
-            this.isStaticPlayAreaIn = true;
-        }
-    }
-
-    @render(Rounds.RoundTimeStore, (store) => store.roundTime)
-    async setScoreBoard(time: number) {
-        if (time < 0) {
-            return;
-        }
-
-        // Show scoreboard only during specific time ranges place bet
-        const shouldShowScoreboard =
-            (time <= settings.points.placingBetPreMatch && time > settings.points.introVideo) || // First range: 110-90 seconds
-            (time <= settings.points.placingBetLiveMatch && time > settings.points.streamingSecondHalfVideo); // Second range: 52-32 seconds
-
-        if (shouldShowScoreboard && this.isScoreBoardOut) {
-            this.playAnimForTarget(this.scoreBoard, this.tweenConfigs.fadeInOut.in);
-            this.isScoreBoardOut = false;
-        } else if (!shouldShowScoreboard && !this.isScoreBoardOut) {
-            this.setStaticTarget(this.scoreBoard, this.tweenConfigs.fadeInOut.out);
-            this.isScoreBoardOut = true;
-        }
     }
 
     private playAnimForTarget(node: Node, config: TweenConfig): Promise<void> {
@@ -406,10 +380,15 @@ export class PlayArea extends ObserverComponent {
     }
 
     private getMainPlayAreaTargets(state: "prev" | "live" | "final"): Array<{ target: Node; key: TweenKey }> {
-        return state === "prev"
-            ? this.mainPlayAreaTargetsPrev
-            : state === "live"
-            ? this.mainPlayAreaTargetsLive
-            : this.mainPlayAreaTargetsFinal;
+        switch (state) {
+            case "prev":
+                return this.mainPlayAreaTargetsPrev;
+            case "live":
+                return this.mainPlayAreaTargetsLive;
+            case "final":
+                return this.mainPlayAreaTargetsFinal;
+            default:
+                return this.mainPlayAreaTargetsPrev;
+        }
     }
 }

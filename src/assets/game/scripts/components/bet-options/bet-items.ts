@@ -1,7 +1,7 @@
 import { _decorator } from "cc";
-import observer from "observer";
 import { BetItemsPolygon as BetItemsPolygonBase } from "db://shared-components/game/bets/scripts/components/bet-items-polygon";
-import { OddsWithConfig, OddsStore } from "../../features/dynamic-odds/odds-store";
+import observer from "observer";
+import { OddsStore, OddsWithConfig } from "../../features/dynamic-odds/odds-store";
 
 const { ccclass } = _decorator;
 const { render } = observer;
@@ -16,4 +16,6 @@ export class BetItems extends BetItemsPolygonBase {
             betItem?.renderOdd(odds[choice], fractional);
         });
     }
+
+    override handleResetHighlight(isResetHighlight: boolean) {}
 }
