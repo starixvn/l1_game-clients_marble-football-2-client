@@ -1,19 +1,10 @@
 import { _decorator, Component, Node } from "cc";
 import gc from "@sg/game-client-base";
 import Observer from "observer";
-import { FinalBetItem } from "./final-bet-item";
-import { StaticGroupId } from "db://shared-components/shared/common-components/static-node/scripts/static-node-info";
-import { StaticNode } from "db://shared-components/shared/common-components/static-node/scripts/static-node";
 import { BetItemsPolygon as BetItemsPolygonBase } from "db://shared-components/game/bets/scripts/components/bet-items-polygon";
 const { ccclass, property } = _decorator;
 const { render } = Observer;
 const { Rounds } = gc;
-
-const BET_STAGE = ["firstHalf", "secondHalf"];
-
-type TContainerStatics = {
-    [groupId: number]: Node[];
-};
 
 @ccclass("FinalBetItems")
 export class FinalBetItems extends BetItemsPolygonBase {
