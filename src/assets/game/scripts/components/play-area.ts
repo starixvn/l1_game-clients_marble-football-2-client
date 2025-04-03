@@ -82,7 +82,7 @@ export class PlayArea extends ObserverComponent {
             out: { positionY: 630, opacity: 0, time: 0.75 },
         },
     };
-    private readonly ShowWinnerAndTournament = "show-winner-and-tournament";
+
     private readonly ShowLiveScore = "show-live-score";
     private readonly ShowWinnerAndTournamentTimeOffset = 1;
 
@@ -122,7 +122,7 @@ export class PlayArea extends ObserverComponent {
     @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
     registerPhaseMatchWinner() {
         const config: GamePhaseConfig = {
-            id: this.ShowWinnerAndTournament,
+            id: PhaseId.ShowWinnerAndTournament,
             begin: TimePointShowMatchWinner + this.ShowWinnerAndTournamentTimeOffset,
             end: settings.points.placingBetPreMatch + this.ShowWinnerAndTournamentTimeOffset,
         };

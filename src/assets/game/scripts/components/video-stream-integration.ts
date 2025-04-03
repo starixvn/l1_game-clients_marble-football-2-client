@@ -45,6 +45,16 @@ export default class VideoStreamIntegration extends ObserverComponent {
     private blockShowFieldWithSyncNativeCurrentTime = false;
     private _systemIndicator: SystemIndicator = null;
 
+    private readonly PHASE_HANDLERS = {
+        [PhaseId.Halftime]: () => {
+            AnimationUtils.fadeOut(this.warnContainer, 0.2);
+        },
+        [PhaseId.ShowWinnerAndTournament]: () => this.setGameBackgroundVisibility(true),
+        [PhaseId.Settlement]: () => this.setGameBackgroundVisibility(true),
+        [PhaseId.ShowBetChoicesLive]: () => this.setGameBackgroundVisibility(true),
+        [PhaseId.ShowBetChoicesPrev]: () => this.setGameBackgroundVisibility(true),
+    };
+
     get systemIndicator() {
         if (!this._systemIndicator) {
             this._systemIndicator = this.nodeSystemIndicator.getComponentInChildren(SystemIndicator);
@@ -173,8 +183,6 @@ export default class VideoStreamIntegration extends ObserverComponent {
             this.introOutro.playIntroAnimation();
             this.breakTime?.playAnimation(0);
         }
-
-        this.introOutro.showGameBackground = roundTime > settings.points.introVideo || roundTime < 0;
     }
 
     @handle(gc.Audios.AudioHandler, (handler, id: string) => handler.playSFX(id))
@@ -234,13 +242,21 @@ export default class VideoStreamIntegration extends ObserverComponent {
         }
     }
 
+    private setGameBackgroundVisibility(show: boolean) {
+        this.introOutro && (this.introOutro.showGameBackground = show);
+    }
+
     @render(GamePhaseStore, (store) => store.enterPhase)
     private renderEnterPhase(phase: GamePhase) {
         if (!phase) {
             return;
         }
-        if (phase.id === PhaseId.Halftime) {
-            AnimationUtils.fadeOut(this.warnContainer, 0.2);
+
+        const handler = this.PHASE_HANDLERS[phase.id];
+        if (handler) {
+            handler();
+        } else {
+            this.setGameBackgroundVisibility(false);
         }
     }
 
