@@ -1,11 +1,10 @@
 import gc from "@sg/game-client-base";
-import { EventTouch, Node, _decorator } from "cc";
-import { BetItems } from "db://shared-components/game/bets/scripts/components/bet-items";
-import { BetItemsPolygon } from "db://shared-components/game/bets/scripts/components/bet-items-polygon";
+import { Node, _decorator } from "cc";
 import { ObserverComponent } from "db://shared-components/shared/common-components/observer-component/scripts/observer-component";
 import Observer from "observer";
 import { HelperBetChoices } from "../../helper-betchoices";
 import { StatusBetsButton } from "./status-bets-button";
+import { BetItems } from "./bet-items";
 const { ccclass, property } = _decorator;
 
 const { Rounds } = gc;
@@ -26,14 +25,16 @@ export class BetChoicesContainer extends ObserverComponent {
     showHideBetsButton: Node = null;
 
     protected statusBetsButton: StatusBetsButton = null;
-    protected betItemsPrev: BetItemsPolygon = null;
-    protected betItemsLive: BetItemsPolygon = null;
+    protected betItemsPrev: BetItems = null;
+    protected betItemsLive: BetItems = null;
+    protected betItemsFinal: BetItems = null;
     protected betChoicesInMatch = [];
 
     onLoad(): void {
-        this.betItemsPrev = this.betChoicesPrev.getComponent(BetItemsPolygon);
-        this.betItemsLive = this.betChoicesLive.getComponent(BetItemsPolygon);
-        this.betChoicesInMatch = [this.betItemsPrev, this.betItemsLive];
+        this.betItemsPrev = this.betChoicesPrev.getComponent(BetItems);
+        this.betItemsLive = this.betChoicesLive.getComponent(BetItems);
+        this.betItemsFinal = this.betChoicesFinal.getComponent(BetItems);
+        this.betChoicesInMatch = [this.betItemsPrev, this.betItemsLive, this.betItemsFinal];
 
         [this.betChoicesPrev, this.betChoicesLive, this.betChoicesFinal].forEach((choice) => (choice.active = false));
         this.statusBetsButton = this.showHideBetsButton.getComponentInChildren(StatusBetsButton);
@@ -58,13 +59,6 @@ export class BetChoicesContainer extends ObserverComponent {
     private setActiveState(isFirstActive: boolean): void {
         this.betChoicesPrev.active = isFirstActive;
         this.betChoicesLive.active = !isFirstActive;
-
-        // Get BetItemsPolygon component and bind touch event
-        const activeNode = isFirstActive ? this.betChoicesPrev : this.betChoicesLive;
-        const betItemsPolygon = activeNode.getComponent(BetItemsPolygon);
-        if (betItemsPolygon) {
-            betItemsPolygon.node.on(Node.EventType.TOUCH_END, betItemsPolygon.handleBetItemClick, betItemsPolygon);
-        }
     }
 
     private handleBetItemClick(event: any): void {
@@ -73,7 +67,7 @@ export class BetChoicesContainer extends ObserverComponent {
     }
 
     setFirstHalfDisabled(isDisabled: boolean) {
-        const bgDisable = this.betChoicesPrev.getComponent(HelperBetChoices)?.bgDisable;
+        const bgDisable = this.betChoicesPrev.getComponent(BetItems)?.bgDisable;
         bgDisable && (bgDisable.active = isDisabled);
     }
 
@@ -100,14 +94,14 @@ export class BetChoicesContainer extends ObserverComponent {
     }
 
     getBetItemsPrevMath() {
-        return this.betChoicesPrev.getComponent(BetItems);
+        return this.betItemsPrev;
     }
 
     getBetItemsLive() {
-        return this.betChoicesLive.getComponent(BetItems);
+        return this.betItemsLive;
     }
 
     getBetItemsFinal() {
-        return this.betChoicesFinal.getComponent(BetItems);
+        return this.betItemsFinal;
     }
 }
