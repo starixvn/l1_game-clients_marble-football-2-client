@@ -23,6 +23,10 @@ export class HelperBetChoices extends Component {
     }
 
     private setupHighlightAnimation(betItem: BetItem, childNode: Node): void {
+        if (!this.sample) {
+            return;
+        }
+
         const node = instantiate(this.sample);
         node.active = true;
         childNode.addChild(node);
@@ -54,7 +58,7 @@ export class HelperBetChoices extends Component {
     }
 
     generate() {
-        if (!this.sample || !this.container) {
+        if (!this.container) {
             return;
         }
 

@@ -6,7 +6,6 @@ import { OddsStore, OddsWithConfig } from "../../features/dynamic-odds/odds-stor
 const { ccclass, property } = _decorator;
 const { render } = observer;
 
-//
 @ccclass
 export class BetItems extends BetItemsPolygonBase {
     @property({
