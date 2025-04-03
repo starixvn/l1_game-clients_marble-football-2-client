@@ -1,14 +1,16 @@
 import gc from "@sg/game-client-base";
-import { _decorator, Node, tween } from "cc";
+import { _decorator, Node, tween, UITransform } from "cc";
 import { AroundTablePlayerUtils } from "db://shared-components/game/around-table-player/scripts/utils";
 import { TBalanceEffect, TWinningEffect } from "db://shared-components/game/balance-effect/scripts/stores/balance-effect-store";
 import { BetItems } from "db://shared-components/game/bets/scripts/components/bet-items";
-import { ActionChipFlying } from "db://shared-components/game/chip-flying/scripts/components/actions";
+import { ActionChipFlying, addChipsToChipBoxWhenJoinRoom } from "db://shared-components/game/chip-flying/scripts/components/actions";
 import { ChipFlying as ChipFlyingShared, IChipFlyingInfo } from "db://shared-components/game/chip-flying/scripts/components/chip-flying";
 import Observer from "observer";
 import { GamePhase, PhaseId } from "../features/game-phase/game-phase-definitions";
 import { GamePhaseStore } from "../features/game-phase/game-phase-store";
 import { BetChoicesContainer } from "./bet-options/bet-choices-container";
+import { FunctionUtils } from "db://shared-components/shared/utils";
+import BetItem from "db://shared-components/game/bets/scripts/components/bet-item";
 
 const { ccclass, property } = _decorator;
 const { handle, render } = Observer;
@@ -36,6 +38,7 @@ export class ChipFlying extends ChipFlyingShared {
 
     isJoinGame = false;
     chipContainers: Node[] = [];
+    isFinalState = false;
 
     onLoad(): void {
         this.chipContainers = [this.chipContainerPrev, this.chipContainerLive, this.chipContainerFinal];
@@ -73,8 +76,9 @@ export class ChipFlying extends ChipFlyingShared {
     }
 
     getChipsByChoice(choice: string): Node[] {
-        const pre = this.chipStorage[choice] ?? [];
-        const live = this.chipStorage[`${choice}Live`] ?? [];
+        const preChoice = choice.replace("Live", "");
+        const pre = this.chipStorage[preChoice] ?? [];
+        const live = this.chipStorage[`${preChoice}Live`] ?? [];
         return [...pre, ...live];
     }
 
@@ -169,6 +173,7 @@ export class ChipFlying extends ChipFlyingShared {
 
     moveChipsToFinalContainer(chipContainer: Node) {
         const children = [...chipContainer.children];
+        chipContainer.setPosition(0, 0, 0);
         for (const child of children) {
             this.chipContainerFinal.addChild(child);
             chipContainer.removeChild(child);
@@ -181,10 +186,8 @@ export class ChipFlying extends ChipFlyingShared {
             return;
         }
 
-        [this.chipContainerPrev, this.chipContainerLive].forEach((chipContainer) => {
-            this.moveChipsToFinalContainer(chipContainer);
-        });
-
+        this.moveChipsToFinalContainer(this.chipContainerPrev);
+        this.moveChipsToFinalContainer(this.chipContainerLive);
         this.betItems.updateSettlementResult(settlementResult);
 
         if (!this.node.activeInHierarchy) {
@@ -213,16 +216,19 @@ export class ChipFlying extends ChipFlyingShared {
         }
 
         if (phase.id === PhaseId.Settlement) {
+            this.isFinalState = true;
             this.updateBetState(this.chipContainerFinal, this.betChoicesContainer.getBetItemsFinal());
             return;
         }
 
         if (phase.id === PhaseId.ShowBetChoicesPrev) {
+            this.isFinalState = false;
             this.updateBetState(this.chipContainerPrev, this.betChoicesContainer.getBetItemsPrevMath());
             return;
         }
 
         if (phase.id === PhaseId.ShowBetChoicesLive) {
+            this.isFinalState = false;
             this.updateBetState(this.chipContainerLive, this.betChoicesContainer.getBetItemsLive());
             return;
         }
@@ -246,6 +252,39 @@ export class ChipFlying extends ChipFlyingShared {
     protected inActiveAllChipContainers() {
         this.chipContainers?.forEach((container) => {
             container && (container.active = false);
+        });
+    }
+
+    @render(Chips.ChipStore, (store) => store.chipsByMainPlayerRate)
+    async flyChipsWhenJoinGame(chipsByMainPlayerRate: gc.Chips.TChipsByMainPlayerRate) {
+        if (!this.node.activeInHierarchy || !chipsByMainPlayerRate.isShow || Object.keys(chipsByMainPlayerRate?.chips).length === 0) {
+            return;
+        }
+
+        while (!this.slidingChip.getReady()) {
+            await FunctionUtils.delay(100);
+        }
+
+        for (const betItem of this.betItems.betItemComponents) {
+            if (this.isFinalState) {
+                this.handleAddChipsWhenJoinFinal(chipsByMainPlayerRate, betItem);
+            } else {
+                this.handleAddChipsWhenJoin(chipsByMainPlayerRate, betItem.chipBox, betItem.betChoice);
+            }
+        }
+    }
+
+    protected handleAddChipsWhenJoin(chipsByMainPlayerRate: gc.Chips.TChipsByMainPlayerRate, chipBox: Node, betChoice: string) {
+        const chipGroup = chipsByMainPlayerRate.chips[betChoice];
+        if (chipGroup) {
+            const nodes = addChipsToChipBoxWhenJoinRoom(this.currentChipContainer, chipBox, chipGroup, this.slidingChip);
+            this.addChipsToBoxWithChoice(nodes, betChoice);
+        }
+    }
+
+    protected handleAddChipsWhenJoinFinal(chipsByMainPlayerRate: gc.Chips.TChipsByMainPlayerRate, betItem: BetItem) {
+        [betItem.betChoice, `${betItem.betChoice}Live`].forEach((choice) => {
+            this.handleAddChipsWhenJoin(chipsByMainPlayerRate, betItem.chipBox, choice);
         });
     }
 }
