@@ -1,7 +1,7 @@
 import { _decorator, Node } from "cc";
 import Observer from "observer";
 import BetItem from "db://shared-components/game/bets/scripts/components/bet-item";
-import { OddsStore } from "../../features/dynamic-odds/odds-store";
+import { OddsStore, OddsWithConfig } from "../../features/dynamic-odds/odds-store";
 
 const { property, ccclass } = _decorator;
 const { render } = Observer;
@@ -15,20 +15,29 @@ export default class BetItemCustomize extends BetItem {
     decreaseOdd: Node = null;
 
     @render(OddsStore, (store) => store.oddsWithConfig)
-    renderIncreaseOdds(oddsWithConfig: any) {
+    renderIncreaseOdds(oddsWithConfig: OddsWithConfig) {
         const betChoice = this.betChoice;
-        if (!betChoice.includes("Live")) {
-            this.increaseOdd!.active = false;
-            this.decreaseOdd!.active = false;
+        if (!this.isLiveBet(betChoice)) {
+            this.hideOddsIndicators();
             return;
         }
+
         const deltaOdd = oddsWithConfig.deltaOdds[betChoice] || 0;
-        if (deltaOdd > 0) {
-            this.increaseOdd!.active = true;
-            this.decreaseOdd!.active = false;
-        } else {
-            this.increaseOdd!.active = false;
-            this.decreaseOdd!.active = true;
-        }
+        this.updateOddsIndicators(deltaOdd);
+    }
+
+    private isLiveBet(betChoice: string): boolean {
+        return betChoice.includes("Live");
+    }
+
+    private hideOddsIndicators(): void {
+        this.increaseOdd!.active = false;
+        this.decreaseOdd!.active = false;
+    }
+
+    private updateOddsIndicators(deltaOdd: number): void {
+        const isIncrease = deltaOdd > 0;
+        this.increaseOdd!.active = isIncrease;
+        this.decreaseOdd!.active = !isIncrease;
     }
 }

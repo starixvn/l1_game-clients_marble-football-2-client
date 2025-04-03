@@ -2,8 +2,8 @@ import gc from "@sg/game-client-base";
 import { Node, _decorator } from "cc";
 import { ObserverComponent } from "db://shared-components/shared/common-components/observer-component/scripts/observer-component";
 import Observer from "observer";
-import { HelperBetChoices } from "../../helper-betchoices";
 import { StatusBetsButton } from "./status-bets-button";
+import { BetItemsFinal } from "./bet-items-final";
 import { BetItems } from "./bet-items";
 const { ccclass, property } = _decorator;
 
@@ -24,12 +24,25 @@ export class BetChoicesContainer extends ObserverComponent {
     @property(Node)
     showHideBetsButton: Node = null;
 
+    private _totalBets: Record<string, number> = {};
+    private _ownBets: Record<string, number> = {};
+    private _userPercentage: Record<string, number> = {};
+
     protected statusBetsButton: StatusBetsButton = null;
     protected betItemsPrev: BetItems = null;
     protected betItemsLive: BetItems = null;
     protected betItemsFinal: BetItems = null;
     protected betChoicesInMatch = [];
 
+    @render(Rounds.RoundStore, (store) => store.totalBets)
+    renderTotalBets(totalBets: gc.GameServiceMessage.TotalBets) {
+        this._totalBets = totalBets;
+    }
+
+    @render(Rounds.RoundStore, (store) => store.ownBets)
+    renderOwnBets(ownBets: gc.GameServiceMessage.OwnBets) {
+        this._ownBets = ownBets;
+    }
     onLoad(): void {
         this.betItemsPrev = this.betChoicesPrev.getComponent(BetItems);
         this.betItemsLive = this.betChoicesLive.getComponent(BetItems);
@@ -80,6 +93,16 @@ export class BetChoicesContainer extends ObserverComponent {
         this.betChoicesPrev.active = state === "prev";
         this.betChoicesLive.active = state === "live";
         this.betChoicesFinal.active = state === "final";
+
+        if (state === "final") {
+            this.handleAfterActiveBetItemsFinal();
+        }
+    }
+
+    handleAfterActiveBetItemsFinal() {
+        const finalBetItems = this.betChoicesFinal.getComponent(BetItemsFinal);
+        finalBetItems.bindTotalBets(this._totalBets);
+        finalBetItems.bindOwnBets(this._ownBets);
     }
 
     setDisableBetChoicesInMatch() {
