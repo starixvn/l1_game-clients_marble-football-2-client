@@ -212,6 +212,9 @@ export class PlayArea extends ObserverComponent {
         if (phase.id === PhaseId.Settlement) {
             this.betChoicesContainer.setEnableBetChoices("final");
             this.fadeOutBetChoiceNode(this.containerBets, false, 0);
+            this.disappearingNodes.forEach((node) => {
+                this.setStaticTarget(node, this.tweenConfigs.fadeInOut.in);
+            });
 
             return;
         }
