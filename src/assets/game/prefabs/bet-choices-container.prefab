@@ -28,17 +28,17 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 1686
+        "__id__": 1685
       },
       {
-        "__id__": 1688
+        "__id__": 1687
       },
       {
-        "__id__": 1690
+        "__id__": 1689
       }
     ],
     "_prefab": {
-      "__id__": 1692
+      "__id__": 1691
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -38083,7 +38083,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "show-hide-bets-button",
+    "_name": "preview-bets-button",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -38097,14 +38097,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 1681
+        "__id__": 1680
       },
       {
-        "__id__": 1683
+        "__id__": 1682
       }
     ],
     "_prefab": {
-      "__id__": 1685
+      "__id__": 1684
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -38161,7 +38161,7 @@
       }
     ],
     "_prefab": {
-      "__id__": 1680
+      "__id__": 1679
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -38510,11 +38510,7 @@
     "__prefab": {
       "__id__": 1678
     },
-    "clickEvents": [
-      {
-        "__id__": 1679
-      }
-    ],
+    "clickEvents": [],
     "_interactable": true,
     "_transition": 3,
     "_normalColor": {
@@ -38565,16 +38561,6 @@
     "fileId": "6fJpfaLplMYYBbeXUL7vhO"
   },
   {
-    "__type__": "cc.ClickEvent",
-    "target": {
-      "__id__": 1
-    },
-    "component": "",
-    "_componentId": "415d40QP3VLZJksWkrgOI++",
-    "handler": "showHideBets",
-    "customEventData": ""
-  },
-  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -38597,7 +38583,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 1682
+      "__id__": 1681
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -38625,7 +38611,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 1684
+      "__id__": 1683
     },
     "_customMaterial": null,
     "_srcBlendFactor": 2,
@@ -38686,7 +38672,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 1687
+      "__id__": 1686
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -38714,7 +38700,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 1689
+      "__id__": 1688
     },
     "_alignFlags": 45,
     "_target": null,
@@ -38750,7 +38736,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 1691
+      "__id__": 1690
     },
     "betChoicesPrev": {
       "__id__": 3
@@ -38761,7 +38747,7 @@
     "betChoicesFinal": {
       "__id__": 1638
     },
-    "showHideBetsButton": {
+    "previewBetsButton": {
       "__id__": 1661
     },
     "_id": ""

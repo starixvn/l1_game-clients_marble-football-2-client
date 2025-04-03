@@ -16,16 +16,8 @@ export class StatusBetsButton extends Button {
     @property(Node)
     hideNode: Node = null;
 
-    toggleStatus() {
-        this.showNode.active = !this.showNode.active;
-        this.hideNode.active = !this.hideNode.active;
-    }
-
-    setShowNodeActive(isActive: boolean) {
-        this.showNode.active = isActive;
-    }
-
-    setHideNodeActive(isActive: boolean) {
-        this.hideNode.active = isActive;
+    setStatus(isShow: boolean) {
+        this.showNode.active = isShow;
+        this.hideNode.active = !isShow;
     }
 }
