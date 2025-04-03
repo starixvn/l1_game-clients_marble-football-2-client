@@ -19,6 +19,7 @@ export enum PhaseId {
     Halftime = "halftime",
     Settlement = "settlement",
     ShowIntroVideo = "show-intro-video",
+    ShowPrevVideo = "show-prev-video",
     ShowLiveVideo = "show-live-video",
     ShowBetChoicesLive = "show-bet-choices-live",
     ShowBetChoicesPrev = "show-bet-choices-prev",

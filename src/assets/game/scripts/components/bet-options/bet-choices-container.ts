@@ -5,6 +5,8 @@ import Observer from "observer";
 import { StatusBetsButton } from "./status-bets-button";
 import { BetItemsFinal } from "./bet-items-final";
 import { BetItems } from "./bet-items";
+import { GamePhaseStore } from "../../features/game-phase/game-phase-store";
+import { GamePhase, PhaseId } from "../../features/game-phase/game-phase-definitions";
 const { ccclass, property } = _decorator;
 
 const { Rounds } = gc;
@@ -79,17 +81,36 @@ export class BetChoicesContainer extends ObserverComponent {
         console.log("Bet item clicked");
     }
 
-    setFirstHalfDisabled(isDisabled: boolean) {
-        const bgDisable = this.betChoicesPrev.getComponent(BetItems)?.bgDisable;
+    @render(GamePhaseStore, (store) => store.enterPhase)
+    renderEnterPhase(phase: GamePhase) {
+        const phaseHandlers = {
+            [PhaseId.ShowIntroVideo]: () => {
+                this.setDisabledBetChoices("prev", true);
+            },
+            [PhaseId.ShowPrevVideo]: () => {
+                this.setDisabledBetChoices("prev", true);
+            },
+            [PhaseId.ShowLiveVideo]: () => {
+                this.setDisabledBetChoices("prev", true);
+                this.setDisabledBetChoices("live", true);
+            },
+            default: () => {
+                this.setDisabledBetChoices("prev", false);
+                this.setDisabledBetChoices("live", false);
+            },
+        };
+
+        const handler = phaseHandlers[phase.id] || phaseHandlers.default;
+        handler();
+    }
+
+    private setDisabledBetChoices(type: "prev" | "live", isDisabled: boolean) {
+        const node = type === "prev" ? this.betChoicesPrev : this.betChoicesLive;
+        const bgDisable = node.getComponent(BetItems)?.bgDisable;
         bgDisable && (bgDisable.active = isDisabled);
     }
 
     setEnableBetChoices(state: "prev" | "live" | "final") {
-        const isLive = state === "live";
-        if (state !== "final") {
-            this.setFirstHalfDisabled(isLive);
-        }
-
         this.betChoicesPrev.active = state === "prev";
         this.betChoicesLive.active = state === "live";
         this.betChoicesFinal.active = state === "final";
