@@ -21,7 +21,6 @@ interface TweenConfig {
     position?: Vec3;
     opacity?: number;
     positionY?: number;
-
     time: number;
 }
 
@@ -195,7 +194,7 @@ export class PlayArea extends ObserverComponent {
             return;
         }
 
-        if (phase.id === this.ShowWinnerAndTournament) {
+        if (phase.id === PhaseId.ShowWinnerAndTournament) {
             if (phase.progress === 0) {
                 const duration = 0.2;
                 this.scheduleOnce(
@@ -271,8 +270,6 @@ export class PlayArea extends ObserverComponent {
         if (!phase) {
             return;
         }
-
-        console.log("renderExitPhase", phase.id);
 
         if (phase.id === PhaseId.Tournament) {
             const duration = 0.2;
