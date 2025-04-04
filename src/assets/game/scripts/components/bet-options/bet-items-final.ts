@@ -16,7 +16,7 @@ export class BetItemsFinal extends BetItemsPolygonBase {
         this.betItemComponents.forEach((betItem) => {
             const choice = betItem.betChoice;
             const sum = (ownBets[choice] || 0) + (ownBets[`${choice}Live`] || 0);
-            betItem.renderOwnBet(gc.FormatUtils.numberWithCommas(sum));
+            sum !== 0 && betItem.renderOwnBet(gc.FormatUtils.numberWithCommas(sum));
         });
     }
 
@@ -27,7 +27,7 @@ export class BetItemsFinal extends BetItemsPolygonBase {
         this.betItemComponents.forEach((betItem) => {
             const choice = betItem.betChoice;
             const sum = (totalBets[choice] || 0) + (totalBets[`${choice}Live`] || 0);
-            betItem.renderTotalBet(gc.FormatUtils.numberWithCommas(sum));
+            sum !== 0 && betItem.renderTotalBet(gc.FormatUtils.numberWithCommas(sum));
         });
     }
 

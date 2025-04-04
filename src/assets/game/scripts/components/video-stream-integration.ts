@@ -92,11 +92,20 @@ export default class VideoStreamIntegration extends ObserverComponent {
 
     @render(VideoStreamStore, (store) => ({
         isFirstHalf: store.isFirstHalf,
+        isSecondHalf: store.isSecondHalf,
         currentVideoTime: store.currentVideoTime,
     }))
-    showFieldBeforeFirstHalfVideoEnd({ isFirstHalf, currentVideoTime }: { isFirstHalf: boolean; currentVideoTime: number }) {
+    showFieldBeforeFirstHalfVideoEnd({
+        isFirstHalf,
+        isSecondHalf,
+        currentVideoTime,
+    }: {
+        isFirstHalf: boolean;
+        isSecondHalf: boolean;
+        currentVideoTime: number;
+    }) {
         // Show field before first half video end 100ms
-        if (isFirstHalf && currentVideoTime === settings.durations.videoDuration - 1) {
+        if ((isFirstHalf || isSecondHalf) && currentVideoTime === settings.durations.videoDuration - 1) {
             this.scheduleOnce(() => {
                 this.introOutro.showField = true;
                 this.blockShowFieldWithSyncNativeCurrentTime = true;
@@ -118,30 +127,21 @@ export default class VideoStreamIntegration extends ObserverComponent {
     }
 
     @render(VideoStreamStore, (store) => ({
-        isFirstHalf: store.isFirstHalf,
-        isBreakTime: store.isBreakTime,
         videoResult: store.videoResult,
+        isLoadFirstHalf: store.isLoadFirstHalf,
     }))
-    bufferVideo({
-        isFirstHalf,
-        isBreakTime,
-        videoResult,
-    }: {
-        isFirstHalf: boolean;
-        isBreakTime: boolean;
-        videoResult: MarbleFootballServiceMessages.VideoStream;
-    }) {
-        if (!videoResult || !videoResult.firstHalfVideo || !videoResult.secondHalfVideo) {
+    bufferVideo({ isLoadFirstHalf, videoResult }: { isLoadFirstHalf: boolean; videoResult: MarbleFootballServiceMessages.VideoStream }) {
+        if (!videoResult) {
             return;
         }
 
-        if (isFirstHalf && !isBreakTime) {
+        if (isLoadFirstHalf && videoResult.firstHalfVideo) {
             this.backgroundVideoPlayer.currentTime = 0;
             this.backgroundVideoPlayer.loadVideoByName(videoResult.firstHalfVideo);
             return;
         }
 
-        if (isBreakTime) {
+        if (!isLoadFirstHalf && videoResult.secondHalfVideo) {
             this.backgroundVideoPlayer.currentTime = 0;
             this.backgroundVideoPlayer.loadVideoByName(videoResult.secondHalfVideo);
         }

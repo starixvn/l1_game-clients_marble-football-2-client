@@ -31,6 +31,7 @@ export class VideoStreamStore {
     private _currentMatchTime = 0;
     private _isLiveVideo = false;
     private _isSecondHalf = false;
+    private _isLoadFirstHalf = false;
 
     liveStreamServer = "";
 
@@ -41,6 +42,7 @@ export class VideoStreamStore {
     updateWithRoundTime(roundTime: number) {
         this._roundTime = roundTime;
         this._currentVideoTime = this.calculateCurrentVideoTime();
+        this._isLoadFirstHalf = roundTime > settings.points.placingBetLiveMatch;
 
         if (this._currentVideoTime > 0 && this._currentVideoTime <= settings.durations.halfDuration) {
             this._currentMatchTime++;
@@ -243,6 +245,10 @@ export class VideoStreamStore {
 
     get isSecondHalf(): boolean {
         return this._isSecondHalf;
+    }
+
+    get isLoadFirstHalf(): boolean {
+        return this._isLoadFirstHalf;
     }
 
     resetForNewRound() {
