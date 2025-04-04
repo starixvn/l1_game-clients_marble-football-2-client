@@ -56,6 +56,9 @@ export class PlayArea extends ObserverComponent {
     @property(Node)
     private teamScore: Node = null;
 
+    @property(Node)
+    private firstHalfScore: Node = null;
+
     @property([Node])
     private disappearingNodes: Node[] = [];
 
@@ -136,6 +139,7 @@ export class PlayArea extends ObserverComponent {
         this.setStaticTarget(this.teamScore, this.tweenConfigs.teamScoreFlyUp.out);
         this.setStaticTarget(this.scoreBoard, this.tweenConfigs.fadeInOut.out);
         this.setStaticTarget(this.chips, this.tweenConfigs.chipsFlyDown.out);
+        this.setStaticTarget(this.firstHalfScore, this.tweenConfigs.fadeInOut.out);
         this.disappearingNodes.forEach((node) => {
             this.setStaticTarget(node, this.tweenConfigs.fadeInOut.out);
         });
@@ -301,19 +305,22 @@ export class PlayArea extends ObserverComponent {
             }
 
             if (phase.id === PhaseId.ShowBetChoicesLive) {
-                this.teamScoreFlyOut(phase.progress);
+                this.playAnimByPhaseProgress(
+                    [this.firstHalfScore, this.teamScore],
+                    [this.tweenConfigs.fadeInOut.in, this.tweenConfigs.teamScoreFlyUp.out],
+                    phase.progress
+                );
             }
 
             return;
         }
 
         if (phase.id === PhaseId.ShowIntroVideo || phase.id === PhaseId.ShowLiveVideo) {
-            this.teamScoreFlyIn(phase.progress);
-            if (phase.progress === 0) {
-                this.playAnimForTarget(this.scoreBoard, this.tweenConfigs.fadeInOut.out);
-            } else {
-                this.setStaticTarget(this.scoreBoard, this.tweenConfigs.fadeInOut.out);
-            }
+            this.playAnimByPhaseProgress(
+                [this.scoreBoard, this.teamScore],
+                [this.tweenConfigs.fadeInOut.out, this.tweenConfigs.teamScoreFlyUp.in],
+                phase.progress
+            );
 
             if (!this.isZoomOut) {
                 this.zoomPlayArea("out", phase.id === PhaseId.ShowIntroVideo ? "prev" : "live");
@@ -323,6 +330,7 @@ export class PlayArea extends ObserverComponent {
                 this.phasePreviewBets = "prev";
             } else {
                 this.phasePreviewBets = "live";
+                this.playAnimByPhaseProgress(this.firstHalfScore, this.tweenConfigs.fadeInOut.out, phase.progress);
             }
 
             return;
@@ -331,24 +339,33 @@ export class PlayArea extends ObserverComponent {
         if (phase.id === PhaseId.HidePreviewBetChoicesLive || phase.id === PhaseId.HidePreviewBetChoicesPrev) {
             this.betChoicesContainer.setDisableBetChoices();
             this.fadeOutBetChoiceNode(this.containerBets, true, this.durationShowBetChoices);
+            if (phase.id === PhaseId.HidePreviewBetChoicesLive) {
+                this.playAnimByPhaseProgress(this.firstHalfScore, this.tweenConfigs.fadeInOut.out, phase.progress);
+            }
             return;
         }
     }
 
-    private teamScoreFlyIn(phaseProgress: number) {
-        if (phaseProgress === 0) {
-            this.playAnimForTarget(this.teamScore, this.tweenConfigs.teamScoreFlyUp.in);
-        } else {
-            this.setStaticTarget(this.teamScore, this.tweenConfigs.teamScoreFlyUp.in);
+    private async playAnimByPhaseProgress(nodes: Node | Node[], config: TweenConfig | TweenConfig[], phaseProgress: number) {
+        const { playAnimForTarget, setStaticTarget } = this;
+        const nodeArray = Array.isArray(nodes) ? nodes : [nodes];
+        const configArray = Array.isArray(config) ? config : [config];
+
+        const finalConfigs = nodeArray.map((_, index) => configArray[index] || configArray[0]);
+
+        switch (phaseProgress) {
+            case 0:
+                await Promise.all(nodeArray.map((node, index) => playAnimForTarget(node, finalConfigs[index])));
+                break;
+            default:
+                nodeArray.forEach((node, index) => {
+                    setStaticTarget(node, finalConfigs[index]);
+                });
         }
     }
 
-    private teamScoreFlyOut(phaseProgress: number) {
-        if (phaseProgress === 0) {
-            this.playAnimForTarget(this.teamScore, this.tweenConfigs.teamScoreFlyUp.out);
-        } else {
-            this.setStaticTarget(this.teamScore, this.tweenConfigs.teamScoreFlyUp.out);
-        }
+    private teamScoreFlyIn(phaseProgress: number) {
+        this.playAnimByPhaseProgress(this.teamScore, this.tweenConfigs.teamScoreFlyUp.in, phaseProgress);
     }
 
     private scheduleBetChoiceFadeIn(action: BetState) {
