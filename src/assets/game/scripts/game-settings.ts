@@ -29,6 +29,10 @@ export const settings = {
         streamingSecondHalfVideo: 32,
         timeUp: 2,
     },
+    hedgeBetGroups: [
+        ["home", "away"],
+        ["awayLive", "homeLive"],
+    ],
     numberOfRoundHistory: 100,
     durationShowPromptMessage: 1,
 };
