@@ -30,6 +30,7 @@ export class VideoStreamStore {
     private _isBreakTime = false;
     private _currentMatchTime = 0;
     private _isLiveVideo = false;
+    private _isSecondHalf = false;
 
     liveStreamServer = "";
 
@@ -53,6 +54,8 @@ export class VideoStreamStore {
         this._isBreakTime = roundTime <= firstHalfVideoDuration && roundTime > firstHalfVideoDuration - settings.durations.breakTime;
 
         this._isLiveVideo = !this._isBreakTime && roundTime >= 0 && roundTime <= settings.points.streamingFirstHalfVideo;
+
+        this._isSecondHalf = roundTime >= 0 && roundTime <= settings.points.streamingSecondHalfVideo;
 
         this.updateCurrentVideoAndScores();
     }
@@ -200,7 +203,6 @@ export class VideoStreamStore {
 
     set videoResult(source: MarbleFootballServiceMessages.VideoStream) {
         this._videoResult = source;
-        this.resetScores();
     }
 
     get videoResult(): MarbleFootballServiceMessages.VideoStream {
@@ -237,6 +239,10 @@ export class VideoStreamStore {
 
     get isLiveVideo(): boolean {
         return this._isLiveVideo;
+    }
+
+    get isSecondHalf(): boolean {
+        return this._isSecondHalf;
     }
 
     resetForNewRound() {

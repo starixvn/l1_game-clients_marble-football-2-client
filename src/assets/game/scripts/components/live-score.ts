@@ -46,10 +46,10 @@ export class LiveScore extends ObserverComponent {
         this.away.setIcon(away);
     }
 
-    @render(VideoStreamStore, (store) => store.isFirstHalf)
-    setMatch(isFirstHalf: boolean) {
+    @render(VideoStreamStore, (store) => store.isSecondHalf)
+    setMatch(isSecondHalf: boolean) {
         const halfLabel = this.half.getComponent(LocalizedLabel);
-        halfLabel.key = isFirstHalf ? "MarbleFootball.first_half" : "MarbleFootball.second_half";
+        halfLabel.key = isSecondHalf ? "MarbleFootball.second_half" : "MarbleFootball.first_half";
         halfLabel.updateLabel();
     }
 

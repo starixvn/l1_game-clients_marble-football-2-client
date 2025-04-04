@@ -588,7 +588,7 @@
             <key>size</key>
             <string>{512,2048}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:06558fb526b9d8d94458ab3cd896c7de:5eeda7b663e49cfd7a9305c83c9cfecc:b0f8fbd393ae9d1a95baaa51e50f3d50$</string>
+            <string>$TexturePacker:SmartUpdate:d1e5167883a2f94e9c899da526eadcdc:5eeda7b663e49cfd7a9305c83c9cfecc:b0f8fbd393ae9d1a95baaa51e50f3d50$</string>
             <key>textureFileName</key>
             <string>main.webp</string>
         </dict>

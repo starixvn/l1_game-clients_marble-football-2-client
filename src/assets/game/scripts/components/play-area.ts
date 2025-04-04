@@ -164,6 +164,7 @@ export class PlayArea extends ObserverComponent {
         return config;
     }
 
+    ///TODO: Remove this phase if we don't need it
     @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
     registerPhaseShowLiveScore() {
         const config: GamePhaseConfig = {
@@ -299,10 +300,15 @@ export class PlayArea extends ObserverComponent {
                 this.zoomPlayArea("in", phase.id === PhaseId.ShowBetChoicesPrev ? "prev" : "live");
             }
 
+            if (phase.id === PhaseId.ShowBetChoicesLive) {
+                this.teamScoreFlyOut(phase.progress);
+            }
+
             return;
         }
 
         if (phase.id === PhaseId.ShowIntroVideo || phase.id === PhaseId.ShowLiveVideo) {
+            this.teamScoreFlyIn(phase.progress);
             if (phase.progress === 0) {
                 this.playAnimForTarget(this.scoreBoard, this.tweenConfigs.fadeInOut.out);
             } else {
@@ -327,15 +333,21 @@ export class PlayArea extends ObserverComponent {
             this.fadeOutBetChoiceNode(this.containerBets, true, this.durationShowBetChoices);
             return;
         }
+    }
 
-        if (phase.id === this.ShowLiveScore) {
-            if (phase.progress === 0) {
-                this.playAnimForTarget(this.teamScore, this.tweenConfigs.teamScoreFlyUp.in);
-            } else {
-                this.setStaticTarget(this.teamScore, this.tweenConfigs.teamScoreFlyUp.in);
-            }
+    private teamScoreFlyIn(phaseProgress: number) {
+        if (phaseProgress === 0) {
+            this.playAnimForTarget(this.teamScore, this.tweenConfigs.teamScoreFlyUp.in);
+        } else {
+            this.setStaticTarget(this.teamScore, this.tweenConfigs.teamScoreFlyUp.in);
+        }
+    }
 
-            return;
+    private teamScoreFlyOut(phaseProgress: number) {
+        if (phaseProgress === 0) {
+            this.playAnimForTarget(this.teamScore, this.tweenConfigs.teamScoreFlyUp.out);
+        } else {
+            this.setStaticTarget(this.teamScore, this.tweenConfigs.teamScoreFlyUp.out);
         }
     }
 
