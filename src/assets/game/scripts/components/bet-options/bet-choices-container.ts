@@ -45,6 +45,12 @@ export class BetChoicesContainer extends ObserverComponent {
     renderOwnBets(ownBets: gc.GameServiceMessage.OwnBets) {
         this._ownBets = ownBets;
     }
+
+    @render(Rounds.RoundStore, (store) => store.userBetPercentage)
+    renderUserBetPercentage(userBetPercentage: gc.GameServiceMessage.UserBetPercentage) {
+        this._userPercentage = userBetPercentage;
+    }
+
     onLoad(): void {
         this.betItemsPrev = this.betChoicesPrev.getComponent(BetItems);
         this.betItemsLive = this.betChoicesLive.getComponent(BetItems);
@@ -153,6 +159,7 @@ export class BetChoicesContainer extends ObserverComponent {
         const finalBetItems = this.betChoicesFinal.getComponent(BetItemsFinal);
         finalBetItems.bindTotalBets(this._totalBets);
         finalBetItems.bindOwnBets(this._ownBets);
+        finalBetItems.bindUserBetPercentage(this._userPercentage);
     }
 
     setDisableBetChoicesInMatch() {

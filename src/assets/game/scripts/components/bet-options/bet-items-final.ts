@@ -31,6 +31,19 @@ export class BetItemsFinal extends BetItemsPolygonBase {
         });
     }
 
+    @render(Rounds.RoundStore, (store) => store.userBetPercentage)
+    handleUserBetPercentage(userBetPercentage: gc.GameServiceMessage.UserBetPercentage) {}
+
+    bindUserBetPercentage(userBetPercentage: gc.GameServiceMessage.UserBetPercentage) {
+        if (!userBetPercentage) {
+            return;
+        }
+        this.betItemComponents.forEach((betItem) => {
+            const choice = betItem.node.name;
+            betItem.renderUserBetPercentage(userBetPercentage ? userBetPercentage[choice] + userBetPercentage[`${choice}Live`] : 0);
+        });
+    }
+
     @render(Rounds.RoundStore, (store) => store.highLightAnim, { fireImmediately: false })
     handleHighlightAnim(highLightInfo: gc.Rounds.THighlightAnim) {
         const { settlementResult, isAnim } = highLightInfo;

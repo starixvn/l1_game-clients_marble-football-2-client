@@ -1,6 +1,7 @@
 import { _decorator, Node } from "cc";
 import { BetItemsPolygon as BetItemsPolygonBase } from "db://shared-components/game/bets/scripts/components/bet-items-polygon";
 import observer from "observer";
+import gc from "@sg/game-client-base";
 import { OddsStore, OddsWithConfig } from "../../features/dynamic-odds/odds-store";
 
 const { ccclass, property } = _decorator;
@@ -25,6 +26,30 @@ export class BetItems extends BetItemsPolygonBase {
         Object.keys(odds || {}).forEach((choice) => {
             const betItem = this.filterBetItem(choice);
             betItem?.renderOdd(odds[choice], fractional);
+        });
+    }
+
+    @render(gc.Rounds.RoundStore, (store) => store.userBetPercentage)
+    handleUserBetPercentage(userBetPercentage: gc.GameServiceMessage.UserBetPercentage) {
+        if (!userBetPercentage) {
+            return;
+        }
+        const preBetChoicesSum = Object.entries(userBetPercentage)
+            .filter(([choice, value]) => !choice.includes("Live"))
+            .reduce((acc, [choice, value]) => {
+                acc += value;
+                return acc;
+            }, 0);
+        const liveBetChoicesSum = Object.entries(userBetPercentage)
+            .filter(([choice, value]) => choice.includes("Live"))
+            .reduce((acc, [choice, value]) => {
+                acc += value;
+                return acc;
+            }, 0);
+        this.betItemComponents.forEach((betItem) => {
+            const choice = betItem.node.name;
+            const userBetPercentageSum = choice.includes("Live") ? liveBetChoicesSum : preBetChoicesSum;
+            betItem.renderUserBetPercentage(userBetPercentage ? Math.round((userBetPercentage[choice] / userBetPercentageSum) * 100) : 0);
         });
     }
 }
