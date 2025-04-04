@@ -7,7 +7,6 @@ const { injectable, inject } = inversify;
 @injectable()
 export class ButtonsBetHandler {
     @inject(ButtonsBetStore) private buttonsBetStore: ButtonsBetStore;
-    name = gc.Shared.GameServiceMessage.GameOdds.eventName;
 
     handlePreviewBets(isPreviewBets: boolean) {
         this.buttonsBetStore.isPreviewBets = isPreviewBets;
