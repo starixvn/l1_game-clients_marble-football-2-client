@@ -83,29 +83,37 @@ export class BetChoicesContainer extends ObserverComponent {
             return;
         }
 
-        const phaseHandlers = {
-            [PhaseId.ShowIntroVideo]: () => {
-                this.setDisabledBetChoices("prev", true);
+        const phaseConfigs = {
+            [PhaseId.ShowPrevVideo]: {
+                prevDisabled: true,
+                previewBetsEnabled: true,
             },
-            [PhaseId.ShowPrevVideo]: () => {
-                this.setDisabledBetChoices("prev", true);
-                this.setEnabledPreviewBets(true);
+            [PhaseId.ShowLiveVideo]: {
+                prevDisabled: true,
+                liveDisabled: true,
+                previewBetsEnabled: true,
             },
-            [PhaseId.ShowLiveVideo]: () => {
-                this.setDisabledBetChoices("prev", true);
-                this.setDisabledBetChoices("live", true);
-                this.setEnabledPreviewBets(true);
+            [PhaseId.Halftime]: {
+                previewBetsEnabled: false,
             },
-            default: () => {
-                this.setDisabledBetChoices("prev", false);
-                this.setDisabledBetChoices("live", false);
-                this.setEnabledPreviewBets(false);
+            [PhaseId.ShowBetChoicesLive]: {
+                liveDisabled: false,
+                previewBetsEnabled: false,
+            },
+            [PhaseId.ShowBetChoicesPrev]: {
+                prevDisabled: false,
+                previewBetsEnabled: false,
             },
         };
 
-        const handler = phaseHandlers[phase.id] || phaseHandlers.default;
-        console.log("renderEnterPhase: selected handler =", phase.id in phaseHandlers ? phase.id : "default");
-        handler();
+        const config = phaseConfigs[phase.id];
+        if (config) {
+            this.setDisabledBetChoices("prev", config.prevDisabled);
+            if (typeof config.liveDisabled === "boolean") {
+                this.setDisabledBetChoices("live", config.liveDisabled);
+            }
+            this.setEnabledPreviewBets(config.previewBetsEnabled);
+        }
     }
 
     private setDisabledBetChoices(type: "prev" | "live", isDisabled: boolean) {
@@ -115,6 +123,7 @@ export class BetChoicesContainer extends ObserverComponent {
     }
 
     private setEnabledPreviewBets(isEnabled: boolean) {
+        isEnabled && this.statusBetsButton.setVisibilityState(false);
         this.previewBetsButton.active = isEnabled;
     }
 

@@ -17,6 +17,7 @@ export const settings = {
         outro: 0.67,
         showHaftTime: 3,
         introVideo: 3,
+        hidePreviewBetChoices: 2,
     },
     points: {
         placingBetPreMatch: 110,

@@ -150,6 +150,8 @@ export class PlayArea extends ObserverComponent {
         this.registerPhaseShowPrevVideo();
         this.registerPhaseShowLiveVideo();
         this.registerSettlement();
+        this.registerPhaseHideBetChoicesPrev();
+        this.registerPhaseHideBetChoicesLive();
     }
 
     @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
@@ -232,6 +234,26 @@ export class PlayArea extends ObserverComponent {
         return config;
     }
 
+    @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
+    registerPhaseHideBetChoicesLive() {
+        const config: GamePhaseConfig = {
+            id: PhaseId.HidePreviewBetChoicesLive,
+            begin: settings.points.streamingSecondHalfVideo - settings.durations.hidePreviewBetChoices,
+            end: settings.points.streamingSecondHalfVideo - settings.durations.videoDuration,
+        };
+        return config;
+    }
+
+    @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
+    registerPhaseHideBetChoicesPrev() {
+        const config: GamePhaseConfig = {
+            id: PhaseId.HidePreviewBetChoicesPrev,
+            begin: settings.points.streamingFirstHalfVideo - settings.durations.hidePreviewBetChoices,
+            end: settings.points.streamingFirstHalfVideo - settings.durations.videoDuration,
+        };
+        return config;
+    }
+
     @render(GamePhaseStore, (store) => store.enterPhase)
     renderEnterPhase(phase: GamePhase) {
         if (!phase) {
@@ -255,9 +277,6 @@ export class PlayArea extends ObserverComponent {
         if (phase.id === PhaseId.Settlement) {
             this.betChoicesContainer.setEnableBetChoices("final");
             this.fadeOutBetChoiceNode(this.containerBets, false, 0);
-            this.chipContainers.forEach((container) => {
-                container.setPosition(v3(0, 0, 0));
-            });
 
             return;
         }
@@ -300,6 +319,12 @@ export class PlayArea extends ObserverComponent {
                 this.phasePreviewBets = "live";
             }
 
+            return;
+        }
+
+        if (phase.id === PhaseId.HidePreviewBetChoicesLive || phase.id === PhaseId.HidePreviewBetChoicesPrev) {
+            this.betChoicesContainer.setDisableBetChoices();
+            this.fadeOutBetChoiceNode(this.containerBets, true, this.durationShowBetChoices);
             return;
         }
 
@@ -454,25 +479,30 @@ export class PlayArea extends ObserverComponent {
         return isPreviewBets;
     }
 
-    @render(ButtonsBetStore, (store) => store.isPreviewBets, { fireImmediately: false })
-    renderButtonsBet(isPreviewBets: boolean) {
-        this.previewBetsButton.setStatus(isPreviewBets);
-        this.isPreviewBets = isPreviewBets;
+    private getCurrentChipContainer(): Node {
+        return this.phasePreviewBets === "prev" ? this.chipContainerPrev : this.chipContainerLive;
+    }
 
-        if (isPreviewBets) {
-            this.scheduleBetChoiceFadeIn(this.phasePreviewBets == "prev" ? "prev" : "live");
-            this.playAnimForTarget(this.containerBets, this.tweenConfigs.betChoiceZoomInOut.in);
-            this.playAnimForTarget(
-                this.phasePreviewBets == "prev" ? this.chipContainerPrev : this.chipContainerLive,
-                this.tweenConfigs.chipContainerZoomInOut.in
-            );
+    private async animateBetElements(direction: "in" | "out", showBets: boolean) {
+        const chipContainer = this.getCurrentChipContainer();
+        const betState = this.phasePreviewBets === "prev" ? "prev" : "live";
+
+        if (showBets) {
+            this.scheduleBetChoiceFadeIn(betState);
         } else {
             this.scheduleBetChoiceFadeOut();
-            this.playAnimForTarget(this.containerBets, this.tweenConfigs.betChoiceZoomInOut.out);
-            this.playAnimForTarget(
-                this.phasePreviewBets == "prev" ? this.chipContainerPrev : this.chipContainerLive,
-                this.tweenConfigs.chipContainerZoomInOut.out
-            );
         }
+
+        await Promise.all([
+            this.playAnimForTarget(this.containerBets, this.tweenConfigs.betChoiceZoomInOut[direction]),
+            this.playAnimForTarget(chipContainer, this.tweenConfigs.chipContainerZoomInOut[direction]),
+        ]);
+    }
+
+    @render(ButtonsBetStore, (store) => store.isPreviewBets, { fireImmediately: false })
+    async renderButtonsBet(isPreviewBets: boolean) {
+        this.previewBetsButton.setVisibilityState(isPreviewBets);
+        this.isPreviewBets = isPreviewBets;
+        await this.animateBetElements(isPreviewBets ? "in" : "out", isPreviewBets);
     }
 }
