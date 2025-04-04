@@ -235,7 +235,7 @@
     "_priority": 0,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 534.8936877076412,
+    "_orthoHeight": 393,
     "_near": 0,
     "_far": 1000,
     "_color": {
@@ -4958,6 +4958,9 @@
     },
     "firstHalfScore": {
       "__id__": 64
+    },
+    "mainPlayerNode": {
+      "__id__": 177
     },
     "disappearingNodes": [
       {
