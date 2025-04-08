@@ -29,7 +29,7 @@ variables:
       TIMEOUT_SECOND=15
       STATUS_SUCCESS=36
 
-      until /Applications/CocosCreator/Creator/$COCOS_VERSION/CocosCreator.app/Contents/MacOS/CocosCreator --project "./$COCOS_PROJECT_DIR" --build "platform=web-mobile;debug=false;webOrientation=landscape;md5Cache=true;replaceSplashScreen=true"; do
+      until /Applications/CocosCreator/Creator/$COCOS_VERSION/CocosCreator.app/Contents/MacOS/CocosCreator --project "./$COCOS_PROJECT_DIR" --build "platform=web-mobile;debug=false;webOrientation=landscape;md5Cache=true;replaceSplashScreen=true;clean=true"; do
         EXIT_STATUS=$?
         echo "Status build: $EXIT_STATUS"
         if [ $EXIT_STATUS -eq $STATUS_SUCCESS ]; then

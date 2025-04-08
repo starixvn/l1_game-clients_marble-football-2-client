@@ -11,8 +11,8 @@
         "progress": 1,
         "state": "success",
         "stage": "build",
-        "message": "3-26-2025 10:59:48 build success in 2 min 48 s!",
-        "detailMessage": "// ---- build task adsense-h5g-plugin：onAfterBuild ----\r",
+        "message": "4-8-2025 10:09:17 build success in 3 min 14 s!",
+        "detailMessage": "builder:build-project-total (193920ms)\r",
         "options": {
           "name": "cocos-3x",
           "platform": "web-mobile",
@@ -36,10 +36,6 @@
             {
               "url": "db://assets/game/game.scene",
               "uuid": "1d66fe24-7c49-4def-aad0-8da6fcdc7605"
-            },
-            {
-              "url": "db://assets/game/scene-tournament.scene",
-              "uuid": "87552cea-ac00-48cc-aadf-c89a137ed021"
             },
             {
               "url": "db://assets/game/splash/splash.scene",
@@ -112,7 +108,7 @@
           "mangleProperties": false,
           "inlineEnum": true
         },
-        "time": "3-26-2025 10:56:59",
+        "time": "4-8-2025 10:06:02",
         "dirty": false
       }
     }
@@ -130,10 +126,6 @@
       {
         "url": "db://assets/game/game.scene",
         "uuid": "1d66fe24-7c49-4def-aad0-8da6fcdc7605"
-      },
-      {
-        "url": "db://assets/game/scene-tournament.scene",
-        "uuid": "87552cea-ac00-48cc-aadf-c89a137ed021"
       },
       {
         "url": "db://assets/game/splash/splash.scene",
