@@ -168,7 +168,7 @@
       },
       "render-pipeline": {
         "_value": true,
-        "_option": "legacy-pipeline"
+        "_option": "custom-pipeline"
       },
       "custom-pipeline": {
         "_value": true
@@ -185,10 +185,10 @@
       "animation",
       "audio",
       "base",
+      "custom-pipeline",
       "custom-pipeline-post-process",
       "gfx-webgl",
       "intersection-2d",
-      "legacy-pipeline",
       "particle-2d",
       "physics-2d-box2d",
       "profiler",

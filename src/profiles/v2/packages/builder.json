@@ -11,8 +11,8 @@
         "progress": 1,
         "state": "success",
         "stage": "build",
-        "message": "4-8-2025 10:09:17 build success in 3 min 14 s!",
-        "detailMessage": "builder:build-project-total (193920ms)\r",
+        "message": "4-8-2025 11:27:29 build success in 2 min 52 s!",
+        "detailMessage": "builder:build-project-total (171481ms)\r",
         "options": {
           "name": "cocos-3x",
           "platform": "web-mobile",
@@ -108,7 +108,7 @@
           "mangleProperties": false,
           "inlineEnum": true
         },
-        "time": "4-8-2025 10:06:02",
+        "time": "4-8-2025 11:24:37",
         "dirty": false
       }
     }
