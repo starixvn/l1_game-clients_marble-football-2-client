@@ -9,8 +9,8 @@ import { GamePhaseStore } from "../features/game-phase/game-phase-store";
 import { settings } from "../game-settings";
 import { BetChoicesContainer } from "./bet-options/bet-choices-container";
 import { StatusBetsButton } from "./bet-options/status-bets-button";
-import { ButtonsBetHandler } from "../features/buttons/buttons-bet-handler";
-import { ButtonsBetStore } from "../features/buttons/buttons-bet-store";
+import { ButtonsBetStore } from "../features/preview-bets/buttons-bet-store";
+import { PreviewBetsHandler } from "../features/preview-bets/preview-bets-handler";
 
 const { getUiOpacity } = AnimationUtils;
 const { ccclass, property } = _decorator;
@@ -549,7 +549,7 @@ export class PlayArea extends ObserverComponent {
         this.setPreviewBets(!this.isPreviewBets);
     }
 
-    @handle(ButtonsBetHandler, (handle, isPreviewBets: boolean) => handle.handlePreviewBets(isPreviewBets))
+    @handle(PreviewBetsHandler, (handle, isPreviewBets: boolean) => handle.handlePreviewBets(isPreviewBets))
     private setPreviewBets(isPreviewBets: boolean) {
         return isPreviewBets;
     }

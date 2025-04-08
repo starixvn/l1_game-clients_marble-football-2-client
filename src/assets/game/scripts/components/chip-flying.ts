@@ -11,6 +11,7 @@ import { GamePhaseStore } from "../features/game-phase/game-phase-store";
 import { BetChoicesContainer } from "./bet-options/bet-choices-container";
 import { FunctionUtils } from "db://shared-components/shared/utils";
 import BetItem from "db://shared-components/game/bets/scripts/components/bet-item";
+import { ChipsPreviewStore } from "../features/preview-bets/chips-preview-store";
 
 const { ccclass, property } = _decorator;
 const { handle, render } = Observer;
@@ -39,6 +40,8 @@ export class ChipFlying extends ChipFlyingShared {
     isJoinGame = false;
     chipContainers: Node[] = [];
     isFinalState = false;
+
+    chipByChipComponents: Record<string, Node> = {};
 
     onLoad(): void {
         this.chipContainers = [this.chipContainerPrev, this.chipContainerLive, this.chipContainerFinal];
@@ -259,36 +262,63 @@ export class ChipFlying extends ChipFlyingShared {
         });
     }
 
-    @render(Chips.ChipStore, (store) => store.chipsByMainPlayerRate)
-    async flyChipsWhenJoinGame(chipsByMainPlayerRate: gc.Chips.TChipsByMainPlayerRate) {
-        if (!this.node.activeInHierarchy || !chipsByMainPlayerRate.isShow || Object.keys(chipsByMainPlayerRate?.chips).length === 0) {
+    override async flyChipsWhenJoinGame(chipsByMainPlayerRate: Record<string, any>) {}
+
+    @render(ChipsPreviewStore, (store) => store.chips)
+    async bindChipsWhenJoinGame(chipsByMainPlayerRate: Record<string, any>) {
+        if (Object.keys(chipsByMainPlayerRate).length === 0) {
             return;
         }
 
-        while (!this.slidingChip.getReady()) {
-            await FunctionUtils.delay(100);
-        }
+        const betItemsByChoice = await this.betChoicesContainer.betItemsByChoice();
 
-        for (const betItem of this.betItems.betItemComponents) {
-            if (this.isFinalState) {
-                this.handleAddChipsWhenJoinFinal(chipsByMainPlayerRate, betItem);
-            } else {
-                this.handleAddChipsWhenJoin(chipsByMainPlayerRate, betItem.chipBox, betItem.betChoice);
+        for (const [key, value] of Object.entries(chipsByMainPlayerRate)) {
+            const chipGroup = value;
+            const chipBox = betItemsByChoice[key].chipBox;
+            if (chipGroup && chipBox) {
+                const chipContainer = this.getChipContainerAndChipBoxByChoice(key);
+                const nodes = addChipsToChipBoxWhenJoinRoom(chipContainer, betItemsByChoice[key].chipBox, chipGroup, this.slidingChip);
+                this.addChipsToBoxWithChoice(nodes, key);
             }
         }
     }
 
-    protected handleAddChipsWhenJoin(chipsByMainPlayerRate: gc.Chips.TChipsByMainPlayerRate, chipBox: Node, betChoice: string) {
-        const chipGroup = chipsByMainPlayerRate.chips[betChoice];
+    getChipContainerAndChipBoxByChoice(choice: string) {
+        return choice.includes("Live") ? this.chipContainerLive : this.chipContainerPrev;
+    }
+
+    betItemsGetReady() {
+        return this.betItems.betItemComponents.length > 0;
+    }
+
+    protected handleAddChipsWhenJoin(chipsByMainPlayerRate: Record<string, any>, chipBox: Node, betChoice: string) {
+        const chipGroup = chipsByMainPlayerRate[betChoice];
+        console.log("chipGroup", chipGroup);
         if (chipGroup) {
             const nodes = addChipsToChipBoxWhenJoinRoom(this.currentChipContainer, chipBox, chipGroup, this.slidingChip);
             this.addChipsToBoxWithChoice(nodes, betChoice);
         }
     }
 
-    protected handleAddChipsWhenJoinFinal(chipsByMainPlayerRate: gc.Chips.TChipsByMainPlayerRate, betItem: BetItem) {
-        [betItem.betChoice, `${betItem.betChoice}Live`].forEach((choice) => {
-            this.handleAddChipsWhenJoin(chipsByMainPlayerRate, betItem.chipBox, choice);
-        });
+    @render(ChipsPreviewStore, (store) => store.finalChips)
+    protected handleAddChipsWhenJoinFinal(chipsByMainPlayerRate: Record<string, any>) {
+        if (Object.keys(chipsByMainPlayerRate).length === 0) {
+            return;
+        }
+
+        const betItemsFinal = this.betChoicesContainer.getBetItemsFinal();
+        const betItemsByChoice = betItemsFinal.betItemComponents.reduce((acc, item) => {
+            acc[item.betChoice] = item;
+            return acc;
+        }, {});
+
+        for (const [key, value] of Object.entries(chipsByMainPlayerRate)) {
+            const chipGroup = value;
+            const chipBox = betItemsByChoice[key].chipBox;
+            if (chipGroup && chipBox) {
+                const nodes = addChipsToChipBoxWhenJoinRoom(this.chipContainerFinal, chipBox, chipGroup, this.slidingChip);
+                this.addChipsToBoxWithChoice(nodes, key);
+            }
+        }
     }
 }

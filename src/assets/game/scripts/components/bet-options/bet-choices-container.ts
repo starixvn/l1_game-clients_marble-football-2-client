@@ -7,6 +7,9 @@ import { BetItemsFinal } from "./bet-items-final";
 import { BetItems } from "./bet-items";
 import { GamePhaseStore } from "../../features/game-phase/game-phase-store";
 import { GamePhase, PhaseId } from "../../features/game-phase/game-phase-definitions";
+import BetItem from "db://shared-components/game/bets/scripts/components/bet-item";
+import { FunctionUtils } from "db://shared-components/shared/utils";
+import { PreviewBetsHandler } from "../../features/preview-bets/preview-bets-handler";
 const { ccclass, property } = _decorator;
 
 const { Rounds } = gc;
@@ -25,6 +28,8 @@ export class BetChoicesContainer extends ObserverComponent {
 
     @property(Node)
     previewBetsButton: Node = null;
+
+    loadedChips = false;
 
     private _totalBets: Record<string, number> = {};
     private _ownBets: Record<string, number> = {};
@@ -160,7 +165,11 @@ export class BetChoicesContainer extends ObserverComponent {
         finalBetItems.bindTotalBets(this._totalBets);
         finalBetItems.bindOwnBets(this._ownBets);
         finalBetItems.bindUserBetPercentage(this._userPercentage);
+        this.triggerLoadedChips();
     }
+
+    @handle(PreviewBetsHandler, (handle) => handle.triggerBoundChips())
+    triggerLoadedChips() {}
 
     setDisableBetChoicesInMatch() {
         this.betChoicesInMatch.forEach((node) => {
@@ -179,4 +188,24 @@ export class BetChoicesContainer extends ObserverComponent {
     getBetItemsFinal() {
         return this.betItemsFinal;
     }
+
+    betItemsGetReady() {
+        return this.betItemsPrev.betItemComponents.length > 0 || this.betItemsLive.betItemComponents.length > 0;
+    }
+
+    async betItemsByChoice() {
+        const betItemsByChoice: Record<string, BetItem> = {};
+        const betItemsPrev = this.betChoicesPrev.getComponent(BetItems).getComponentsInChildren(BetItem);
+        const betItemsLive = this.betChoicesLive.getComponent(BetItems).getComponentsInChildren(BetItem);
+
+        for (const betItem of betItemsLive) {
+            betItemsByChoice[betItem.betChoice] = betItem;
+        }
+        for (const betItem of betItemsPrev) {
+            betItemsByChoice[betItem.betChoice] = betItem;
+        }
+        return betItemsByChoice;
+    }
+
+    betItemsByChoiceFinal() {}
 }
