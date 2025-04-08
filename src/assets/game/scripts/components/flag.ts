@@ -9,6 +9,9 @@ export class Flag extends Component {
 
     setIcon(icon: string) {
         const atlas = this.icon.spriteAtlas;
+        if (!atlas) {
+            return;
+        }
         const spriteFrame = atlas.getSpriteFrame(icon);
         spriteFrame && (this.icon.spriteFrame = spriteFrame);
     }

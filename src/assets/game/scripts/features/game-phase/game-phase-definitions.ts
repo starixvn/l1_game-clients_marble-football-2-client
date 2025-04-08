@@ -25,8 +25,8 @@ export enum PhaseId {
     ShowBetChoicesPrev = "show-bet-choices-prev",
     ShowWinnerAndTournament = "show-winner-and-tournament",
     showGameBackground = "show-game-background",
-    HidePreviewBetChoicesLive = "hide-preview-bet-choices-live",
-    HidePreviewBetChoicesPrev = "hide-preview-bet-choices-prev",
+    AutoHidePreviewBetChoicesLive = "auto-hide-preview-bet-choices-live",
+    AutoHidePreviewBetChoicesPrev = "auto-hide-preview-bet-choices-prev",
 }
 
 export const TimePointTournament = settings.points.placingBetPreMatch + settings.durations.tournament;

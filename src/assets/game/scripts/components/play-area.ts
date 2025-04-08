@@ -86,11 +86,11 @@ export class PlayArea extends ObserverComponent {
         },
         betChoicePreviewZoomInOut: {
             in: { position: v3(0, -183, 0), time: 0 },
-            out: { position: v3(0, -183, 0), time: 0 },
+            out: { position: v3(0, -570, 0), time: 0 },
         },
         chipContainerPreviewZoomInOut: {
             in: { position: v3(0, -89, 0), time: 0 },
-            out: { position: v3(0, -89, 0), time: 0 },
+            out: { position: v3(0, -410, 0), time: 0 },
         },
         chipContainerZoomInOut: {
             in: { position: v3(0, 0, 0), time: 0.5 },
@@ -260,8 +260,8 @@ export class PlayArea extends ObserverComponent {
     @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
     registerPhaseHideBetChoicesLive() {
         const config: GamePhaseConfig = {
-            id: PhaseId.HidePreviewBetChoicesLive,
-            begin: settings.points.streamingSecondHalfVideo - settings.durations.videoDuration - settings.durations.hidePreviewBetChoices,
+            id: PhaseId.AutoHidePreviewBetChoicesLive,
+            begin: settings.points.streamingSecondHalfVideo + settings.durations.hidePreviewBetChoices - settings.durations.videoDuration,
             end: settings.points.streamingSecondHalfVideo - settings.durations.videoDuration,
         };
         return config;
@@ -270,8 +270,8 @@ export class PlayArea extends ObserverComponent {
     @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
     registerPhaseHideBetChoicesPrev() {
         const config: GamePhaseConfig = {
-            id: PhaseId.HidePreviewBetChoicesPrev,
-            begin: settings.points.streamingFirstHalfVideo - settings.durations.videoDuration - settings.durations.hidePreviewBetChoices,
+            id: PhaseId.AutoHidePreviewBetChoicesPrev,
+            begin: settings.points.streamingFirstHalfVideo + settings.durations.hidePreviewBetChoices - settings.durations.videoDuration,
             end: settings.points.streamingFirstHalfVideo - settings.durations.videoDuration,
         };
         return config;
@@ -371,10 +371,13 @@ export class PlayArea extends ObserverComponent {
             return;
         }
 
-        if (phase.id === PhaseId.HidePreviewBetChoicesLive || phase.id === PhaseId.HidePreviewBetChoicesPrev) {
+        if (phase.id === PhaseId.AutoHidePreviewBetChoicesLive || phase.id === PhaseId.AutoHidePreviewBetChoicesPrev) {
             this.betChoicesContainer.setDisableBetChoices();
             this.fadeOutBetChoiceNode(this.containerBets, true, this.durationShowBetChoices);
-            if (phase.id === PhaseId.HidePreviewBetChoicesLive) {
+            this.chipContainers.forEach((chipContainer) => {
+                this.setStaticTarget(chipContainer, this.tweenConfigs.chipContainerZoomInOut.out);
+            });
+            if (phase.id === PhaseId.AutoHidePreviewBetChoicesLive) {
                 this.playAnimByPhaseProgress(this.firstHalfScore, this.tweenConfigs.fadeInOut.out, phase.progress);
 
                 return;
