@@ -172,6 +172,10 @@ export class ChipFlying extends ChipFlyingShared {
     }
 
     moveChipsToFinalContainer(chipContainer: Node) {
+        if (!chipContainer) {
+            return;
+        }
+
         const children = [...chipContainer.children];
         chipContainer.setPosition(0, 0, 0);
         for (const child of children) {
@@ -188,7 +192,7 @@ export class ChipFlying extends ChipFlyingShared {
 
         this.moveChipsToFinalContainer(this.chipContainerPrev);
         this.moveChipsToFinalContainer(this.chipContainerLive);
-        this.betItems.updateSettlementResult(settlementResult);
+        this.betItems?.updateSettlementResult(settlementResult);
 
         if (!this.node.activeInHierarchy) {
             this.actionPayChips(false);

@@ -29,6 +29,7 @@ export class GamePhaseHandler {
     private cache = {};
 
     registerPhase(config: GamePhaseConfig) {
+        console.log("registerPhase: ", config.id);
         this.configs.push(config);
     }
 

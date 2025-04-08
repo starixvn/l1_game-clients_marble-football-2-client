@@ -282,6 +282,7 @@ export class PlayArea extends ObserverComponent {
         if (!phase) {
             return;
         }
+        console.log("renderEnterPhase: ", phase.id);
 
         if (phase.id === PhaseId.ShowWinnerAndTournament) {
             if (phase.progress === 0) {
@@ -462,6 +463,10 @@ export class PlayArea extends ObserverComponent {
     }
 
     private playAnimForTarget(node: Node, config: TweenConfig): Promise<void> {
+        if (!node) {
+            return;
+        }
+
         return new Promise((resolve) => {
             tween(node)
                 .to(
@@ -501,6 +506,9 @@ export class PlayArea extends ObserverComponent {
     }
 
     private setStaticTarget(node: Node, config: TweenConfig) {
+        if (!node) {
+            return;
+        }
         node.setPosition(config.position ?? node.position);
         node.setScale(config.scale ?? node.scale);
 
@@ -567,6 +575,10 @@ export class PlayArea extends ObserverComponent {
 
     @render(ButtonsBetStore, (store) => store.isPreviewBets, { fireImmediately: false })
     async renderButtonsBet(isPreviewBets: boolean) {
+        if (!this.previewBetsButton) {
+            return;
+        }
+
         this.previewBetsButton.setVisibilityState(isPreviewBets);
         this.isPreviewBets = isPreviewBets;
         this.animateBetElements();
