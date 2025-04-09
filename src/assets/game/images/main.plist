@@ -41,13 +41,13 @@
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{57,52}</string>
+                <string>{58,54}</string>
                 <key>spriteSourceSize</key>
-                <string>{57,52}</string>
+                <string>{58,54}</string>
                 <key>textureRect</key>
-                <string>{{95,1349},{57,52}}</string>
+                <string>{{121,804},{58,54}}</string>
                 <key>textureRotated</key>
-                <false/>
+                <true/>
             </dict>
             <key>bg-number.png</key>
             <dict>
@@ -135,7 +135,7 @@
                 <key>spriteSourceSize</key>
                 <string>{16,16}</string>
                 <key>textureRect</key>
-                <string>{{216,2018},{16,16}}</string>
+                <string>{{251,2018},{16,16}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -150,7 +150,7 @@
                 <key>spriteSourceSize</key>
                 <string>{16,16}</string>
                 <key>textureRect</key>
-                <string>{{234,2018},{16,16}}</string>
+                <string>{{269,2018},{16,16}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -225,7 +225,7 @@
                 <key>spriteSourceSize</key>
                 <string>{32,20}</string>
                 <key>textureRect</key>
-                <string>{{182,2018},{32,20}}</string>
+                <string>{{217,2018},{32,20}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -364,6 +364,21 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
+            <key>padlock.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{24,33}</string>
+                <key>spriteSourceSize</key>
+                <string>{24,33}</string>
+                <key>textureRect</key>
+                <string>{{182,2018},{24,33}}</string>
+                <key>textureRotated</key>
+                <true/>
+            </dict>
             <key>popup_text_bg.png</key>
             <dict>
                 <key>aliases</key>
@@ -495,9 +510,9 @@
                 <key>spriteSourceSize</key>
                 <string>{41,36}</string>
                 <key>textureRect</key>
-                <string>{{121,804},{41,36}}</string>
+                <string>{{121,864},{41,36}}</string>
                 <key>textureRotated</key>
-                <true/>
+                <false/>
             </dict>
             <key>time_bg_b.png</key>
             <dict>
@@ -510,9 +525,9 @@
                 <key>spriteSourceSize</key>
                 <string>{41,36}</string>
                 <key>textureRect</key>
-                <string>{{121,847},{41,36}}</string>
+                <string>{{164,870},{41,36}}</string>
                 <key>textureRotated</key>
-                <true/>
+                <false/>
             </dict>
             <key>tournament-line.png</key>
             <dict>
@@ -525,7 +540,7 @@
                 <key>spriteSourceSize</key>
                 <string>{28,57}</string>
                 <key>textureRect</key>
-                <string>{{198,1371},{28,57}}</string>
+                <string>{{95,1349},{28,57}}</string>
                 <key>textureRotated</key>
                 <true/>
             </dict>
@@ -588,7 +603,7 @@
             <key>size</key>
             <string>{512,2048}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:6ad5a2cd3d48970fe9317ce11f0359db:f47a6cb26dd3812642e39128c89c335a:b0f8fbd393ae9d1a95baaa51e50f3d50$</string>
+            <string>$TexturePacker:SmartUpdate:1ffbdb14f0ff9b8fbf2de460af7342d4:dc793aa08f5d1c0bbac4b1db9378b1ff:b0f8fbd393ae9d1a95baaa51e50f3d50$</string>
             <key>textureFileName</key>
             <string>main.webp</string>
         </dict>
