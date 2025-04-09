@@ -304,19 +304,25 @@ export const languages = {
         "team_ATM": "Atheist de Madrid",
         "team_BAR": "FC Barna",
         "team_BCW": "Boca Warriors",
+        "team_BOC": "Boca Warriors",
         "team_BVB": "Borussia Dog Munch",
         "team_CHE": "Chelsee",
         "team_FCB": "Baya Munich",
+        "team_FLA": "Flamenco",
         "team_FLC": "Flamenco",
         "team_INT": "Enter Milan",
         "team_JUV": "Javentas",
         "team_MCI": "Manchester Caliber",
         "team_MTY": "Montaray",
+        "team_PAL": "Palmaris",
         "team_PLM": "Palmaris",
+        "team_POR": "Porta FC",
         "team_PSG": "Paris X Germain",
         "team_PTA": "Porta FC",
+        "team_RIV": "Rio Plata",
         "team_RMA": "Unreal Madrid",
-        "team_RPL": "Rio Plata"
+        "team_RPL": "Rio Plata",
+        "team_SLB": "Sporting Benfica"
     }
 };
 

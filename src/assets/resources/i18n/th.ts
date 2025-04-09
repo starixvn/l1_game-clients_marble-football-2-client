@@ -304,19 +304,25 @@ export const languages = {
         "team_ATM": "อัตเลตีโก มาดริด",
         "team_BAR": "บาร์เซโลนา",
         "team_BCW": "Boca Warriors",
+        "team_BOC": "Boca Warriors",
         "team_BVB": "โบรุสเซีย ดอร์ทมุนด์",
         "team_CHE": "Chelsee",
         "team_FCB": "บาเยิร์น มิวนิก",
+        "team_FLA": "Flamenco",
         "team_FLC": "Flamenco",
         "team_INT": "อินเตอร์ มิลาน",
         "team_JUV": "ยูเวนตุส",
         "team_MCI": "แมนเชสเตอร์ ซิตี้",
         "team_MTY": "Montaray",
+        "team_PAL": "Palmaris",
         "team_PLM": "Palmaris",
+        "team_POR": "Porta FC",
         "team_PSG": "เปแอสเช",
         "team_PTA": "Porta FC",
+        "team_RIV": "Rio Plata",
         "team_RMA": "เรอัล มาดริด",
-        "team_RPL": "Rio Plata"
+        "team_RPL": "Rio Plata",
+        "team_SLB": "เบนฟิก้า"
     }
 };
 

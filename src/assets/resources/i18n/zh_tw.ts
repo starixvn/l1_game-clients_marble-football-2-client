@@ -304,19 +304,25 @@ export const languages = {
         "team_ATM": "馬德里體育會",
         "team_BAR": "巴塞隆拿",
         "team_BCW": "Boca Warriors",
+        "team_BOC": "Boca Warriors",
         "team_BVB": "多蒙特",
         "team_CHE": "Chelsee",
         "team_FCB": "拜仁慕尼黑",
+        "team_FLA": "Flamenco",
         "team_FLC": "Flamenco",
         "team_INT": "國際米蘭",
         "team_JUV": "祖雲達斯",
         "team_MCI": "曼城",
         "team_MTY": "Montaray",
+        "team_PAL": "Palmaris",
         "team_PLM": "Palmaris",
+        "team_POR": "Porta FC",
         "team_PSG": "巴黎聖日門",
         "team_PTA": "Porta FC",
+        "team_RIV": "Rio Plata",
         "team_RMA": "皇家馬德里",
-        "team_RPL": "Rio Plata"
+        "team_RPL": "Rio Plata",
+        "team_SLB": "賓菲加"
     }
 };
 
