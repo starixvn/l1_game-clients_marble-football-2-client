@@ -141,13 +141,13 @@ export class VideoStreamStore {
     }
 
     private getVideoData(): VideoData {
-        const isFirstHalf = this._isFirstHalf;
+        const isSecondHalf = this._isSecondHalf;
 
-        const videoName = isFirstHalf ? this._videoResult.firstHalfVideo : this._videoResult.secondHalfVideo;
-        const videoTimeline = isFirstHalf ? this._videoResult.firstHalfTimeline : this._videoResult.secondHalfTimeline;
-        const videoResult = isFirstHalf ? this._videoResult.firstHalf : this._videoResult.secondHalf;
+        const videoName = isSecondHalf ? this._videoResult.secondHalfVideo : this._videoResult.firstHalfVideo;
+        const videoTimeline = isSecondHalf ? this._videoResult.secondHalfTimeline : this._videoResult.firstHalfTimeline;
+        const videoResult = isSecondHalf ? this._videoResult.secondHalf : this._videoResult.firstHalf;
 
-        if (!videoName || !videoTimeline || !videoResult) return null;
+        if (!videoTimeline || !videoResult) return null;
 
         return { videoName, videoTimeline, videoResult };
     }
