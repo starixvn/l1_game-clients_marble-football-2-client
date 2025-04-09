@@ -95,6 +95,8 @@ export class BetChoicesContainer extends ObserverComponent {
             return;
         }
 
+        this.swapBetsButton.active = false;
+
         const phaseConfigs = {
             [PhaseId.ShowPrevVideo]: {
                 prevDisabled: true,
