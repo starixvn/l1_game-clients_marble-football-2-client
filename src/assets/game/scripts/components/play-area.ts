@@ -240,6 +240,10 @@ export class PlayArea extends ObserverComponent {
                 this.playAnimByPhaseProgress(this.firstHalfScore, this.tweenConfigs.fadeInOut.out, phase.progress);
             }
 
+            if (phase.id === PhaseId.ShowLiveVideo) {
+                this.playAnimByPhaseProgress(this.teamScore, this.tweenConfigs.teamScoreFlyUp.in, phase.progress);
+            }
+
             return;
         }
 
