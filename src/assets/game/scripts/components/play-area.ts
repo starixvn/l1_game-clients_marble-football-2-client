@@ -81,7 +81,7 @@ export class PlayArea extends ObserverComponent {
             out: { opacity: 1, time: 1 },
         },
         chipsFlyDown: {
-            in: { positionY: -327, opacity: 255, time: 0.2 },
+            in: { positionY: -306, opacity: 255, time: 0.2 },
             out: { positionY: -445, opacity: 0, time: 0.5 },
         },
         teamScoreFlyUp: {
