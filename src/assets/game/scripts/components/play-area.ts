@@ -32,7 +32,7 @@ export class PlayArea extends ObserverComponent {
     private chipContainerLive: Node = null;
 
     @property(Node)
-    private chipContainerFinal: Node = null;
+    private chipContainersParent: Node = null;
 
     @property(BetChoicesContainer)
     private betChoicesContainer: BetChoicesContainer = null;
@@ -56,20 +56,19 @@ export class PlayArea extends ObserverComponent {
     private disappearingNodes: Node[] = [];
 
     private isZoomOut: boolean = false;
-    private mainPlayAreaTargetsPrev: Array<{ target: Node; key: TweenKey }>;
-    private mainPlayAreaTargetsLive: Array<{ target: Node; key: TweenKey }>;
-    private mainPlayAreaTargetsFinal: Array<{ target: Node; key: TweenKey }>;
+    private mainPlayAreaTargets: Array<{ target: Node; key: TweenKey }>;
+
     private readonly tweenConfigs: Record<TweenKey, TweenConfigs> = {
         betChoiceZoomInOut: {
             in: { position: v3(0, -94, 0), time: 0.2 },
             out: { position: v3(0, -570, 0), time: 1 },
         },
         betChoicePreviewZoomInOut: {
-            in: { position: v3(0, -183, 0), time: 0 },
+            in: { position: v3(0, -94, 0), time: 0 },
             out: { position: v3(0, -570, 0), time: 0 },
         },
         chipContainerPreviewZoomInOut: {
-            in: { position: v3(0, -89, 0), time: 0 },
+            in: { position: v3(0, 0, 0), time: 0 },
             out: { position: v3(0, -410, 0), time: 0 },
         },
         chipContainerZoomInOut: {
@@ -94,7 +93,6 @@ export class PlayArea extends ObserverComponent {
     protected readonly durationShowBetChoices = 0.5;
 
     protected betChoicesParentContainer: Node = null;
-    protected chipContainers: Node[] = [];
 
     onLoad() {
         this.initializeContainers();
@@ -111,7 +109,6 @@ export class PlayArea extends ObserverComponent {
     }
 
     private initializeContainers() {
-        this.chipContainers = [this.chipContainerPrev, this.chipContainerLive, this.chipContainerFinal];
         this.betChoicesParentContainer = this.betChoicesContainer?.betChoicesPrev?.parent;
     }
 
@@ -119,18 +116,15 @@ export class PlayArea extends ObserverComponent {
         const commonTargets = [
             { target: this.betChoicesParentContainer, key: "betChoiceZoomInOut" as TweenKey },
             { target: this.chips, key: "chipsFlyDown" as TweenKey },
+            { target: this.chipContainersParent, key: "chipContainerZoomInOut" as TweenKey },
         ];
 
-        this.mainPlayAreaTargetsPrev = [...commonTargets, { target: this.chipContainerPrev, key: "chipContainerZoomInOut" }];
-        this.mainPlayAreaTargetsLive = [...commonTargets, { target: this.chipContainerLive, key: "chipContainerZoomInOut" }];
-        this.mainPlayAreaTargetsFinal = [...commonTargets, { target: this.chipContainerFinal, key: "chipContainerZoomInOut" }];
+        this.mainPlayAreaTargets = [...commonTargets];
     }
 
     private setupDisappearingNodes() {
         this.disappearingNodes.forEach((node) => {
-            this.mainPlayAreaTargetsPrev.push({ target: node, key: "fadeInOut" });
-            this.mainPlayAreaTargetsLive.push({ target: node, key: "fadeInOut" });
-            this.mainPlayAreaTargetsFinal.push({ target: node, key: "fadeInOut" });
+            this.mainPlayAreaTargets.push({ target: node, key: "fadeInOut" });
         });
     }
 
@@ -164,6 +158,7 @@ export class PlayArea extends ObserverComponent {
             return;
         }
         log("renderEnterPhase: ", phase.id);
+        this.chipContainersParent.active = true;
 
         if (phase.id === PhaseId.ShowWinnerAndTournament) {
             if (phase.progress === 0) {
@@ -231,9 +226,7 @@ export class PlayArea extends ObserverComponent {
         }
 
         if (phase.id === PhaseId.AutoHidePreviewBetChoicesLive || phase.id === PhaseId.AutoHidePreviewBetChoicesPrev) {
-            this.chipContainers.forEach((chipContainer) => {
-                AnimationHelper.setStaticTarget(chipContainer, this.tweenConfigs.chipContainerZoomInOut.out);
-            });
+            this.chipContainersParent.active = false;
 
             if (phase.id === PhaseId.AutoHidePreviewBetChoicesLive) {
                 this.playAnimByPhaseProgress(this.firstHalfScore, this.tweenConfigs.fadeInOut.out, phase.progress);
@@ -300,28 +293,13 @@ export class PlayArea extends ObserverComponent {
     }
 
     private getMainPlayAreaTargets(state: "prev" | "live" | "final"): Array<{ target: Node; key: TweenKey }> {
-        switch (state) {
-            case "prev":
-                return this.mainPlayAreaTargetsPrev;
-            case "live":
-                return this.mainPlayAreaTargetsLive;
-            case "final":
-                return this.mainPlayAreaTargetsFinal;
-        }
-    }
-
-    private getCurrentChipContainer(): Node {
-        if (this.phasePreviewBets === "live" && !this.betChoicesContainer.getIsSwapBets()) {
-            return this.chipContainerLive;
-        }
-
-        return this.chipContainerPrev;
+        return this.mainPlayAreaTargets;
     }
 
     private async animateBetElements(isPreviewBets: boolean) {
         const direction = isPreviewBets ? "in" : "out";
-        const chipContainer = this.getCurrentChipContainer();
         const betState = this.phasePreviewBets === "prev" ? "prev" : "live";
+        const isSwapBets = this.betChoicesContainer.getIsSwapBets();
 
         if (isPreviewBets) {
             this.betChoicesContainer.scheduleBetChoiceFadeIn(betState, 0);
@@ -329,13 +307,12 @@ export class PlayArea extends ObserverComponent {
             this.betChoicesContainer.scheduleBetChoiceFadeOut(0);
         }
 
-        this.chipContainerPrev.active =
-            isPreviewBets && (betState === "prev" || (betState === "live" && this.betChoicesContainer.getIsSwapBets()));
-        this.chipContainerLive.active = isPreviewBets && betState === "live" && !this.betChoicesContainer.getIsSwapBets();
+        this.chipContainerPrev.active = isPreviewBets && (betState === "prev" || (betState === "live" && isSwapBets));
+        this.chipContainerLive.active = isPreviewBets && betState === "live" && !isSwapBets;
 
         await Promise.all([
             AnimationHelper.playAnimForTarget(this.betChoicesParentContainer, this.tweenConfigs.betChoicePreviewZoomInOut[direction]),
-            AnimationHelper.playAnimForTarget(chipContainer, this.tweenConfigs.chipContainerPreviewZoomInOut[direction]),
+            AnimationHelper.playAnimForTarget(this.chipContainersParent, this.tweenConfigs.chipContainerPreviewZoomInOut[direction]),
         ]);
     }
 

@@ -25,17 +25,17 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 1670
+        "__id__": 1671
       },
       {
-        "__id__": 1672
+        "__id__": 1673
       },
       {
-        "__id__": 1674
+        "__id__": 1675
       }
     ],
     "_prefab": {
-      "__id__": 1676
+      "__id__": 1677
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -91,11 +91,11 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 1667
+        "__id__": 1668
       }
     ],
     "_prefab": {
-      "__id__": 1669
+      "__id__": 1670
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -38093,6 +38093,9 @@
       },
       {
         "__id__": 1666
+      },
+      {
+        "__id__": 1667
       }
     ],
     "removedComponents": []
@@ -38123,8 +38126,8 @@
     ],
     "value": {
       "__type__": "cc.Vec3",
-      "x": 576.858,
-      "y": -16.502,
+      "x": 511.755,
+      "y": -227.371,
       "z": 0
     }
   },
@@ -38160,6 +38163,16 @@
     }
   },
   {
+    "__type__": "CCPropertyOverrideInfo",
+    "targetInfo": {
+      "__id__": 1663
+    },
+    "propertyPath": [
+      "_active"
+    ],
+    "value": true
+  },
+  {
     "__type__": "cc.UITransform",
     "_name": "",
     "_objFlags": 0,
@@ -38169,7 +38182,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 1668
+      "__id__": 1669
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -38210,12 +38223,12 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 1671
+      "__id__": 1672
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1398,
-      "height": 786.0000000000001
+      "width": 1182,
+      "height": 786
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -38238,7 +38251,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 1673
+      "__id__": 1674
     },
     "_alignFlags": 45,
     "_target": null,
@@ -38274,7 +38287,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 1675
+      "__id__": 1676
     },
     "betChoicesPrev": {
       "__id__": 3
@@ -38304,8 +38317,7 @@
       "__id__": 0
     },
     "fileId": "5f28yMFEtEmrFdYibLNQOz",
-    "instance": null,
-    "targetOverrides": null,
+    "targetOverrides": [],
     "nestedPrefabInstanceRoots": [
       {
         "__id__": 1659
