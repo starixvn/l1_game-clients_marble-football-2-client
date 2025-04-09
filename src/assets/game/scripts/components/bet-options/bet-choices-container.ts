@@ -94,7 +94,7 @@ export class BetChoicesContainer extends ObserverComponent {
         this.betChoicesInMatch = [this.betItemsPrev, this.betItemsLive, this.betItemsFinal];
 
         [this.betChoicesPrev, this.betChoicesLive, this.betChoicesFinal].forEach((choice) => (choice.active = false));
-        this.statusBetsButton = this.previewBetsButton.getComponentInChildren(StatusBetsButton);
+        this.statusBetsButton = this.previewBetsButton?.getComponentInChildren(StatusBetsButton);
         this.setEnabledPreviewBets(false);
         this.betChoicesParentContainer = this.betChoicesPrev?.parent;
 
@@ -216,7 +216,7 @@ export class BetChoicesContainer extends ObserverComponent {
 
     private setEnabledPreviewBets(isEnabled: boolean) {
         isEnabled && this.statusBetsButton.setVisibilityState(false);
-        this.previewBetsButton.active = isEnabled;
+        this.previewBetsButton && (this.previewBetsButton.active = isEnabled);
     }
 
     setEnableBetChoices(state: "prev" | "live" | "final", isSwapBets: boolean = false) {
