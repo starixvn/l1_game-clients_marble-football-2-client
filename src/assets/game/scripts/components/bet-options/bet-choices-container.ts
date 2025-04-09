@@ -150,23 +150,17 @@ export class BetChoicesContainer extends ObserverComponent {
     }
 
     setEnableBetChoices(state: "prev" | "live" | "final") {
-        const betChoiceConfig = {
-            prev: {
-                node: this.betChoicesPrev,
-                trigger: this.triggerBoundFirstHalfChips,
-            },
-            live: {
-                node: this.betChoicesLive,
-                trigger: this.triggerBoundSecondHalfChips,
-            },
-            final: {
-                node: this.betChoicesFinal,
-                trigger: this.handleAfterActiveBetItemsFinal,
-            },
+        this.betChoicesPrev.active = state === "prev";
+        this.betChoicesLive.active = state === "live";
+        this.betChoicesFinal.active = state === "final";
+
+        const triggerByState = {
+            prev: this.triggerBoundFirstHalfChips,
+            live: this.triggerBoundSecondHalfChips,
+            final: this.handleAfterActiveBetItemsFinal,
         };
 
-        const { node, trigger } = betChoiceConfig[state];
-        node.active = true;
+        const trigger = triggerByState[state];
         trigger();
     }
 
