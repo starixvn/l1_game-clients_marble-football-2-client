@@ -1,20 +1,19 @@
 import gc from "@sg/game-client-base";
-import { Button, Node, Vec3, _decorator, log, tween, v3 } from "cc";
+import { Button, Node, _decorator, log, v3 } from "cc";
 import { ObserverComponent } from "db://shared-components/shared/common-components/observer-component/scripts/observer-component";
 import { AnimationUtils } from "db://shared-components/shared/utils";
 import Observer from "observer";
-import { GamePhase, GamePhaseConfig, PhaseId, TimePointShowMatchWinner } from "../features/game-phase/game-phase-definitions";
-import { GamePhaseHandler } from "../features/game-phase/game-phase-handler";
+import { GamePhase, PhaseId } from "../features/game-phase/game-phase-definitions";
 import { GamePhaseStore } from "../features/game-phase/game-phase-store";
 import { settings } from "../game-settings";
 import { BetChoicesContainer } from "./bet-options/bet-choices-container";
 import { StatusBetsButton } from "./bet-options/status-bets-button";
 import { ButtonsBetStore } from "../features/preview-bets/buttons-bet-store";
 import { PreviewBetsHandler } from "../features/preview-bets/preview-bets-handler";
+import { AnimationHelper, TweenConfig, TweenConfigs } from "./helpers/animation-helper";
+import { PhasesRegistry } from "./helpers/phases-registry";
 
-const { getUiOpacity } = AnimationUtils;
 const { ccclass, property } = _decorator;
-const { Rounds } = gc;
 const { render, handle } = Observer;
 
 type TweenKey =
@@ -26,19 +25,6 @@ type TweenKey =
     | "betChoicePreviewZoomInOut"
     | "chipContainerPreviewZoomInOut";
 type BetState = "prev" | "live" | "final";
-
-interface TweenConfig {
-    scale?: Vec3;
-    position?: Vec3;
-    opacity?: number;
-    positionY?: number;
-    time: number;
-}
-
-interface TweenConfigs {
-    in: TweenConfig;
-    out: TweenConfig;
-}
 
 @ccclass("PlayArea")
 export class PlayArea extends ObserverComponent {
@@ -111,7 +97,6 @@ export class PlayArea extends ObserverComponent {
         },
     };
 
-    private readonly showWinnerAndTournamentTimeOffset = 1;
     private isPreviewBets: boolean = false;
     private phasePreviewBets: BetState = "prev";
     private phaseShowBetChoices: BetState = "prev";
@@ -126,7 +111,6 @@ export class PlayArea extends ObserverComponent {
         this.setupDisappearingNodes();
         this.setupStaticTargets();
         super.onLoad();
-        this.registerAllPhases();
         this.previewBetsButton.node.on(Button.EventType.CLICK, this.showHideBets, this);
         this.betChoicesContainer.swapBetsButton.on(Button.EventType.CLICK, this.swapBets, this);
     }
@@ -156,115 +140,13 @@ export class PlayArea extends ObserverComponent {
     }
 
     private setupStaticTargets() {
-        this.setStaticTarget(this.teamScore, this.tweenConfigs.teamScoreFlyUp.out);
-        this.setStaticTarget(this.scoreBoard, this.tweenConfigs.fadeInOut.out);
-        this.setStaticTarget(this.chips, this.tweenConfigs.chipsFlyDown.out);
-        this.setStaticTarget(this.firstHalfScore, this.tweenConfigs.fadeInOut.out);
+        AnimationHelper.setStaticTarget(this.teamScore, this.tweenConfigs.teamScoreFlyUp.out);
+        AnimationHelper.setStaticTarget(this.scoreBoard, this.tweenConfigs.fadeInOut.out);
+        AnimationHelper.setStaticTarget(this.chips, this.tweenConfigs.chipsFlyDown.out);
+        AnimationHelper.setStaticTarget(this.firstHalfScore, this.tweenConfigs.fadeInOut.out);
         this.disappearingNodes.forEach((node) => {
-            this.setStaticTarget(node, this.tweenConfigs.fadeInOut.out);
+            AnimationHelper.setStaticTarget(node, this.tweenConfigs.fadeInOut.out);
         });
-    }
-
-    private registerAllPhases() {
-        this.registerPhaseMatchWinner();
-        this.registerPhaseShowBetChoicesPrev();
-        this.registerPhaseShowBetChoicesLive();
-        this.registerPhaseShowIntroVideo();
-        this.registerPhaseShowPrevVideo();
-        this.registerPhaseShowLiveVideo();
-        this.registerSettlement();
-        this.registerPhaseHideBetChoicesPrev();
-        this.registerPhaseHideBetChoicesLive();
-    }
-
-    @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
-    registerPhaseMatchWinner() {
-        const config: GamePhaseConfig = {
-            id: PhaseId.ShowWinnerAndTournament,
-            begin: TimePointShowMatchWinner + this.showWinnerAndTournamentTimeOffset,
-            end: settings.points.placingBetPreMatch + this.showWinnerAndTournamentTimeOffset,
-        };
-        return config;
-    }
-
-    @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
-    registerPhaseShowBetChoicesPrev() {
-        const config: GamePhaseConfig = {
-            id: PhaseId.ShowBetChoicesPrev,
-            begin: settings.points.placingBetPreMatch,
-            end: settings.points.placingBetPreMatch - settings.durations.placingBet,
-        };
-        return config;
-    }
-
-    @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
-    registerPhaseShowBetChoicesLive() {
-        const config: GamePhaseConfig = {
-            id: PhaseId.ShowBetChoicesLive,
-            begin: settings.points.placingBetLiveMatch,
-            end: settings.points.placingBetLiveMatch - settings.durations.placingBet,
-        };
-        return config;
-    }
-
-    @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
-    registerPhaseShowPrevVideo() {
-        const config: GamePhaseConfig = {
-            id: PhaseId.ShowPrevVideo,
-            begin: settings.points.streamingFirstHalfVideo,
-            end: settings.points.streamingFirstHalfVideo - settings.durations.videoDuration,
-        };
-        return config;
-    }
-
-    @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
-    registerPhaseShowIntroVideo() {
-        const config: GamePhaseConfig = {
-            id: PhaseId.ShowIntroVideo,
-            begin: settings.points.introVideo,
-            end: settings.points.introVideo - settings.durations.introVideo,
-        };
-        return config;
-    }
-
-    @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
-    registerPhaseShowLiveVideo() {
-        const config: GamePhaseConfig = {
-            id: PhaseId.ShowLiveVideo,
-            begin: settings.points.streamingSecondHalfVideo,
-            end: settings.points.streamingSecondHalfVideo - settings.durations.videoDuration,
-        };
-        return config;
-    }
-
-    @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
-    registerSettlement() {
-        const config: GamePhaseConfig = {
-            id: PhaseId.Settlement,
-            begin: settings.durations.wholeRound,
-            end: settings.durations.wholeRound - settings.durations.startRound,
-        };
-        return config;
-    }
-
-    @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
-    registerPhaseHideBetChoicesLive() {
-        const config: GamePhaseConfig = {
-            id: PhaseId.AutoHidePreviewBetChoicesLive,
-            begin: settings.points.streamingSecondHalfVideo + settings.durations.hidePreviewBetChoices - settings.durations.videoDuration,
-            end: settings.points.streamingSecondHalfVideo - settings.durations.videoDuration,
-        };
-        return config;
-    }
-
-    @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
-    registerPhaseHideBetChoicesPrev() {
-        const config: GamePhaseConfig = {
-            id: PhaseId.AutoHidePreviewBetChoicesPrev,
-            begin: settings.points.streamingFirstHalfVideo + settings.durations.hidePreviewBetChoices - settings.durations.videoDuration,
-            end: settings.points.streamingFirstHalfVideo - settings.durations.videoDuration,
-        };
-        return config;
     }
 
     @render(GamePhaseStore, (store) => store.enterPhase)
@@ -278,20 +160,17 @@ export class PlayArea extends ObserverComponent {
         if (phase.id === PhaseId.ShowWinnerAndTournament) {
             if (phase.progress === 0) {
                 const duration = 0.2;
-                this.scheduleOnce(
-                    () => this.fadeOutBetChoiceNode(this.betChoicesParentContainer, true, duration),
-                    this.showWinnerAndTournamentTimeOffset - duration
-                );
+                this.scheduleOnce(() => this.fadeOutBetChoiceNode(this.betChoicesParentContainer, true, duration), 0.8);
                 this.disappearingNodes.forEach((node) => {
-                    this.playAnimForTarget(node, this.tweenConfigs.fadeInOut.out);
+                    AnimationHelper.playAnimForTarget(node, this.tweenConfigs.fadeInOut.out);
                 });
-                this.playAnimForTarget(this.chips, this.tweenConfigs.chipsFlyDown.out);
+                AnimationHelper.playAnimForTarget(this.chips, this.tweenConfigs.chipsFlyDown.out);
             } else {
                 this.fadeOutBetChoiceNode(this.betChoicesParentContainer, true, 0);
                 this.disappearingNodes.forEach((node) => {
-                    this.setStaticTarget(node, this.tweenConfigs.fadeInOut.out);
+                    AnimationHelper.setStaticTarget(node, this.tweenConfigs.fadeInOut.out);
                 });
-                this.setStaticTarget(this.chips, this.tweenConfigs.chipsFlyDown.out);
+                AnimationHelper.setStaticTarget(this.chips, this.tweenConfigs.chipsFlyDown.out);
             }
 
             return;
@@ -300,9 +179,9 @@ export class PlayArea extends ObserverComponent {
         if (phase.id === PhaseId.Settlement) {
             this.betChoicesContainer.setEnableBetChoices("final");
             this.fadeOutBetChoiceNode(this.betChoicesParentContainer, false, 0);
-            this.setStaticTarget(this.mainPlayerNode, this.tweenConfigs.fadeInOut.in);
+            AnimationHelper.setStaticTarget(this.mainPlayerNode, this.tweenConfigs.fadeInOut.in);
             this.disappearingNodes.forEach((node) => {
-                this.setStaticTarget(node, this.tweenConfigs.fadeInOut.in);
+                AnimationHelper.setStaticTarget(node, this.tweenConfigs.fadeInOut.in);
             });
 
             return;
@@ -312,16 +191,16 @@ export class PlayArea extends ObserverComponent {
             this.phaseShowBetChoices = phase.id === PhaseId.ShowBetChoicesPrev ? "prev" : "live";
 
             if (phase.progress === 0) {
-                this.playAnimForTarget(this.scoreBoard, this.tweenConfigs.fadeInOut.in);
+                AnimationHelper.playAnimForTarget(this.scoreBoard, this.tweenConfigs.fadeInOut.in);
                 this.scheduleBetChoiceFadeIn(phase.id === PhaseId.ShowBetChoicesPrev ? "prev" : "live");
-                this.playAnimForTarget(this.mainPlayerNode, this.tweenConfigs.fadeInOut.in);
+                AnimationHelper.playAnimForTarget(this.mainPlayerNode, this.tweenConfigs.fadeInOut.in);
                 this.disappearingNodes.forEach((node) => {
-                    this.playAnimForTarget(node, this.tweenConfigs.fadeInOut.in);
+                    AnimationHelper.playAnimForTarget(node, this.tweenConfigs.fadeInOut.in);
                 });
-                this.playAnimForTarget(this.chips, this.tweenConfigs.chipsFlyDown.in);
+                AnimationHelper.playAnimForTarget(this.chips, this.tweenConfigs.chipsFlyDown.in);
             } else {
-                this.setStaticTarget(this.mainPlayerNode, this.tweenConfigs.fadeInOut.in);
-                this.setStaticTarget(this.scoreBoard, this.tweenConfigs.fadeInOut.in);
+                AnimationHelper.setStaticTarget(this.mainPlayerNode, this.tweenConfigs.fadeInOut.in);
+                AnimationHelper.setStaticTarget(this.scoreBoard, this.tweenConfigs.fadeInOut.in);
                 this.betChoicesContainer.setEnableBetChoices(phase.id === PhaseId.ShowBetChoicesPrev ? "prev" : "live", this.isSwapBets);
                 this.fadeOutBetChoiceNode(this.betChoicesParentContainer, false, 0);
                 this.setStaticPlayArea("in", phase.id === PhaseId.ShowBetChoicesPrev ? "prev" : "live");
@@ -369,7 +248,7 @@ export class PlayArea extends ObserverComponent {
             this.betChoicesContainer.setDisableBetChoices();
             this.fadeOutBetChoiceNode(this.betChoicesParentContainer, true, this.durationShowBetChoices);
             this.chipContainers.forEach((chipContainer) => {
-                this.setStaticTarget(chipContainer, this.tweenConfigs.chipContainerZoomInOut.out);
+                AnimationHelper.setStaticTarget(chipContainer, this.tweenConfigs.chipContainerZoomInOut.out);
             });
 
             if (phase.id === PhaseId.AutoHidePreviewBetChoicesLive) {
@@ -381,7 +260,6 @@ export class PlayArea extends ObserverComponent {
     }
 
     private async playAnimByPhaseProgress(nodes: Node | Node[], config: TweenConfig | TweenConfig[], phaseProgress: number) {
-        const { playAnimForTarget, setStaticTarget } = this;
         const nodeArray = Array.isArray(nodes) ? nodes : [nodes];
         const configArray = Array.isArray(config) ? config : [config];
 
@@ -389,11 +267,11 @@ export class PlayArea extends ObserverComponent {
 
         switch (phaseProgress) {
             case 0:
-                await Promise.all(nodeArray.map((node, index) => playAnimForTarget(node, finalConfigs[index])));
+                await Promise.all(nodeArray.map((node, index) => AnimationHelper.playAnimForTarget(node, finalConfigs[index])));
                 break;
             default:
                 nodeArray.forEach((node, index) => {
-                    setStaticTarget(node, finalConfigs[index]);
+                    AnimationHelper.setStaticTarget(node, finalConfigs[index]);
                 });
         }
     }
@@ -455,75 +333,27 @@ export class PlayArea extends ObserverComponent {
             if (this.isZoomOut) {
                 this.zoomPlayArea("in", "final");
             }
-            this.playAnimForTarget(this.teamScore, this.tweenConfigs.teamScoreFlyUp.out);
+            AnimationHelper.playAnimForTarget(this.teamScore, this.tweenConfigs.teamScoreFlyUp.out);
         } catch (e) {}
-    }
-
-    private playAnimForTarget(node: Node, config: TweenConfig): Promise<void> {
-        if (!node) {
-            return;
-        }
-
-        return new Promise((resolve) => {
-            tween(node)
-                .to(
-                    config.time,
-                    {
-                        scale: config.scale ?? node.scale,
-                        position: config.position ?? node.position,
-                    },
-                    { easing: "sineInOut" }
-                )
-                .call(() => resolve())
-                .start();
-
-            if (config.opacity !== undefined) {
-                const uiOpacity = getUiOpacity(node);
-                tween(uiOpacity)
-                    .to(config.time, { opacity: config.opacity })
-                    .call(() => resolve())
-                    .start();
-            }
-
-            if (config.positionY !== undefined) {
-                tween(node)
-                    .to(config.time, { position: v3(node.position.x, config.positionY, node.position.z) })
-                    .call(() => resolve())
-                    .start();
-            }
-        });
     }
 
     private async zoomPlayArea(direction: "in" | "out", state: "prev" | "live" | "final"): Promise<void> {
         this.isZoomOut = direction === "out";
 
         await Promise.all(
-            this.getMainPlayAreaTargets(state).map(({ target, key }) => this.playAnimForTarget(target, this.tweenConfigs[key][direction]))
+            this.getMainPlayAreaTargets(state).map(({ target, key }) =>
+                AnimationHelper.playAnimForTarget(target, this.tweenConfigs[key][direction])
+            )
         );
-    }
-
-    private setStaticTarget(node: Node, config: TweenConfig) {
-        if (!node) {
-            return;
-        }
-        node.setPosition(config.position ?? node.position);
-        node.setScale(config.scale ?? node.scale);
-
-        if (config.opacity !== undefined) {
-            const uiOpacity = getUiOpacity(node);
-            uiOpacity.opacity = config.opacity;
-        }
-
-        if (config.positionY !== undefined) {
-            node.setPosition(v3(node.position.x, config.positionY, node.position.z));
-        }
     }
 
     private async setStaticPlayArea(direction: "in" | "out", state: "prev" | "live" | "final"): Promise<void> {
         this.isZoomOut = direction === "out";
 
         await Promise.all(
-            this.getMainPlayAreaTargets(state)?.map(({ target, key }) => this.setStaticTarget(target, this.tweenConfigs[key][direction]))
+            this.getMainPlayAreaTargets(state)?.map(({ target, key }) =>
+                AnimationHelper.setStaticTarget(target, this.tweenConfigs[key][direction])
+            )
         );
     }
 
@@ -583,8 +413,8 @@ export class PlayArea extends ObserverComponent {
         this.chipContainerLive.active = this.isPreviewBets && betState === "live" && !this.isSwapBets;
 
         await Promise.all([
-            this.playAnimForTarget(this.betChoicesParentContainer, this.tweenConfigs.betChoicePreviewZoomInOut[direction]),
-            this.playAnimForTarget(chipContainer, this.tweenConfigs.chipContainerPreviewZoomInOut[direction]),
+            AnimationHelper.playAnimForTarget(this.betChoicesParentContainer, this.tweenConfigs.betChoicePreviewZoomInOut[direction]),
+            AnimationHelper.playAnimForTarget(chipContainer, this.tweenConfigs.chipContainerPreviewZoomInOut[direction]),
         ]);
     }
 
