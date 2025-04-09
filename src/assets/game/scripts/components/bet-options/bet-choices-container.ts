@@ -120,6 +120,12 @@ export class BetChoicesContainer extends ObserverComponent {
             [PhaseId.ShowWinnerAndTournament]: {
                 previewBetsEnabled: false,
             },
+            [PhaseId.AutoHidePreviewBetChoicesLive]: {
+                previewBetsEnabled: false,
+            },
+            [PhaseId.AutoHidePreviewBetChoicesPrev]: {
+                previewBetsEnabled: false,
+            },
         };
 
         const config = phaseConfigs[phase.id];

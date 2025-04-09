@@ -81,7 +81,7 @@ export class PlayArea extends ObserverComponent {
     private mainPlayAreaTargetsFinal: Array<{ target: Node; key: TweenKey }>;
     private readonly tweenConfigs: Record<TweenKey, TweenConfigs> = {
         betChoiceZoomInOut: {
-            in: { position: v3(0, -94, 0), time: 0.5 },
+            in: { position: v3(0, -94, 0), time: 0.2 },
             out: { position: v3(0, -570, 0), time: 1 },
         },
         betChoicePreviewZoomInOut: {
@@ -93,16 +93,16 @@ export class PlayArea extends ObserverComponent {
             out: { position: v3(0, -410, 0), time: 0 },
         },
         chipContainerZoomInOut: {
-            in: { position: v3(0, 0, 0), time: 0.5 },
-            out: { position: v3(0, -410, 0), time: 1 },
+            in: { position: v3(0, 0, 0), time: 0.2 },
+            out: { position: v3(0, -410, 0), time: 0.5 },
         },
         fadeInOut: {
             in: { opacity: 255, time: 0.5 },
             out: { opacity: 1, time: 1 },
         },
         chipsFlyDown: {
-            in: { positionY: -327, opacity: 255, time: 0.5 },
-            out: { positionY: -445, opacity: 0, time: 1 },
+            in: { positionY: -327, opacity: 255, time: 0.2 },
+            out: { positionY: -445, opacity: 0, time: 0.5 },
         },
         teamScoreFlyUp: {
             in: { positionY: 303, opacity: 255, time: 0.5 },
@@ -359,11 +359,13 @@ export class PlayArea extends ObserverComponent {
         }
 
         if (phase.id === PhaseId.AutoHidePreviewBetChoicesLive || phase.id === PhaseId.AutoHidePreviewBetChoicesPrev) {
+            this.setPreviewBets(false);
             this.betChoicesContainer.setDisableBetChoices();
             this.fadeOutBetChoiceNode(this.containerBets, true, this.durationShowBetChoices);
             this.chipContainers.forEach((chipContainer) => {
                 this.setStaticTarget(chipContainer, this.tweenConfigs.chipContainerZoomInOut.out);
             });
+
             if (phase.id === PhaseId.AutoHidePreviewBetChoicesLive) {
                 this.playAnimByPhaseProgress(this.firstHalfScore, this.tweenConfigs.fadeInOut.out, phase.progress);
 
@@ -429,7 +431,6 @@ export class PlayArea extends ObserverComponent {
 
         if (duration === 0) {
             AnimationUtils.setOpacityNode(node, opacity);
-            node.active = !fadeOut;
             return;
         }
 
