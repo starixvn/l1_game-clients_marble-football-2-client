@@ -202,7 +202,10 @@ export class VideoStreamStore {
     }
 
     set videoResult(source: MarbleFootballServiceMessages.VideoStream) {
-        this._videoResult = source;
+        this._videoResult = {
+            ...this._videoResult,
+            ...source,
+        };
     }
 
     get videoResult(): MarbleFootballServiceMessages.VideoStream {
