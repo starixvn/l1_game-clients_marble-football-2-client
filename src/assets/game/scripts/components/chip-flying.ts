@@ -325,7 +325,12 @@ export class ChipFlying extends ChipFlyingShared {
 
     @render(ChipsPreviewStore, (store) => store.finalChips)
     protected async handleAddChipsWhenJoinFinal(chipsByMainPlayerRate: Record<string, any>) {
-        if (Object.keys(chipsByMainPlayerRate.chips).length === 0) {
+        if (
+            !this ||
+            Object.keys(chipsByMainPlayerRate).length === 0 ||
+            Object.keys(chipsByMainPlayerRate.chips).length === 0 ||
+            !this.startShowResultAnimation
+        ) {
             return;
         }
 
