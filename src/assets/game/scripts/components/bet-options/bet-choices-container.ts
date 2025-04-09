@@ -158,9 +158,9 @@ export class BetChoicesContainer extends ObserverComponent {
         this.swapBetsButton.active = state === "live";
 
         const triggerByState = {
-            prev: this.triggerBoundFirstHalfChips,
-            live: this.triggerBoundSecondHalfChips,
-            final: this.handleAfterActiveBetItemsFinal,
+            prev: this.triggerBoundFirstHalfChips.bind(this),
+            live: this.triggerBoundSecondHalfChips.bind(this),
+            final: this.handleAfterActiveBetItemsFinal.bind(this),
         };
 
         const trigger = triggerByState[state];
