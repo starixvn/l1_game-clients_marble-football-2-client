@@ -2,6 +2,8 @@ import { _decorator, Node } from "cc";
 import Observer from "observer";
 import BetItem from "db://shared-components/game/bets/scripts/components/bet-item";
 import { OddsStore, OddsWithConfig } from "../../features/dynamic-odds/odds-store";
+import { GamePhaseStore } from "../../features/game-phase/game-phase-store";
+import { GamePhase, PhaseId } from "../../features/game-phase/game-phase-definitions";
 
 const { property, ccclass } = _decorator;
 const { render } = Observer;
@@ -13,6 +15,12 @@ export default class BetItemCustomize extends BetItem {
 
     @property(Node)
     decreaseOdd: Node = null;
+
+    @property(Node)
+    disableNode: Node = null;
+
+    @property(Node)
+    blockIcon: Node = null;
 
     @render(OddsStore, (store) => store.oddsWithConfig)
     renderIncreaseOdds(oddsWithConfig: OddsWithConfig) {
@@ -39,5 +47,20 @@ export default class BetItemCustomize extends BetItem {
         const isIncrease = deltaOdd > 0;
         this.increaseOdd!.active = isIncrease;
         this.decreaseOdd!.active = !isIncrease;
+    }
+
+    setDisable(status: boolean) {
+        this.disableNode.active = status;
+    }
+
+    setBlockIcon(status: boolean) {
+        this.blockIcon.active = status;
+    }
+
+    @render(GamePhaseStore, (store) => store.enterPhase)
+    renderEnterPhase(phase: GamePhase) {
+        if (phase.id === PhaseId.ShowBetChoicesLive) {
+            this.setBlockIcon(false);
+        }
     }
 }

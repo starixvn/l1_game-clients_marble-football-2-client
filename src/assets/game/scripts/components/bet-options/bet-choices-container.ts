@@ -11,6 +11,7 @@ import { GamePhase, PhaseId } from "../../features/game-phase/game-phase-definit
 import BetItem from "db://shared-components/game/bets/scripts/components/bet-item";
 import { PreviewBetsHandler } from "../../features/preview-bets/preview-bets-handler";
 import { ButtonsBetStore } from "../../features/preview-bets/buttons-bet-store";
+import BetItemCustomize from "./bet-item-customize";
 const { ccclass, property } = _decorator;
 
 const { Rounds } = gc;
@@ -210,8 +211,10 @@ export class BetChoicesContainer extends ObserverComponent {
 
     private setDisabledBetChoices(type: "prev" | "live", isDisabled: boolean) {
         const node = type === "prev" ? this.betChoicesPrev : this.betChoicesLive;
-        const bgDisable = node.getComponent(BetItems)?.bgDisable;
-        bgDisable && (bgDisable.active = isDisabled);
+        const betItems = node?.getComponent(BetItems)?.getComponentsInChildren(BetItemCustomize);
+        betItems?.forEach((betItem) => {
+            betItem && betItem.setDisable(isDisabled);
+        });
     }
 
     private setEnabledPreviewBets(isEnabled: boolean) {
@@ -222,7 +225,6 @@ export class BetChoicesContainer extends ObserverComponent {
     setEnableBetChoices(state: "prev" | "live" | "final", isSwapBets: boolean = false) {
         this.betChoicesPrev.active = state === "prev";
         this.betChoicesFinal.active = state === "final";
-
         this.swapBetsButton.active = state === "live";
 
         const triggerByState = {
