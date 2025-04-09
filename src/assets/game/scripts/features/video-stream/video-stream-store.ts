@@ -183,9 +183,7 @@ export class VideoStreamStore {
             return settings.durations.halfDuration * 2;
         }
 
-        const endOfFirstHalfVideoTime = settings.points.streamingFirstHalfVideo - settings.durations.videoDuration;
-
-        if (roundTime <= settings.points.streamingFirstHalfVideo && roundTime > endOfFirstHalfVideoTime) {
+        if (roundTime <= settings.points.streamingFirstHalfVideo && roundTime > settings.points.streamingSecondHalfVideo) {
             const matchTime = settings.points.streamingFirstHalfVideo - roundTime;
             return matchTime < settings.durations.halfDuration ? matchTime : settings.durations.halfDuration;
         }
