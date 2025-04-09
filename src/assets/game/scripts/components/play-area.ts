@@ -440,7 +440,7 @@ export class PlayArea extends ObserverComponent {
             return;
         }
 
-        fadeOut ? AnimationUtils.fadeOutAndDeactivate(node, duration) : AnimationUtils.fadeInAndActivate(node, duration);
+        fadeOut ? AnimationUtils.fadeOut(node, duration) : AnimationUtils.fadeIn(node, duration);
     }
 
     @render(gc.Settlements.SettlementStore, (store) => store.currentFinish, {
