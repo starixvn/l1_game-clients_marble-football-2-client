@@ -1,5 +1,5 @@
 import gc from "@sg/game-client-base";
-import { Node, _decorator, log, v3 } from "cc";
+import { Button, Node, _decorator, log, v3 } from "cc";
 import { ObserverComponent } from "db://shared-components/shared/common-components/observer-component/scripts/observer-component";
 import { AnimationUtils } from "db://shared-components/shared/utils";
 import Observer from "observer";
@@ -11,7 +11,7 @@ import { ButtonsBetStore } from "../features/preview-bets/buttons-bet-store";
 import { AnimationHelper, TweenConfig, TweenConfigs } from "./helpers/animation-helper";
 
 const { ccclass, property } = _decorator;
-const { render } = Observer;
+const { render, handle } = Observer;
 
 type TweenKey =
     | "chipContainerZoomInOut"
@@ -106,6 +106,8 @@ export class PlayArea extends ObserverComponent {
         if (this.betChoicesContainer) {
             this.betChoicesContainer.init(this.handlePhaseChange.bind(this));
         }
+
+        this.betChoicesContainer.swapBetsButton.on(Button.EventType.CLICK, this.swapBets, this);
     }
 
     private initializeContainers() {
@@ -341,5 +343,34 @@ export class PlayArea extends ObserverComponent {
     async renderButtonsBet(isPreviewBets: boolean) {
         this.betChoicesContainer.statusBetsButton.setVisibilityState(isPreviewBets);
         this.animateBetElements(isPreviewBets);
+    }
+
+    @handle(gc.Audios.AudioHandler, (handle) => handle.playSFX(gc.Audios.AudioIds.CLICK))
+    swapBets() {
+        const isSwapBets = this.betChoicesContainer.getIsSwapBets();
+        const betChoicesPrev = this.betChoicesContainer.betChoicesPrev;
+        const betChoicesLive = this.betChoicesContainer.betChoicesLive;
+
+        if (isSwapBets && betChoicesPrev.active) {
+            this.chipContainerPrev.active = false;
+            betChoicesPrev.active = false;
+
+            this.chipContainerLive.active = true;
+            betChoicesLive.active = true;
+
+            this.betChoicesContainer.setIsSwapBets(false);
+            return;
+        }
+
+        if (!isSwapBets && betChoicesLive.active) {
+            this.chipContainerPrev.active = true;
+            betChoicesPrev.active = true;
+
+            this.chipContainerLive.active = false;
+            betChoicesLive.active = false;
+
+            this.betChoicesContainer.setIsSwapBets(true);
+            return;
+        }
     }
 }

@@ -99,7 +99,6 @@ export class BetChoicesContainer extends ObserverComponent {
         this.betChoicesParentContainer = this.betChoicesPrev?.parent;
 
         // Set up button event listeners
-        this.swapBetsButton.on(Button.EventType.CLICK, this.swapBets, this);
         this.statusBetsButton.node.on(Button.EventType.CLICK, this.showHideBets, this);
 
         super.onLoad();
@@ -122,12 +121,6 @@ export class BetChoicesContainer extends ObserverComponent {
 
     init(onPhaseHandler?: (phaseId: PhaseId, action: BetState) => void) {
         this.onPhaseHandler = onPhaseHandler;
-    }
-
-    private shouldResetSwapBets(phaseId: PhaseId): boolean {
-        return (
-            phaseId === PhaseId.ShowWinnerAndTournament || phaseId === PhaseId.ShowBetChoicesPrev || phaseId === PhaseId.ShowBetChoicesLive
-        );
     }
 
     private applyPhaseConfig(phaseId: PhaseId): void {
@@ -189,10 +182,7 @@ export class BetChoicesContainer extends ObserverComponent {
             return;
         }
 
-        // Reset swap bets state when changing phases
-        if (this.shouldResetSwapBets(phase.id as PhaseId)) {
-            this.isSwapBets = false;
-        }
+        this.isSwapBets = false;
 
         // Apply phase-specific UI configurations
         this.applyPhaseConfig(phase.id as PhaseId);
@@ -312,14 +302,6 @@ export class BetChoicesContainer extends ObserverComponent {
     }
 
     betItemsByChoiceFinal() {}
-
-    @handle(gc.Audios.AudioHandler, (handle) => handle.playSFX(gc.Audios.AudioIds.CLICK))
-    swapBets() {
-        this.isSwapBets = !this.isSwapBets;
-
-        this.betChoicesPrev.active = this.isSwapBets;
-        this.betChoicesLive.active = !this.isSwapBets;
-    }
 
     fadeOutBetChoiceNode(node: Node, fadeOut: boolean, duration: number) {
         const opacity = fadeOut ? 1 : 255;
