@@ -49,7 +49,8 @@ export class BetItems extends BetItemsPolygonBase {
         this.betItemComponents.forEach((betItem) => {
             const choice = betItem.node.name;
             const userBetPercentageSum = choice.includes("Live") ? liveBetChoicesSum : preBetChoicesSum;
-            betItem.renderUserBetPercentage(userBetPercentage ? Math.round((userBetPercentage[choice] / userBetPercentageSum) * 100) : 0);
+            const denominator = userBetPercentageSum === 0 ? 1 : userBetPercentageSum;
+            betItem.renderUserBetPercentage(Math.round((userBetPercentage[choice] / denominator) * 100));
         });
     }
 }

@@ -264,7 +264,16 @@ export class ChipFlying extends ChipFlyingShared {
 
     override async flyChipsWhenJoinGame(chipsByMainPlayerRate: Record<string, any>) {}
 
-    @render(ChipsPreviewStore, (store) => store.chips)
+    @render(ChipsPreviewStore, (store) => store.firstHalfChips)
+    bindChipsFirstHalf(chipsByMainPlayerRate: Record<string, any>) {
+        this.bindChipsWhenJoinGame(chipsByMainPlayerRate);
+    }
+
+    @render(ChipsPreviewStore, (store) => store.secondHalfChips)
+    bindChipsSecondHalf(chipsByMainPlayerRate: Record<string, any>) {
+        this.bindChipsWhenJoinGame(chipsByMainPlayerRate);
+    }
+
     async bindChipsWhenJoinGame(chipsByMainPlayerRate: Record<string, any>) {
         if (Object.keys(chipsByMainPlayerRate).length === 0) {
             return;
@@ -293,7 +302,6 @@ export class ChipFlying extends ChipFlyingShared {
 
     protected handleAddChipsWhenJoin(chipsByMainPlayerRate: Record<string, any>, chipBox: Node, betChoice: string) {
         const chipGroup = chipsByMainPlayerRate[betChoice];
-        console.log("chipGroup", chipGroup);
         if (chipGroup) {
             const nodes = addChipsToChipBoxWhenJoinRoom(this.currentChipContainer, chipBox, chipGroup, this.slidingChip);
             this.addChipsToBoxWithChoice(nodes, betChoice);

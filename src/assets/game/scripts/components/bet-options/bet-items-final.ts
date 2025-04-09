@@ -2,6 +2,7 @@ import gc from "@sg/game-client-base";
 import { _decorator } from "cc";
 import BetItem from "db://shared-components/game/bets/scripts/components/bet-item";
 import { BetItemsPolygon as BetItemsPolygonBase } from "db://shared-components/game/bets/scripts/components/bet-items-polygon";
+import { FunctionUtils } from "db://shared-components/shared/utils";
 import Observer from "observer";
 const { ccclass } = _decorator;
 const { render } = Observer;
@@ -31,6 +32,10 @@ export class BetItemsFinal extends BetItemsPolygonBase {
         });
     }
 
+    betItemReady() {
+        return this.betItemComponents.length > 0;
+    }
+
     @render(Rounds.RoundStore, (store) => store.userBetPercentage)
     handleUserBetPercentage(userBetPercentage: gc.GameServiceMessage.UserBetPercentage) {}
 
@@ -38,9 +43,10 @@ export class BetItemsFinal extends BetItemsPolygonBase {
         if (!userBetPercentage) {
             return;
         }
+        this.init();
         this.betItemComponents.forEach((betItem) => {
             const choice = betItem.node.name;
-            betItem.renderUserBetPercentage(userBetPercentage ? userBetPercentage[choice] + userBetPercentage[`${choice}Live`] : 0);
+            betItem.renderUserBetPercentage(userBetPercentage[choice] + userBetPercentage[`${choice}Live`]);
         });
     }
 

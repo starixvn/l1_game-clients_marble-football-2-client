@@ -8,7 +8,6 @@ import { BetItems } from "./bet-items";
 import { GamePhaseStore } from "../../features/game-phase/game-phase-store";
 import { GamePhase, PhaseId } from "../../features/game-phase/game-phase-definitions";
 import BetItem from "db://shared-components/game/bets/scripts/components/bet-item";
-import { FunctionUtils } from "db://shared-components/shared/utils";
 import { PreviewBetsHandler } from "../../features/preview-bets/preview-bets-handler";
 const { ccclass, property } = _decorator;
 
@@ -145,14 +144,31 @@ export class BetChoicesContainer extends ObserverComponent {
     }
 
     setEnableBetChoices(state: "prev" | "live" | "final") {
-        this.betChoicesPrev.active = state === "prev";
-        this.betChoicesLive.active = state === "live";
-        this.betChoicesFinal.active = state === "final";
+        const betChoiceConfig = {
+            prev: {
+                node: this.betChoicesPrev,
+                trigger: this.triggerBoundFirstHalfChips,
+            },
+            live: {
+                node: this.betChoicesLive,
+                trigger: this.triggerBoundSecondHalfChips,
+            },
+            final: {
+                node: this.betChoicesFinal,
+                trigger: this.handleAfterActiveBetItemsFinal,
+            },
+        };
 
-        if (state === "final") {
-            this.handleAfterActiveBetItemsFinal();
-        }
+        const { node, trigger } = betChoiceConfig[state];
+        node.active = true;
+        trigger();
     }
+
+    @handle(PreviewBetsHandler, (handle) => handle.triggerBoundFirstHalfChips())
+    triggerBoundFirstHalfChips() {}
+
+    @handle(PreviewBetsHandler, (handle) => handle.triggerBoundSecondHalfChips())
+    triggerBoundSecondHalfChips() {}
 
     setDisableBetChoices() {
         this.betChoicesPrev.active = false;
@@ -168,7 +184,7 @@ export class BetChoicesContainer extends ObserverComponent {
         this.triggerLoadedChips();
     }
 
-    @handle(PreviewBetsHandler, (handle) => handle.triggerBoundChips())
+    @handle(PreviewBetsHandler, (handle) => handle.triggerBoundFinalChips())
     triggerLoadedChips() {}
 
     setDisableBetChoicesInMatch() {

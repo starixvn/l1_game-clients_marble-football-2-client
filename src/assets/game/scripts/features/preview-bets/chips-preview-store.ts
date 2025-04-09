@@ -7,20 +7,18 @@ const { injectable, inject } = inversify;
 @injectable()
 export class ChipsPreviewStore {
     @inject(gc.Rounds.RoundTimeStore) roundTimeStore: gc.Rounds.RoundTimeStore;
+    @inject(gc.Chips.ChipStore) chipStore: gc.Chips.ChipStore;
     constructor() {
         mobx.makeAutoObservable(this);
     }
 
-    private _boundChips: boolean = false;
-
-    private _chips: Record<string, any> = {};
-
     private _finalChips: Record<string, any> = {};
-    private _chipsFirstHalf: Record<string, any> = {};
     private _boundChipsFirstHalf: boolean = false;
 
     private _boundChipsSecondHalf: boolean = false;
     private _boundChipsFinal: boolean = false;
+    private _firstHalfChips: Record<string, any> = {};
+    private _secondHalfChips: Record<string, any> = {};
 
     set boundChipsFirstHalf(boundChipsFirstHalf: boolean) {
         this._boundChipsFirstHalf = boundChipsFirstHalf;
@@ -30,24 +28,32 @@ export class ChipsPreviewStore {
         this._boundChipsSecondHalf = boundChipsSecondHalf;
     }
 
+    get boundChipsFirstHalf() {
+        return this._boundChipsFirstHalf;
+    }
+
+    get boundChipsSecondHalf() {
+        return this._boundChipsSecondHalf;
+    }
+
     set boundChipsFinal(boundChipsFinal: boolean) {
         this._boundChipsFinal = boundChipsFinal;
     }
 
-    get boundChips() {
-        return this._boundChips;
+    set firstHalfChips(firstHalfChips: Record<string, any>) {
+        this._firstHalfChips = firstHalfChips;
     }
 
-    set boundChips(boundChips: boolean) {
-        this._boundChips = boundChips;
+    get firstHalfChips() {
+        return this._firstHalfChips;
     }
 
-    get chips() {
-        return this._chips;
+    set secondHalfChips(secondHalfChips: Record<string, any>) {
+        this._secondHalfChips = secondHalfChips;
     }
 
-    set chips(chips: Record<string, any>) {
-        this._chips = chips;
+    get secondHalfChips() {
+        return this._secondHalfChips;
     }
 
     get finalChips() {
