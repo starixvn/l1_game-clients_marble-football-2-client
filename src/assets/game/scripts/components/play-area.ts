@@ -1,5 +1,5 @@
 import gc from "@sg/game-client-base";
-import { Button, Node, Vec3, _decorator, tween, v3 } from "cc";
+import { Button, Node, Vec3, _decorator, log, tween, v3 } from "cc";
 import { ObserverComponent } from "db://shared-components/shared/common-components/observer-component/scripts/observer-component";
 import { AnimationUtils } from "db://shared-components/shared/utils";
 import Observer from "observer";
@@ -110,14 +110,13 @@ export class PlayArea extends ObserverComponent {
         },
     };
 
-    private readonly ShowLiveScore = "show-live-score";
-    private readonly ShowWinnerAndTournamentTimeOffset = 1;
+    private readonly showWinnerAndTournamentTimeOffset = 1;
     private isPreviewBets: boolean = false;
     private phasePreviewBets: BetState = "prev";
 
     protected containerBets: Node = null;
     protected chipContainers: Node[] = [];
-    protected durationShowBetChoices = 0.5;
+    protected readonly durationShowBetChoices = 0.5;
 
     onLoad() {
         this.initializeContainers();
@@ -165,7 +164,6 @@ export class PlayArea extends ObserverComponent {
 
     private registerAllPhases() {
         this.registerPhaseMatchWinner();
-        this.registerPhaseShowLiveScore();
         this.registerPhaseShowBetChoicesPrev();
         this.registerPhaseShowBetChoicesLive();
         this.registerPhaseShowIntroVideo();
@@ -180,19 +178,8 @@ export class PlayArea extends ObserverComponent {
     registerPhaseMatchWinner() {
         const config: GamePhaseConfig = {
             id: PhaseId.ShowWinnerAndTournament,
-            begin: TimePointShowMatchWinner + this.ShowWinnerAndTournamentTimeOffset,
-            end: settings.points.placingBetPreMatch + this.ShowWinnerAndTournamentTimeOffset,
-        };
-        return config;
-    }
-
-    ///TODO: Remove this phase if we don't need it
-    @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
-    registerPhaseShowLiveScore() {
-        const config: GamePhaseConfig = {
-            id: this.ShowLiveScore,
-            begin: settings.points.streamingFirstHalfVideo + 1,
-            end: 1,
+            begin: TimePointShowMatchWinner + this.showWinnerAndTournamentTimeOffset,
+            end: settings.points.placingBetPreMatch + this.showWinnerAndTournamentTimeOffset,
         };
         return config;
     }
@@ -282,14 +269,14 @@ export class PlayArea extends ObserverComponent {
         if (!phase) {
             return;
         }
-        console.log("renderEnterPhase: ", phase.id);
+        log("renderEnterPhase: ", phase.id);
 
         if (phase.id === PhaseId.ShowWinnerAndTournament) {
             if (phase.progress === 0) {
                 const duration = 0.2;
                 this.scheduleOnce(
                     () => this.fadeOutBetChoiceNode(this.containerBets, true, duration),
-                    this.ShowWinnerAndTournamentTimeOffset - duration
+                    this.showWinnerAndTournamentTimeOffset - duration
                 );
                 this.disappearingNodes.forEach((node) => {
                     this.playAnimForTarget(node, this.tweenConfigs.fadeInOut.out);

@@ -3,6 +3,7 @@ import inversify from "inversify";
 import mobx from "mobx";
 import { GamePhaseConfig } from "./game-phase-definitions";
 import { GamePhaseStore } from "./game-phase-store";
+import { log } from "cc";
 
 const { injectable, inject } = inversify;
 
@@ -29,12 +30,11 @@ export class GamePhaseHandler {
     private cache = {};
 
     registerPhase(config: GamePhaseConfig) {
-        console.log("registerPhase: ", config.id);
         this.configs.push(config);
     }
 
     updateWithRoundTime(roundTime: number) {
-        console.log("updateWithRoundTime: ", roundTime);
+        log("updateWithRoundTime: ", roundTime);
         this.configs.forEach((config) => this.checkConfig(config, roundTime));
     }
 
