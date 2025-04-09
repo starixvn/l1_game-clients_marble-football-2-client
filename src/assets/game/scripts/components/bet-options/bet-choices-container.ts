@@ -29,6 +29,8 @@ export class BetChoicesContainer extends ObserverComponent {
     previewBetsButton: Node = null;
 
     loadedChips = false;
+    @property(Node)
+    swapBetsButton: Node = null;
 
     private _totalBets: Record<string, number> = {};
     private _ownBets: Record<string, number> = {};
@@ -149,10 +151,11 @@ export class BetChoicesContainer extends ObserverComponent {
         this.previewBetsButton.active = isEnabled;
     }
 
-    setEnableBetChoices(state: "prev" | "live" | "final") {
+    setEnableBetChoices(state: "prev" | "live" | "final", isSwapBets: boolean = false) {
         this.betChoicesPrev.active = state === "prev";
-        this.betChoicesLive.active = state === "live";
         this.betChoicesFinal.active = state === "final";
+
+        this.swapBetsButton.active = state === "live";
 
         const triggerByState = {
             prev: this.triggerBoundFirstHalfChips,
@@ -161,6 +164,12 @@ export class BetChoicesContainer extends ObserverComponent {
         };
 
         const trigger = triggerByState[state];
+
+        if (state === "live") {
+            this.betChoicesPrev.active = isSwapBets;
+            this.betChoicesLive.active = !isSwapBets;
+        }
+
         trigger();
     }
 
@@ -174,6 +183,7 @@ export class BetChoicesContainer extends ObserverComponent {
         this.betChoicesPrev.active = false;
         this.betChoicesLive.active = false;
         this.betChoicesFinal.active = false;
+        this.swapBetsButton.active = false;
     }
 
     handleAfterActiveBetItemsFinal() {
