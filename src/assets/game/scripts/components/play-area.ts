@@ -223,8 +223,8 @@ export class PlayArea extends ObserverComponent {
 
         if (phase.id === PhaseId.ShowIntroVideo || phase.id === PhaseId.ShowLiveVideo) {
             this.playAnimByPhaseProgress(
-                [this.scoreBoard, this.teamScore, this.mainPlayerNode],
-                [this.tweenConfigs.fadeInOut.out, this.tweenConfigs.teamScoreFlyUp.in, this.tweenConfigs.fadeInOut.out],
+                [this.scoreBoard, this.mainPlayerNode],
+                [this.tweenConfigs.fadeInOut.out, this.tweenConfigs.fadeInOut.out],
 
                 phase.progress
             );
@@ -256,6 +256,10 @@ export class PlayArea extends ObserverComponent {
 
                 return;
             }
+        }
+
+        if (phase.id === PhaseId.ShowPrevVideo) {
+            this.playAnimByPhaseProgress(this.teamScore, this.tweenConfigs.teamScoreFlyUp.in, phase.progress);
         }
     }
 
