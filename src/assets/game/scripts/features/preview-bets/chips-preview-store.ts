@@ -7,16 +7,23 @@ const { injectable, inject } = inversify;
 @injectable()
 export class ChipsPreviewStore {
     @inject(gc.Rounds.RoundTimeStore) roundTimeStore: gc.Rounds.RoundTimeStore;
-    @inject(gc.Chips.ChipStore) chipStore: gc.Chips.ChipStore;
+    @inject(gc.Settlements.SettlementStore) settlementStore: gc.Settlements.SettlementStore;
     constructor() {
         mobx.makeAutoObservable(this);
+        mobx.reaction(
+            () => this.settlementStore.settlementResult,
+            () => {
+                this._settlementResult = this.settlementStore.settlementResult;
+            }
+        );
     }
+
+    private _settlementResult: gc.GameServiceMessage.TSettlementResult = {};
 
     private _finalChips: Record<string, any> = {};
     private _boundChipsFirstHalf: boolean = false;
 
     private _boundChipsSecondHalf: boolean = false;
-    private _boundChipsFinal: boolean = false;
     private _firstHalfChips: Record<string, any> = {};
     private _secondHalfChips: Record<string, any> = {};
 
@@ -34,10 +41,6 @@ export class ChipsPreviewStore {
 
     get boundChipsSecondHalf() {
         return this._boundChipsSecondHalf;
-    }
-
-    set boundChipsFinal(boundChipsFinal: boolean) {
-        this._boundChipsFinal = boundChipsFinal;
     }
 
     set firstHalfChips(firstHalfChips: Record<string, any>) {
@@ -62,5 +65,9 @@ export class ChipsPreviewStore {
 
     set finalChips(finalChips: Record<string, any>) {
         this._finalChips = finalChips;
+    }
+
+    get settlementResult() {
+        return this._settlementResult;
     }
 }

@@ -10,8 +10,8 @@ import { GamePhase, PhaseId } from "../features/game-phase/game-phase-definition
 import { GamePhaseStore } from "../features/game-phase/game-phase-store";
 import { BetChoicesContainer } from "./bet-options/bet-choices-container";
 import { FunctionUtils } from "db://shared-components/shared/utils";
-import BetItem from "db://shared-components/game/bets/scripts/components/bet-item";
 import { ChipsPreviewStore } from "../features/preview-bets/chips-preview-store";
+import { BetItemsFinal } from "./bet-options/bet-items-final";
 
 const { ccclass, property } = _decorator;
 const { handle, render } = Observer;
@@ -39,7 +39,6 @@ export class ChipFlying extends ChipFlyingShared {
 
     isJoinGame = false;
     chipContainers: Node[] = [];
-    isFinalState = false;
 
     chipByChipComponents: Record<string, Node> = {};
 
@@ -187,16 +186,47 @@ export class ChipFlying extends ChipFlyingShared {
         }
     }
 
-    @render(gc.Settlements.SettlementStore, (store) => store.settlementResult, { fireImmediately: false })
-    payChipsWhenReceivingSettlementResult(settlementResult: gc.GameServiceMessage.TSettlementResult) {
-        if (!this || !settlementResult || !this.enablePlaceChips || !this.node) {
+    payChipsWhenReceivingSettlementResult(settlementResult: gc.GameServiceMessage.TSettlementResult) {}
+
+    @render(
+        ChipsPreviewStore,
+        (store) => ({
+            settlementResult: store.settlementResult,
+            boundChipsFirstHalf: store.boundChipsFirstHalf,
+            boundChipsSecondHalf: store.boundChipsSecondHalf,
+        }),
+        { fireImmediately: false }
+    )
+    payChipsInSettle(chipsSettlement: {
+        settlementResult: gc.GameServiceMessage.TSettlementResult;
+        boundChipsFirstHalf: boolean;
+        boundChipsSecondHalf: boolean;
+    }) {
+        if (!this || !chipsSettlement.settlementResult || !this.enablePlaceChips || !this.node) {
+            return;
+        }
+        const { settlementResult, boundChipsFirstHalf, boundChipsSecondHalf } = chipsSettlement;
+
+        if (boundChipsFirstHalf) {
+            this.moveChipsToFinalContainer(this.chipContainerPrev);
+        }
+        if (boundChipsSecondHalf) {
+            this.moveChipsToFinalContainer(this.chipContainerLive);
+        }
+        if (boundChipsFirstHalf && boundChipsSecondHalf) {
             return;
         }
 
-        this.moveChipsToFinalContainer(this.chipContainerPrev);
-        this.moveChipsToFinalContainer(this.chipContainerLive);
-        this.betItems?.updateSettlementResult(settlementResult);
+        this.payChips(settlementResult);
+    }
 
+    payChips(settlementResult: gc.GameServiceMessage.TSettlementResult) {
+        if (!this || !settlementResult || !this.enablePlaceChips || !this.node) {
+            return;
+        }
+        const betItemsFinal = this.betChoicesContainer.betChoicesFinal.getComponent(BetItemsFinal);
+        this.updateBetState(this.chipContainerFinal, betItemsFinal);
+        this.betItems?.updateSettlementResult(settlementResult);
         if (!this.node.activeInHierarchy) {
             this.actionPayChips(false);
         } else {
@@ -223,19 +253,16 @@ export class ChipFlying extends ChipFlyingShared {
         }
 
         if (phase.id === PhaseId.Settlement) {
-            this.isFinalState = true;
             this.updateBetState(this.chipContainerFinal, this.betChoicesContainer.getBetItemsFinal());
             return;
         }
 
         if (phase.id === PhaseId.ShowBetChoicesPrev) {
-            this.isFinalState = false;
             this.updateBetState(this.chipContainerPrev, this.betChoicesContainer.getBetItemsPrevMath());
             return;
         }
 
         if (phase.id === PhaseId.ShowBetChoicesLive) {
-            this.isFinalState = false;
             this.updateBetState(this.chipContainerLive, this.betChoicesContainer.getBetItemsLive());
             return;
         }
@@ -296,37 +323,30 @@ export class ChipFlying extends ChipFlyingShared {
         return choice.includes("Live") ? this.chipContainerLive : this.chipContainerPrev;
     }
 
-    betItemsGetReady() {
-        return this.betItems.betItemComponents.length > 0;
-    }
-
-    protected handleAddChipsWhenJoin(chipsByMainPlayerRate: Record<string, any>, chipBox: Node, betChoice: string) {
-        const chipGroup = chipsByMainPlayerRate[betChoice];
-        if (chipGroup) {
-            const nodes = addChipsToChipBoxWhenJoinRoom(this.currentChipContainer, chipBox, chipGroup, this.slidingChip);
-            this.addChipsToBoxWithChoice(nodes, betChoice);
-        }
-    }
-
     @render(ChipsPreviewStore, (store) => store.finalChips)
-    protected handleAddChipsWhenJoinFinal(chipsByMainPlayerRate: Record<string, any>) {
-        if (Object.keys(chipsByMainPlayerRate).length === 0) {
+    protected async handleAddChipsWhenJoinFinal(chipsByMainPlayerRate: Record<string, any>) {
+        if (Object.keys(chipsByMainPlayerRate.chips).length === 0) {
             return;
         }
 
-        const betItemsFinal = this.betChoicesContainer.getBetItemsFinal();
+        const betItemsFinal = this.betChoicesContainer.betChoicesFinal.getComponent(BetItemsFinal);
+        while (!betItemsFinal) {
+            await FunctionUtils.delay(100);
+        }
         const betItemsByChoice = betItemsFinal.betItemComponents.reduce((acc, item) => {
             acc[item.betChoice] = item;
             return acc;
         }, {});
 
-        for (const [key, value] of Object.entries(chipsByMainPlayerRate)) {
-            const chipGroup = value;
-            const chipBox = betItemsByChoice[key].chipBox;
+        for (const [key, value] of Object.entries(chipsByMainPlayerRate.chips)) {
+            const chipGroup: Record<string, any> = value;
+            const choice = key.replace("Live", "");
+            const chipBox = betItemsByChoice[choice].chipBox;
             if (chipGroup && chipBox) {
                 const nodes = addChipsToChipBoxWhenJoinRoom(this.chipContainerFinal, chipBox, chipGroup, this.slidingChip);
                 this.addChipsToBoxWithChoice(nodes, key);
             }
         }
+        this.payChips(chipsByMainPlayerRate.settlementResult);
     }
 }

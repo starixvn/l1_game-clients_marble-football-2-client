@@ -12,6 +12,7 @@ export class PreviewBetsHandler {
     @inject(ButtonsBetStore) private buttonsBetStore: ButtonsBetStore;
     @inject(ChipsPreviewStore) private chipsPreviewStore: ChipsPreviewStore;
     @inject(gc.Chips.ChipStore) private chipsStore: gc.Chips.ChipStore;
+    @inject(gc.Settlements.SettlementStore) private settlementStore: gc.Settlements.SettlementStore;
 
     handlePreviewBets(isPreviewBets: boolean) {
         this.buttonsBetStore.isPreviewBets = isPreviewBets;
@@ -57,7 +58,10 @@ export class PreviewBetsHandler {
         }
 
         if (Object.keys(chipsNeedBind).length > 0) {
-            this.chipsPreviewStore.finalChips = chipsNeedBind;
+            this.chipsPreviewStore.finalChips = {
+                chips: chipsNeedBind,
+                settlementResult: this.settlementStore.settlementResult,
+            };
         }
     }
 
