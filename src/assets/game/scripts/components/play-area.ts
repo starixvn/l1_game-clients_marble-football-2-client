@@ -114,7 +114,7 @@ export class PlayArea extends ObserverComponent {
     private isPreviewBets: boolean = false;
     private phasePreviewBets: BetState = "prev";
 
-    protected containerBets: Node = null;
+    protected betChoicesParentContainer: Node = null;
     protected chipContainers: Node[] = [];
     protected readonly durationShowBetChoices = 0.5;
 
@@ -130,12 +130,12 @@ export class PlayArea extends ObserverComponent {
 
     private initializeContainers() {
         this.chipContainers = [this.chipContainerPrev, this.chipContainerLive, this.chipContainerFinal];
-        this.containerBets = this.betChoicesContainer.betChoicesPrev.parent;
+        this.betChoicesParentContainer = this.betChoicesContainer.betChoicesPrev?.parent;
     }
 
     private setupMainPlayAreaTargets() {
         const commonTargets = [
-            { target: this.containerBets, key: "betChoiceZoomInOut" as TweenKey },
+            { target: this.betChoicesParentContainer, key: "betChoiceZoomInOut" as TweenKey },
             { target: this.chips, key: "chipsFlyDown" as TweenKey },
         ];
 
@@ -275,7 +275,7 @@ export class PlayArea extends ObserverComponent {
             if (phase.progress === 0) {
                 const duration = 0.2;
                 this.scheduleOnce(
-                    () => this.fadeOutBetChoiceNode(this.containerBets, true, duration),
+                    () => this.fadeOutBetChoiceNode(this.betChoicesParentContainer, true, duration),
                     this.showWinnerAndTournamentTimeOffset - duration
                 );
                 this.disappearingNodes.forEach((node) => {
@@ -283,7 +283,7 @@ export class PlayArea extends ObserverComponent {
                 });
                 this.playAnimForTarget(this.chips, this.tweenConfigs.chipsFlyDown.out);
             } else {
-                this.fadeOutBetChoiceNode(this.containerBets, true, 0);
+                this.fadeOutBetChoiceNode(this.betChoicesParentContainer, true, 0);
                 this.disappearingNodes.forEach((node) => {
                     this.setStaticTarget(node, this.tweenConfigs.fadeInOut.out);
                 });
@@ -295,7 +295,7 @@ export class PlayArea extends ObserverComponent {
 
         if (phase.id === PhaseId.Settlement) {
             this.betChoicesContainer.setEnableBetChoices("final");
-            this.fadeOutBetChoiceNode(this.containerBets, false, 0);
+            this.fadeOutBetChoiceNode(this.betChoicesParentContainer, false, 0);
             this.setStaticTarget(this.mainPlayerNode, this.tweenConfigs.fadeInOut.in);
             this.disappearingNodes.forEach((node) => {
                 this.setStaticTarget(node, this.tweenConfigs.fadeInOut.in);
@@ -317,7 +317,7 @@ export class PlayArea extends ObserverComponent {
                 this.setStaticTarget(this.mainPlayerNode, this.tweenConfigs.fadeInOut.in);
                 this.setStaticTarget(this.scoreBoard, this.tweenConfigs.fadeInOut.in);
                 this.betChoicesContainer.setEnableBetChoices(phase.id === PhaseId.ShowBetChoicesPrev ? "prev" : "live");
-                this.fadeOutBetChoiceNode(this.containerBets, false, 0);
+                this.fadeOutBetChoiceNode(this.betChoicesParentContainer, false, 0);
                 this.setStaticPlayArea("in", phase.id === PhaseId.ShowBetChoicesPrev ? "prev" : "live");
             }
 
@@ -361,7 +361,7 @@ export class PlayArea extends ObserverComponent {
         if (phase.id === PhaseId.AutoHidePreviewBetChoicesLive || phase.id === PhaseId.AutoHidePreviewBetChoicesPrev) {
             this.setPreviewBets(false);
             this.betChoicesContainer.setDisableBetChoices();
-            this.fadeOutBetChoiceNode(this.containerBets, true, this.durationShowBetChoices);
+            this.fadeOutBetChoiceNode(this.betChoicesParentContainer, true, this.durationShowBetChoices);
             this.chipContainers.forEach((chipContainer) => {
                 this.setStaticTarget(chipContainer, this.tweenConfigs.chipContainerZoomInOut.out);
             });
@@ -399,14 +399,14 @@ export class PlayArea extends ObserverComponent {
     private scheduleBetChoiceFadeIn(action: BetState, duration?: number) {
         this.scheduleOnce(() => {
             this.betChoicesContainer.setEnableBetChoices(action);
-            this.fadeOutBetChoiceNode(this.containerBets, false, duration ?? this.durationShowBetChoices);
+            this.fadeOutBetChoiceNode(this.betChoicesParentContainer, false, duration ?? this.durationShowBetChoices);
         }, duration ?? this.durationShowBetChoices);
     }
 
     private scheduleBetChoiceFadeOut(duration?: number) {
         this.scheduleOnce(() => {
             this.betChoicesContainer.setDisableBetChoices();
-            this.fadeOutBetChoiceNode(this.containerBets, true, duration ?? this.durationShowBetChoices);
+            this.fadeOutBetChoiceNode(this.betChoicesParentContainer, true, duration ?? this.durationShowBetChoices);
         }, duration ?? this.durationShowBetChoices);
     }
 
@@ -558,7 +558,7 @@ export class PlayArea extends ObserverComponent {
         }
 
         await Promise.all([
-            this.playAnimForTarget(this.containerBets, this.tweenConfigs.betChoicePreviewZoomInOut[direction]),
+            this.playAnimForTarget(this.betChoicesParentContainer, this.tweenConfigs.betChoicePreviewZoomInOut[direction]),
             this.playAnimForTarget(chipContainer, this.tweenConfigs.chipContainerPreviewZoomInOut[direction]),
             (chipContainer.active = this.isPreviewBets),
         ]);
@@ -566,10 +566,6 @@ export class PlayArea extends ObserverComponent {
 
     @render(ButtonsBetStore, (store) => store.isPreviewBets, { fireImmediately: false })
     async renderButtonsBet(isPreviewBets: boolean) {
-        if (!this.previewBetsButton) {
-            return;
-        }
-
         this.previewBetsButton.setVisibilityState(isPreviewBets);
         this.isPreviewBets = isPreviewBets;
         this.animateBetElements();
