@@ -158,7 +158,6 @@ export class PlayArea extends ObserverComponent {
             return;
         }
         log("renderEnterPhase: ", phase.id);
-        this.chipContainersParent.active = true;
 
         if (phase.id === PhaseId.ShowWinnerAndTournament) {
             if (phase.progress === 0) {
@@ -226,7 +225,9 @@ export class PlayArea extends ObserverComponent {
         }
 
         if (phase.id === PhaseId.AutoHidePreviewBetChoicesLive || phase.id === PhaseId.AutoHidePreviewBetChoicesPrev) {
-            this.chipContainersParent.active = false;
+            this.chipContainersParent.children.forEach((child) => {
+                child.active = false;
+            });
 
             if (phase.id === PhaseId.AutoHidePreviewBetChoicesLive) {
                 this.playAnimByPhaseProgress(this.firstHalfScore, this.tweenConfigs.fadeInOut.out, phase.progress);
@@ -309,6 +310,7 @@ export class PlayArea extends ObserverComponent {
 
         this.chipContainerPrev.active = isPreviewBets && (betState === "prev" || (betState === "live" && isSwapBets));
         this.chipContainerLive.active = isPreviewBets && betState === "live" && !isSwapBets;
+        this.betChoicesContainer.swapBetsButton.active = isPreviewBets && betState === "live";
 
         await Promise.all([
             AnimationHelper.playAnimForTarget(this.betChoicesParentContainer, this.tweenConfigs.betChoicePreviewZoomInOut[direction]),
