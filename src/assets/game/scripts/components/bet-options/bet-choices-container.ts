@@ -170,7 +170,7 @@ export class BetChoicesContainer extends ObserverComponent {
         if (phase.progress === 0) {
             this.scheduleBetChoiceFadeIn(action);
         } else {
-            this.setEnableBetChoices(action, this.isSwapBets);
+            this.setEnableBetChoices(action);
             this.fadeOutBetChoiceNode(this.betChoicesParentContainer, false, 0);
         }
 
@@ -191,8 +191,6 @@ export class BetChoicesContainer extends ObserverComponent {
         if (!phase) {
             return;
         }
-
-        this.isSwapBets = false;
 
         // Apply phase-specific UI configurations
         this.applyPhaseConfig(phase.id as PhaseId);
@@ -215,6 +213,7 @@ export class BetChoicesContainer extends ObserverComponent {
 
         if (phase.id === PhaseId.AutoHidePreviewBetChoicesLive || phase.id === PhaseId.AutoHidePreviewBetChoicesPrev) {
             this.handleAutoHidePreviewPhase();
+            this.isSwapBets = false;
         }
     }
 
@@ -231,8 +230,9 @@ export class BetChoicesContainer extends ObserverComponent {
         this.previewBetsButton && (this.previewBetsButton.active = isEnabled);
     }
 
-    setEnableBetChoices(state: "prev" | "live" | "final", isSwapBets: boolean = false) {
+    setEnableBetChoices(state: "prev" | "live" | "final") {
         this.betChoicesPrev.active = state === "prev";
+        this.betChoicesLive.active = state === "live";
         this.betChoicesFinal.active = state === "final";
         this.swapBetsButton.active = state === "live";
 
@@ -245,8 +245,8 @@ export class BetChoicesContainer extends ObserverComponent {
         const trigger = triggerByState[state];
 
         if (state === "live") {
-            this.betChoicesPrev.active = isSwapBets;
-            this.betChoicesLive.active = !isSwapBets;
+            this.betChoicesPrev.active = this.isSwapBets;
+            this.betChoicesLive.active = !this.isSwapBets;
         }
 
         trigger();
@@ -355,7 +355,7 @@ export class BetChoicesContainer extends ObserverComponent {
 
     scheduleBetChoiceFadeIn(action: BetState, duration?: number) {
         this.scheduleOnce(() => {
-            this.setEnableBetChoices(action, this.isSwapBets);
+            this.setEnableBetChoices(action);
             this.fadeOutBetChoiceNode(this.betChoicesParentContainer, false, duration ?? this.durationShowBetChoices);
         }, duration ?? this.durationShowBetChoices);
     }

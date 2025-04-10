@@ -280,13 +280,12 @@ export class PlayArea extends ObserverComponent {
 
     private async animateBetElements(isPreviewBets: boolean) {
         const direction = isPreviewBets ? "in" : "out";
-        const betState = this.phasePreviewBets === "prev" ? "prev" : "live";
         const isSwapBets = this.betChoicesContainer.getIsSwapBets();
-        const isShownPrevBetChoices = betState === "prev" || (betState === "live" && isSwapBets);
-        const isShownLiveBetChoices = betState === "live" && !isSwapBets;
+        const isShownPrevBetChoices = this.phasePreviewBets === "prev" || (this.phasePreviewBets === "live" && isSwapBets);
+        const isShownLiveBetChoices = this.phasePreviewBets === "live" && !isSwapBets;
 
         if (isPreviewBets) {
-            this.betChoicesContainer.swapBetsButton.active = betState === "live";
+            this.betChoicesContainer.swapBetsButton.active = this.phasePreviewBets === "live";
         }
 
         this.chipContainerPrev.active = isShownPrevBetChoices;
