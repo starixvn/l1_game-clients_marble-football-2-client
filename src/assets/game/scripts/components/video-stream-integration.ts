@@ -45,14 +45,19 @@ export default class VideoStreamIntegration extends ObserverComponent {
     private blockShowFieldWithSyncNativeCurrentTime = false;
     private _systemIndicator: SystemIndicator = null;
 
-    private readonly PHASE_HANDLERS = {
+    private readonly PHASES_WITH_VISIBLE_BG = new Set<PhaseId>([
+        PhaseId.ShowWinnerAndTournament,
+        PhaseId.MatchWinner,
+        PhaseId.Tournament,
+        PhaseId.Settlement,
+        PhaseId.ShowBetChoicesLive,
+        PhaseId.ShowBetChoicesPrev,
+    ]);
+
+    private readonly PHASE_HANDLERS: Partial<Record<PhaseId, () => void>> = {
         [PhaseId.Halftime]: () => {
             AnimationUtils.fadeOut(this.warnContainer, 0.2);
         },
-        [PhaseId.ShowWinnerAndTournament]: () => this.setGameBackgroundVisibility(true),
-        [PhaseId.Settlement]: () => this.setGameBackgroundVisibility(true),
-        [PhaseId.ShowBetChoicesLive]: () => this.setGameBackgroundVisibility(true),
-        [PhaseId.ShowBetChoicesPrev]: () => this.setGameBackgroundVisibility(true),
     };
 
     get systemIndicator() {
@@ -256,7 +261,8 @@ export default class VideoStreamIntegration extends ObserverComponent {
         if (handler) {
             handler();
         } else {
-            this.setGameBackgroundVisibility(false);
+            const shouldShowBg = this.PHASES_WITH_VISIBLE_BG.has(phase.id as PhaseId);
+            this.setGameBackgroundVisibility(shouldShowBg);
         }
     }
 

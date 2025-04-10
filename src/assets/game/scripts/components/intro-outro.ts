@@ -43,6 +43,8 @@ export class IntroOutro extends Component {
 
         this.gameBackground.opacity = this.maxOpacity * percent;
 
+        console.log("playOutroAnimation: ", duration - at);
+
         tween(this.gameBackground)
             .to(duration - at, { opacity: this.maxOpacity })
             .start();
