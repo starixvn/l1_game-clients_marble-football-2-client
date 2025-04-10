@@ -13,14 +13,7 @@ import { AnimationHelper, TweenConfig, TweenConfigs } from "./helpers/animation-
 const { ccclass, property } = _decorator;
 const { render, handle } = Observer;
 
-type TweenKey =
-    | "chipContainerZoomInOut"
-    | "fadeInOut"
-    | "chipsFlyDown"
-    | "teamScoreFlyUp"
-    | "betChoiceZoomInOut"
-    | "betChoicePreviewZoomInOut"
-    | "chipContainerPreviewZoomInOut";
+type TweenKey = "chipContainerZoomInOut" | "fadeInOut" | "chipsFlyDown" | "teamScoreFlyUp" | "betChoiceZoomInOut";
 type BetState = "prev" | "live" | "final";
 
 @ccclass("PlayArea")
@@ -62,14 +55,6 @@ export class PlayArea extends ObserverComponent {
         betChoiceZoomInOut: {
             in: { position: v3(0, -94, 0), time: 0.2 },
             out: { position: v3(0, -570, 0), time: 1 },
-        },
-        betChoicePreviewZoomInOut: {
-            in: { position: v3(0, -94, 0), time: 0 },
-            out: { position: v3(0, -570, 0), time: 0 },
-        },
-        chipContainerPreviewZoomInOut: {
-            in: { position: v3(0, 0, 0), time: 0 },
-            out: { position: v3(0, -410, 0), time: 0 },
         },
         chipContainerZoomInOut: {
             in: { position: v3(0, 0, 0), time: 0.2 },
@@ -199,6 +184,8 @@ export class PlayArea extends ObserverComponent {
         }
 
         if (phase.id === PhaseId.ShowIntroVideo || phase.id === PhaseId.ShowPrevVideo || phase.id === PhaseId.ShowLiveVideo) {
+            this.playAnimByPhaseProgress(this.teamScore, this.tweenConfigs.teamScoreFlyUp.in, phase.progress);
+
             this.playAnimByPhaseProgress(
                 [this.scoreBoard, this.mainPlayerNode],
                 [this.tweenConfigs.fadeInOut.out, this.tweenConfigs.fadeInOut.out],
@@ -210,15 +197,13 @@ export class PlayArea extends ObserverComponent {
                 this.zoomPlayArea("out", phase.id === PhaseId.ShowIntroVideo ? "prev" : "live");
             }
 
-            if (phase.id === PhaseId.ShowIntroVideo) {
+            if (phase.id === PhaseId.ShowIntroVideo || phase.id === PhaseId.ShowPrevVideo) {
                 this.phasePreviewBets = "prev";
-            } else {
-                this.phasePreviewBets = "live";
-                this.playAnimByPhaseProgress(this.firstHalfScore, this.tweenConfigs.fadeInOut.out, phase.progress);
             }
 
             if (phase.id === PhaseId.ShowLiveVideo) {
-                this.playAnimByPhaseProgress(this.teamScore, this.tweenConfigs.teamScoreFlyUp.in, phase.progress);
+                this.phasePreviewBets = "live";
+                this.playAnimByPhaseProgress(this.firstHalfScore, this.tweenConfigs.fadeInOut.out, phase.progress);
             }
 
             return;
@@ -233,10 +218,6 @@ export class PlayArea extends ObserverComponent {
                 this.playAnimByPhaseProgress(this.firstHalfScore, this.tweenConfigs.fadeInOut.out, phase.progress);
                 return;
             }
-        }
-
-        if (phase.id === PhaseId.ShowPrevVideo) {
-            this.playAnimByPhaseProgress(this.teamScore, this.tweenConfigs.teamScoreFlyUp.in, phase.progress);
         }
     }
 
@@ -301,21 +282,20 @@ export class PlayArea extends ObserverComponent {
         const direction = isPreviewBets ? "in" : "out";
         const betState = this.phasePreviewBets === "prev" ? "prev" : "live";
         const isSwapBets = this.betChoicesContainer.getIsSwapBets();
+        const isShownPrevBetChoices = betState === "prev" || (betState === "live" && isSwapBets);
+        const isShownLiveBetChoices = betState === "live" && !isSwapBets;
 
         if (isPreviewBets) {
-            this.betChoicesContainer.scheduleBetChoiceFadeIn(betState, 0);
-        } else {
-            this.betChoicesContainer.scheduleBetChoiceFadeOut(0);
+            this.betChoicesContainer.swapBetsButton.active = betState === "live";
         }
 
-        this.chipContainerPrev.active = isPreviewBets && (betState === "prev" || (betState === "live" && isSwapBets));
-        this.chipContainerLive.active = isPreviewBets && betState === "live" && !isSwapBets;
-        this.betChoicesContainer.swapBetsButton.active = isPreviewBets && betState === "live";
+        this.chipContainerPrev.active = isShownPrevBetChoices;
+        this.chipContainerLive.active = isShownLiveBetChoices;
+        this.betChoicesContainer.betChoicesLive.active = isShownLiveBetChoices;
+        this.betChoicesContainer.betChoicesPrev.active = isShownPrevBetChoices;
 
-        await Promise.all([
-            AnimationHelper.setStaticTarget(this.betChoicesParentContainer, this.tweenConfigs.betChoicePreviewZoomInOut[direction]),
-            AnimationHelper.setStaticTarget(this.chipContainersParent, this.tweenConfigs.chipContainerPreviewZoomInOut[direction]),
-        ]);
+        AnimationHelper.setStaticTarget(this.betChoicesParentContainer, this.tweenConfigs.betChoiceZoomInOut[direction]);
+        AnimationHelper.setStaticTarget(this.chipContainersParent, this.tweenConfigs.chipContainerZoomInOut[direction]);
     }
 
     @render(ButtonsBetStore, (store) => store.isPreviewBets, { fireImmediately: false })

@@ -97,7 +97,7 @@ export class BetChoicesContainer extends ObserverComponent {
         this.statusBetsButton = this.previewBetsButton?.getComponent(StatusBetsButton);
         this.setEnabledPreviewBets(false);
         this.betChoicesParentContainer = this.betChoicesPrev?.parent;
-
+        this.swapBetsButton.active = false;
         super.onLoad();
 
         this.previewBetsButton.on(Button.EventType.CLICK, this.showHideBets, this);
