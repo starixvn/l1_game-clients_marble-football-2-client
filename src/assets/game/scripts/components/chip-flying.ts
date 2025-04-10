@@ -39,6 +39,7 @@ export class ChipFlying extends ChipFlyingShared {
 
     isJoinGame = false;
     chipContainers: Node[] = [];
+    protected delayGetChips = 1.5;
 
     chipByChipComponents: Record<string, Node> = {};
 
@@ -57,6 +58,7 @@ export class ChipFlying extends ChipFlyingShared {
         }
 
         tween(this.node)
+            .delay(this.delayGetChips)
             .call(() => {
                 if (this.betItems?.lostBetItems?.length > 0) {
                     this.handlePlaySound(CHIP_SOUND_ID.GATHER_CHIPS);
