@@ -205,6 +205,9 @@ export class ChipFlying extends ChipFlyingShared {
         if (!this || !chipsSettlement.settlementResult || !this.enablePlaceChips || !this.node) {
             return;
         }
+        if (this.node.activeInHierarchy) {
+            this.startShowResultAnimation = true;
+        }
         const { settlementResult, boundChipsFirstHalf, boundChipsSecondHalf } = chipsSettlement;
 
         if (boundChipsFirstHalf) {
@@ -224,14 +227,13 @@ export class ChipFlying extends ChipFlyingShared {
         if (!this || !settlementResult || !this.enablePlaceChips || !this.node) {
             return;
         }
+
         const betItemsFinal = this.betChoicesContainer.betChoicesFinal.getComponent(BetItemsFinal);
         this.updateBetState(this.chipContainerFinal, betItemsFinal);
         this.betItems?.updateSettlementResult(settlementResult);
         if (!this.node.activeInHierarchy) {
             this.actionPayChips(false);
         } else {
-            this.startShowResultAnimation = true;
-
             if (this.usingDelayPayChips) {
                 tween(this.node)
                     .delay(this.delayAnimPayChips)
@@ -305,7 +307,6 @@ export class ChipFlying extends ChipFlyingShared {
         if (Object.keys(chipsByMainPlayerRate).length === 0) {
             return;
         }
-
         const betItemsByChoice = await this.betChoicesContainer.betItemsByChoice();
 
         for (const [key, value] of Object.entries(chipsByMainPlayerRate)) {
@@ -332,6 +333,11 @@ export class ChipFlying extends ChipFlyingShared {
             !this.startShowResultAnimation
         ) {
             return;
+        }
+
+        //ensure flag turn on after process pay chips
+        if (this.node.activeInHierarchy) {
+            this.startShowResultAnimation = true;
         }
 
         const betItemsFinal = this.betChoicesContainer.betChoicesFinal.getComponent(BetItemsFinal);
