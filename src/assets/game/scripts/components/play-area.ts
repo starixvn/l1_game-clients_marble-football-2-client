@@ -199,7 +199,7 @@ export class PlayArea extends ObserverComponent {
             return;
         }
 
-        if (phase.id === PhaseId.ShowIntroVideo || phase.id === PhaseId.ShowLiveVideo) {
+        if (phase.id === PhaseId.ShowIntroVideo || phase.id === PhaseId.ShowPrevVideo || phase.id === PhaseId.ShowLiveVideo) {
             this.playAnimByPhaseProgress(
                 [this.scoreBoard, this.mainPlayerNode],
                 [this.tweenConfigs.fadeInOut.out, this.tweenConfigs.fadeInOut.out],

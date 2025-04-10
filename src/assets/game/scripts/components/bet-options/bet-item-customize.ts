@@ -24,6 +24,7 @@ export default class BetItemCustomize extends BetItem {
 
     onLoad(): void {
         this.setBlockIconVisibility(false);
+        this.hideOddsIndicators();
         super.onLoad();
     }
 
