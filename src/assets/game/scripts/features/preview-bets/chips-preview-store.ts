@@ -1,19 +1,31 @@
 import inversify from "inversify";
 import mobx from "mobx";
 import gc from "@sg/game-client-base";
+import { MarbleRoundTimeStore } from "../rounds/marble-round-time-store";
 
 const { injectable, inject } = inversify;
 
 @injectable()
 export class ChipsPreviewStore {
-    @inject(gc.Rounds.RoundTimeStore) roundTimeStore: gc.Rounds.RoundTimeStore;
+    @inject(gc.Rounds.RoundTimeStore) roundTimeStore: MarbleRoundTimeStore;
     @inject(gc.Settlements.SettlementStore) settlementStore: gc.Settlements.SettlementStore;
+
     constructor() {
         mobx.makeAutoObservable(this);
         mobx.reaction(
-            () => this.settlementStore.settlementResult,
+            () => this.settlementStore?.settlementResult,
             () => {
-                this._settlementResult = this.settlementStore.settlementResult;
+                this._settlementResult = this.settlementStore?.settlementResult || {};
+            }
+        );
+        mobx.when(
+            () => this.roundTimeStore?.isPreparingBetPreMatch,
+            () => {
+                this._boundChipsFirstHalf = true;
+                this._boundChipsSecondHalf = true;
+                this._firstHalfChips = {};
+                this._secondHalfChips = {};
+                this._finalChips = {};
             }
         );
     }
