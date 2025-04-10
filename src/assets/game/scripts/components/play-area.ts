@@ -286,6 +286,11 @@ export class PlayArea extends ObserverComponent {
 
         if (isPreviewBets) {
             this.betChoicesContainer.swapBetsButton.active = this.phasePreviewBets === "live";
+            AnimationHelper.setStaticTarget(this.chips, this.tweenConfigs.chipsFlyDown.in);
+            AnimationHelper.setStaticTarget(this.mainPlayerNode, this.tweenConfigs.fadeInOut.in);
+        } else {
+            AnimationHelper.setStaticTarget(this.chips, this.tweenConfigs.chipsFlyDown.out);
+            AnimationHelper.setStaticTarget(this.mainPlayerNode, this.tweenConfigs.fadeInOut.out);
         }
 
         this.chipContainerPrev.active = isShownPrevBetChoices;
