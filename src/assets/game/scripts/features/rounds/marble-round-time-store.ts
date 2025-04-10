@@ -139,10 +139,7 @@ export class MarbleRoundTimeStore {
     }
 
     get isPlacingBet() {
-        return (
-            (this.roundTime <= this.placingBetPreMatch && this.roundTime > this.lockingBetPreMatch) ||
-            (this.roundTime <= this.placingBetLiveMatch && this.roundTime > this.lockingBetLiveMatch)
-        );
+        return this.isPlacingBetPreMatch || this.isPlacingBetLiveMatch;
     }
 
     get isPlacingBetPreMatch() {

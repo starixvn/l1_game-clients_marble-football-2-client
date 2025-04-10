@@ -93,15 +93,14 @@ export class BetChoicesContainer extends ObserverComponent {
         this.betItemsLive = this.betChoicesLive.getComponent(BetItems);
         this.betItemsFinal = this.betChoicesFinal.getComponent(BetItems);
         this.betChoicesInMatch = [this.betItemsPrev, this.betItemsLive, this.betItemsFinal];
-
         [this.betChoicesPrev, this.betChoicesLive, this.betChoicesFinal].forEach((choice) => (choice.active = false));
         this.statusBetsButton = this.previewBetsButton?.getComponent(StatusBetsButton);
         this.setEnabledPreviewBets(false);
         this.betChoicesParentContainer = this.betChoicesPrev?.parent;
 
-        this.previewBetsButton.on(Button.EventType.CLICK, this.showHideBets, this);
-
         super.onLoad();
+
+        this.previewBetsButton.on(Button.EventType.CLICK, this.showHideBets, this);
     }
 
     @render(Rounds.RoundStore, (store) => store.totalBets)
