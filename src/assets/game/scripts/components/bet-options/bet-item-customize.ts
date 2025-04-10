@@ -45,14 +45,14 @@ export default class BetItemCustomize extends BetItem {
     }
 
     private hideOddsIndicators(): void {
-        this.increaseOdd!.active = false;
-        this.decreaseOdd!.active = false;
+        this.increaseOdd && (this.increaseOdd.active = false);
+        this.decreaseOdd && (this.decreaseOdd.active = false);
     }
 
     private updateOddsIndicators(deltaOdd: number): void {
         const isIncrease = deltaOdd > 0;
-        this.increaseOdd!.active = isIncrease;
-        this.decreaseOdd!.active = !isIncrease;
+        this.increaseOdd && (this.increaseOdd.active = isIncrease);
+        this.decreaseOdd && (this.decreaseOdd.active = !isIncrease);
     }
 
     setDisabledVisibility(status: boolean) {

@@ -328,6 +328,8 @@ export class PlayArea extends ObserverComponent {
             this.chipContainerLive.active = false;
             betChoicesLive.active = false;
 
+            this.betChoicesContainer.handleAfterActiveBetItemsFirstHalf();
+
             this.betChoicesContainer.setIsSwapBets(true);
             return;
         }

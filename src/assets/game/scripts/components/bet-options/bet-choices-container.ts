@@ -12,6 +12,7 @@ import BetItem from "db://shared-components/game/bets/scripts/components/bet-ite
 import { PreviewBetsHandler } from "../../features/preview-bets/preview-bets-handler";
 import { ButtonsBetStore } from "../../features/preview-bets/buttons-bet-store";
 import BetItemCustomize from "./bet-item-customize";
+import { OddsStore, OddsWithConfig } from "../../features/dynamic-odds/odds-store";
 const { ccclass, property } = _decorator;
 
 const { Rounds } = gc;
@@ -35,6 +36,8 @@ export class BetChoicesContainer extends ObserverComponent {
 
     @property(Node)
     swapBetsButton: Node = null;
+
+    private _odds: OddsWithConfig = null;
 
     loadedChips = false;
     private _totalBets: Record<string, number> = {};
@@ -101,6 +104,11 @@ export class BetChoicesContainer extends ObserverComponent {
         super.onLoad();
 
         this.previewBetsButton.on(Button.EventType.CLICK, this.showHideBets, this);
+    }
+
+    @render(OddsStore, (store) => store.oddsWithConfig)
+    renderOdds(oddsWithConfig: OddsWithConfig) {
+        this._odds = oddsWithConfig;
     }
 
     @render(Rounds.RoundStore, (store) => store.totalBets)
@@ -262,6 +270,21 @@ export class BetChoicesContainer extends ObserverComponent {
         this.triggerLoadedChips();
     }
 
+    handleAfterActiveBetItemsFirstHalf() {
+        const firstHalfBetItems = this.betChoicesPrev.getComponent(BetItems);
+        if (firstHalfBetItems.betItemComponents.length === 0) {
+            this.scheduleOnce(() => {
+                this.handleAfterActiveBetItemsFirstHalf();
+            }, 0.1);
+            return;
+        }
+        firstHalfBetItems.renderTotalBets(this._totalBets);
+        firstHalfBetItems.renderOwnBets(this._ownBets);
+        firstHalfBetItems.handleUserBetPercentage(this._userPercentage);
+        firstHalfBetItems.renderOdds(this._odds);
+        this.triggerBoundFirstHalfChips();
+    }
+
     @handle(PreviewBetsHandler, (handle) => handle.triggerBoundFinalChips())
     triggerLoadedChips() {}
 
@@ -281,10 +304,6 @@ export class BetChoicesContainer extends ObserverComponent {
 
     getBetItemsFinal() {
         return this.betItemsFinal;
-    }
-
-    betItemsGetReady() {
-        return this.betItemsPrev.betItemComponents.length > 0 || this.betItemsLive.betItemComponents.length > 0;
     }
 
     async betItemsByChoice() {
