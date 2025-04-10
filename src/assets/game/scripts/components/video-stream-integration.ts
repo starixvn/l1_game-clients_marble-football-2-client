@@ -248,7 +248,10 @@ export default class VideoStreamIntegration extends ObserverComponent {
     }
 
     private setGameBackgroundVisibility(show: boolean) {
-        this.introOutro && (this.introOutro.showGameBackground = show);
+        if (this.introOutro) {
+            show && this.introOutro.setMaxBackgroundOpacity();
+            this.introOutro.showGameBackground = show;
+        }
     }
 
     @render(GamePhaseStore, (store) => store.enterPhase)
