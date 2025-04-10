@@ -204,7 +204,7 @@ export class ChipFlying extends ChipFlyingShared {
         boundChipsFirstHalf: boolean;
         boundChipsSecondHalf: boolean;
     }) {
-        if (!this || !chipsSettlement.settlementResult || !this.enablePlaceChips || !this.node) {
+        if (!this || !this.enablePlaceChips || !this.node || Object.keys(chipsSettlement.settlementResult).length === 0) {
             return;
         }
         if (this.node.activeInHierarchy) {
@@ -297,37 +297,35 @@ export class ChipFlying extends ChipFlyingShared {
 
     @render(ChipsPreviewStore, (store) => store.firstHalfChips)
     bindChipsFirstHalf(chipsByMainPlayerRate: Record<string, any>) {
-        this.bindChipsWhenJoinGame(chipsByMainPlayerRate);
+        this.bindChipsWhenJoinGame(chipsByMainPlayerRate, this.chipContainerPrev);
     }
 
     @render(ChipsPreviewStore, (store) => store.secondHalfChips)
     bindChipsSecondHalf(chipsByMainPlayerRate: Record<string, any>) {
-        this.bindChipsWhenJoinGame(chipsByMainPlayerRate);
+        this.bindChipsWhenJoinGame(chipsByMainPlayerRate, this.chipContainerLive);
     }
 
-    async bindChipsWhenJoinGame(chipsByMainPlayerRate: Record<string, any>) {
+    async bindChipsWhenJoinGame(chipsByMainPlayerRate: Record<string, any>, chipContainer: Node) {
         if (Object.keys(chipsByMainPlayerRate).length === 0) {
             return;
         }
+
         const betItemsByChoice = await this.betChoicesContainer.betItemsByChoice();
+        chipContainer.active = true;
 
         for (const [key, value] of Object.entries(chipsByMainPlayerRate)) {
             const chipGroup = value;
             const chipBox = betItemsByChoice[key].chipBox;
             if (chipGroup && chipBox) {
-                const chipContainer = this.getChipContainerAndChipBoxByChoice(key);
                 const nodes = addChipsToChipBoxWhenJoinRoom(chipContainer, betItemsByChoice[key].chipBox, chipGroup, this.slidingChip);
                 this.addChipsToBoxWithChoice(nodes, key);
             }
         }
     }
 
-    getChipContainerAndChipBoxByChoice(choice: string) {
-        return choice.includes("Live") ? this.chipContainerLive : this.chipContainerPrev;
-    }
-
     @render(ChipsPreviewStore, (store) => store.finalChips)
     protected async handleAddChipsWhenJoinFinal(chipsByMainPlayerRate: Record<string, any>) {
+        console.log("handleAddChipsWhenJoinFinal 1", JSON.parse(JSON.stringify(chipsByMainPlayerRate)));
         if (
             !this ||
             Object.keys(chipsByMainPlayerRate).length === 0 ||
