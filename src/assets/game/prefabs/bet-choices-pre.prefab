@@ -12684,7 +12684,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 177.3,
-      "height": 70
+      "height": 50.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -17317,6 +17317,7 @@
     },
     "enableFixSingleCamera3D": false,
     "debugSample": null,
+    "isLiveBets": false,
     "_id": ""
   },
   {
