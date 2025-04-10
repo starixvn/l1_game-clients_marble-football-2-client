@@ -109,6 +109,21 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
+            <key>title-livebet.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{264,32}</string>
+                <key>spriteSourceSize</key>
+                <string>{264,32}</string>
+                <key>textureRect</key>
+                <string>{{372,333},{264,32}}</string>
+                <key>textureRotated</key>
+                <true/>
+            </dict>
         </dict>
         <key>metadata</key>
         <dict>
@@ -123,7 +138,7 @@
             <key>size</key>
             <string>{512,2048}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:a6cb2edc48161bd6b5816db23a5aceaf:52c8786769fe7f664d4f935981cf9f1e:50d396e5ee50d30c72c827b4c94d9057$</string>
+            <string>$TexturePacker:SmartUpdate:4f6f143501b7f9d31786cb7594764c0f:a743bcab9800b0a2e5a853ca234e2eab:50d396e5ee50d30c72c827b4c94d9057$</string>
             <key>textureFileName</key>
             <string>backgrounds.webp</string>
         </dict>

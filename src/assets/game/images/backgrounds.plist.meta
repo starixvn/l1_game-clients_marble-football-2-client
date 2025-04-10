@@ -328,6 +328,52 @@
         ".json"
       ],
       "subMetas": {}
+    },
+    "4caef": {
+      "importer": "sprite-frame",
+      "uuid": "48e32e32-b2c5-4512-85cd-b595ce379420@4caef",
+      "displayName": "",
+      "id": "4caef",
+      "name": "title-livebet",
+      "userData": {
+        "trimThreshold": 1,
+        "rotated": true,
+        "offsetX": 0,
+        "offsetY": 0,
+        "trimX": 372,
+        "trimY": 333,
+        "width": 264,
+        "height": 32,
+        "rawWidth": 264,
+        "rawHeight": 32,
+        "borderTop": 0,
+        "borderBottom": 0,
+        "borderLeft": 0,
+        "borderRight": 0,
+        "packable": true,
+        "pixelsToUnit": 100,
+        "pivotX": 0.5,
+        "pivotY": 0.5,
+        "meshType": 0,
+        "vertices": {
+          "rawPosition": [],
+          "indexes": [],
+          "uv": [],
+          "nuv": [],
+          "minPos": [],
+          "maxPos": []
+        },
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "ee4e94e5-56a8-4a0d-b5d6-28b150db4444@6c48a",
+        "atlasUuid": "48e32e32-b2c5-4512-85cd-b595ce379420",
+        "trimType": "auto"
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
     }
   },
   "userData": {
