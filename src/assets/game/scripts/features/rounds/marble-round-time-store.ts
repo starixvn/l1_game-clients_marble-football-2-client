@@ -194,6 +194,10 @@ export class MarbleRoundTimeStore {
         return this.isShowStartBetMessageLiveMatch || this.isShowStartBetMessagePreMatch;
     }
 
+    get isPreparingBetPreMatch() {
+        return this.roundTime === this.placingBetPreMatch - 1;
+    }
+
     resetRoundTime() {
         this._roundTime = this.wholeRound;
     }

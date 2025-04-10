@@ -50,6 +50,9 @@ export class BetChoicesContainer extends ObserverComponent {
     protected betItemsFinal: BetItems = null;
     protected betChoicesInMatch = [];
 
+    private _bindDataFirstHalf = false;
+    private _bindDataSecondHalf = false;
+
     private isSwapBets: boolean = false;
     protected readonly durationShowBetChoices = 0.5;
 
@@ -234,8 +237,8 @@ export class BetChoicesContainer extends ObserverComponent {
         this.swapBetsButton.active = state === "live";
 
         const triggerByState = {
-            prev: this.triggerBoundFirstHalfChips.bind(this),
-            live: this.triggerBoundSecondHalfChips.bind(this),
+            prev: this.handleAfterActiveBetItemsFirstHalf.bind(this),
+            live: this.handleAfterActiveBetItemsSecondHalf.bind(this),
             final: this.handleAfterActiveBetItemsFinal.bind(this),
         };
 
@@ -270,19 +273,36 @@ export class BetChoicesContainer extends ObserverComponent {
         this.triggerLoadedChips();
     }
 
-    handleAfterActiveBetItemsFirstHalf() {
-        const firstHalfBetItems = this.betChoicesPrev.getComponent(BetItems);
-        if (firstHalfBetItems.betItemComponents.length === 0) {
+    private handleAfterActiveBetItems(betItems: BetItems, bindFlag: boolean, triggerMethod: () => void) {
+        if (betItems.betItemComponents.length === 0) {
             this.scheduleOnce(() => {
-                this.handleAfterActiveBetItemsFirstHalf();
+                this.handleAfterActiveBetItems(betItems, bindFlag, triggerMethod);
             }, 0.1);
             return;
         }
-        firstHalfBetItems.renderTotalBets(this._totalBets);
-        firstHalfBetItems.renderOwnBets(this._ownBets);
-        firstHalfBetItems.handleUserBetPercentage(this._userPercentage);
-        firstHalfBetItems.renderOdds(this._odds);
-        this.triggerBoundFirstHalfChips();
+        if (!bindFlag) {
+            betItems.renderTotalBets(this._totalBets);
+            betItems.renderOwnBets(this._ownBets);
+            betItems.handleUserBetPercentage(this._userPercentage);
+            betItems.renderOdds(this._odds);
+        }
+        triggerMethod();
+    }
+
+    handleAfterActiveBetItemsFirstHalf() {
+        const firstHalfBetItems = this.betChoicesPrev.getComponent(BetItems);
+        this.handleAfterActiveBetItems(firstHalfBetItems, this._bindDataFirstHalf, () => {
+            this._bindDataFirstHalf = true;
+            this.triggerBoundFirstHalfChips();
+        });
+    }
+
+    handleAfterActiveBetItemsSecondHalf() {
+        const secondHalfBetItems = this.betChoicesLive.getComponent(BetItems);
+        this.handleAfterActiveBetItems(secondHalfBetItems, this._bindDataSecondHalf, () => {
+            this._bindDataSecondHalf = true;
+            this.triggerBoundSecondHalfChips();
+        });
     }
 
     @handle(PreviewBetsHandler, (handle) => handle.triggerBoundFinalChips())
