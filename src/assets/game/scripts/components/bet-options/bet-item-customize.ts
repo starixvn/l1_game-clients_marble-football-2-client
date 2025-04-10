@@ -60,7 +60,7 @@ export default class BetItemCustomize extends BetItem {
     }
 
     setBlockIconVisibility(status: boolean) {
-        this.blockIcon && (this.blockIcon!.active = status);
+        this.blockIcon && (this.blockIcon.active = status);
     }
 
     @render(GamePhaseStore, (store) => store.exitPhase)
