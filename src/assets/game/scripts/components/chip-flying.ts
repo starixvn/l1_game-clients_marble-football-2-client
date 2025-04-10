@@ -335,11 +335,6 @@ export class ChipFlying extends ChipFlyingShared {
             return;
         }
 
-        //ensure flag turn on after process pay chips
-        if (this.node.activeInHierarchy) {
-            this.startShowResultAnimation = true;
-        }
-
         const betItemsFinal = this.betChoicesContainer.betChoicesFinal.getComponent(BetItemsFinal);
         while (!betItemsFinal) {
             await FunctionUtils.delay(100);
