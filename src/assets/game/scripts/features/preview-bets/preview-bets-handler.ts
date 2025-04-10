@@ -23,16 +23,18 @@ export class PreviewBetsHandler {
             firstHalf: {
                 bound: "boundChipsFirstHalf",
                 chips: "firstHalfChips",
+                filter: (key: string) => !key.includes("Live"),
             },
             secondHalf: {
                 bound: "boundChipsSecondHalf",
                 chips: "secondHalfChips",
+                filter: (key: string) => key.includes("Live"),
             },
         };
 
-        const { bound, chips } = bindingMap[type];
+        const { bound, chips, filter } = bindingMap[type];
         if (!this.chipsPreviewStore[bound]) {
-            this.chipsPreviewStore[chips] = this.chipsStore.clientChips;
+            this.chipsPreviewStore[chips] = Object.fromEntries(Object.entries(this.chipsStore.clientChips).filter(([key]) => filter(key)));
             this.chipsPreviewStore[bound] = true;
         }
     }
