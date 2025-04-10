@@ -95,12 +95,11 @@ export class BetChoicesContainer extends ObserverComponent {
         this.betChoicesInMatch = [this.betItemsPrev, this.betItemsLive, this.betItemsFinal];
 
         [this.betChoicesPrev, this.betChoicesLive, this.betChoicesFinal].forEach((choice) => (choice.active = false));
-        this.statusBetsButton = this.previewBetsButton?.getComponentInChildren(StatusBetsButton);
+        this.statusBetsButton = this.previewBetsButton?.getComponent(StatusBetsButton);
         this.setEnabledPreviewBets(false);
         this.betChoicesParentContainer = this.betChoicesPrev?.parent;
 
-        // Set up button event listeners
-        this.statusBetsButton.node.on(Button.EventType.CLICK, this.showHideBets, this);
+        this.previewBetsButton.on(Button.EventType.CLICK, this.showHideBets, this);
 
         super.onLoad();
     }
