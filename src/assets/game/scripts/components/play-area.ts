@@ -53,7 +53,7 @@ export class PlayArea extends ObserverComponent {
 
     private readonly tweenConfigs: Record<TweenKey, TweenConfigs> = {
         betChoiceZoomInOut: {
-            in: { position: v3(0, -94, 0), time: 0.2 },
+            in: { position: v3(0, -90, 0), time: 0.2 },
             out: { position: v3(0, -570, 0), time: 1 },
         },
         chipContainerZoomInOut: {
