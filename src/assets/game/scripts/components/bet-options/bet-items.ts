@@ -16,11 +16,7 @@ export class BetItems extends BetItemsPolygonBase {
         Object.keys(odds || {}).forEach((choice) => {
             const betItem = this.filterBetItem(choice) as BetItemCustomize;
             const odd = +odds[choice];
-            if (odd <= 0) {
-                betItem?.setDisable(true);
-                betItem?.setBlockIcon(true);
-            }
-
+            odd <= 0 && betItem?.blockBetOption();
             betItem?.renderOdd(odd, fractional);
         });
     }

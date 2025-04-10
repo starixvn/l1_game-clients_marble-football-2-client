@@ -22,6 +22,11 @@ export default class BetItemCustomize extends BetItem {
     @property(Node)
     blockIcon: Node = null;
 
+    onLoad(): void {
+        this.setBlockIconVisibility(false);
+        super.onLoad();
+    }
+
     @render(OddsStore, (store) => store.oddsWithConfig)
     renderIncreaseOdds(oddsWithConfig: OddsWithConfig) {
         const betChoice = this.betChoice;
@@ -49,18 +54,28 @@ export default class BetItemCustomize extends BetItem {
         this.decreaseOdd!.active = !isIncrease;
     }
 
-    setDisable(status: boolean) {
+    setDisabledVisibility(status: boolean) {
         this.disableNode.active = status;
     }
 
-    setBlockIcon(status: boolean) {
+    setBlockIconVisibility(status: boolean) {
         this.blockIcon.active = status;
     }
 
-    @render(GamePhaseStore, (store) => store.enterPhase)
-    renderEnterPhase(phase: GamePhase) {
-        if (phase.id === PhaseId.ShowBetChoicesLive) {
-            this.setBlockIcon(false);
+    @render(GamePhaseStore, (store) => store.exitPhase)
+    renderExitPhase(phase: GamePhase) {
+        if (!phase) {
+            return;
         }
+
+        if (phase.id === PhaseId.Halftime || phase.id === PhaseId.Tournament) {
+            this.setBlockIconVisibility(false);
+        }
+    }
+
+    blockBetOption() {
+        this.setBlockIconVisibility(true);
+        this.setDisabledVisibility(true);
+        this.hideOddsIndicators();
     }
 }

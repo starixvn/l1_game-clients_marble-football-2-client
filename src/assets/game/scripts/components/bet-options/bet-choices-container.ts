@@ -213,7 +213,7 @@ export class BetChoicesContainer extends ObserverComponent {
         const node = type === "prev" ? this.betChoicesPrev : this.betChoicesLive;
         const betItems = node?.getComponent(BetItems)?.getComponentsInChildren(BetItemCustomize);
         betItems?.forEach((betItem) => {
-            betItem && betItem.setDisable(isDisabled);
+            betItem && betItem.setDisabledVisibility(isDisabled);
         });
     }
 
