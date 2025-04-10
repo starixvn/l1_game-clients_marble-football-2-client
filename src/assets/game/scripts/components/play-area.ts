@@ -313,8 +313,8 @@ export class PlayArea extends ObserverComponent {
         this.betChoicesContainer.swapBetsButton.active = isPreviewBets && betState === "live";
 
         await Promise.all([
-            AnimationHelper.playAnimForTarget(this.betChoicesParentContainer, this.tweenConfigs.betChoicePreviewZoomInOut[direction]),
-            AnimationHelper.playAnimForTarget(this.chipContainersParent, this.tweenConfigs.chipContainerPreviewZoomInOut[direction]),
+            AnimationHelper.setStaticTarget(this.betChoicesParentContainer, this.tweenConfigs.betChoicePreviewZoomInOut[direction]),
+            AnimationHelper.setStaticTarget(this.chipContainersParent, this.tweenConfigs.chipContainerPreviewZoomInOut[direction]),
         ]);
     }
 
