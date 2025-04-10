@@ -39,7 +39,7 @@ export class ChipFlying extends ChipFlyingShared {
 
     isJoinGame = false;
     chipContainers: Node[] = [];
-    protected delayGetChips = 1.5;
+    protected delayGetChips = 0.5;
 
     chipByChipComponents: Record<string, Node> = {};
 
