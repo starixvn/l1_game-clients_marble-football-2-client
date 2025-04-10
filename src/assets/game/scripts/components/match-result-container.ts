@@ -1,7 +1,7 @@
 import { _decorator, Node } from "cc";
 import gc from "@sg/game-client-base";
 import Observer from "observer";
-import { MultipleNodeContainer } from "../../../../extensions/shared-components/assets/shared/common-components/node-container/multiple-node-container";
+import { MultipleNodeContainer } from "db://shared-components/shared/common-components/node-container/multiple-node-container";
 import {
     GamePhase,
     GamePhaseConfig,

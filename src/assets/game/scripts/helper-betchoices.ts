@@ -1,5 +1,5 @@
 import { _decorator, Component, instantiate, Node, sp, v3 } from "cc";
-import BetItem from "../../../extensions/shared-components/assets/game/bets/scripts/components/bet-item";
+import BetItem from "db://shared-components/game/bets/scripts/components/bet-item";
 const { ccclass, property } = _decorator;
 
 @ccclass("HelperBetChoices")

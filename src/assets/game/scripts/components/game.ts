@@ -5,7 +5,7 @@ import { startGame } from "db://shared-components/shared/scripts/startup";
 import { DOMBackgroundImage } from "./../../../scripts/dom-background-image";
 
 import Observer from "observer";
-import { AnimationUtils } from "../../../../extensions/shared-components/assets/shared/utils";
+import { AnimationUtils } from "db://shared-components/shared/utils";
 import "../../../resources/i18n";
 import { BackgroundVideoPlayer } from "../../../scripts/background-video-player";
 import { siteConfigs } from "../../../scripts/site-configs";

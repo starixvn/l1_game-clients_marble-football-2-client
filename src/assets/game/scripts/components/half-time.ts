@@ -1,8 +1,8 @@
 import { _decorator } from "cc";
 import gc from "@sg/game-client-base";
 import Observer from "observer";
-import { ObserverComponent } from "../../../../extensions/shared-components/assets/shared/common-components/observer-component/scripts/observer-component";
-import { AnimationUtils } from "../../../../extensions/shared-components/assets/shared/utils";
+import { ObserverComponent } from "db://shared-components/shared/common-components/observer-component/scripts/observer-component";
+import { AnimationUtils } from "db://shared-components/shared/utils";
 import { GamePhase, GamePhaseConfig, PhaseId, TimePointHalftime } from "../features/game-phase/game-phase-definitions";
 import { GamePhaseHandler } from "../features/game-phase/game-phase-handler";
 import { GamePhaseStore } from "../features/game-phase/game-phase-store";
@@ -26,7 +26,7 @@ export class HalfTime extends ObserverComponent {
             begin: TimePointHalftime,
             end: TimePointHalftime - 3,
         };
-        
+
         return config;
     }
 

@@ -1,7 +1,7 @@
 import gc from "@sg/game-client-base";
 import { Label, Node, UITransform, _decorator } from "cc";
 import Observer from "observer";
-import { ObserverComponent } from "../../../../../extensions/shared-components/assets/shared/common-components/observer-component/scripts/observer-component";
+import { ObserverComponent } from "db://shared-components/shared/common-components/observer-component/scripts/observer-component";
 const { ccclass, property } = _decorator;
 const { Rounds } = gc;
 const { render, handle } = Observer;

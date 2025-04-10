@@ -2,7 +2,7 @@ import gc from "@sg/game-client-base";
 import { _decorator } from "cc";
 import { LazyloadNodeContainer } from "db://shared-components/shared/common-components/node-container/lazyload-node-container";
 import Observer from "observer";
-import { Dialog } from "../../../../../extensions/shared-components/assets/shared/common-components/dialogs/dialog";
+import { Dialog } from "db://shared-components/shared/common-components/dialogs/dialog";
 import { GamePhase, GamePhaseConfig, PhaseId } from "../../features/game-phase/game-phase-definitions";
 import { GamePhaseHandler } from "../../features/game-phase/game-phase-handler";
 import { GamePhaseStore } from "../../features/game-phase/game-phase-store";
