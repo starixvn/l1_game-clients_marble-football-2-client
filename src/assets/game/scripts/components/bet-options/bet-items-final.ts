@@ -46,7 +46,7 @@ export class BetItemsFinal extends BetItemsPolygonBase {
         this.init();
         this.betItemComponents.forEach((betItem) => {
             const choice = betItem.node.name;
-            betItem.renderUserBetPercentage(userBetPercentage[choice] + userBetPercentage[`${choice}Live`]);
+            betItem.renderUserBetPercentage(userBetPercentage[`${choice}Final`]);
         });
     }
 

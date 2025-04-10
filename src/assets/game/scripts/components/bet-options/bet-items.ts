@@ -29,32 +29,10 @@ export class BetItems extends BetItemsPolygonBase {
             return;
         }
 
-        const filterBet = this.isLiveBets ? ([choice, value]) => choice.includes("Live") : ([choice, value]) => !choice.includes("Live");
-        const betChoiceSum = Object.entries(userBetPercentage)
-            .filter(filterBet)
-            .reduce((acc, [choice, value]) => {
-                acc += value;
-                return acc;
-            }, 0);
-
-        const denominator = betChoiceSum === 0 ? 1 : betChoiceSum;
-        let totalPercentage = 0;
-        let lastChoice = "";
-
-        const percentageDict = Object.entries(userBetPercentage)
-            .filter(filterBet)
-            .reduce((acc, [choice, value]) => {
-                acc[choice] = Math.round((value / denominator) * 100);
-                lastChoice = choice;
-                totalPercentage += acc[choice];
-                return acc;
-            }, {});
-
-        percentageDict[lastChoice] = percentageDict[lastChoice] + (100 - totalPercentage);
-
         this.betItemComponents.forEach((betItem) => {
             const choice = betItem.node.name;
-            betItem.renderUserBetPercentage(percentageDict[choice]);
+            const percentage = userBetPercentage[choice];
+            betItem.renderUserBetPercentage(percentage);
         });
     }
 }
