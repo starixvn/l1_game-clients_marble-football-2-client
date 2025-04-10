@@ -5,11 +5,13 @@ import gc from "@sg/game-client-base";
 import { OddsStore, OddsWithConfig } from "../../features/dynamic-odds/odds-store";
 import BetItemCustomize from "./bet-item-customize";
 
-const { ccclass } = _decorator;
+const { ccclass, property } = _decorator;
 const { render } = observer;
 
 @ccclass
 export class BetItems extends BetItemsPolygonBase {
+    @property({ type: Boolean })
+    isLiveBets: boolean = false;
     @render(OddsStore, (store) => store.oddsWithConfig)
     renderOdds(oddsWithConfig: OddsWithConfig) {
         const { odds, fractional } = oddsWithConfig;
@@ -26,23 +28,33 @@ export class BetItems extends BetItemsPolygonBase {
         if (!userBetPercentage) {
             return;
         }
-        const preBetChoicesSum = Object.entries(userBetPercentage)
-            .filter(([choice, value]) => !choice.includes("Live"))
+
+        const filterBet = this.isLiveBets ? ([choice, value]) => choice.includes("Live") : ([choice, value]) => !choice.includes("Live");
+        const betChoiceSum = Object.entries(userBetPercentage)
+            .filter(filterBet)
             .reduce((acc, [choice, value]) => {
                 acc += value;
                 return acc;
             }, 0);
-        const liveBetChoicesSum = Object.entries(userBetPercentage)
-            .filter(([choice, value]) => choice.includes("Live"))
+
+        const denominator = betChoiceSum === 0 ? 1 : betChoiceSum;
+        let totalPercentage = 0;
+        let lastChoice = "";
+
+        const percentageDict = Object.entries(userBetPercentage)
+            .filter(filterBet)
             .reduce((acc, [choice, value]) => {
-                acc += value;
+                acc[choice] = Math.round((value / denominator) * 100);
+                lastChoice = choice;
+                totalPercentage += acc[choice];
                 return acc;
-            }, 0);
+            }, {});
+
+        percentageDict[lastChoice] = percentageDict[lastChoice] + (100 - totalPercentage);
+
         this.betItemComponents.forEach((betItem) => {
             const choice = betItem.node.name;
-            const userBetPercentageSum = choice.includes("Live") ? liveBetChoicesSum : preBetChoicesSum;
-            const denominator = userBetPercentageSum === 0 ? 1 : userBetPercentageSum;
-            betItem.renderUserBetPercentage(Math.round((userBetPercentage[choice] / denominator) * 100));
+            betItem.renderUserBetPercentage(percentageDict[choice]);
         });
     }
 }

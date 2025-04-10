@@ -17605,8 +17605,7 @@
     },
     "enableFixSingleCamera3D": false,
     "debugSample": null,
-    "bgDisable": null,
-    "enableBackgroundDisable": false,
+    "isLiveBets": true,
     "_id": ""
   },
   {
