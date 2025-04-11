@@ -154,6 +154,8 @@ export default class Game extends GameComponent {
         }
     }
 
+    handleJoinGameAndShowResult(joinGameHistory: gc.RoundHistories.IJoinGameHistory) {}
+
     renderCurrentFinish(currentFinish: gc.GameServiceMessage.Finish) {
         if (!currentFinish) {
             return;
@@ -163,7 +165,7 @@ export default class Game extends GameComponent {
         if (!this.isValidResult(result, settlementResult)) {
             return;
         }
-
+        console.log("renderCurrentFinish", JSON.parse(JSON.stringify(currentFinish)));
         this.showResult(result, true, settlementResult).then(() => {
             this.finishShowResult(result, settlementResult);
             this.chipFlying.callActionPayChips();
@@ -179,12 +181,11 @@ export default class Game extends GameComponent {
             return;
         }
         const { result, settlementResult } = data;
-
         if (!this.isValidResult(result, settlementResult)) {
             this.isReceiveFinishBeforeRoundHistory = false;
             return;
         }
-
+        console.log("handleResult", JSON.parse(JSON.stringify(data)));
         this.showResult(result, true, settlementResult).then(() => {
             this.finishShowResult(result, settlementResult);
         });
