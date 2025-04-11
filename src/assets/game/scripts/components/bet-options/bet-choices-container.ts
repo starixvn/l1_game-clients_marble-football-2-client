@@ -32,6 +32,15 @@ export class BetChoicesContainer extends ObserverComponent {
     betChoicesFinal: Node = null;
 
     @property(Node)
+    private chipContainerPrev: Node = null;
+
+    @property(Node)
+    private chipContainerLive: Node = null;
+
+    @property(Node)
+    private chipContainerFinal: Node = null;
+
+    @property(Node)
     previewBetsButton: Node = null;
 
     @property(Node)
@@ -92,6 +101,12 @@ export class BetChoicesContainer extends ObserverComponent {
         [PhaseId.AutoHidePreviewBetChoicesPrev]: {
             previewBetsEnabled: false,
         },
+    };
+
+    private readonly triggerByState = {
+        prev: this.handleAfterActiveBetItemsFirstHalf.bind(this),
+        live: this.handleAfterActiveBetItemsSecondHalf.bind(this),
+        final: this.handleAfterActiveBetItemsFinal.bind(this),
     };
 
     onLoad(): void {
@@ -231,25 +246,30 @@ export class BetChoicesContainer extends ObserverComponent {
     }
 
     setEnableBetChoices(state: "prev" | "live" | "final") {
+        let triggerState = state;
+
         this.betChoicesPrev.active = state === "prev";
         this.betChoicesLive.active = state === "live";
         this.betChoicesFinal.active = state === "final";
         this.swapBetsButton.active = state === "live";
 
-        const triggerByState = {
-            prev: this.handleAfterActiveBetItemsFirstHalf.bind(this),
-            live: this.handleAfterActiveBetItemsSecondHalf.bind(this),
-            final: this.handleAfterActiveBetItemsFinal.bind(this),
-        };
-
-        const trigger = triggerByState[state];
-
         if (state === "live") {
+            triggerState = this.isSwapBets ? "prev" : "live";
             this.betChoicesPrev.active = this.isSwapBets;
             this.betChoicesLive.active = !this.isSwapBets;
         }
 
+        this.setEnableChipContainer();
+
+        const trigger = this.triggerByState[triggerState];
+
         trigger();
+    }
+
+    setEnableChipContainer() {
+        this.chipContainerPrev.active = this.betChoicesPrev.active;
+        this.chipContainerLive.active = this.betChoicesLive.active;
+        this.chipContainerFinal.active = this.betChoicesFinal.active;
     }
 
     @handle(PreviewBetsHandler, (handle) => handle.triggerBoundFirstHalfChips())

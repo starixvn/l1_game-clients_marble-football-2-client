@@ -19,12 +19,6 @@ type BetState = "prev" | "live" | "final";
 @ccclass("PlayArea")
 export class PlayArea extends ObserverComponent {
     @property(Node)
-    private chipContainerPrev: Node = null;
-
-    @property(Node)
-    private chipContainerLive: Node = null;
-
-    @property(Node)
     private chipContainersParent: Node = null;
 
     @property(BetChoicesContainer)
@@ -75,6 +69,7 @@ export class PlayArea extends ObserverComponent {
     };
 
     private phasePreviewBets: BetState = "prev";
+    private phaseShowBetChoices: BetState = "prev";
     protected readonly durationShowBetChoices = 0.5;
 
     protected betChoicesParentContainer: Node = null;
@@ -168,6 +163,8 @@ export class PlayArea extends ObserverComponent {
         }
 
         if (phase.id === PhaseId.ShowBetChoicesPrev || phase.id === PhaseId.ShowBetChoicesLive) {
+            this.phaseShowBetChoices = phase.id === PhaseId.ShowBetChoicesPrev ? "prev" : "live";
+
             if (phase.progress === 0) {
                 AnimationHelper.playAnimForTarget(this.scoreBoard, this.tweenConfigs.fadeInOut.in);
                 AnimationHelper.playAnimForTarget(this.mainPlayerNode, this.tweenConfigs.fadeInOut.in);
@@ -280,24 +277,12 @@ export class PlayArea extends ObserverComponent {
 
     private async animateBetElements(isPreviewBets: boolean) {
         const direction = isPreviewBets ? "in" : "out";
-        const isSwapBets = this.betChoicesContainer.getIsSwapBets();
-        const isShownPrevBetChoices = this.phasePreviewBets === "prev" || (this.phasePreviewBets === "live" && isSwapBets);
-        const isShownLiveBetChoices = this.phasePreviewBets === "live" && !isSwapBets;
 
-        if (isPreviewBets) {
-            this.betChoicesContainer.swapBetsButton.active = this.phasePreviewBets === "live";
-            AnimationHelper.setStaticTarget(this.chips, this.tweenConfigs.chipsFlyDown.in);
-            AnimationHelper.setStaticTarget(this.mainPlayerNode, this.tweenConfigs.fadeInOut.in);
-        } else {
-            AnimationHelper.setStaticTarget(this.chips, this.tweenConfigs.chipsFlyDown.out);
-            AnimationHelper.setStaticTarget(this.mainPlayerNode, this.tweenConfigs.fadeInOut.out);
-        }
+        this.phasePreviewBets === "prev" && this.betChoicesContainer.setEnableBetChoices("prev");
+        this.phasePreviewBets === "live" && this.betChoicesContainer.setEnableBetChoices("live");
 
-        this.chipContainerPrev.active = isShownPrevBetChoices;
-        this.chipContainerLive.active = isShownLiveBetChoices;
-        this.betChoicesContainer.betChoicesLive.active = isShownLiveBetChoices;
-        this.betChoicesContainer.betChoicesPrev.active = isShownPrevBetChoices;
-
+        AnimationHelper.setStaticTarget(this.chips, this.tweenConfigs.chipsFlyDown[direction]);
+        AnimationHelper.setStaticTarget(this.mainPlayerNode, this.tweenConfigs.fadeInOut[direction]);
         AnimationHelper.setStaticTarget(this.betChoicesParentContainer, this.tweenConfigs.betChoiceZoomInOut[direction]);
         AnimationHelper.setStaticTarget(this.chipContainersParent, this.tweenConfigs.chipContainerZoomInOut[direction]);
     }
@@ -310,32 +295,10 @@ export class PlayArea extends ObserverComponent {
 
     @handle(gc.Audios.AudioHandler, (handle) => handle.playSFX(gc.Audios.AudioIds.CLICK))
     swapBets() {
-        const isSwapBets = this.betChoicesContainer.getIsSwapBets();
-        const betChoicesPrev = this.betChoicesContainer.betChoicesPrev;
-        const betChoicesLive = this.betChoicesContainer.betChoicesLive;
-
-        if (isSwapBets && betChoicesPrev.active) {
-            this.chipContainerPrev.active = false;
-            betChoicesPrev.active = false;
-
-            this.chipContainerLive.active = true;
-            betChoicesLive.active = true;
-
-            this.betChoicesContainer.setIsSwapBets(false);
-            return;
-        }
-
-        if (!isSwapBets && betChoicesLive.active) {
-            this.chipContainerPrev.active = true;
-            betChoicesPrev.active = true;
-
-            this.chipContainerLive.active = false;
-            betChoicesLive.active = false;
-
-            this.betChoicesContainer.handleAfterActiveBetItemsFirstHalf();
-
-            this.betChoicesContainer.setIsSwapBets(true);
-            return;
+        if (this.phaseShowBetChoices === "live" || this.phasePreviewBets === "live") {
+            const isSwapBets = this.betChoicesContainer.getIsSwapBets();
+            this.betChoicesContainer.setIsSwapBets(!isSwapBets);
+            this.betChoicesContainer.setEnableBetChoices("live");
         }
     }
 }
