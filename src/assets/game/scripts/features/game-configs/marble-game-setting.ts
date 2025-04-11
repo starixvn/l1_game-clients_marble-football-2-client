@@ -10,6 +10,8 @@ export type DurationSetting = {
     lockingBet: number;
     tournament: number;
     matchWinner: number;
+    videoDuration: number;
+    showHaftTime: number;
 };
 
 export type PointsSetting = {

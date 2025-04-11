@@ -16,6 +16,7 @@ import { MatchResult } from "./match-result";
 import { NetworkStatus, SystemIndicator } from "./system-indicator";
 import { DOMBackgroundImage } from "./../../../scripts/dom-background-image";
 import gc from "@sg/game-client-base";
+import { MarbleRoundStore } from "../features/rounds/marble-round-store";
 
 startGame(settings.name, containerOptions, siteConfigs, settings.namespaces);
 
@@ -70,6 +71,8 @@ export default class Game extends GameComponent {
         this.backgroundVideoPlayer.stop();
     }
 
+    override renderRoundId(roundId: number) {}
+
     protected onEnable(): void {
         this.initBackgroundImage();
     }
@@ -103,8 +106,9 @@ export default class Game extends GameComponent {
         }
     }
 
-    override renderRoundId(roundId: number) {
-        this.cacheRoundId = roundId;
+    @render(MarbleRoundStore, (store) => store.clientRoundId)
+    renderClientRoundId(clientRoundId: number) {
+        this.cacheRoundId = clientRoundId;
     }
 
     update() {

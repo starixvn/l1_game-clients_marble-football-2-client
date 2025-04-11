@@ -4,7 +4,7 @@ const { injectable, inject } = inversify;
 import gc from "@sg/game-client-base";
 import { MarbleGameSetting } from "../game-configs/marble-game-setting";
 
-export const ROUND_STATE = {
+export const MARBLE_ROUND_STATE = {
     START_GAME_LOOP: "startGameLoop",
     STARTING_ROUND: "startingRound",
     PLACING_BET: "placingBet",
@@ -14,6 +14,9 @@ export const ROUND_STATE = {
     SHOW_RESULT: "showResult",
     CHANGE_REMAINING_TIME: "changeRemainingTime",
     STOP_GAME_LOOP: "stopGameLoop",
+    PLAYING_VIDEO: "playingVideo",
+    HALF_TIME: "halfTime",
+    INTRO_VIDEO: "introVideo",
     NONE: "none",
 };
 
@@ -24,7 +27,7 @@ export class MarbleRoundTimeStore {
     @inject(gc.GameConfigs.GameSetting) readonly gameSetting: MarbleGameSetting;
 
     private _roundTime = RoundTimeInitValue;
-    private _roundState = ROUND_STATE.NONE;
+    private _roundState = MARBLE_ROUND_STATE.NONE;
     private _countdownTimer = 0;
     startNewRound = false;
     endRound = false;
@@ -100,6 +103,30 @@ export class MarbleRoundTimeStore {
 
     get lockingBet() {
         return this.gameSetting.durations.lockingBet;
+    }
+
+    get streamingFirstHalfVideo() {
+        return this.gameSetting.points.streamingFirstHalfVideo;
+    }
+
+    get streamingSecondHalfVideo() {
+        return this.gameSetting.points.streamingSecondHalfVideo;
+    }
+
+    get durationVideo() {
+        return this.gameSetting.durations.videoDuration;
+    }
+
+    get pointIntroVideo() {
+        return this.gameSetting.points.introVideo;
+    }
+
+    get durationIntroVideo() {
+        return this.gameSetting.durations.introVideo;
+    }
+
+    get durationHalfTime() {
+        return this.gameSetting.durations.showHaftTime;
     }
 
     get isLocking() {
@@ -179,7 +206,7 @@ export class MarbleRoundTimeStore {
     }
 
     get isInRoundTime() {
-        return this.roundState === ROUND_STATE.PLACING_BET || this.roundState === ROUND_STATE.LOCKING_BET;
+        return this.roundState === MARBLE_ROUND_STATE.PLACING_BET || this.roundState === MARBLE_ROUND_STATE.LOCKING_BET;
     }
 
     get isShowStartBetMessageLiveMatch() {
@@ -196,6 +223,24 @@ export class MarbleRoundTimeStore {
 
     get isPreparingBetPreMatch() {
         return this.roundTime === this.placingBetPreMatch - 1;
+    }
+
+    get isPlayingVideo() {
+        return (
+            (this.roundTime <= this.streamingFirstHalfVideo && this.roundTime > this.streamingFirstHalfVideo - this.durationVideo) ||
+            (this.roundTime <= this.streamingSecondHalfVideo && this.roundTime > this.streamingSecondHalfVideo - this.durationVideo)
+        );
+    }
+
+    get isPlayingIntroVideo() {
+        return this.roundTime <= this.pointIntroVideo && this.roundTime > this.pointIntroVideo - this.durationIntroVideo;
+    }
+
+    get isPlayingHalfTime() {
+        return (
+            this.roundTime <= this.streamingFirstHalfVideo - this.durationVideo &&
+            this.roundTime > this.placingBetLiveMatch - this.durationHalfTime
+        );
     }
 
     resetRoundTime() {
@@ -265,42 +310,53 @@ export class MarbleRoundTimeStore {
 
     getCurrentRoundState(): string {
         if (this.roundTime < 0) {
-            return ROUND_STATE.WAITING;
+            return MARBLE_ROUND_STATE.WAITING;
         }
 
         let currentState = "";
         if (this.isWaiting) {
-            currentState = ROUND_STATE.WAITING;
+            currentState = MARBLE_ROUND_STATE.WAITING;
         }
 
         if (this.isShowAnimationResult) {
-            currentState = ROUND_STATE.SHOW_ANIMATION_RESULT;
+            currentState = MARBLE_ROUND_STATE.SHOW_ANIMATION_RESULT;
         }
 
         if (this.isShowResult) {
-            currentState = ROUND_STATE.SHOW_RESULT;
+            currentState = MARBLE_ROUND_STATE.SHOW_RESULT;
         }
 
         if (this.isStartingRound) {
-            currentState = ROUND_STATE.STARTING_ROUND;
+            currentState = MARBLE_ROUND_STATE.STARTING_ROUND;
         }
 
         if (this.isPlacingBet) {
-            currentState = ROUND_STATE.PLACING_BET;
+            currentState = MARBLE_ROUND_STATE.PLACING_BET;
         }
 
         if (this.isLocking) {
-            currentState = ROUND_STATE.LOCKING_BET;
+            currentState = MARBLE_ROUND_STATE.LOCKING_BET;
+        }
+        if (this.isPlayingVideo) {
+            currentState = MARBLE_ROUND_STATE.PLAYING_VIDEO;
+        }
+
+        if (this.isPlayingIntroVideo) {
+            currentState = MARBLE_ROUND_STATE.INTRO_VIDEO;
+        }
+
+        if (this.isPlayingHalfTime) {
+            currentState = MARBLE_ROUND_STATE.HALF_TIME;
         }
 
         return currentState;
     }
 
     start() {
-        this.roundState = ROUND_STATE.START_GAME_LOOP;
+        this.roundState = MARBLE_ROUND_STATE.START_GAME_LOOP;
     }
 
     resetRoundTimeStore() {
-        this.roundState = ROUND_STATE.STOP_GAME_LOOP;
+        this.roundState = MARBLE_ROUND_STATE.STOP_GAME_LOOP;
     }
 }
