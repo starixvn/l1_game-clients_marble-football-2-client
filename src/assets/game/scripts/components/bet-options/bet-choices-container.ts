@@ -419,6 +419,12 @@ export class BetChoicesContainer extends ObserverComponent {
         this.setPreviewBets(!this.statusBetsButton.getPreviewStatus());
     }
 
+    @handle(gc.Audios.AudioHandler, (handle) => handle.playSFX(gc.Audios.AudioIds.CLICK))
+    hideBets() {
+        this.setIsSwapBets(false);
+        this.setPreviewBets(false);
+    }
+
     @handle(PreviewBetsHandler, (handle, isPreviewBets: boolean) => handle.handlePreviewBets(isPreviewBets))
     private setPreviewBets(isPreviewBets: boolean) {
         return isPreviewBets;
