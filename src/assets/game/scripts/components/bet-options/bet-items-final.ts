@@ -2,7 +2,6 @@ import gc from "@sg/game-client-base";
 import { _decorator } from "cc";
 import BetItem from "db://shared-components/game/bets/scripts/components/bet-item";
 import { BetItemsPolygon as BetItemsPolygonBase } from "db://shared-components/game/bets/scripts/components/bet-items-polygon";
-import { FunctionUtils } from "db://shared-components/shared/utils";
 import Observer from "observer";
 const { ccclass } = _decorator;
 const { render } = Observer;
@@ -21,7 +20,6 @@ export class BetItemsFinal extends BetItemsPolygonBase {
         });
     }
 
-    @render(Rounds.RoundStore, (store) => store.totalBets)
     renderTotalBets(totalBets: gc.GameServiceMessage.TotalBets) {}
 
     bindTotalBets(totalBets: gc.GameServiceMessage.TotalBets) {
@@ -32,7 +30,6 @@ export class BetItemsFinal extends BetItemsPolygonBase {
         });
     }
 
-    @render(Rounds.RoundStore, (store) => store.userBetPercentage)
     handleUserBetPercentage(userBetPercentage: gc.GameServiceMessage.UserBetPercentage) {}
 
     bindUserBetPercentage(userBetPercentage: gc.GameServiceMessage.UserBetPercentage) {
@@ -74,10 +71,5 @@ export class BetItemsFinal extends BetItemsPolygonBase {
         return this.betItemComponents.filter(
             (item: BetItem) => this.settlementResult?.[item.betChoice] || this.settlementResult?.[`${item.betChoice}Live`]
         );
-    }
-
-    @render(Rounds.RoundStore, (store) => store.betPercentage)
-    handleBetPercentage(betPercentage: gc.GameServiceMessage.BetPercentage) {
-        console.log("handleBetPercentage 1", JSON.parse(JSON.stringify(betPercentage)));
     }
 }

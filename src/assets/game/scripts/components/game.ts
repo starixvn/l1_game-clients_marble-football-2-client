@@ -3,7 +3,7 @@ import { startGame } from "db://shared-components/shared/scripts/startup";
 import Observer from "observer";
 
 import GameComponent from "db://shared-components/game/scripts/components/game-component";
-import { AnimationUtils } from "db://shared-components/shared/utils";
+import { AnimationUtils, FunctionUtils } from "db://shared-components/shared/utils";
 import "../../../resources/i18n";
 import { BackgroundVideoPlayer } from "../../../scripts/background-video-player";
 import { siteConfigs } from "../../../scripts/site-configs";
@@ -134,10 +134,13 @@ export default class Game extends GameComponent {
         settlementResult: gc.GameServiceMessage.TSettlementResult
     ) {
         try {
-            const matchResult = this.betResultNode.getComponentInChildren(MatchResult);
+            let matchResult = this.betResultNode.getComponentInChildren(MatchResult);
+            while (!matchResult) {
+                await FunctionUtils.delay(100);
+                matchResult = this.betResultNode.getComponentInChildren(MatchResult);
+            }
             if (hasAnimation) {
                 await AnimationUtils.delayTime(settings.durations.outro);
-
                 await matchResult.show(hasAnimation);
             } else {
                 matchResult.show(false);
