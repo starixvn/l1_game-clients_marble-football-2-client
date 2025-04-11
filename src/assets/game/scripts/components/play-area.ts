@@ -54,11 +54,11 @@ export class PlayArea extends ObserverComponent {
     private readonly tweenConfigs: Record<TweenKey, TweenConfigs> = {
         betChoiceZoomInOut: {
             in: { position: v3(0, -90, 0), time: 0.2 },
-            out: { position: v3(0, -570, 0), time: 1 },
+            out: { position: v3(0, -650, 0), time: 1 },
         },
         chipContainerZoomInOut: {
             in: { position: v3(0, 0, 0), time: 0.2 },
-            out: { position: v3(0, -410, 0), time: 0.5 },
+            out: { position: v3(0, -500, 0), time: 0.5 },
         },
         fadeInOut: {
             in: { opacity: 255, time: 0.5 },
@@ -66,7 +66,7 @@ export class PlayArea extends ObserverComponent {
         },
         chipsFlyDown: {
             in: { positionY: -306, opacity: 255, time: 0.2 },
-            out: { positionY: -445, opacity: 0, time: 0.5 },
+            out: { positionY: -535, opacity: 0, time: 0.5 },
         },
         teamScoreFlyUp: {
             in: { positionY: 303, opacity: 255, time: 0.5 },
