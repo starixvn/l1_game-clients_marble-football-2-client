@@ -68,7 +68,8 @@
         "macroConfig": {
           "cleanupImageCache": "off"
         }
-      }
+      },
+      "experimentalEraseModules": false
     },
     "options": {
       "web-mobile": {

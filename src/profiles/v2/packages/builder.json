@@ -11,8 +11,8 @@
         "progress": 1,
         "state": "success",
         "stage": "build",
-        "message": "4-8-2025 11:27:29 build success in 2 min 52 s!",
-        "detailMessage": "builder:build-project-total (171481ms)\r",
+        "message": "4-11-2025 08:53:26 build success in 3 min 9 s!",
+        "detailMessage": "The Prefab used by node \"New Node\" in prefab \"scoreboards\" is missing. Detailed information:\rNode path: \"scoreboards/home-away-draw/righ-panel/New Node\"\rAsset url: \"db://assets/resources/prefabs/score...",
         "options": {
           "name": "cocos-3x",
           "platform": "web-mobile",
@@ -106,9 +106,10 @@
           "wasmCompressionMode": false,
           "buildMode": "normal",
           "mangleProperties": false,
-          "inlineEnum": true
+          "inlineEnum": true,
+          "engineModulesConfigKey": "migrationsConfig"
         },
-        "time": "4-8-2025 11:24:37",
+        "time": "4-11-2025 08:50:16",
         "dirty": false
       }
     }
@@ -175,6 +176,7 @@
         "name": "resources",
         "output": true
       }
-    ]
+    ],
+    "experimentalEraseModules": false
   }
 }
