@@ -288,8 +288,8 @@ export const languages = {
         "wins": "Thắng"
     },
     "MarbleFootball2": {
-        "game_icon_name": "Marble Football X",
-        "game_name": "Spinner Soccer X",
+        "game_icon_name": "Bóng Xoáy X",
+        "game_name": "Bóng Xoáy X",
         "glossary_away": "Đội Khách",
         "glossary_awayLive": "Đội khách (Live)",
         "glossary_draw": "Hòa",

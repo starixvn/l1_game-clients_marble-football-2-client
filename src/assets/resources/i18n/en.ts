@@ -288,7 +288,7 @@ export const languages = {
         "wins": "Wins"
     },
     "MarbleFootball2": {
-        "game_icon_name": "Marble Football X",
+        "game_icon_name": "Spinner Soccer X",
         "game_name": "Spinner Soccer X",
         "glossary_away": "Away",
         "glossary_awayLive": "Away (Live)",
