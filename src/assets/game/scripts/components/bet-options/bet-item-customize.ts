@@ -36,7 +36,12 @@ export default class BetItemCustomize extends BetItem {
             return;
         }
 
-        const deltaOdd = oddsWithConfig.deltaOdds[betChoice] || 0;
+        const { odds, deltaOdds } = oddsWithConfig;
+        if (+odds[betChoice] <= 0) {
+            return;
+        }
+
+        const deltaOdd = deltaOdds[betChoice] || 0;
         this.updateOddsIndicators(deltaOdd);
     }
 
@@ -63,7 +68,7 @@ export default class BetItemCustomize extends BetItem {
         this.blockIcon && (this.blockIcon.active = status);
     }
 
-    @render(GamePhaseStore, (store) => store.exitPhase)
+    @render(GamePhaseStore, (store) => store.enterPhase)
     renderExitPhase(phase: GamePhase) {
         if (!phase) {
             return;
@@ -71,6 +76,7 @@ export default class BetItemCustomize extends BetItem {
 
         if (phase.id === PhaseId.Halftime || phase.id === PhaseId.Tournament) {
             this.setBlockIconVisibility(false);
+            this.updateStatusLabelOdds(true);
         }
     }
 
@@ -78,5 +84,10 @@ export default class BetItemCustomize extends BetItem {
         this.setBlockIconVisibility(true);
         this.setDisabledVisibility(true);
         this.hideOddsIndicators();
+        this.updateStatusLabelOdds(false);
+    }
+
+    updateStatusLabelOdds(status: boolean) {
+        this.lblOdds.node.active = status;
     }
 }

@@ -73,11 +73,9 @@ export class BetChoicesContainer extends ObserverComponent {
             previewBetsEnabled: false,
         },
         [PhaseId.ShowBetChoicesLive]: {
-            liveDisabled: false,
             previewBetsEnabled: false,
         },
         [PhaseId.ShowBetChoicesPrev]: {
-            prevDisabled: false,
             previewBetsEnabled: false,
         },
         [PhaseId.Settlement]: {
@@ -88,6 +86,8 @@ export class BetChoicesContainer extends ObserverComponent {
         },
         [PhaseId.AutoHidePreviewBetChoicesLive]: {
             previewBetsEnabled: false,
+            liveDisabled: false,
+            prevDisabled: false,
         },
         [PhaseId.AutoHidePreviewBetChoicesPrev]: {
             previewBetsEnabled: false,
