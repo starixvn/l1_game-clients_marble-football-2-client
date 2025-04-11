@@ -325,7 +325,6 @@ export class ChipFlying extends ChipFlyingShared {
 
     @render(ChipsPreviewStore, (store) => store.finalChips)
     protected async handleAddChipsWhenJoinFinal(chipsByMainPlayerRate: Record<string, any>) {
-        console.log("handleAddChipsWhenJoinFinal 1", JSON.parse(JSON.stringify(chipsByMainPlayerRate)));
         if (
             !this ||
             Object.keys(chipsByMainPlayerRate).length === 0 ||

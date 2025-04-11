@@ -32,8 +32,8 @@ export class Teams extends ObserverComponent {
     @render(TournamentStore, (store) => store.currentMatch)
     setTeams(currentMatch: MarbleFootballServiceMessages.MatchType) {
         if (currentMatch && currentMatch.home && currentMatch.away) {
-            this.home.setIcon(currentMatch.home);
-            this.away.setIcon(currentMatch.away);
+            this.home?.setIcon(currentMatch.home);
+            this.away?.setIcon(currentMatch.away);
             this.homeName?.setName(currentMatch.home);
             this.awayName?.setName(currentMatch.away);
             this.homeCode && (this.homeCode!.string = currentMatch.home);
