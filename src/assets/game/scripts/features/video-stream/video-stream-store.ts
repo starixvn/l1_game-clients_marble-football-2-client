@@ -161,7 +161,7 @@ export class VideoStreamStore {
 
         const endOfFirstHalfVideoTime = settings.points.streamingFirstHalfVideo - settings.durations.videoDuration;
 
-        if (roundTime <= settings.points.streamingFirstHalfVideo && roundTime > endOfFirstHalfVideoTime) {
+        if (roundTime <= settings.points.streamingFirstHalfVideo && roundTime >= endOfFirstHalfVideoTime) {
             const videoTime = settings.points.streamingFirstHalfVideo - roundTime;
             return videoTime <= settings.durations.videoDuration ? videoTime : -1;
         }
