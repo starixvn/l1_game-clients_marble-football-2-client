@@ -1,4 +1,4 @@
-import { _decorator } from "cc";
+import { _decorator, CCBoolean } from "cc";
 import { BetItemsPolygon as BetItemsPolygonBase } from "db://shared-components/game/bets/scripts/components/bet-items-polygon";
 import observer from "observer";
 import gc from "@sg/game-client-base";
@@ -10,7 +10,7 @@ const { render } = observer;
 
 @ccclass
 export class BetItems extends BetItemsPolygonBase {
-    @property({ type: Boolean })
+    @property(CCBoolean)
     isLiveBets: boolean = false;
     @render(OddsStore, (store) => store.oddsWithConfig)
     renderOdds(oddsWithConfig: OddsWithConfig) {

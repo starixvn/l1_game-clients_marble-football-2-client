@@ -14,10 +14,11 @@ export class BetItemsFinal extends BetItemsPolygonBase {
     renderOwnBets(ownBets: gc.GameServiceMessage.OwnBets) {}
 
     bindOwnBets(ownBets: gc.GameServiceMessage.OwnBets) {
+        console.log("bindOwnBets 1", JSON.parse(JSON.stringify(ownBets)));
         this.betItemComponents.forEach((betItem) => {
             const choice = betItem.betChoice;
             const sum = (ownBets[choice] || 0) + (ownBets[`${choice}Live`] || 0);
-            sum !== 0 && betItem.renderOwnBet(gc.FormatUtils.numberWithCommas(sum));
+            betItem.renderOwnBet(sum !== 0 ? gc.FormatUtils.numberWithCommas(sum) : "");
         });
     }
 
@@ -28,12 +29,8 @@ export class BetItemsFinal extends BetItemsPolygonBase {
         this.betItemComponents.forEach((betItem) => {
             const choice = betItem.betChoice;
             const sum = (totalBets[choice] || 0) + (totalBets[`${choice}Live`] || 0);
-            sum !== 0 && betItem.renderTotalBet(gc.FormatUtils.numberWithCommas(sum));
+            betItem.renderTotalBet(sum !== 0 ? gc.FormatUtils.numberWithCommas(sum) : "");
         });
-    }
-
-    betItemReady() {
-        return this.betItemComponents.length > 0;
     }
 
     @render(Rounds.RoundStore, (store) => store.userBetPercentage)

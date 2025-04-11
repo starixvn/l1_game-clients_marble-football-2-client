@@ -125,6 +125,14 @@ export class BetChoicesContainer extends ObserverComponent {
         this.previewBetsButton.on(Button.EventType.CLICK, this.showHideBets, this);
     }
 
+    @render(Rounds.RoundTimeStore, (store) => store.isStartingRound)
+    resetInNewRound() {
+        this._ownBets = {};
+        this._totalBets = {};
+        this._userPercentage = {};
+        this._odds = null;
+    }
+
     @render(OddsStore, (store) => store.oddsWithConfig)
     renderOdds(oddsWithConfig: OddsWithConfig) {
         this._odds = oddsWithConfig;
