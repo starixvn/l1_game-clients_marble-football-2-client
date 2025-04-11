@@ -52,7 +52,7 @@ export class PlayArea extends ObserverComponent {
         },
         chipContainerZoomInOut: {
             in: { position: v3(0, 0, 0), time: 0.2 },
-            out: { position: v3(0, -500, 0), time: 0.5 },
+            out: { position: v3(0, -560, 0), time: 0.5 },
         },
         fadeInOut: {
             in: { opacity: 255, time: 0.5 },
