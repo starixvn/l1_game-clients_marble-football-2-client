@@ -14,7 +14,6 @@ export class BetItemsFinal extends BetItemsPolygonBase {
     renderOwnBets(ownBets: gc.GameServiceMessage.OwnBets) {}
 
     bindOwnBets(ownBets: gc.GameServiceMessage.OwnBets) {
-        console.log("bindOwnBets 1", JSON.parse(JSON.stringify(ownBets)));
         this.betItemComponents.forEach((betItem) => {
             const choice = betItem.betChoice;
             const sum = (ownBets[choice] || 0) + (ownBets[`${choice}Live`] || 0);
@@ -42,8 +41,8 @@ export class BetItemsFinal extends BetItemsPolygonBase {
         }
         this.init();
         this.betItemComponents.forEach((betItem) => {
-            const choice = betItem.node.name;
-            betItem.renderUserBetPercentage(userBetPercentage[`${choice}Final`]);
+            const choice = `${betItem.node.name}Final`;
+            betItem.renderUserBetPercentage(userBetPercentage ? userBetPercentage[choice] : 0);
         });
     }
 
@@ -75,5 +74,13 @@ export class BetItemsFinal extends BetItemsPolygonBase {
         return this.betItemComponents.filter(
             (item: BetItem) => this.settlementResult?.[item.betChoice] || this.settlementResult?.[`${item.betChoice}Live`]
         );
+    }
+
+    @render(Rounds.RoundStore, (store) => store.betPercentage)
+    handleBetPercentage(betPercentage: gc.GameServiceMessage.BetPercentage) {
+        this.betItemComponents.forEach((betItem) => {
+            const choice = `${betItem.node.name}Final`;
+            betItem.renderUserBetPercentage(betPercentage ? betPercentage[choice] : 0);
+        });
     }
 }
