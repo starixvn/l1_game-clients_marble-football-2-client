@@ -78,10 +78,6 @@ export class BetItemsFinal extends BetItemsPolygonBase {
 
     @render(Rounds.RoundStore, (store) => store.betPercentage)
     handleBetPercentage(betPercentage: gc.GameServiceMessage.BetPercentage) {
-        this.init();
-        this.betItemComponents.forEach((betItem) => {
-            const choice = `${betItem.node.name}Final`;
-            betItem.renderUserBetPercentage(betPercentage ? betPercentage[choice] : 0);
-        });
+        console.log("handleBetPercentage 1", JSON.parse(JSON.stringify(betPercentage)));
     }
 }
