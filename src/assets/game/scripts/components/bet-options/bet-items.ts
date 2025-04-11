@@ -1,4 +1,4 @@
-import { _decorator, CCBoolean } from "cc";
+import { _decorator, CCBoolean, Widget } from "cc";
 import { BetItemsPolygon as BetItemsPolygonBase } from "db://shared-components/game/bets/scripts/components/bet-items-polygon";
 import observer from "observer";
 import gc from "@sg/game-client-base";
@@ -18,14 +18,28 @@ export class BetItems extends BetItemsPolygonBase {
 
         Object.keys(odds || {}).forEach((choice) => {
             const betItem = this.filterBetItem(choice) as BetItemCustomize;
-            const odd = +odds[choice];
-            if (odd <= 0) {
-                betItem?.blockBetOption();
+            if (!betItem) {
                 return;
             }
 
-            betItem?.renderOdd(odd, fractional);
+            const odd = +odds[choice];
+            if (odd <= 0) {
+                betItem.blockBetOption();
+                return;
+            }
+
+            betItem.renderOdd(odd, fractional);
+            this.updateWidgets(betItem);
         });
+    }
+
+    updateWidgets(betItem: BetItemCustomize) {
+        const widgets = betItem.lblOdds?.getComponentsInChildren(Widget);
+        if (widgets.length > 0) {
+            widgets.forEach((widget) => {
+                widget.updateAlignment();
+            });
+        }
     }
 
     @render(gc.Rounds.RoundStore, (store) => store.userBetPercentage)
