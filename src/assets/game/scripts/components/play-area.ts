@@ -211,6 +211,10 @@ export class PlayArea extends ObserverComponent {
                 child.active = false;
             });
 
+            this.betChoicesParentContainer.children.forEach((child) => {
+                child.active = false;
+            });
+
             if (phase.id === PhaseId.AutoHidePreviewBetChoicesLive) {
                 this.playAnimByPhaseProgress(this.firstHalfScore, this.tweenConfigs.fadeInOut.out, phase.progress);
                 return;
