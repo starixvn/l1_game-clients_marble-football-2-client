@@ -80,6 +80,7 @@ export class BetChoicesContainer extends ObserverComponent {
         },
         [PhaseId.Halftime]: {
             previewBetsEnabled: false,
+            liveDisabled: false,
         },
         [PhaseId.ShowBetChoicesLive]: {
             previewBetsEnabled: false,
