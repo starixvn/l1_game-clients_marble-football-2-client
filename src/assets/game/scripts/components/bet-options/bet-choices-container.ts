@@ -63,10 +63,9 @@ export class BetChoicesContainer extends ObserverComponent {
     private _bindDataSecondHalf = false;
 
     private isSwapBets: boolean = false;
-    protected readonly durationShowBetChoices = 0.5;
+    protected readonly durationShowBetChoices = 0.75;
 
     private betChoicesParentContainer: Node = null;
-    private onPhaseHandler: (phaseId: PhaseId, action: BetState) => void = null;
 
     private readonly phaseConfigs = {
         [PhaseId.ShowPrevVideo]: {
@@ -145,10 +144,6 @@ export class BetChoicesContainer extends ObserverComponent {
         this._userPercentage = userBetPercentage;
     }
 
-    init(onPhaseHandler?: (phaseId: PhaseId, action: BetState) => void) {
-        this.onPhaseHandler = onPhaseHandler;
-    }
-
     private applyPhaseConfig(phaseId: PhaseId): void {
         const config = this.phaseConfigs[phaseId];
         if (!config) {
@@ -168,32 +163,25 @@ export class BetChoicesContainer extends ObserverComponent {
 
     private handleWinnerPhase(phase: GamePhase): void {
         if (phase.progress === 0) {
-            const duration = 0.2;
-            this.scheduleOnce(() => this.fadeOutBetChoiceNode(this.betChoicesParentContainer, true, duration), 0.8);
+            this.scheduleOnce(() => this.fadeOutBetChoiceNode(this.betChoicesParentContainer, true, this.durationShowBetChoices), 0.2);
         } else {
             this.fadeOutBetChoiceNode(this.betChoicesParentContainer, true, 0);
         }
     }
 
     private handleSettlementPhase(): void {
-        this.setEnableBetChoices("final");
-        this.fadeOutBetChoiceNode(this.betChoicesParentContainer, false, 0);
+        this.handleBetState("final", this.durationShowBetChoices);
+    }
+
+    private handleBetState(state: BetState, duration: number): void {
+        this.setEnableBetChoices(state);
+        this.fadeOutBetChoiceNode(this.betChoicesParentContainer, false, duration);
     }
 
     private handleBetChoicesPhase(phase: GamePhase): void {
-        const action: BetState = phase.id === PhaseId.ShowBetChoicesPrev ? "prev" : "live";
-
-        if (phase.progress === 0) {
-            this.scheduleBetChoiceFadeIn(action);
-        } else {
-            this.setEnableBetChoices(action);
-            this.fadeOutBetChoiceNode(this.betChoicesParentContainer, false, 0);
-        }
-
-        // Notify play area about this phase if needed
-        if (this.onPhaseHandler) {
-            this.onPhaseHandler(phase.id as PhaseId, action);
-        }
+        const action = phase.id === PhaseId.ShowBetChoicesPrev ? "prev" : "live";
+        const duration = phase.progress === 0 ? this.durationShowBetChoices : 0;
+        this.handleBetState(action, duration);
     }
 
     private handleAutoHidePreviewPhase(): void {
@@ -374,20 +362,6 @@ export class BetChoicesContainer extends ObserverComponent {
         fadeOut ? AnimationUtils.fadeOut(node, duration) : AnimationUtils.fadeIn(node, duration);
     }
 
-    scheduleBetChoiceFadeIn(action: BetState, duration?: number) {
-        this.scheduleOnce(() => {
-            this.setEnableBetChoices(action);
-            this.fadeOutBetChoiceNode(this.betChoicesParentContainer, false, duration ?? this.durationShowBetChoices);
-        }, duration ?? this.durationShowBetChoices);
-    }
-
-    scheduleBetChoiceFadeOut(duration?: number) {
-        this.scheduleOnce(() => {
-            this.setDisableBetChoices();
-            this.fadeOutBetChoiceNode(this.betChoicesParentContainer, true, duration ?? this.durationShowBetChoices);
-        }, duration ?? this.durationShowBetChoices);
-    }
-
     getIsSwapBets(): boolean {
         return this.isSwapBets;
     }
@@ -401,15 +375,14 @@ export class BetChoicesContainer extends ObserverComponent {
         if (!phase) {
             return;
         }
-
         const phaseActions: Partial<Record<PhaseId, BetState>> = {
             [PhaseId.Tournament]: "prev",
             [PhaseId.Halftime]: "live",
         };
 
         if (phase.id in phaseActions) {
-            this.scheduleBetChoiceFadeIn(phaseActions[phase.id]);
-            this.scheduleBetChoiceFadeIn(phaseActions[phase.id]);
+            this.setEnableBetChoices(phaseActions[phase.id]);
+            this.fadeOutBetChoiceNode(this.betChoicesParentContainer, false, this.durationShowBetChoices);
         }
     }
 
