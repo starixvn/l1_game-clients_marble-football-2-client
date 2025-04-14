@@ -2,13 +2,13 @@ import gc from "@sg/game-client-base";
 import { _decorator } from "cc";
 import inversify from "inversify";
 import mobx from "mobx";
-import { settings } from "../../game-settings";
+import { MarbleRoundTimeStore } from "../rounds/marble-round-time-store";
 
 const { injectable, inject } = inversify;
 
 @injectable()
 export class VideoStreamSoundStore {
-    @inject(gc.Rounds.RoundTimeStore) private roundTimeStore: gc.Rounds.RoundTimeStore;
+    @inject(gc.Rounds.RoundTimeStore) private roundTimeStore: MarbleRoundTimeStore;
     @inject(gc.UserSettings.UserSettingStore) private userSettingStore: gc.UserSettings.UserSettingStore;
 
     constructor() {
@@ -16,7 +16,7 @@ export class VideoStreamSoundStore {
     }
 
     get isInMatch() {
-        return this.roundTimeStore.roundTime < settings.points.introVideo && this.roundTimeStore.roundTime > 0;
+        return this.roundTimeStore.isPlayingVideo;
     }
 
     get isPlayBackgroundMusic() {
