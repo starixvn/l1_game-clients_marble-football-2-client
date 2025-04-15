@@ -50,7 +50,7 @@ export class BetItems extends BetItemsPolygonBase {
 
     @render(MarbleRoundStore, (store) => store.isResetHighlightPrevMatch)
     handleResetHighlightPrevMatch(isResetHighlightPreMatch: boolean) {
-        if (isResetHighlightPreMatch) {
+        if (isResetHighlightPreMatch && !this.isLiveBets) {
             this.clearHighlightStatic();
         }
     }

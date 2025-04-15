@@ -58,37 +58,19 @@ export class MarbleRoundStore {
         return this._clientRoundId;
     }
 
+    private shouldResetHighlight(isLocking: boolean): boolean {
+        return (
+            isLocking ||
+            this.roundTimeStore.roundState === MARBLE_ROUND_STATE.STOP_GAME_LOOP ||
+            this.roundTimeStore.roundState === MARBLE_ROUND_STATE.SHOW_ANIMATION_RESULT
+        );
+    }
+
     get isResetHighlightPrevMatch(): boolean {
-        let isResetHighlight = false;
-
-        switch (this.roundTimeStore.roundState) {
-            case MARBLE_ROUND_STATE.STOP_GAME_LOOP:
-            case MARBLE_ROUND_STATE.SHOW_ANIMATION_RESULT:
-                isResetHighlight = true;
-                break;
-        }
-
-        if (this.roundTimeStore.isLockingPreMatch) {
-            isResetHighlight = true;
-        }
-
-        return isResetHighlight;
+        return this.shouldResetHighlight(this.roundTimeStore.isLockingPreMatch);
     }
 
     get isResetHighlightLive(): boolean {
-        let isResetHighlight = false;
-
-        switch (this.roundTimeStore.roundState) {
-            case MARBLE_ROUND_STATE.STOP_GAME_LOOP:
-            case MARBLE_ROUND_STATE.SHOW_ANIMATION_RESULT:
-                isResetHighlight = true;
-                break;
-        }
-
-        if (this.roundTimeStore.isLockingLiveMatch) {
-            isResetHighlight = true;
-        }
-
-        return isResetHighlight;
+        return this.shouldResetHighlight(this.roundTimeStore.isLockingLiveMatch);
     }
 }
