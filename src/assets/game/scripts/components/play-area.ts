@@ -175,13 +175,7 @@ export class PlayArea extends ObserverComponent {
 
                 // live bet
                 if (phase.id === PhaseId.ShowBetChoicesLive) {
-                    animations.push(
-                        this.playAnimByPhaseProgress(
-                            [this.firstHalfScore, this.teamScore],
-                            [this.tweenConfigs.fadeInOut.in, this.tweenConfigs.teamScoreFlyUp.out],
-                            0
-                        )
-                    );
+                    animations.push(this.playAnimByPhaseProgress(this.firstHalfScore, this.tweenConfigs.fadeInOut.in, 0));
                 }
 
                 await Promise.all(animations);
@@ -221,6 +215,13 @@ export class PlayArea extends ObserverComponent {
             ]);
 
             return;
+        }
+    }
+
+    @render(GamePhaseStore, (store) => store.exitPhase)
+    async renderExitPhase(phase: GamePhase) {
+        if (phase.id === PhaseId.Halftime) {
+            this.playAnimByPhaseProgress(this.teamScore, this.tweenConfigs.teamScoreFlyUp.out, phase.progress);
         }
     }
 
