@@ -41,4 +41,6 @@ export class BetItems extends BetItemsPolygonBase {
             });
         }
     }
+
+    handleBetPercentage(betPercentage: gc.GameServiceMessage.BetPercentage) {}
 }
