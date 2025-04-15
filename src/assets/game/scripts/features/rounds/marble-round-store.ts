@@ -57,4 +57,38 @@ export class MarbleRoundStore {
 
         return this._clientRoundId;
     }
+
+    get isResetHighlightPrevMatch(): boolean {
+        let isResetHighlight = false;
+
+        switch (this.roundTimeStore.roundState) {
+            case MARBLE_ROUND_STATE.STOP_GAME_LOOP:
+            case MARBLE_ROUND_STATE.SHOW_ANIMATION_RESULT:
+                isResetHighlight = true;
+                break;
+        }
+
+        if (this.roundTimeStore.isLockingPreMatch) {
+            isResetHighlight = true;
+        }
+
+        return isResetHighlight;
+    }
+
+    get isResetHighlightLive(): boolean {
+        let isResetHighlight = false;
+
+        switch (this.roundTimeStore.roundState) {
+            case MARBLE_ROUND_STATE.STOP_GAME_LOOP:
+            case MARBLE_ROUND_STATE.SHOW_ANIMATION_RESULT:
+                isResetHighlight = true;
+                break;
+        }
+
+        if (this.roundTimeStore.isLockingLiveMatch) {
+            isResetHighlight = true;
+        }
+
+        return isResetHighlight;
+    }
 }

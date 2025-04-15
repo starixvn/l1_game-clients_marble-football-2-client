@@ -4,6 +4,7 @@ import observer from "observer";
 import gc from "@sg/game-client-base";
 import { OddsStore, OddsWithConfig } from "../../features/dynamic-odds/odds-store";
 import BetItemCustomize from "./bet-item-customize";
+import { MarbleRoundStore } from "../../features/rounds/marble-round-store";
 
 const { ccclass, property } = _decorator;
 const { render } = observer;
@@ -12,6 +13,7 @@ const { render } = observer;
 export class BetItems extends BetItemsPolygonBase {
     @property(CCBoolean)
     isLiveBets: boolean = false;
+
     @render(OddsStore, (store) => store.oddsWithConfig)
     renderOdds(oddsWithConfig: OddsWithConfig) {
         const { odds, fractional } = oddsWithConfig;
@@ -43,4 +45,20 @@ export class BetItems extends BetItemsPolygonBase {
     }
 
     handleBetPercentage(betPercentage: gc.GameServiceMessage.BetPercentage) {}
+
+    handleResetHighlight(isResetHighlight: boolean) {}
+
+    @render(MarbleRoundStore, (store) => store.isResetHighlightPrevMatch)
+    handleResetHighlightPrevMatch(isResetHighlightPreMatch: boolean) {
+        if (isResetHighlightPreMatch) {
+            this.clearHighlightStatic();
+        }
+    }
+
+    @render(MarbleRoundStore, (store) => store.isResetHighlightLive)
+    handleResetHighlightLive(isResetHighlightLive: boolean) {
+        if (isResetHighlightLive && this.isLiveBets) {
+            this.clearHighlightStatic();
+        }
+    }
 }
