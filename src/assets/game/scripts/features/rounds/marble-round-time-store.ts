@@ -240,6 +240,10 @@ export class MarbleRoundTimeStore {
         return this.roundTime <= this.streamingFirstHalfVideo - this.durationVideo && this.roundTime > this.placingBetLiveMatch;
     }
 
+    get isShowDisabledGameMessage() {
+        return this._roundTime <= this.placingBetPreMatch || this._roundTime === this.wholeRound;
+    }
+
     resetRoundTime() {
         this._roundTime = this.wholeRound;
     }
