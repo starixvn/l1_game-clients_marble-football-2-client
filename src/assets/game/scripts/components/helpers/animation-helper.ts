@@ -1,20 +1,8 @@
-import { Node, Vec3, tween, v3 } from "cc";
+import { Node, tween, v3 } from "cc";
 import { AnimationUtils } from "db://shared-components/shared/utils";
+import { TweenConfig } from "./tween-configs";
 
 const { getUiOpacity } = AnimationUtils;
-
-export interface TweenConfig {
-    scale?: Vec3;
-    position?: Vec3;
-    opacity?: number;
-    positionY?: number;
-    time: number;
-}
-
-export interface TweenConfigs {
-    in: TweenConfig;
-    out: TweenConfig;
-}
 
 export class AnimationHelper {
     static playAnimForTarget(node: Node, config: TweenConfig): Promise<void> {

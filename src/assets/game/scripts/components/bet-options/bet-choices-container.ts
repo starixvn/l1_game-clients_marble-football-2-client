@@ -13,7 +13,7 @@ import { PreviewBetsHandler } from "../../features/preview-bets/preview-bets-han
 import { ButtonsBetStore } from "../../features/preview-bets/buttons-bet-store";
 import BetItemCustomize from "./bet-item-customize";
 import { OddsStore, OddsWithConfig } from "../../features/dynamic-odds/odds-store";
-import { DURATION_ANIM_IN } from "../play-area";
+import { DURATION_ANIM_IN } from "../helpers/tween-configs";
 const { ccclass, property } = _decorator;
 
 const { Rounds } = gc;
@@ -53,7 +53,6 @@ export class BetChoicesContainer extends ObserverComponent {
     protected betItemsLive: BetItems = null;
     protected betItemsFinal: BetItems = null;
     protected betChoicesInMatch = [];
-    protected readonly durationShowBetChoices = 0.5;
 
     private _odds: OddsWithConfig = null;
     private _totalBets: Record<string, number> = {};

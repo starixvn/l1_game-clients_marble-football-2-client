@@ -8,23 +8,13 @@ import { GamePhaseStore } from "../features/game-phase/game-phase-store";
 import { settings } from "../game-settings";
 import { BetChoicesContainer } from "./bet-options/bet-choices-container";
 import { ButtonsBetStore } from "../features/preview-bets/buttons-bet-store";
-import { AnimationHelper, TweenConfig, TweenConfigs } from "./helpers/animation-helper";
+import { AnimationHelper } from "./helpers/animation-helper";
+import { TweenConfig, TweenConfigs, TweenKey, DEFAULT_TWEEN_CONFIGS } from "./helpers/tween-configs";
 
 const { ccclass, property } = _decorator;
 const { render, handle } = Observer;
 
-type TweenKey =
-    | "chipContainerFlyDown"
-    | "fadeInOut"
-    | "chipsFlyDown"
-    | "teamScoreFlyUp"
-    | "betChoiceZoomInOut"
-    | "scoreboardFlyUp"
-    | "teamScoreLiveFlyUp";
 type BetState = "prev" | "live" | "final";
-
-export const DURATION_ANIM_IN = 0.5;
-export const DURATION_ANIM_OUT = 0.7;
 
 @ccclass("PlayArea")
 export class PlayArea extends ObserverComponent {
@@ -55,40 +45,10 @@ export class PlayArea extends ObserverComponent {
     private isZoomOut: boolean = false;
     private mainPlayAreaTargets: Array<{ target: Node; key: TweenKey }>;
 
-    private readonly tweenConfigs: Record<TweenKey, TweenConfigs> = {
-        betChoiceZoomInOut: {
-            in: { position: v3(0, -90, 0), time: DURATION_ANIM_IN },
-            out: { position: v3(0, -650, 0), time: DURATION_ANIM_OUT },
-        },
-        chipContainerFlyDown: {
-            in: { position: v3(0, 0, 0), time: DURATION_ANIM_IN },
-            out: { position: v3(0, -560, 0), time: DURATION_ANIM_OUT },
-        },
-        fadeInOut: {
-            in: { opacity: 255, time: DURATION_ANIM_IN },
-            out: { opacity: 1, time: DURATION_ANIM_OUT },
-        },
-        chipsFlyDown: {
-            in: { positionY: -306, opacity: 255, time: DURATION_ANIM_IN },
-            out: { positionY: -535, opacity: 1, time: DURATION_ANIM_OUT },
-        },
-        teamScoreFlyUp: {
-            in: { positionY: 303, opacity: 255, time: DURATION_ANIM_IN },
-            out: { positionY: 630, opacity: 1, time: DURATION_ANIM_OUT },
-        },
-        scoreboardFlyUp: {
-            in: { positionY: 290, opacity: 255, time: DURATION_ANIM_IN },
-            out: { positionY: 600, opacity: 1, time: DURATION_ANIM_OUT },
-        },
-        teamScoreLiveFlyUp: {
-            in: { positionY: 140, opacity: 255, time: DURATION_ANIM_IN },
-            out: { positionY: 540, opacity: 1, time: DURATION_ANIM_OUT },
-        },
-    };
+    private readonly tweenConfigs: Record<TweenKey, TweenConfigs> = DEFAULT_TWEEN_CONFIGS;
 
     private phasePreviewBets: BetState = "prev";
     private phaseShowBetChoices: BetState = "prev";
-    protected readonly durationShowBetChoices = DURATION_ANIM_IN;
 
     protected betChoicesParentContainer: Node = null;
 
