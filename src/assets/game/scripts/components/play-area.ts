@@ -172,7 +172,12 @@ export class PlayArea extends ObserverComponent {
                     );
                 }
             } else {
-                [this.mainPlayerNode, this.scoreBoard, this.firstHalfScore].forEach((node) => {
+                const staticTargets = [this.mainPlayerNode, this.scoreBoard];
+                if (phase.id === PhaseId.ShowBetChoicesLive) {
+                    staticTargets.push(this.firstHalfScore);
+                }
+
+                staticTargets.forEach((node) => {
                     AnimationHelper.setStaticTarget(node, this.tweenConfigs.fadeInOut.in);
                 });
 
