@@ -13,8 +13,18 @@ import { AnimationHelper, TweenConfig, TweenConfigs } from "./helpers/animation-
 const { ccclass, property } = _decorator;
 const { render, handle } = Observer;
 
-type TweenKey = "chipContainerFlyDown" | "fadeInOut" | "chipsFlyDown" | "teamScoreFlyUp" | "betChoiceZoomInOut" | "scoreboardFlyUp";
+type TweenKey =
+    | "chipContainerFlyDown"
+    | "fadeInOut"
+    | "chipsFlyDown"
+    | "teamScoreFlyUp"
+    | "betChoiceZoomInOut"
+    | "scoreboardFlyUp"
+    | "teamScoreLiveFlyUp";
 type BetState = "prev" | "live" | "final";
+
+export const DURATION_ANIM_IN = 0.5;
+export const DURATION_ANIM_OUT = 0.7;
 
 @ccclass("PlayArea")
 export class PlayArea extends ObserverComponent {
@@ -47,34 +57,38 @@ export class PlayArea extends ObserverComponent {
 
     private readonly tweenConfigs: Record<TweenKey, TweenConfigs> = {
         betChoiceZoomInOut: {
-            in: { position: v3(0, -90, 0), time: 0.5 },
-            out: { position: v3(0, -650, 0), time: 0.5 },
+            in: { position: v3(0, -90, 0), time: DURATION_ANIM_IN },
+            out: { position: v3(0, -650, 0), time: DURATION_ANIM_OUT },
         },
         chipContainerFlyDown: {
-            in: { position: v3(0, 0, 0), time: 0.5 },
-            out: { position: v3(0, -560, 0), time: 0.5 },
+            in: { position: v3(0, 0, 0), time: DURATION_ANIM_IN },
+            out: { position: v3(0, -560, 0), time: DURATION_ANIM_OUT },
         },
         fadeInOut: {
-            in: { opacity: 255, time: 0.5 },
-            out: { opacity: 1, time: 0.5 },
+            in: { opacity: 255, time: DURATION_ANIM_IN },
+            out: { opacity: 1, time: DURATION_ANIM_OUT },
         },
         chipsFlyDown: {
-            in: { positionY: -306, opacity: 255, time: 0.5 },
-            out: { positionY: -535, opacity: 1, time: 0.5 },
+            in: { positionY: -306, opacity: 255, time: DURATION_ANIM_IN },
+            out: { positionY: -535, opacity: 1, time: DURATION_ANIM_OUT },
         },
         teamScoreFlyUp: {
-            in: { positionY: 303, opacity: 255, time: 0.5 },
-            out: { positionY: 630, opacity: 1, time: 0.5 },
+            in: { positionY: 303, opacity: 255, time: DURATION_ANIM_IN },
+            out: { positionY: 630, opacity: 1, time: DURATION_ANIM_OUT },
         },
         scoreboardFlyUp: {
-            in: { positionY: 290, opacity: 255, time: 0.5 },
-            out: { positionY: 600, opacity: 1, time: 0.5 },
+            in: { positionY: 290, opacity: 255, time: DURATION_ANIM_IN },
+            out: { positionY: 600, opacity: 1, time: DURATION_ANIM_OUT },
+        },
+        teamScoreLiveFlyUp: {
+            in: { positionY: 140, opacity: 255, time: DURATION_ANIM_IN },
+            out: { positionY: 540, opacity: 1, time: DURATION_ANIM_OUT },
         },
     };
 
     private phasePreviewBets: BetState = "prev";
     private phaseShowBetChoices: BetState = "prev";
-    protected readonly durationShowBetChoices = 0.5;
+    protected readonly durationShowBetChoices = DURATION_ANIM_IN;
 
     protected betChoicesParentContainer: Node = null;
 
@@ -113,7 +127,7 @@ export class PlayArea extends ObserverComponent {
             { node: this.teamScore, config: this.tweenConfigs.teamScoreFlyUp.out },
             { node: this.scoreBoard, config: this.tweenConfigs.scoreboardFlyUp.out },
             { node: this.chips, config: this.tweenConfigs.chipsFlyDown.out },
-            { node: this.firstHalfScore, config: this.tweenConfigs.fadeInOut.out },
+            { node: this.firstHalfScore, config: this.tweenConfigs.teamScoreLiveFlyUp.out },
             { node: this.mainPlayerNode, config: this.tweenConfigs.fadeInOut.out },
         ];
 
@@ -175,20 +189,15 @@ export class PlayArea extends ObserverComponent {
 
                 // live bet
                 if (phase.id === PhaseId.ShowBetChoicesLive) {
-                    animations.push(this.playAnimByPhaseProgress(this.firstHalfScore, this.tweenConfigs.fadeInOut.in, 0));
+                    animations.push(this.playAnimByPhaseProgress(this.firstHalfScore, this.tweenConfigs.teamScoreLiveFlyUp.in, 0));
                 }
 
                 await Promise.all(animations);
             } else {
-                const staticTargets = [this.mainPlayerNode];
                 if (phase.id === PhaseId.ShowBetChoicesLive) {
-                    staticTargets.push(this.firstHalfScore);
+                    AnimationHelper.setStaticTarget(this.firstHalfScore, this.tweenConfigs.teamScoreLiveFlyUp.in);
                 }
-
-                staticTargets.forEach((node) => {
-                    AnimationHelper.setStaticTarget(node, this.tweenConfigs.fadeInOut.in);
-                });
-
+                AnimationHelper.setStaticTarget(this.mainPlayerNode, this.tweenConfigs.fadeInOut.in);
                 AnimationHelper.setStaticTarget(this.scoreBoard, this.tweenConfigs.scoreboardFlyUp.in);
                 this.setStaticPlayArea("in");
             }
@@ -209,7 +218,7 @@ export class PlayArea extends ObserverComponent {
                 phase.id === PhaseId.ShowLiveVideo
                     ? (() => {
                           this.phasePreviewBets = "live";
-                          this.playAnimByPhaseProgress(this.firstHalfScore, this.tweenConfigs.fadeInOut.out, phase.progress);
+                          this.playAnimByPhaseProgress(this.firstHalfScore, this.tweenConfigs.teamScoreLiveFlyUp.out, phase.progress);
                       })()
                     : Promise.resolve(),
             ]);

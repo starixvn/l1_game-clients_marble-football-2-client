@@ -53,7 +53,7 @@ export class MatchResult extends ObserverComponent {
     }
 
     @render(GamePhaseStore, (store) => store.beforeEnterPhase)
-    private renderEnterPhase(phase: GamePhase) {
+    private renderBeforePhase(phase: GamePhase) {
         if (!phase) {
             return;
         }

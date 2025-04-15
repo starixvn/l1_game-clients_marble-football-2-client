@@ -13,6 +13,7 @@ import { PreviewBetsHandler } from "../../features/preview-bets/preview-bets-han
 import { ButtonsBetStore } from "../../features/preview-bets/buttons-bet-store";
 import BetItemCustomize from "./bet-item-customize";
 import { OddsStore, OddsWithConfig } from "../../features/dynamic-odds/odds-store";
+import { DURATION_ANIM_IN } from "../play-area";
 const { ccclass, property } = _decorator;
 
 const { Rounds } = gc;
@@ -163,14 +164,14 @@ export class BetChoicesContainer extends ObserverComponent {
 
     private handleWinnerPhase(phase: GamePhase): void {
         if (phase.progress === 0) {
-            this.scheduleOnce(() => this.fadeOutBetChoiceNode(this.betChoicesParentContainer, true, this.durationShowBetChoices), 0.2);
+            this.scheduleOnce(() => this.fadeOutBetChoiceNode(this.betChoicesParentContainer, true, DURATION_ANIM_IN), 0.2);
         } else {
             this.fadeOutBetChoiceNode(this.betChoicesParentContainer, true, 0);
         }
     }
 
     private handleSettlementPhase(): void {
-        this.handleBetState("final", this.durationShowBetChoices);
+        this.handleBetState("final", DURATION_ANIM_IN);
     }
 
     private handleBetState(state: BetState, duration: number): void {
@@ -180,7 +181,7 @@ export class BetChoicesContainer extends ObserverComponent {
 
     private handleBetChoicesPhase(phase: GamePhase): void {
         const action = phase.id === PhaseId.ShowBetChoicesPrev ? "prev" : "live";
-        const duration = phase.progress === 0 ? this.durationShowBetChoices : 0;
+        const duration = phase.progress === 0 ? DURATION_ANIM_IN : 0;
         this.handleBetState(action, duration);
     }
 
@@ -188,7 +189,7 @@ export class BetChoicesContainer extends ObserverComponent {
         this.setPreviewBets(false);
         this.setDisableBetChoices();
         this.resetSwapBets();
-        this.fadeOutBetChoiceNode(this.betChoicesParentContainer, true, this.durationShowBetChoices);
+        this.fadeOutBetChoiceNode(this.betChoicesParentContainer, true, DURATION_ANIM_IN);
     }
 
     private resetSwapBets(): void {
@@ -378,7 +379,7 @@ export class BetChoicesContainer extends ObserverComponent {
 
         if (phase.id in phaseActions) {
             this.setEnableBetChoices(phaseActions[phase.id]);
-            this.fadeOutBetChoiceNode(this.betChoicesParentContainer, false, this.durationShowBetChoices);
+            this.fadeOutBetChoiceNode(this.betChoicesParentContainer, false, DURATION_ANIM_IN);
         }
     }
 
