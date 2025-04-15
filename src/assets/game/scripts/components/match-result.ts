@@ -57,9 +57,9 @@ export class MatchResult extends ObserverComponent {
         if (!phase) {
             return;
         }
-        if (phase.id === PhaseId.ShowWinnerAndTournament) {
+
+        if (phase.id === PhaseId.MatchWinner) {
             const hideDuration = 0.3333;
-            //console.log("renderEnterPhase", phase);
             this.scheduleOnce(() => this.hide().then(() => (this.node.active = false)), 1 - hideDuration);
         }
     }
@@ -75,6 +75,7 @@ export class MatchResult extends ObserverComponent {
     //         this.hide();
     //     }
     // }
+
     async playSpine(spine: sp.Skeleton, animationName: string, animated: boolean) {
         if (!animated) {
             const entry = spine.setAnimation(0, animationName, false);

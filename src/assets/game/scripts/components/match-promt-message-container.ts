@@ -9,8 +9,6 @@ const { ccclass } = _decorator;
 const { Rounds } = gc;
 const { render } = Observer;
 
-const NEXT_MATCH_TIME = 140;
-
 const PROMPT_SOUND_ID = {
     START_BETTING: "start-betting",
     NEXT_MATCH: "next-match",
@@ -34,7 +32,7 @@ export class MatchPromptMessageContainer extends PromptMessageContainer {
             this.scheduleOnce(() => {
                 this.getComponent()?.showStartBetMessage();
                 this.playSound(PROMPT_SOUND_ID.START_BETTING);
-            }, 0.7);
+            }, 1);
         }
     }
 

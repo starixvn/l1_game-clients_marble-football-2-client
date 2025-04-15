@@ -2,7 +2,7 @@ import { _decorator, Enum, Sprite, SpriteAtlas, tween, UIOpacity, v3 } from "cc"
 import gc from "@sg/game-client-base";
 import PromptMessageComponent from "db://shared-components/game/prompt-message/scripts/prompt-message-component";
 const { ccclass, property } = _decorator;
-const { Rounds, Translator } = gc;
+const { Translator } = gc;
 
 export enum IconName {
     COIN = 0,

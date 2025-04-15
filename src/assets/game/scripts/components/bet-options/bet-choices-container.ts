@@ -46,27 +46,22 @@ export class BetChoicesContainer extends ObserverComponent {
     @property(Node)
     swapBetsButton: Node = null;
 
-    private _odds: OddsWithConfig = null;
-
-    loadedChips = false;
-    private _totalBets: Record<string, number> = {};
-    private _ownBets: Record<string, number> = {};
-    private _userPercentage: Record<string, number> = {};
-
     statusBetsButton: StatusBetsButton = null;
+
     protected betItemsPrev: BetItems = null;
     protected betItemsLive: BetItems = null;
     protected betItemsFinal: BetItems = null;
     protected betChoicesInMatch = [];
+    protected readonly durationShowBetChoices = 0.5;
 
+    private _odds: OddsWithConfig = null;
+    private _totalBets: Record<string, number> = {};
+    private _ownBets: Record<string, number> = {};
+    private _userPercentage: Record<string, number> = {};
     private _bindDataFirstHalf = false;
     private _bindDataSecondHalf = false;
-
     private isSwapBets: boolean = false;
-    protected readonly durationShowBetChoices = 0.75;
-
     private betChoicesParentContainer: Node = null;
-
     private readonly phaseConfigs = {
         [PhaseId.ShowPrevVideo]: {
             prevDisabled: true,
@@ -82,15 +77,21 @@ export class BetChoicesContainer extends ObserverComponent {
             liveDisabled: false,
         },
         [PhaseId.ShowBetChoicesLive]: {
+            liveDisabled: false,
             previewBetsEnabled: false,
+            prevDisabled: true,
         },
         [PhaseId.ShowBetChoicesPrev]: {
             previewBetsEnabled: false,
+            prevDisabled: false,
         },
         [PhaseId.Settlement]: {
             previewBetsEnabled: false,
         },
-        [PhaseId.ShowWinnerAndTournament]: {
+        [PhaseId.MatchWinner]: {
+            previewBetsEnabled: false,
+        },
+        [PhaseId.Tournament]: {
             previewBetsEnabled: false,
         },
         [PhaseId.AutoHidePreviewBetChoicesLive]: {
@@ -102,7 +103,6 @@ export class BetChoicesContainer extends ObserverComponent {
             previewBetsEnabled: false,
         },
     };
-
     private readonly triggerByState = {
         prev: this.handleAfterActiveBetItemsFirstHalf.bind(this),
         live: this.handleAfterActiveBetItemsSecondHalf.bind(this),
@@ -187,7 +187,13 @@ export class BetChoicesContainer extends ObserverComponent {
     private handleAutoHidePreviewPhase(): void {
         this.setPreviewBets(false);
         this.setDisableBetChoices();
+        this.resetSwapBets();
         this.fadeOutBetChoiceNode(this.betChoicesParentContainer, true, this.durationShowBetChoices);
+    }
+
+    private resetSwapBets(): void {
+        this.swapBetsButton.active = false;
+        this.isSwapBets = false;
     }
 
     @render(GamePhaseStore, (store) => store.enterPhase)
@@ -200,7 +206,7 @@ export class BetChoicesContainer extends ObserverComponent {
         this.applyPhaseConfig(phase.id as PhaseId);
 
         // Handle specific phase behaviors
-        if (phase.id === PhaseId.ShowWinnerAndTournament) {
+        if (phase.id === PhaseId.MatchWinner) {
             this.handleWinnerPhase(phase);
             return;
         }
@@ -217,7 +223,6 @@ export class BetChoicesContainer extends ObserverComponent {
 
         if (phase.id === PhaseId.AutoHidePreviewBetChoicesLive || phase.id === PhaseId.AutoHidePreviewBetChoicesPrev) {
             this.handleAutoHidePreviewPhase();
-            this.isSwapBets = false;
         }
     }
 
@@ -255,7 +260,7 @@ export class BetChoicesContainer extends ObserverComponent {
         trigger();
     }
 
-    setEnableChipContainer() {
+    private setEnableChipContainer() {
         this.chipContainerPrev.active = this.betChoicesPrev.active;
         this.chipContainerLive.active = this.betChoicesLive.active;
         this.chipContainerFinal.active = this.betChoicesFinal.active;
@@ -267,14 +272,13 @@ export class BetChoicesContainer extends ObserverComponent {
     @handle(PreviewBetsHandler, (handle) => handle.triggerBoundSecondHalfChips())
     triggerBoundSecondHalfChips() {}
 
-    setDisableBetChoices() {
+    private setDisableBetChoices() {
         this.betChoicesPrev.active = false;
         this.betChoicesLive.active = false;
         this.betChoicesFinal.active = false;
-        this.swapBetsButton.active = false;
     }
 
-    handleAfterActiveBetItemsFinal() {
+    private handleAfterActiveBetItemsFinal() {
         const finalBetItems = this.betChoicesFinal.getComponent(BetItemsFinal);
         finalBetItems.bindTotalBets(this._totalBets);
         finalBetItems.bindOwnBets(this._ownBets);
@@ -298,7 +302,7 @@ export class BetChoicesContainer extends ObserverComponent {
         triggerMethod();
     }
 
-    handleAfterActiveBetItemsFirstHalf() {
+    private handleAfterActiveBetItemsFirstHalf() {
         const firstHalfBetItems = this.betChoicesPrev.getComponent(BetItems);
         this.handleAfterActiveBetItems(firstHalfBetItems, this._bindDataFirstHalf, () => {
             this._bindDataFirstHalf = true;
@@ -306,7 +310,7 @@ export class BetChoicesContainer extends ObserverComponent {
         });
     }
 
-    handleAfterActiveBetItemsSecondHalf() {
+    private handleAfterActiveBetItemsSecondHalf() {
         const secondHalfBetItems = this.betChoicesLive.getComponent(BetItems);
         this.handleAfterActiveBetItems(secondHalfBetItems, this._bindDataSecondHalf, () => {
             this._bindDataSecondHalf = true;
@@ -316,12 +320,6 @@ export class BetChoicesContainer extends ObserverComponent {
 
     @handle(PreviewBetsHandler, (handle) => handle.triggerBoundFinalChips())
     triggerLoadedChips() {}
-
-    setDisableBetChoicesInMatch() {
-        this.betChoicesInMatch.forEach((node) => {
-            node && (node.active = false);
-        });
-    }
 
     getBetItemsPrevMath() {
         return this.betItemsPrev;
@@ -349,9 +347,7 @@ export class BetChoicesContainer extends ObserverComponent {
         return betItemsByChoice;
     }
 
-    betItemsByChoiceFinal() {}
-
-    fadeOutBetChoiceNode(node: Node, fadeOut: boolean, duration: number) {
+    private fadeOutBetChoiceNode(node: Node, fadeOut: boolean, duration: number) {
         const opacity = fadeOut ? 1 : 255;
 
         if (duration === 0) {

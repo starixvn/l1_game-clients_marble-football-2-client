@@ -23,20 +23,6 @@ const WINNER_SFX = "winner";
 @ccclass
 export class MatchResultContainer extends MultipleNodeContainer {
     private matchResult: IMatchResult = null;
-    onLoad() {
-        super.onLoad();
-        this.registerPhaseMatchWinner();
-    }
-
-    @handle(GamePhaseHandler, (handler, config: GamePhaseConfig) => handler.registerPhase(config))
-    registerPhaseMatchWinner() {
-        const config: GamePhaseConfig = {
-            id: PhaseId.MatchWinner,
-            begin: TimePointShowMatchWinner,
-            end: TimePointTournament,
-        };
-        return config;
-    }
 
     @render(MatchResultStore, (store) => store.matchResult)
     renderMatchResult(matchResult: IMatchResult) {

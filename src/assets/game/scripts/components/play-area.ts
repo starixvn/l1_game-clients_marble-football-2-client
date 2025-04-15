@@ -13,7 +13,7 @@ import { AnimationHelper, TweenConfig, TweenConfigs } from "./helpers/animation-
 const { ccclass, property } = _decorator;
 const { render, handle } = Observer;
 
-type TweenKey = "chipContainerZoomInOut" | "fadeInOut" | "chipsFlyDown" | "teamScoreFlyUp" | "betChoiceZoomInOut";
+type TweenKey = "chipContainerFlyDown" | "fadeInOut" | "chipsFlyDown" | "teamScoreFlyUp" | "betChoiceZoomInOut" | "scoreboardFlyUp";
 type BetState = "prev" | "live" | "final";
 
 @ccclass("PlayArea")
@@ -47,24 +47,28 @@ export class PlayArea extends ObserverComponent {
 
     private readonly tweenConfigs: Record<TweenKey, TweenConfigs> = {
         betChoiceZoomInOut: {
-            in: { position: v3(0, -90, 0), time: 0.75 },
+            in: { position: v3(0, -90, 0), time: 0.5 },
             out: { position: v3(0, -650, 0), time: 0.5 },
         },
-        chipContainerZoomInOut: {
-            in: { position: v3(0, 0, 0), time: 0.75 },
+        chipContainerFlyDown: {
+            in: { position: v3(0, 0, 0), time: 0.5 },
             out: { position: v3(0, -560, 0), time: 0.5 },
         },
         fadeInOut: {
-            in: { opacity: 255, time: 0.75 },
+            in: { opacity: 255, time: 0.5 },
             out: { opacity: 1, time: 0.5 },
         },
         chipsFlyDown: {
-            in: { positionY: -306, opacity: 255, time: 0.75 },
+            in: { positionY: -306, opacity: 255, time: 0.5 },
             out: { positionY: -535, opacity: 1, time: 0.5 },
         },
         teamScoreFlyUp: {
-            in: { positionY: 303, opacity: 255, time: 0.75 },
+            in: { positionY: 303, opacity: 255, time: 0.5 },
             out: { positionY: 630, opacity: 1, time: 0.5 },
+        },
+        scoreboardFlyUp: {
+            in: { positionY: 290, opacity: 255, time: 0.5 },
+            out: { positionY: 600, opacity: 1, time: 0.5 },
         },
     };
 
@@ -92,7 +96,7 @@ export class PlayArea extends ObserverComponent {
         const commonTargets = [
             { target: this.betChoicesParentContainer, key: "betChoiceZoomInOut" as TweenKey },
             { target: this.chips, key: "chipsFlyDown" as TweenKey },
-            { target: this.chipContainersParent, key: "chipContainerZoomInOut" as TweenKey },
+            { target: this.chipContainersParent, key: "chipContainerFlyDown" as TweenKey },
         ];
 
         this.mainPlayAreaTargets = [...commonTargets];
@@ -107,7 +111,7 @@ export class PlayArea extends ObserverComponent {
     private setupStaticTargets() {
         const staticTargets = [
             { node: this.teamScore, config: this.tweenConfigs.teamScoreFlyUp.out },
-            { node: this.scoreBoard, config: this.tweenConfigs.fadeInOut.out },
+            { node: this.scoreBoard, config: this.tweenConfigs.scoreboardFlyUp.out },
             { node: this.chips, config: this.tweenConfigs.chipsFlyDown.out },
             { node: this.firstHalfScore, config: this.tweenConfigs.fadeInOut.out },
             { node: this.mainPlayerNode, config: this.tweenConfigs.fadeInOut.out },
@@ -129,7 +133,7 @@ export class PlayArea extends ObserverComponent {
         }
         log("renderEnterPhase: ", phase.id);
 
-        if (phase.id === PhaseId.ShowWinnerAndTournament) {
+        if (phase.id === PhaseId.MatchWinner) {
             this.scheduleOnce(async () => {
                 !this.isZoomOut && this.zoomPlayArea("out");
                 await Promise.all([
@@ -155,24 +159,34 @@ export class PlayArea extends ObserverComponent {
 
             if (phase.progress === 0) {
                 this.isZoomOut && this.zoomPlayArea("in");
-                await Promise.all([
+                const animations: Promise<any>[] = [];
+
+                // playAreaAnim
+                animations.push(
                     this.playAnimByPhaseProgress(
                         [this.scoreBoard, this.mainPlayerNode, this.chips],
-                        [this.tweenConfigs.fadeInOut.in, this.tweenConfigs.fadeInOut.in, this.tweenConfigs.chipsFlyDown.in],
+                        [this.tweenConfigs.scoreboardFlyUp.in, this.tweenConfigs.fadeInOut.in, this.tweenConfigs.chipsFlyDown.in],
                         0
-                    ),
-                    this.playAnimByPhaseProgress(this.disappearingNodes, this.tweenConfigs.fadeInOut.in, 0),
-                ]);
+                    )
+                );
 
+                // disappearingAnim
+                animations.push(this.playAnimByPhaseProgress(this.disappearingNodes, this.tweenConfigs.fadeInOut.in, 0));
+
+                // live bet
                 if (phase.id === PhaseId.ShowBetChoicesLive) {
-                    this.playAnimByPhaseProgress(
-                        [this.firstHalfScore, this.teamScore],
-                        [this.tweenConfigs.fadeInOut.in, this.tweenConfigs.teamScoreFlyUp.out],
-                        0
+                    animations.push(
+                        this.playAnimByPhaseProgress(
+                            [this.firstHalfScore, this.teamScore],
+                            [this.tweenConfigs.fadeInOut.in, this.tweenConfigs.teamScoreFlyUp.out],
+                            0
+                        )
                     );
                 }
+
+                await Promise.all(animations);
             } else {
-                const staticTargets = [this.mainPlayerNode, this.scoreBoard];
+                const staticTargets = [this.mainPlayerNode];
                 if (phase.id === PhaseId.ShowBetChoicesLive) {
                     staticTargets.push(this.firstHalfScore);
                 }
@@ -181,6 +195,7 @@ export class PlayArea extends ObserverComponent {
                     AnimationHelper.setStaticTarget(node, this.tweenConfigs.fadeInOut.in);
                 });
 
+                AnimationHelper.setStaticTarget(this.scoreBoard, this.tweenConfigs.scoreboardFlyUp.in);
                 this.setStaticPlayArea("in");
             }
 
@@ -193,7 +208,7 @@ export class PlayArea extends ObserverComponent {
             await Promise.all([
                 this.playAnimByPhaseProgress(
                     [this.teamScore, this.scoreBoard, this.mainPlayerNode],
-                    [this.tweenConfigs.teamScoreFlyUp.in, this.tweenConfigs.fadeInOut.out, this.tweenConfigs.fadeInOut.out],
+                    [this.tweenConfigs.teamScoreFlyUp.in, this.tweenConfigs.scoreboardFlyUp.out, this.tweenConfigs.fadeInOut.out],
                     phase.progress
                 ),
                 !this.isZoomOut && this.zoomPlayArea("out"),
@@ -207,29 +222,12 @@ export class PlayArea extends ObserverComponent {
 
             return;
         }
-
-        if (phase.id === PhaseId.AutoHidePreviewBetChoicesLive || phase.id === PhaseId.AutoHidePreviewBetChoicesPrev) {
-            this.chipContainersParent.children.forEach((child) => {
-                child.active = false;
-            });
-
-            this.betChoicesParentContainer.children.forEach((child) => {
-                child.active = false;
-            });
-
-            if (phase.id === PhaseId.AutoHidePreviewBetChoicesLive) {
-                this.playAnimByPhaseProgress(this.firstHalfScore, this.tweenConfigs.fadeInOut.out, phase.progress);
-            }
-        }
     }
 
     private async playAnimByPhaseProgress(nodes: Node | Node[], config: TweenConfig | TweenConfig[], phaseProgress: number) {
         const nodeArray = Array.isArray(nodes) ? nodes : [nodes];
         const configArray = Array.isArray(config) ? config : [config];
-
         const finalConfigs = nodeArray.map((_, index) => configArray[index] || configArray[0]);
-        console.log("finalConfigs", finalConfigs);
-
         if (phaseProgress === 0) {
             await Promise.all(nodeArray.map((node, index) => AnimationHelper.playAnimForTarget(node, finalConfigs[index])));
         } else {
@@ -282,7 +280,7 @@ export class PlayArea extends ObserverComponent {
         AnimationHelper.setStaticTarget(this.chips, this.tweenConfigs.chipsFlyDown[direction]);
         AnimationHelper.setStaticTarget(this.mainPlayerNode, this.tweenConfigs.fadeInOut[direction]);
         AnimationHelper.setStaticTarget(this.betChoicesParentContainer, this.tweenConfigs.betChoiceZoomInOut[direction]);
-        AnimationHelper.setStaticTarget(this.chipContainersParent, this.tweenConfigs.chipContainerZoomInOut[direction]);
+        AnimationHelper.setStaticTarget(this.chipContainersParent, this.tweenConfigs.chipContainerFlyDown[direction]);
     }
 
     @render(ButtonsBetStore, (store) => store.isPreviewBets, { fireImmediately: false })
