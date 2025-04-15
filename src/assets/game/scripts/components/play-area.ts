@@ -53,7 +53,7 @@ export class PlayArea extends ObserverComponent {
     protected betChoicesParentContainer: Node = null;
 
     onLoad() {
-        this.initializeContainers();
+        this.initBetChoicesContainer();
         this.setupMainPlayAreaTargets();
         this.setupDisappearingNodes();
         this.setupStaticTargets();
@@ -62,23 +62,21 @@ export class PlayArea extends ObserverComponent {
         this.betChoicesContainer.swapBetsButton.on(Button.EventType.CLICK, this.swapBets, this);
     }
 
-    private initializeContainers() {
+    private initBetChoicesContainer() {
         this.betChoicesParentContainer = this.betChoicesContainer?.betChoicesPrev?.parent;
     }
 
     private setupMainPlayAreaTargets() {
-        const commonTargets = [
+        this.mainPlayAreaTargets = [
             { target: this.betChoicesParentContainer, key: "betChoiceZoomInOut" as TweenKey },
             { target: this.chips, key: "chipsFlyDown" as TweenKey },
             { target: this.chipContainersParent, key: "chipContainerFlyDown" as TweenKey },
         ];
-
-        this.mainPlayAreaTargets = [...commonTargets];
     }
 
     private setupDisappearingNodes() {
         this.disappearingNodes.forEach((node) => {
-            this.mainPlayAreaTargets.push({ target: node, key: "fadeInOut" });
+            node && this.mainPlayAreaTargets.push({ target: node, key: "fadeInOut" });
         });
     }
 
