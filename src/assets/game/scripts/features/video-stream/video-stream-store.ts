@@ -48,12 +48,11 @@ export class VideoStreamStore {
             this._currentMatchTime++;
         }
 
-        const firstHalfVideoDuration = settings.points.streamingFirstHalfVideo - settings.durations.videoDuration;
+        const endOfFirstHalf = settings.points.streamingFirstHalfVideo - settings.durations.videoDuration;
 
-        this._isFirstHalf =
-            roundTime > firstHalfVideoDuration && roundTime <= settings.points.placingBetPreMatch + settings.durations.startRound;
+        this._isFirstHalf = roundTime > endOfFirstHalf && roundTime <= settings.points.placingBetPreMatch + settings.durations.startRound;
 
-        this._isBreakTime = roundTime <= firstHalfVideoDuration && roundTime > firstHalfVideoDuration - settings.durations.breakTime;
+        this._isBreakTime = roundTime <= endOfFirstHalf && roundTime > endOfFirstHalf - settings.durations.breakTime;
 
         this._isLiveVideo = !this._isBreakTime && roundTime >= 0 && roundTime <= settings.points.streamingFirstHalfVideo;
 

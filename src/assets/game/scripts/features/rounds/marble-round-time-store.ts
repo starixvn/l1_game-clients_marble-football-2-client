@@ -237,10 +237,7 @@ export class MarbleRoundTimeStore {
     }
 
     get isPlayingHalfTime() {
-        return (
-            this.roundTime <= this.streamingFirstHalfVideo - this.durationVideo &&
-            this.roundTime > this.placingBetLiveMatch - this.durationHalfTime
-        );
+        return this.roundTime <= this.streamingFirstHalfVideo - this.durationVideo && this.roundTime > this.placingBetLiveMatch;
     }
 
     resetRoundTime() {

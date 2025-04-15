@@ -10,7 +10,8 @@ export const containerOptions: gc.IContainerOptions = {
     onContainerCreated: (container) => {
         container.bind(gc.GameConfigs.GameSetting).toConstantValue(settings as any);
         container.bind(LogStore).to(LogStore);
-        container.bind(gc.Rounds.RoundTimeStore).to(MarbleRoundTimeStore as any);
+        container.bind(MarbleRoundTimeStore).to(MarbleRoundTimeStore);
+        container.bind(gc.Rounds.RoundTimeStore).toService(MarbleRoundTimeStore as any);
     },
     disabledFeatures: ["odds"],
     features: [MarbleFootball, gc.BetDetailsNew, ...gc.defaultFeatures],

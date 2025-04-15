@@ -57,22 +57,25 @@ export class LiveScore extends ObserverComponent {
         currentMatchTime: store.currentMatchTime,
         currentVideoTime: store.currentVideoTime,
         isFirstHalf: store.isFirstHalf,
+        isBreakTime: store.isBreakTime,
     }))
     setTime({
         currentMatchTime,
         currentVideoTime,
         isFirstHalf,
+        isBreakTime,
     }: {
         currentMatchTime: number;
         currentVideoTime: number;
         isFirstHalf: boolean;
+        isBreakTime: boolean;
     }) {
         if (currentVideoTime === -1) {
             this.stop = true;
         } else {
             this.stop = false;
 
-            if (currentMatchTime === settings.durations.halfDuration && isFirstHalf) {
+            if (currentMatchTime === settings.durations.halfDuration && (isFirstHalf || isBreakTime)) {
                 this.stop = true;
             }
 

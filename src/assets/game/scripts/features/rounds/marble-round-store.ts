@@ -19,10 +19,6 @@ export class MarbleRoundStore {
     roundId = 0;
     _clientRoundId = 0;
 
-    set clientRoundId(roundId: number) {
-        this._clientRoundId = roundId;
-    }
-
     get clientRoundId() {
         const currentFinish = this.settlementStore.currentFinish;
         if (!currentFinish || this.historyRoundId >= currentFinish.roundId) {
@@ -56,7 +52,7 @@ export class MarbleRoundStore {
         }
 
         if (this._clientRoundId < lastRoundId) {
-            this.clientRoundId = lastRoundId;
+            this._clientRoundId = lastRoundId;
         }
 
         return this._clientRoundId;
