@@ -12,6 +12,8 @@ export type OddsWithConfig = {
 
 @injectable()
 export class OddsStore {
+    @inject(gc.Player.MainPlayerStore) protected readonly mainPlayerStore: gc.Player.MainPlayerStore;
+
     constructor() {
         mobx.makeAutoObservable(this);
     }
@@ -27,7 +29,7 @@ export class OddsStore {
 
         return {
             odds: this._odds,
-            fractional: false,
+            fractional: this.mainPlayerStore.fractionalOddsFormat,
             deltaOdds,
         };
     }
