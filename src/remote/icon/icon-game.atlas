@@ -1,321 +1,223 @@
 
 icon-game.png
-size: 903,262
+size: 367,523
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 BG
   rotate: false
-  xy: 2, 57
+  xy: 2, 318
   size: 202, 203
   orig: 203, 203
   offset: 0, 0
   index: -1
 ball/b00
   rotate: false
-  xy: 551, 26
-  size: 45, 45
-  orig: 45, 45
-  offset: 0, 0
-  index: -1
-ball/b02
-  rotate: false
-  xy: 598, 26
+  xy: 186, 2
   size: 45, 45
   orig: 45, 45
   offset: 0, 0
   index: -1
 ball/b04
   rotate: false
-  xy: 645, 32
-  size: 45, 45
-  orig: 45, 45
-  offset: 0, 0
-  index: -1
-ball/b06
-  rotate: false
-  xy: 206, 28
+  xy: 233, 2
   size: 45, 45
   orig: 45, 45
   offset: 0, 0
   index: -1
 ball/b08
   rotate: false
-  xy: 253, 28
-  size: 45, 45
-  orig: 45, 45
-  offset: 0, 0
-  index: -1
-ball/b10
-  rotate: false
-  xy: 300, 28
+  xy: 273, 151
   size: 45, 45
   orig: 45, 45
   offset: 0, 0
   index: -1
 ball/b12
   rotate: false
-  xy: 347, 24
-  size: 45, 45
-  orig: 45, 45
-  offset: 0, 0
-  index: -1
-ball/b14
-  rotate: false
-  xy: 394, 24
+  xy: 311, 104
   size: 45, 45
   orig: 45, 45
   offset: 0, 0
   index: -1
 ball/b16
   rotate: false
-  xy: 441, 5
-  size: 45, 45
-  orig: 45, 45
-  offset: 0, 0
-  index: -1
-ball/b18
-  rotate: false
-  xy: 488, 5
+  xy: 315, 239
   size: 45, 45
   orig: 45, 45
   offset: 0, 0
   index: -1
 ball/b20
   rotate: false
-  xy: 692, 16
-  size: 45, 45
-  orig: 45, 45
-  offset: 0, 0
-  index: -1
-ball/b22
-  rotate: false
-  xy: 739, 16
+  xy: 320, 167
   size: 45, 45
   orig: 45, 45
   offset: 0, 0
   index: -1
 ball/b24
   rotate: false
-  xy: 757, 117
-  size: 45, 45
-  orig: 45, 45
-  offset: 0, 0
-  index: -1
-ball/b26
-  rotate: false
-  xy: 804, 117
+  xy: 311, 57
   size: 45, 45
   orig: 45, 45
   offset: 0, 0
   index: -1
 ball/b28
   rotate: false
-  xy: 851, 117
+  xy: 280, 10
   size: 45, 45
   orig: 45, 45
   offset: 0, 0
-  index: -1
-ball/b30
-  rotate: false
-  xy: 758, 70
-  size: 45, 45
-  orig: 45, 45
-  offset: 0, 0
-  index: -1
-ball1
-  rotate: false
-  xy: 707, 63
-  size: 49, 51
-  orig: 62, 62
-  offset: 7, 6
-  index: -1
-blow/0
-  rotate: false
-  xy: 199, 4
-  size: 41, 22
-  orig: 100, 100
-  offset: 32, 40
   index: -1
 blow/1
   rotate: false
-  xy: 551, 73
+  xy: 60, 2
   size: 76, 41
   orig: 100, 100
   offset: 16, 31
   index: -1
-blow/2
-  rotate: false
-  xy: 451, 96
-  size: 98, 62
-  orig: 100, 100
-  offset: 2, 21
-  index: -1
 blow/3
   rotate: false
-  xy: 349, 71
+  xy: 206, 332
   size: 100, 87
   orig: 100, 100
   offset: 0, 8
   index: -1
-blow/4
-  rotate: false
-  xy: 757, 164
-  size: 100, 96
-  orig: 100, 100
-  offset: 0, 0
-  index: -1
 blow/5
   rotate: false
-  xy: 349, 160
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: -1
-blow/6
-  rotate: false
-  xy: 451, 160
+  xy: 206, 421
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 blow/7
   rotate: false
-  xy: 553, 160
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: -1
-blow/8
-  rotate: false
-  xy: 655, 160
+  xy: 2, 161
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 blue spinner 1
   rotate: false
-  xy: 865, 18
-  size: 20, 25
-  orig: 23, 30
-  offset: 3, 4
+  xy: 273, 198
+  size: 40, 52
+  orig: 46, 60
+  offset: 6, 7
   index: -1
 blue spinner 2
   rotate: false
-  xy: 865, 45
-  size: 20, 26
-  orig: 23, 30
-  offset: 3, 3
+  xy: 269, 97
+  size: 40, 52
+  orig: 46, 60
+  offset: 6, 5
   index: -1
 blue spinner 3
   rotate: true
-  xy: 306, 4
-  size: 22, 27
-  orig: 23, 30
-  offset: 0, 2
+  xy: 2, 2
+  size: 44, 56
+  orig: 46, 60
+  offset: 0, 3
   index: -1
 blue spinner 4
-  rotate: true
-  xy: 277, 3
-  size: 23, 27
-  orig: 23, 30
-  offset: 0, 3
+  rotate: false
+  xy: 138, 2
+  size: 46, 53
+  orig: 46, 60
+  offset: 0, 6
   index: -1
 empty
   rotate: false
-  xy: 805, 70
+  xy: 60, 45
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 glove
   rotate: false
-  xy: 242, 3
+  xy: 315, 214
   size: 33, 23
   orig: 35, 25
   offset: 1, 1
   index: -1
 mid spinner 1
   rotate: true
-  xy: 859, 164
-  size: 96, 42
-  orig: 103, 42
+  xy: 89, 45
+  size: 114, 47
+  orig: 124, 50
   offset: 0, 0
   index: -1
 mid spinner 2
-  rotate: false
-  xy: 551, 116
-  size: 101, 42
-  orig: 103, 42
+  rotate: true
+  xy: 308, 401
+  size: 120, 47
+  orig: 124, 50
   offset: 0, 0
   index: -1
 mid spinner 3
-  rotate: false
-  xy: 654, 116
-  size: 100, 42
-  orig: 103, 42
+  rotate: true
+  xy: 138, 57
+  size: 118, 46
+  orig: 124, 50
   offset: 0, 0
   index: -1
 mid spinner 4
-  rotate: false
-  xy: 451, 52
-  size: 98, 42
-  orig: 103, 42
+  rotate: true
+  xy: 308, 286
+  size: 113, 47
+  orig: 124, 50
   offset: 0, 0
   index: -1
 net goal
   rotate: false
-  xy: 629, 79
+  xy: 186, 49
   size: 76, 35
   orig: 76, 35
   offset: 0, 0
   index: -1
 red spinner 1
   rotate: false
-  xy: 846, 73
-  size: 38, 42
-  orig: 42, 42
-  offset: 4, 0
+  xy: 104, 177
+  size: 81, 84
+  orig: 84, 84
+  offset: 3, 0
   index: -1
 red spinner 2
-  rotate: false
-  xy: 786, 26
-  size: 37, 42
-  orig: 42, 42
-  offset: 5, 0
+  rotate: true
+  xy: 206, 252
+  size: 78, 84
+  orig: 84, 84
+  offset: 6, 0
   index: -1
 red spinner 3
-  rotate: false
-  xy: 825, 29
-  size: 38, 42
-  orig: 42, 42
-  offset: 2, 0
+  rotate: true
+  xy: 187, 172
+  size: 78, 84
+  orig: 84, 84
+  offset: 0, 0
   index: -1
 red spinner 4
   rotate: false
-  xy: 805, 73
-  size: 39, 42
-  orig: 42, 42
-  offset: 1, 0
+  xy: 186, 86
+  size: 81, 84
+  orig: 84, 84
+  offset: 0, 0
   index: -1
 slash light
   rotate: false
-  xy: 535, 36
+  xy: 104, 161
   size: 14, 14
   orig: 18, 17
   offset: 2, 1
   index: -1
 top light frame
   rotate: false
-  xy: 2, 2
+  xy: 2, 263
   size: 195, 53
   orig: 197, 77
   offset: 1, 23
   index: -1
 x
   rotate: false
-  xy: 206, 75
-  size: 141, 185
-  orig: 141, 185
+  xy: 2, 48
+  size: 85, 111
+  orig: 85, 111
   offset: 0, 0
   index: -1
