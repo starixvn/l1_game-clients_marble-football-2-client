@@ -7,8 +7,8 @@ import { GamePhaseStore } from "../features/game-phase/game-phase-store";
 import { IMatchResult, MatchResultStore } from "../features/match-result/match-result-store";
 import { MarbleFootballServiceMessages } from "../marble-football-service-messages";
 const { ccclass, property } = _decorator;
-const { render, handle } = Observer;
-@ccclass("MiniGame")
+const { render } = Observer;
+@ccclass("MatchResult")
 export class MatchResult extends ObserverComponent {
     @property({ type: sp.Skeleton })
     teamSpines: sp.Skeleton[] = [];

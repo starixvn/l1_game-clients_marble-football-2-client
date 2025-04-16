@@ -14,6 +14,7 @@ import { ButtonsBetStore } from "../../features/preview-bets/buttons-bet-store";
 import BetItemCustomize from "./bet-item-customize";
 import { OddsStore, OddsWithConfig } from "../../features/dynamic-odds/odds-store";
 import { DURATION_ANIM_IN } from "../helpers/tween-configs";
+import { AnimationHelper } from "../helpers/animation-helper";
 const { ccclass, property } = _decorator;
 
 const { Rounds } = gc;
@@ -184,7 +185,7 @@ export class BetChoicesContainer extends ObserverComponent {
 
     private handleWinnerPhase(phase: GamePhase): void {
         if (phase.progress === 0) {
-            this.scheduleOnce(() => this.fadeOutBetChoiceNode(this.betChoicesParentContainer, true, DURATION_ANIM_IN), 0.2);
+            this.fadeOutBetChoiceNode(this.betChoicesParentContainer, true, DURATION_ANIM_IN);
         } else {
             this.fadeOutBetChoiceNode(this.betChoicesParentContainer, true, 0);
         }

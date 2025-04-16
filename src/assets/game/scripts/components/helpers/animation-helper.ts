@@ -56,4 +56,17 @@ export class AnimationHelper {
             node.setPosition(v3(node.position.x, config.positionY, node.position.z));
         }
     }
+
+    static async playAnimByPhaseProgress(nodes: Node | Node[], config: TweenConfig | TweenConfig[], phaseProgress: number) {
+        const nodeArray = Array.isArray(nodes) ? nodes : [nodes];
+        const configArray = Array.isArray(config) ? config : [config];
+        const finalConfigs = nodeArray.map((_, index) => configArray[index] || configArray[0]);
+        if (phaseProgress === 0) {
+            await Promise.all(nodeArray.map((node, index) => AnimationHelper.playAnimForTarget(node, finalConfigs[index])));
+        } else {
+            nodeArray.forEach((node, index) => {
+                AnimationHelper.setStaticTarget(node, finalConfigs[index]);
+            });
+        }
+    }
 }
