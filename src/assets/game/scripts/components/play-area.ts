@@ -187,6 +187,10 @@ export class PlayArea extends ObserverComponent {
 
     @render(GamePhaseStore, (store) => store.exitPhase)
     async renderExitPhase(phase: GamePhase) {
+        if (!phase) {
+            return;
+        }
+
         if (phase.id === PhaseId.Halftime) {
             this.playAnimByPhaseProgress(this.teamScore, this.tweenConfigs.teamScoreFlyUp.out, phase.progress);
         }

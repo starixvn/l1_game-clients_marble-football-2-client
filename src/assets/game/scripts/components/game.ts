@@ -165,7 +165,7 @@ export default class Game extends GameComponent {
         if (!this.isValidResult(result, settlementResult)) {
             return;
         }
-        console.log("renderCurrentFinish", JSON.parse(JSON.stringify(currentFinish)));
+        log("renderCurrentFinish", JSON.parse(JSON.stringify(currentFinish)));
         this.showResult(result, true, settlementResult).then(() => {
             this.finishShowResult(result, settlementResult);
             this.chipFlying.callActionPayChips();
@@ -185,7 +185,7 @@ export default class Game extends GameComponent {
             this.isReceiveFinishBeforeRoundHistory = false;
             return;
         }
-        console.log("handleResult", JSON.parse(JSON.stringify(data)));
+        log("handleResult", JSON.parse(JSON.stringify(data)));
         this.showResult(result, true, settlementResult).then(() => {
             this.finishShowResult(result, settlementResult);
         });

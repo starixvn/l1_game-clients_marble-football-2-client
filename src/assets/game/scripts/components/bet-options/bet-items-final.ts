@@ -35,7 +35,6 @@ export class BetItemsFinal extends BetItemsPolygonBase {
     handleBetPercentage(betPercentage: gc.GameServiceMessage.BetPercentage) {}
 
     bindUserBetPercentage(userBetPercentage: gc.GameServiceMessage.UserBetPercentage) {
-        console.log("bindUserBetPercentage", JSON.parse(JSON.stringify(userBetPercentage)));
         if (!userBetPercentage) {
             return;
         }

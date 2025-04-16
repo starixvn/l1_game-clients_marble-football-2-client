@@ -64,18 +64,6 @@ export class MatchResult extends ObserverComponent {
         }
     }
 
-    // @render(GamePhaseStore, (store) => store.enterPhase)
-    // private enterPhase(phase: GamePhase) {
-    //     if (!phase) {
-    //         return;
-    //     }
-    //     if (phase.id === PhaseId.ShowWinnerAndTournament) {
-    //         const hideDuration = 0.3333;
-    //         console.log("EnterPhase", phase);
-    //         this.hide();
-    //     }
-    // }
-
     async playSpine(spine: sp.Skeleton, animationName: string, animated: boolean) {
         if (!animated) {
             const entry = spine.setAnimation(0, animationName, false);
@@ -96,7 +84,6 @@ export class MatchResult extends ObserverComponent {
     }
 
     async show(animated: boolean) {
-        console.log("show", animated);
         try {
             this.node.active = true;
             this.spine.node.active = false;
@@ -109,7 +96,6 @@ export class MatchResult extends ObserverComponent {
     }
 
     async hide() {
-        console.log("hide");
         try {
             const animationName = this.isPenalty ? "penalty on hide" : "penalty off hide";
             await AnimationUtils.playSpine(this.spine, animationName, false);

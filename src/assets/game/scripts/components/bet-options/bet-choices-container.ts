@@ -103,25 +103,46 @@ export class BetChoicesContainer extends ObserverComponent {
             previewBetsEnabled: false,
         },
     };
+
     private readonly triggerByState = {
         prev: this.handleAfterActiveBetItemsFirstHalf.bind(this),
         live: this.handleAfterActiveBetItemsSecondHalf.bind(this),
         final: this.handleAfterActiveBetItemsFinal.bind(this),
     };
 
-    onLoad(): void {
+    private initializeBetItems(): void {
         this.betItemsPrev = this.betChoicesPrev.getComponent(BetItems);
         this.betItemsLive = this.betChoicesLive.getComponent(BetItems);
         this.betItemsFinal = this.betChoicesFinal.getComponent(BetItems);
         this.betChoicesInMatch = [this.betItemsPrev, this.betItemsLive, this.betItemsFinal];
-        [this.betChoicesPrev, this.betChoicesLive, this.betChoicesFinal].forEach((choice) => (choice.active = false));
+    }
+
+    private setupStatusBetsButton(): void {
         this.statusBetsButton = this.previewBetsButton?.getComponent(StatusBetsButton);
         this.setEnabledPreviewBets(false);
+    }
+
+    private setupContainers(): void {
         this.betChoicesParentContainer = this.betChoicesPrev?.parent;
         this.swapBetsButton.active = false;
+    }
+
+    private setupEventListeners(): void {
+        this.previewBetsButton.on(Button.EventType.CLICK, this.showHideBets, this);
+    }
+
+    onLoad(): void {
+        this.initializeBetItems();
+        this.setupStatusBetsButton();
+        this.setupContainers();
+
         super.onLoad();
 
-        this.previewBetsButton.on(Button.EventType.CLICK, this.showHideBets, this);
+        this.setupEventListeners();
+    }
+
+    protected start(): void {
+        [this.betChoicesPrev, this.betChoicesLive, this.betChoicesFinal].forEach((choice) => (choice.active = false));
     }
 
     @render(OddsStore, (store) => store.oddsWithConfig)
@@ -364,22 +385,6 @@ export class BetChoicesContainer extends ObserverComponent {
 
     setIsSwapBets(value: boolean): void {
         this.isSwapBets = value;
-    }
-
-    @render(GamePhaseStore, (store) => store.exitPhase)
-    renderExitPhase(phase: GamePhase) {
-        if (!phase) {
-            return;
-        }
-        const phaseActions: Partial<Record<PhaseId, BetState>> = {
-            [PhaseId.Tournament]: "prev",
-            [PhaseId.Halftime]: "live",
-        };
-
-        if (phase.id in phaseActions) {
-            this.setEnableBetChoices(phaseActions[phase.id]);
-            this.fadeOutBetChoiceNode(this.betChoicesParentContainer, false, DURATION_ANIM_IN);
-        }
     }
 
     @handle(gc.Audios.AudioHandler, (handle) => handle.playSFX(gc.Audios.AudioIds.CLICK))
