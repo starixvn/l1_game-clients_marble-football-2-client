@@ -35,13 +35,10 @@ export class BetItemsFinal extends BetItemsPolygonBase {
     handleBetPercentage(betPercentage: gc.GameServiceMessage.BetPercentage) {}
 
     bindUserBetPercentage(userBetPercentage: gc.GameServiceMessage.UserBetPercentage) {
-        if (!userBetPercentage) {
-            return;
-        }
         this.init();
         this.betItemComponents.forEach((betItem) => {
             const choice = `${betItem.node.name}Final`;
-            betItem.renderUserBetPercentage(userBetPercentage ? userBetPercentage[choice] : 0);
+            betItem.renderUserBetPercentage(userBetPercentage?.[choice] ?? 0);
         });
     }
 

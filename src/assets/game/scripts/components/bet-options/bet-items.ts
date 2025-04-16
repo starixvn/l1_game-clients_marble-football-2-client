@@ -61,4 +61,12 @@ export class BetItems extends BetItemsPolygonBase {
             this.clearHighlightStatic();
         }
     }
+
+    @render(gc.Rounds.RoundStore, (store) => store.userBetPercentage)
+    handleUserBetPercentage(userBetPercentage: gc.GameServiceMessage.UserBetPercentage) {
+        this.betItemComponents.forEach((betItem) => {
+            const choice = betItem.node.name;
+            betItem.renderUserBetPercentage(userBetPercentage?.[choice] ?? 0);
+        });
+    }
 }
