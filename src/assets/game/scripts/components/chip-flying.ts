@@ -1,5 +1,5 @@
 import gc from "@sg/game-client-base";
-import { _decorator, Node, tween, UITransform } from "cc";
+import { _decorator, log, Node, tween, UITransform } from "cc";
 import { AroundTablePlayerUtils } from "db://shared-components/game/around-table-player/scripts/utils";
 import { TBalanceEffect, TWinningEffect } from "db://shared-components/game/balance-effect/scripts/stores/balance-effect-store";
 import { BetItems } from "db://shared-components/game/bets/scripts/components/bet-items";
@@ -37,7 +37,6 @@ export class ChipFlying extends ChipFlyingShared {
     @property(Node)
     chipContainerFinal: Node = null;
 
-    isJoinGame = false;
     chipContainers: Node[] = [];
     protected delayGetChips = 0.5;
 
@@ -45,8 +44,12 @@ export class ChipFlying extends ChipFlyingShared {
 
     onLoad(): void {
         this.chipContainers = [this.chipContainerPrev, this.chipContainerLive, this.chipContainerFinal];
-        this.chipContainers.forEach((container) => (container.active = false));
+
         super.onLoad();
+    }
+
+    protected start(): void {
+        this.chipContainers.forEach((container) => (container.active = false));
     }
 
     actionPayChips(animated: boolean) {
@@ -125,9 +128,14 @@ export class ChipFlying extends ChipFlyingShared {
             }
 
             const winningPlayerData = this.winningPlayers[playerId];
+            log("winningPlayerData: ", winningPlayerData);
             const playerBetItems = winningPlayerData.winningByChoices;
 
-            this.betItems.winBetItems.forEach((item) => {
+            log("playerBetItems: ", playerBetItems);
+            const winBetItems = this.betItems.winBetItems;
+
+            winBetItems.forEach((item) => {
+                log("item.betChoice---: ", item.betChoice);
                 const chipNodes = this.getChipsByChoice(item.betChoice);
                 if (playerBetItems && playerBetItems[item.betChoice] > 0) {
                     this.moveChipsWithRandomAmount(chipNodes, aroundTablePlayerSlot.avatar.node, this.payChipsDuration);
@@ -168,13 +176,6 @@ export class ChipFlying extends ChipFlyingShared {
         return id;
     }
 
-    private setBetItemsAndJoinState(betItems: BetItems) {
-        if (betItems) {
-            this.betItems = betItems;
-            this.isJoinGame = true;
-        }
-    }
-
     moveChipsToFinalContainer(chipContainer: Node) {
         if (!chipContainer) {
             return;
@@ -207,6 +208,7 @@ export class ChipFlying extends ChipFlyingShared {
         if (!this || !this.enablePlaceChips || !this.node || Object.keys(chipsSettlement.settlementResult).length === 0) {
             return;
         }
+
         if (this.node.activeInHierarchy) {
             this.startShowResultAnimation = true;
         }
@@ -218,6 +220,7 @@ export class ChipFlying extends ChipFlyingShared {
         if (boundChipsSecondHalf) {
             this.moveChipsToFinalContainer(this.chipContainerLive);
         }
+
         if (boundChipsFirstHalf && boundChipsSecondHalf) {
             return;
         }
@@ -276,10 +279,10 @@ export class ChipFlying extends ChipFlyingShared {
     }
 
     private updateBetState(container: any, betItems: any = []) {
+        this.betItems = betItems;
         this.inActiveAllChipContainers();
         this.currentChipContainer = container;
         container.active = true;
-        this.setBetItemsAndJoinState(betItems);
     }
 
     @render(Chips.ChipStore, (store) => store.clearAllChips, { fireImmediately: false })

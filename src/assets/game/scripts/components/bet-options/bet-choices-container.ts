@@ -52,7 +52,7 @@ export class BetChoicesContainer extends ObserverComponent {
 
     protected betItemsPrev: BetItems = null;
     protected betItemsLive: BetItems = null;
-    protected betItemsFinal: BetItems = null;
+    protected betItemsFinal: BetItemsFinal = null;
     protected betChoicesInMatch = [];
 
     private _odds: OddsWithConfig = null;
@@ -114,7 +114,7 @@ export class BetChoicesContainer extends ObserverComponent {
     private initializeBetItems(): void {
         this.betItemsPrev = this.betChoicesPrev.getComponent(BetItems);
         this.betItemsLive = this.betChoicesLive.getComponent(BetItems);
-        this.betItemsFinal = this.betChoicesFinal.getComponent(BetItems);
+        this.betItemsFinal = this.betChoicesFinal.getComponent(BetItemsFinal);
         this.betChoicesInMatch = [this.betItemsPrev, this.betItemsLive, this.betItemsFinal];
     }
 
