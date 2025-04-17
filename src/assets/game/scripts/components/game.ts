@@ -46,9 +46,9 @@ export default class Game extends GameComponent {
     @property(Node)
     private nodeSystemIndicator: Node = null;
 
-    private _systemIndicator: SystemIndicator = null;
-    enableFixHandleFinish = true;
     private currentFinish: gc.GameServiceMessage.Finish = null;
+    enableFixHandleFinish = true;
+    private _systemIndicator: SystemIndicator = null;
 
     get systemIndicator() {
         if (!this._systemIndicator) {
@@ -96,6 +96,10 @@ export default class Game extends GameComponent {
 
     @render(GamePhaseStore, (store) => store.enterPhase)
     renderEnterPhase(phase: GamePhase) {
+        if (!phase) {
+            return;
+        }
+
         if (phase?.id === PhaseId.MatchWinner) {
             this.isPhaseWinner = true;
         }
@@ -156,11 +160,9 @@ export default class Game extends GameComponent {
         }
     }
 
-    handleJoinGameAndShowResult(joinGameHistory: gc.RoundHistories.IJoinGameHistory) {}
-
     renderCurrentFinish(currentFinish: gc.GameServiceMessage.Finish) {
         this.currentFinish = currentFinish;
-        if (!currentFinish || !this.enableFixHandleFinish) {
+        if (!currentFinish) {
             return;
         }
         const { result, settlementResult } = currentFinish;
@@ -183,8 +185,8 @@ export default class Game extends GameComponent {
         if (!firstJoinGameHistory) {
             return;
         }
-        const roundTime = firstJoinGameHistory.roundTime;
 
+        const roundTime = firstJoinGameHistory.roundTime;
         const lastRound = firstJoinGameHistory.roundHistory as any;
         if (lastRound) {
             const { result, settlementResult } = lastRound;

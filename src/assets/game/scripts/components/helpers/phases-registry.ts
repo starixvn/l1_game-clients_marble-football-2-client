@@ -114,8 +114,8 @@ export class PhasesRegistry extends ObserverComponent {
     protected registerPhaseHideBetChoicesLive() {
         const config: GamePhaseConfig = {
             id: PhaseId.AutoHidePreviewBetChoicesLive,
-            begin: settings.points.streamingSecondHalfVideo + settings.durations.hidePreviewBetChoices - settings.durations.videoDuration,
-            end: settings.points.streamingSecondHalfVideo - settings.durations.videoDuration,
+            begin: 2,
+            end: 1,
         };
         return config;
     }
@@ -125,7 +125,7 @@ export class PhasesRegistry extends ObserverComponent {
         const config: GamePhaseConfig = {
             id: PhaseId.AutoHidePreviewBetChoicesPrev,
             begin: settings.points.streamingFirstHalfVideo + settings.durations.hidePreviewBetChoices - settings.durations.videoDuration,
-            end: settings.points.streamingFirstHalfVideo - settings.durations.videoDuration,
+            end: settings.points.streamingFirstHalfVideo - settings.durations.videoDuration - 1,
         };
         return config;
     }

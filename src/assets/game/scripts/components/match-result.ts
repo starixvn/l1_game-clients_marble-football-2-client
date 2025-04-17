@@ -1,11 +1,13 @@
 import { _decorator, Label, Node, sp } from "cc";
-import { AnimationUtils } from "db://shared-components/shared/utils";
+import { AnimationUtils, FunctionUtils } from "db://shared-components/shared/utils";
 import Observer from "observer";
 import { ObserverComponent } from "db://shared-components/shared/common-components/observer-component/scripts/observer-component";
 import { GamePhase, PhaseId } from "../features/game-phase/game-phase-definitions";
 import { GamePhaseStore } from "../features/game-phase/game-phase-store";
 import { IMatchResult, MatchResultStore } from "../features/match-result/match-result-store";
 import { MarbleFootballServiceMessages } from "../marble-football-service-messages";
+import gc from "@sg/game-client-base";
+
 const { ccclass, property } = _decorator;
 const { render } = Observer;
 @ccclass("MatchResult")
@@ -26,10 +28,15 @@ export class MatchResult extends ObserverComponent {
     spine: sp.Skeleton = null;
 
     private isPenalty = false;
+    private currentPhase: GamePhase = null;
+    private isShowResult = false;
 
     onLoad() {
-        this.node.active = false;
         super.onLoad();
+    }
+
+    protected start(): void {
+        this.node.active = false;
     }
 
     @render(MatchResultStore, (store) => store.matchResult)
@@ -64,6 +71,18 @@ export class MatchResult extends ObserverComponent {
         }
     }
 
+    @render(GamePhaseStore, (store) => store.enterPhase)
+    private renderEnterPhase(phase: GamePhase) {
+        if (!phase) {
+            return;
+        }
+        this.currentPhase = phase;
+
+        if (phase.id === PhaseId.MatchWinner && this.node.active) {
+            this.node.active = false;
+        }
+    }
+
     async playSpine(spine: sp.Skeleton, animationName: string, animated: boolean) {
         if (!animated) {
             const entry = spine.setAnimation(0, animationName, false);
@@ -84,6 +103,12 @@ export class MatchResult extends ObserverComponent {
     }
 
     async show(animated: boolean) {
+        await FunctionUtils.waitUntil(() => this.currentPhase != null, 100, 3000);
+        // if (!this.isShowResult) {
+        //     console.log("not show match result----------", this.currentPhase?.id);
+        //     return;
+        // }
+
         try {
             this.node.active = true;
             this.spine.node.active = false;
@@ -114,5 +139,14 @@ export class MatchResult extends ObserverComponent {
             const label = this.penaltyNode.getChildByName(key).getComponent(Label);
             label.string = penalty[key].toString();
         });
+    }
+
+    @render(gc.Rounds.RoundTimeStore, (store) => store.roundState)
+    renderRoundTime(roundState: string) {
+        if (roundState === gc.Rounds.ROUND_STATE.SHOW_RESULT || roundState === gc.Rounds.ROUND_STATE.SHOW_ANIMATION_RESULT) {
+            this.isShowResult = true;
+        }
+
+        this.isShowResult = false;
     }
 }
