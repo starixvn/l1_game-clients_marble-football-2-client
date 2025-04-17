@@ -52,7 +52,7 @@
       "y": 0,
       "z": 0
     },
-    "autoReleaseAssets": false,
+    "autoReleaseAssets": true,
     "_globals": {
       "__id__": 507
     },
@@ -235,7 +235,7 @@
     "_priority": 0,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 393.00000000000006,
+    "_orthoHeight": 393,
     "_near": 0,
     "_far": 1000,
     "_color": {
@@ -3655,7 +3655,7 @@
       "__uuid__": "c91f76e7-44d1-4061-9094-1b1703d681d0",
       "__expectedType__": "cc.SpriteAtlas"
     },
-    "_id": "55K7nSK8dBEr5/K8KuHFUC"
+    "_id": "d7n7Guq+RJfasRpHTIoFKe"
   },
   {
     "__type__": "cc.Node",

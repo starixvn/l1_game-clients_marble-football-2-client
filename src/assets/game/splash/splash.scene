@@ -52,7 +52,7 @@
       "y": 0,
       "z": 0
     },
-    "autoReleaseAssets": false,
+    "autoReleaseAssets": true,
     "_globals": {
       "__id__": 58
     },
@@ -175,7 +175,7 @@
     "_priority": 0,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 658.2708661417323,
+    "_orthoHeight": 393,
     "_near": 0,
     "_far": 1000,
     "_color": {
@@ -231,7 +231,8 @@
     "instance": {
       "__id__": 7
     },
-    "targetOverrides": []
+    "targetOverrides": [],
+    "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.PrefabInstance",

@@ -4,7 +4,13 @@
     "genMipmaps": false
   },
   "splash-setting": {
-    "totalTime": 500
+    "totalTime": 500,
+    "logo": {
+      "type": "none"
+    },
+    "background": {
+      "type": "default"
+    }
   },
   "bundleConfig": {
     "custom": {
