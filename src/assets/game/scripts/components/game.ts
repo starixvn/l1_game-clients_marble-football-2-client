@@ -47,6 +47,8 @@ export default class Game extends GameComponent {
     private nodeSystemIndicator: Node = null;
 
     private _systemIndicator: SystemIndicator = null;
+    enableFixHandleFinish = true;
+    private currentFinish: gc.GameServiceMessage.Finish = null;
 
     get systemIndicator() {
         if (!this._systemIndicator) {
@@ -157,7 +159,8 @@ export default class Game extends GameComponent {
     handleJoinGameAndShowResult(joinGameHistory: gc.RoundHistories.IJoinGameHistory) {}
 
     renderCurrentFinish(currentFinish: gc.GameServiceMessage.Finish) {
-        if (!currentFinish) {
+        this.currentFinish = currentFinish;
+        if (!currentFinish || !this.enableFixHandleFinish) {
             return;
         }
         const { result, settlementResult } = currentFinish;
@@ -175,23 +178,27 @@ export default class Game extends GameComponent {
         }, 0.5);
     }
 
-    @render(gc.Settlements.SettlementStore, (store) => ({ result: store.result, settlementResult: store.settlementResult }))
-    handleResult(data: { result: gc.GameServiceMessage.TResult; settlementResult: gc.GameServiceMessage.TSettlementResult }) {
-        if (this.enableFixHandleFinish) {
+    @render(gc.RoundHistories.RoundHistoryStore, (store) => store.firstJoinGameHistory)
+    async renderStaticResult(firstJoinGameHistory: gc.RoundHistories.IFirstJoinGameHistory) {
+        if (!firstJoinGameHistory) {
             return;
         }
-        const { result, settlementResult } = data;
-        if (!this.isValidResult(result, settlementResult)) {
-            this.isReceiveFinishBeforeRoundHistory = false;
-            return;
+        const roundTime = firstJoinGameHistory.roundTime;
+
+        const lastRound = firstJoinGameHistory.roundHistory as any;
+        if (lastRound) {
+            const { result, settlementResult } = lastRound;
+            if (firstJoinGameHistory.animationHighlight) {
+                if (roundTime === 0) {
+                    await FunctionUtils.delay(1000);
+                    if (this.currentFinish) {
+                        return;
+                    }
+                    this.showResult(result, false, settlementResult);
+                } else {
+                    this.showResult(result, false, settlementResult);
+                }
+            }
         }
-        log("handleResult", JSON.parse(JSON.stringify(data)));
-        this.showResult(result, true, settlementResult).then(() => {
-            this.finishShowResult(result, settlementResult);
-        });
-        this.playSound(gc.Audios.AudioIds.RECEIVE_FINISH);
-        this.scheduleOnce(() => {
-            this.playSound(SHOW_RESULT_SOUND);
-        }, 0.5);
     }
 }
