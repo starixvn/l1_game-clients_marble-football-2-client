@@ -11,7 +11,6 @@ export interface GamePhaseConfig {
     begin: number;
     end: number;
     duration?: number;
-    alternativeBegin?: number;
 }
 export enum PhaseId {
     MatchWinner = "match-winner",

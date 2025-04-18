@@ -105,7 +105,6 @@ export class PhasesRegistry extends ObserverComponent {
         const config: GamePhaseConfig = {
             id: PhaseId.Settlement,
             begin: settings.durations.wholeRound,
-            alternativeBegin: 0,
             end: settings.durations.wholeRound - settings.durations.startRound,
         };
         return config;
@@ -115,7 +114,7 @@ export class PhasesRegistry extends ObserverComponent {
     protected registerPhaseHideBetChoicesLive() {
         const config: GamePhaseConfig = {
             id: PhaseId.AutoHidePreviewBetChoicesLive,
-            begin: 2,
+            begin: settings.points.streamingSecondHalfVideo + settings.durations.hidePreviewBetChoices - settings.durations.videoDuration,
             end: 1,
         };
         return config;

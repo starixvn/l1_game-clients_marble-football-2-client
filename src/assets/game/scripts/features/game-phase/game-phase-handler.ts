@@ -39,9 +39,8 @@ export class GamePhaseHandler {
     checkConfig(config: GamePhaseConfig, roundTime: number) {
         const isAfterEnd = roundTime > config.end;
         const isBeforeMainBegin = roundTime <= config.begin;
-        const isAtAlternativeBegin = roundTime === config.alternativeBegin;
 
-        const visible = (isAfterEnd && isBeforeMainBegin) || isAtAlternativeBegin;
+        const visible = isAfterEnd && isBeforeMainBegin;
 
         if (roundTime === config.begin + 1) {
             this.gamePhaseStore.setBeforeEnterPhase({

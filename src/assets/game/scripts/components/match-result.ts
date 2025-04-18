@@ -102,9 +102,11 @@ export class MatchResult extends ObserverComponent {
     }
 
     async show(animated: boolean) {
-        await FunctionUtils.waitUntil(() => this.currentPhase != null, 100, 3000);
-        if (this.currentPhase?.id !== PhaseId.Settlement) {
-            return;
+        if (!animated) {
+            await FunctionUtils.waitUntil(() => this.currentPhase != null, 100, 2000);
+            if (this.currentPhase?.id !== PhaseId.Settlement) {
+                return;
+            }
         }
 
         try {
