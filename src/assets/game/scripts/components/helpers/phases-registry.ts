@@ -105,6 +105,7 @@ export class PhasesRegistry extends ObserverComponent {
         const config: GamePhaseConfig = {
             id: PhaseId.Settlement,
             begin: settings.durations.wholeRound,
+            alternativeBegin: 0,
             end: settings.durations.wholeRound - settings.durations.startRound,
         };
         return config;

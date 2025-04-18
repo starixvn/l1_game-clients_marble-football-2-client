@@ -103,7 +103,6 @@ export class PlayArea extends ObserverComponent {
         if (!phase) {
             return;
         }
-        log("renderEnterPhase: ", phase.id);
 
         if (phase.id === PhaseId.MatchWinner) {
             !this.isZoomOut && this.zoomPlayArea("out");
