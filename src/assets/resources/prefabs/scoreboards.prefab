@@ -3157,10 +3157,7 @@
       "settings",
       "itemPrefab"
     ],
-    "value": {
-      "__uuid__": "1506564a-741b-4c50-b0d9-c8c4ac0c4ac1",
-      "__expectedType__": "cc.Prefab"
-    }
+    "value": {}
   },
   {
     "__type__": "CCPropertyOverrideInfo",
