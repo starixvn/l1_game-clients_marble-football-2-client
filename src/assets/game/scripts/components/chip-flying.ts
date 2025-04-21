@@ -97,7 +97,14 @@ export class ChipFlying extends ChipFlyingShared {
             payChipsDuration: this.payChipsDuration,
         };
 
-        ActionChipFlying.payChipsToMainPlayer(this.settlementStatus, chipFlyingInfo, this.betItems?.winBetItems, this);
+        const cloneSettlementStatus = { ...this.settlementStatus };
+
+        ActionChipFlying.payChipsToMainPlayer(
+            this.getSettlementStatus(cloneSettlementStatus),
+            chipFlyingInfo,
+            this.betItems?.winBetItems,
+            this
+        );
         this.showPayoutForMainPlayerNew();
 
         if (this.hiddenPlayersNode) {
@@ -359,5 +366,19 @@ export class ChipFlying extends ChipFlyingShared {
             }
         }
         this.payChips(chipsByMainPlayerRate.settlementResult);
+    }
+
+    protected getSettlementStatus(settlementStatus: gc.GameServiceMessage.Status) {
+        const baseKeys = ["home", "away", "draw", "over", "under", "odd", "even"];
+        const winningByChoices = settlementStatus.winningByChoices ?? {};
+        const mergedWinningByChoices: Record<string, number> = Object.fromEntries(
+            baseKeys.map((key) => [key, (winningByChoices[key] || 0) + (winningByChoices[`${key}Live`] || 0)])
+        );
+
+        return {
+            winningByChoices: mergedWinningByChoices ?? {},
+            win: settlementStatus.win ?? false,
+            bet: settlementStatus.bet ?? 0,
+        } as gc.GameServiceMessage.Status;
     }
 }
