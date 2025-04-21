@@ -2,7 +2,6 @@ import gc from "@sg/game-client-base";
 import { _decorator, log, Node, tween, UITransform } from "cc";
 import { AroundTablePlayerUtils } from "db://shared-components/game/around-table-player/scripts/utils";
 import { TBalanceEffect, TWinningEffect } from "db://shared-components/game/balance-effect/scripts/stores/balance-effect-store";
-import { BetItems } from "db://shared-components/game/bets/scripts/components/bet-items";
 import { ActionChipFlying, addChipsToChipBoxWhenJoinRoom } from "db://shared-components/game/chip-flying/scripts/components/actions";
 import { ChipFlying as ChipFlyingShared, IChipFlyingInfo } from "db://shared-components/game/chip-flying/scripts/components/chip-flying";
 import Observer from "observer";
@@ -135,14 +134,11 @@ export class ChipFlying extends ChipFlyingShared {
             }
 
             const winningPlayerData = this.winningPlayers[playerId];
-            log("winningPlayerData: ", winningPlayerData);
-            const playerBetItems = winningPlayerData.winningByChoices;
+            const playerBetItems = this.mergeWinningByChoices({ ...winningPlayerData.winningByChoices });
 
-            log("playerBetItems: ", playerBetItems);
-            const winBetItems = this.betItems.winBetItems;
+            const winBetItems = this.betItems.winBetItems ?? [];
 
-            winBetItems.forEach((item) => {
-                log("item.betChoice---: ", item.betChoice);
+            winBetItems?.forEach((item) => {
                 const chipNodes = this.getChipsByChoice(item.betChoice);
                 if (playerBetItems && playerBetItems[item.betChoice] > 0) {
                     this.moveChipsWithRandomAmount(chipNodes, aroundTablePlayerSlot.avatar.node, this.payChipsDuration);
@@ -368,12 +364,15 @@ export class ChipFlying extends ChipFlyingShared {
         this.payChips(chipsByMainPlayerRate.settlementResult);
     }
 
-    protected getSettlementStatus(settlementStatus: gc.GameServiceMessage.Status) {
+    private mergeWinningByChoices(winningByChoices: Record<string, number> | null | undefined): Record<string, number> {
         const baseKeys = ["home", "away", "draw", "over", "under", "odd", "even"];
-        const winningByChoices = settlementStatus.winningByChoices ?? {};
-        const mergedWinningByChoices: Record<string, number> = Object.fromEntries(
-            baseKeys.map((key) => [key, (winningByChoices[key] || 0) + (winningByChoices[`${key}Live`] || 0)])
-        );
+        const choices = winningByChoices ?? {};
+
+        return Object.fromEntries(baseKeys.map((key) => [key, (choices[key] || 0) + (choices[`${key}Live`] || 0)]));
+    }
+
+    protected getSettlementStatus(settlementStatus: gc.GameServiceMessage.Status) {
+        const mergedWinningByChoices = this.mergeWinningByChoices(settlementStatus.winningByChoices);
 
         return {
             winningByChoices: mergedWinningByChoices ?? {},
