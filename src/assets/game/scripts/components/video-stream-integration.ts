@@ -127,8 +127,13 @@ export default class VideoStreamIntegration extends ObserverComponent {
     renderVideoSource(currentVideo: StreamingVideo) {
         if (currentVideo?.videoName) {
             this.backgroundVideoPlayer.currentTime = currentVideo.time;
-            this.backgroundVideoPlayer.playVideoByName(currentVideo.videoName);
+            this.backgroundVideoPlayer.playVideoByName(currentVideo.videoName, this.handlePlayVideo);
         }
+    }
+
+    @handle(VideoStreamHandlers, (handler, isPlay: boolean) => handler.handlePlayVideo(isPlay))
+    private handlePlayVideo(isPlay: boolean) {
+        return isPlay;
     }
 
     @render(VideoStreamStore, (store) => ({
@@ -166,7 +171,7 @@ export default class VideoStreamIntegration extends ObserverComponent {
 
     @render(VideoStreamStore, (store) => store.liveStreamServer)
     private onLiveStreamServer(liveStreamServer: string) {
-        this.backgroundVideoPlayer.init(liveStreamServer);
+        this.backgroundVideoPlayer.init(liveStreamServer, this.handlePlayVideo);
     }
 
     @render(gc.Settlements.SettlementStore, (store) => store.currentFinish, {

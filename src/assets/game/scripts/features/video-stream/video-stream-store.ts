@@ -1,5 +1,5 @@
 import inversify from "inversify";
-import mobx, { set } from "mobx";
+import mobx from "mobx";
 import { MarbleFootballServiceMessages } from "../../marble-football-service-messages";
 import { settings } from "./../../game-settings";
 
@@ -32,6 +32,7 @@ export class VideoStreamStore {
     private _isLiveVideo = false;
     private _isSecondHalf = false;
     private _isLoadFirstHalf = false;
+    private _isPlayVideo = false;
 
     liveStreamServer = "";
 
@@ -65,7 +66,9 @@ export class VideoStreamStore {
         const currentVideoTime = this._currentVideoTime;
         const videoData = this.getVideoData();
 
-        if (!videoData) return;
+        if (!videoData) {
+            return;
+        }
 
         if (this._isFirstLoad) {
             const currentMatchTime = this.calculateCurrentMatchTime();
@@ -146,7 +149,9 @@ export class VideoStreamStore {
         const videoTimeline = isSecondHalf ? this._videoResult.secondHalfTimeline : this._videoResult.firstHalfTimeline;
         const videoResult = isSecondHalf ? this._videoResult.secondHalf : this._videoResult.firstHalf;
 
-        if (!videoTimeline || !videoResult) return null;
+        if (!videoTimeline || !videoResult) {
+            return null;
+        }
 
         return { videoName, videoTimeline, videoResult };
     }
@@ -249,6 +254,14 @@ export class VideoStreamStore {
 
     get isLoadFirstHalf(): boolean {
         return this._isLoadFirstHalf;
+    }
+
+    get isPlayVideo(): boolean {
+        return this._isPlayVideo;
+    }
+
+    set isPlayVideo(value: boolean) {
+        this._isPlayVideo = value;
     }
 
     resetForNewRound() {

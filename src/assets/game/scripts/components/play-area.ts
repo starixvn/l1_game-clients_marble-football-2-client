@@ -1,5 +1,5 @@
 import gc from "@sg/game-client-base";
-import { Button, Node, _decorator, log, v3 } from "cc";
+import { Button, Node, _decorator } from "cc";
 import { ObserverComponent } from "db://shared-components/shared/common-components/observer-component/scripts/observer-component";
 import { AnimationUtils } from "db://shared-components/shared/utils";
 import Observer from "observer";
@@ -9,7 +9,7 @@ import { settings } from "../game-settings";
 import { BetChoicesContainer } from "./bet-options/bet-choices-container";
 import { ButtonsBetStore } from "../features/preview-bets/buttons-bet-store";
 import { AnimationHelper } from "./helpers/animation-helper";
-import { TweenConfig, TweenConfigs, TweenKey, DEFAULT_TWEEN_CONFIGS } from "./helpers/tween-configs";
+import { TweenConfigs, TweenKey, DEFAULT_TWEEN_CONFIGS } from "./helpers/tween-configs";
 
 const { ccclass, property } = _decorator;
 const { render, handle } = Observer;

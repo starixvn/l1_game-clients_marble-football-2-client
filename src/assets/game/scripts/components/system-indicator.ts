@@ -1,4 +1,4 @@
-import { _decorator, Component, Enum, sp, Node } from "cc";
+import { _decorator, Component, Node } from "cc";
 
 const { ccclass, property } = _decorator;
 

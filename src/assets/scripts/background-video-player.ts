@@ -9,10 +9,12 @@ export class BackgroundVideoPlayer extends Component {
     private hls: Hls = null;
     private native: HTMLVideoElement = null;
 
-    private _videoSource: string = "";
-    private _videoName: string = "";
-    private liveStreamServer: string = "";
+    private _videoSource = "";
+    private _videoName = "";
+    private liveStreamServer = "";
     private _muted = true;
+
+    private _onPlayStateChanged: (isPlay: boolean) => void = null;
 
     private get initialized() {
         return !!this.native && !!this.hls;
@@ -20,8 +22,9 @@ export class BackgroundVideoPlayer extends Component {
 
     currentTime = 0;
 
-    init(liveStreamServer: string) {
+    init(liveStreamServer: string, callbackAfterPlay: (isPlay: boolean) => void) {
         this.liveStreamServer = liveStreamServer;
+        this._onPlayStateChanged = callbackAfterPlay;
     }
 
     loadVideoByName(videoName: string): boolean {
@@ -33,12 +36,13 @@ export class BackgroundVideoPlayer extends Component {
             this._videoName = videoName;
             this._videoSource = new URL(`${videoName.trim()}.m3u8`, this.liveStreamServer).toString();
             this.loadSource();
+            this._onPlayStateChanged(false);
         }
 
         return true;
     }
 
-    playVideoByName(videoName: string) {
+    playVideoByName(videoName: string, callback: (isPlay: boolean) => void) {
         if (this.loadVideoByName(videoName)) {
             this.play();
         }
@@ -69,11 +73,16 @@ export class BackgroundVideoPlayer extends Component {
 
     play(retry = 0, maxRetry = 3) {
         // Fix for iOS 17, video element is not playing immediately
-        this.native.play().catch(() => {
-            if (retry < maxRetry) {
-                this.play(retry + 1, maxRetry);
-            }
-        });
+        this.native
+            .play()
+            .then(() => {
+                this._onPlayStateChanged(true);
+            })
+            .catch(() => {
+                if (retry < maxRetry) {
+                    this.play(retry + 1, maxRetry);
+                }
+            });
     }
 
     pause() {

@@ -20,6 +20,10 @@ export class VideoStreamHandlers {
         this.videoStreamStore.resetForNewRound();
     }
 
+    handlePlayVideo(isPlayVideo: boolean) {
+        this.videoStreamStore.isPlayVideo = isPlayVideo;
+    }
+
     eventHandleList = [
         {
             name: MarbleFootballServiceMessages.VideoStream.eventName,

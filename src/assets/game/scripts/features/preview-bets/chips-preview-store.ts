@@ -33,9 +33,9 @@ export class ChipsPreviewStore {
     private _settlementResult: gc.GameServiceMessage.TSettlementResult = {};
 
     private _finalChips: Record<string, any> = {};
-    private _boundChipsFirstHalf: boolean = false;
+    private _boundChipsFirstHalf = false;
 
-    private _boundChipsSecondHalf: boolean = false;
+    private _boundChipsSecondHalf = false;
     private _firstHalfChips: Record<string, any> = {};
     private _secondHalfChips: Record<string, any> = {};
 
