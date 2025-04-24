@@ -32,6 +32,7 @@ export class VideoStreamStore {
     private _isLiveVideo = false;
     private _isSecondHalf = false;
     private _isLoadFirstHalf = false;
+    private _isPlayVideo = false;
 
     liveStreamServer = "";
 
@@ -249,6 +250,14 @@ export class VideoStreamStore {
 
     get isLoadFirstHalf(): boolean {
         return this._isLoadFirstHalf;
+    }
+
+    get isPlayVideo(): boolean {
+        return this._isPlayVideo;
+    }
+
+    set isPlayVideo(value: boolean) {
+        this._isPlayVideo = value;
     }
 
     resetForNewRound() {
