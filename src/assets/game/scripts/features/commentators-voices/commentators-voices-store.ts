@@ -1,20 +1,14 @@
 import inversify from "inversify";
 import mobx from "mobx";
-import gc from "@sg/game-client-base";
 import { AudioUtils } from "db://shared-components/game/audios/utils";
 import { VideoStreamStore } from "../video-stream/video-stream-store";
 import { MarbleRoundTimeStore } from "../rounds/marble-round-time-store";
 
 const { injectable, inject } = inversify;
 
-export interface IVoiceConfig {
-    points: number[];
-    sounds: string[];
-}
-
 export interface IVoices {
-    goal?: IVoiceConfig;
-    save?: IVoiceConfig;
+    timeLine: number[];
+    sounds: string[];
 }
 
 export interface ICurrentSoundPlay {
@@ -34,10 +28,8 @@ export class CommentatorsVoicesStore {
     }
 
     private _voices: IVoices = {
-        goal: {
-            points: [5, 10, 20],
-            sounds: ["goal1", "goal2", "goal3"],
-        },
+        timeLine: [5, 10, 20],
+        sounds: ["goal_1_1", "goal_1_2", "goal_2_1"],
     };
 
     get voices() {
@@ -46,23 +38,16 @@ export class CommentatorsVoicesStore {
 
     set voices(voices: IVoices) {
         this._voices = voices;
-        this.loadAllSounds();
+        !this.videoStreamStore.isPlayVideo && this.loadAllSounds();
     }
 
     async loadAllSounds() {
         if (this._loadedSounds.size > 0) {
+            console.log("CommentatorsVoicesStore-----: loadAllSounds: already loaded");
             return;
         }
 
-        const soundsToLoad: string[] = [];
-
-        if (this._voices.goal?.sounds) {
-            soundsToLoad.push(...this._voices.goal.sounds);
-        }
-
-        if (this._voices.save?.sounds) {
-            soundsToLoad.push(...this._voices.save.sounds);
-        }
+        const soundsToLoad: string[] = [...this._voices.sounds];
 
         await Promise.all(soundsToLoad.map((sound) => this.loadSoundResultBeforeRead(sound)));
     }
@@ -108,12 +93,12 @@ export class CommentatorsVoicesStore {
     get currentSoundToPlay(): ICurrentSoundPlay {
         const currentTime = Math.ceil(this.videoStreamStore.currentVideoTime);
 
-        const checkAndGetSound = (points: number[], sounds: string[]) => {
-            if (!points || !sounds) {
+        const checkAndGetSound = (timeLine: number[], sounds: string[]) => {
+            if (!timeLine || !sounds) {
                 return null;
             }
 
-            const index = points.findIndex((time) => time === currentTime);
+            const index = timeLine.findIndex((time) => time === currentTime);
             if (index !== -1) {
                 const soundId = sounds[index];
                 if (this.isSoundLoaded(soundId)) {
@@ -123,9 +108,7 @@ export class CommentatorsVoicesStore {
             return null;
         };
 
-        const soundId =
-            checkAndGetSound(this._voices?.goal?.points, this._voices?.goal?.sounds) ||
-            checkAndGetSound(this._voices?.save?.points, this._voices?.save?.sounds);
+        const soundId = checkAndGetSound(this._voices.timeLine, this._voices.sounds);
 
         return {
             isPlay: !!soundId,

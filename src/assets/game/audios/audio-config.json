@@ -92,24 +92,5 @@
         "type": "sfx",
         "path": "effects/chips_paymoney3",
         "isLazyLoad": true
-    },
-
-    "goal1": {
-        "bundle": "resources",
-        "type": "sfx",
-        "path": "commentators/goal1",
-        "isLazyLoad": true
-    },
-    "goal2": {
-        "bundle": "resources",
-        "type": "sfx",
-        "path": "commentators/goal2",
-        "isLazyLoad": true
-    },
-    "goal3": {
-        "bundle": "resources",
-        "type": "sfx",
-        "path": "commentators/goal3",
-        "isLazyLoad": true
     }
 }
