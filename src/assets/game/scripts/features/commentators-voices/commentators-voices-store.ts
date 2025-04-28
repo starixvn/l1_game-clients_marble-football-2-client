@@ -47,7 +47,7 @@ export class CommentatorsVoicesStore {
             return;
         }
 
-        const soundsToLoad: string[] = [...this._voices.sounds];
+        const soundsToLoad: string[] = this.voices.sounds ?? [];
 
         await Promise.all(soundsToLoad.map((sound) => this.loadSoundResultBeforeRead(sound)));
     }

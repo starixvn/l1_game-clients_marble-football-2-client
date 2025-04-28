@@ -26,7 +26,9 @@ export class CommentatorsVoicesHandler implements gc.Shared.IHandler<IVoices> {
     }
 
     handle(input: IVoices) {
-        this.store.voices = input;
+        if (input && Object.keys(input).length > 0) {
+            this.store.voices = input;
+        }
     }
 
     handleResetLoadedSounds() {
