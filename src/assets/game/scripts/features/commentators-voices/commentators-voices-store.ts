@@ -62,10 +62,6 @@ export class CommentatorsVoicesStore {
         await Promise.all(voicesNeedLoad.map((sound) => this.loadSoundResultBeforeRead(sound)));
     }
 
-    get loadedSounds() {
-        return this._loadedSounds;
-    }
-
     isSoundLoaded(soundKey: string): boolean {
         return this._loadedSounds[soundKey]?.isLoaded ?? false;
     }
@@ -96,33 +92,30 @@ export class CommentatorsVoicesStore {
         }
     }
 
-    private checkAndGetSound = (currentTime: number) => {
+    private findMatchingVoiceIndex(currentTime: number): number {
         const timeline = this._voices?.timeline;
+        if (!timeline) {
+            return -1;
+        }
+
+        return timeline.findIndex((time) => Math.ceil(time) === currentTime);
+    }
+
+    private getSoundIdByIndex(index: number): string | null {
         const voices = this._voices?.voice;
+        return voices?.[index] ?? null;
+    }
 
-        if (!timeline || !voices) {
-            return null;
-        }
+    private checkAndGetSound = () => {
+        const currentTime = Math.ceil(this.videoStreamStore.currentVideoTime);
+        const index = this.findMatchingVoiceIndex(currentTime);
+        const soundId = this.getSoundIdByIndex(index);
 
-        const index = timeline.findIndex((time) => {
-            return Math.ceil(time) === currentTime;
-        });
-
-        if (index !== -1) {
-            const soundId = voices[index];
-
-            if (this.isSoundLoaded(soundId)) {
-                return soundId;
-            }
-        }
-
-        return null;
+        return index !== -1 && soundId && this.isSoundLoaded(soundId) ? soundId : null;
     };
 
     get currentSoundToPlay(): ICurrentSoundPlay {
-        const currentTime = Math.ceil(this.videoStreamStore.currentVideoTime);
-
-        const soundId = this.checkAndGetSound(currentTime);
+        const soundId = this.checkAndGetSound();
         return {
             isPlay: !!soundId,
             soundId: soundId,
