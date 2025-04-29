@@ -13,20 +13,9 @@ export class MarbleAudioContainer extends AudioContainer {
     @property(JsonAsset)
     audioCommentatorsVoices: JsonAsset = null;
 
-    get gameId() {
-        return 114;
+    get remoteName() {
+        return "114";
     }
-
-    // getAudioConfigs(): TAudioConfigs {
-    //     const configs = {
-    //         ...this.sharedAudioConfig?.json,
-    //         ...this.remoteAudioConfigs,
-    //         ...this.audioConfig?.json,
-    //         ...this.audioCommentatorsVoices?.json,
-    //     };
-
-    //     return configs;
-    // }
 
     @render(MarbleAudioStore, (store) => store.sfx, { fireImmediately: false })
     playSFXVoices(data: gc.Audios.AudioData) {

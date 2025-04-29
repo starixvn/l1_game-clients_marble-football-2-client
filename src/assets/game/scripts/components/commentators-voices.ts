@@ -12,19 +12,7 @@ const { ccclass } = _decorator;
 
 @ccclass("CommentatorsVoices")
 export class CommentatorsVoices extends ObserverComponent {
-    @render(GamePhaseStore, (store) => store.enterPhase)
-    private renderEnterPhase(phase: GamePhase) {
-        if (!phase) {
-            return;
-        }
-        if (phase.id === PhaseId.ShowBetChoicesPrev || phase.id === PhaseId.ShowBetChoicesLive) {
-        }
-    }
-
-    @handle(CommentatorsVoicesHandler, (handle) => handle.handleResetLoadedSounds())
-    handleResetLoadedSounds() {}
-
-    @handle(CommentatorsVoicesHandler, (handle) => handle.handleLoadAllSounds())
+    @handle(CommentatorsVoicesHandler, (handle) => handle.handleLoadVoices())
     handleLoadAllSounds() {}
 
     @render(CommentatorsVoicesStore, (store) => store.currentSoundToPlay)

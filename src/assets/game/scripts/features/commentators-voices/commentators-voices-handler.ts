@@ -18,7 +18,7 @@ export class CommentatorsVoicesHandler implements gc.Shared.IHandler<IVoices> {
                 () => this.videoStreamStore.isPlayVideo,
                 (isPlayVideo) => {
                     if (isPlayVideo) {
-                        this.store.loadAllSounds();
+                        this.store.loadVoices();
                     }
                 }
             );
@@ -31,11 +31,7 @@ export class CommentatorsVoicesHandler implements gc.Shared.IHandler<IVoices> {
         }
     }
 
-    handleResetLoadedSounds() {
-        this.store.resetLoadedSounds();
-    }
-
-    handleLoadAllSounds() {
-        this.store.loadAllSounds();
+    handleLoadVoices() {
+        this.store.loadVoices();
     }
 }

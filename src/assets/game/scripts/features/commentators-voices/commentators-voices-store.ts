@@ -3,12 +3,14 @@ import mobx from "mobx";
 import { AudioUtils } from "db://shared-components/game/audios/utils";
 import { VideoStreamStore } from "../video-stream/video-stream-store";
 import { MarbleRoundTimeStore } from "../rounds/marble-round-time-store";
+import { audioManager } from "db://shared-components/game/audios/scripts/audio-manager";
+import { FunctionUtils } from "db://shared-components/shared/utils";
 
 const { injectable, inject } = inversify;
 
 export interface IVoices {
-    timeLine: number[];
-    sounds: string[];
+    timeline: number[];
+    voice: string[];
 }
 
 export interface ICurrentSoundPlay {
@@ -16,21 +18,25 @@ export interface ICurrentSoundPlay {
     soundId?: string;
 }
 
+interface ILoadedSound {
+    isLoaded: boolean;
+    duration: number;
+}
+
 @injectable()
 export class CommentatorsVoicesStore {
     @inject(VideoStreamStore) protected readonly videoStreamStore: VideoStreamStore;
     @inject(MarbleRoundTimeStore) protected readonly marbleRoundTimeStore: MarbleRoundTimeStore;
 
-    private _loadedSounds = mobx.observable.map<string, { isLoaded: boolean; duration: number }>();
+    private _loadedSounds: Record<string, ILoadedSound> = {};
 
     constructor() {
         mobx.makeAutoObservable(this);
     }
 
-    private _voices: IVoices = {
-        timeLine: [5, 10, 20],
-        sounds: ["goal_1_1", "goal_1_2", "goal_2_1"],
-    };
+    MAX_WAIT_TIME_LOAD_SOUND = 5000;
+
+    private _voices: IVoices = null;
 
     get voices() {
         return this._voices;
@@ -38,18 +44,22 @@ export class CommentatorsVoicesStore {
 
     set voices(voices: IVoices) {
         this._voices = voices;
-        !this.videoStreamStore.isPlayVideo && this.loadAllSounds();
+        !this.videoStreamStore.isPlayVideo && this.loadVoices();
     }
 
-    async loadAllSounds() {
-        if (this._loadedSounds.size > 0) {
-            console.log("CommentatorsVoicesStore-----: loadAllSounds: already loaded");
+    async loadVoices() {
+        const voicesNeedLoad = this.voices?.voice?.filter((sound) => !this.isSoundLoaded(sound));
+        if (voicesNeedLoad.length <= 0) {
             return;
         }
 
-        const soundsToLoad: string[] = this.voices.sounds ?? [];
+        await FunctionUtils.waitUntil(
+            () => audioManager.audioConfigs != null && Object.keys(audioManager.audioConfigs).length > 0,
+            100,
+            this.MAX_WAIT_TIME_LOAD_SOUND
+        );
 
-        await Promise.all(soundsToLoad.map((sound) => this.loadSoundResultBeforeRead(sound)));
+        await Promise.all(voicesNeedLoad.map((sound) => this.loadSoundResultBeforeRead(sound)));
     }
 
     get loadedSounds() {
@@ -57,15 +67,11 @@ export class CommentatorsVoicesStore {
     }
 
     isSoundLoaded(soundKey: string): boolean {
-        return this._loadedSounds.get(soundKey)?.isLoaded ?? false;
+        return this._loadedSounds[soundKey]?.isLoaded ?? false;
     }
 
     markSoundAsLoaded(soundKey: string, duration: number = 0) {
-        this._loadedSounds.set(soundKey, { isLoaded: true, duration });
-    }
-
-    resetLoadedSounds() {
-        this._loadedSounds.clear();
+        this._loadedSounds[soundKey] = { isLoaded: true, duration };
     }
 
     private async loadSoundResultBeforeRead(soundId: string) {
@@ -90,26 +96,33 @@ export class CommentatorsVoicesStore {
         }
     }
 
+    private checkAndGetSound = (currentTime: number) => {
+        const timeline = this._voices?.timeline;
+        const voices = this._voices?.voice;
+
+        if (!timeline || !voices) {
+            return null;
+        }
+
+        const index = timeline.findIndex((time) => {
+            return Math.ceil(time) === currentTime;
+        });
+
+        if (index !== -1) {
+            const soundId = voices[index];
+
+            if (this.isSoundLoaded(soundId)) {
+                return soundId;
+            }
+        }
+
+        return null;
+    };
+
     get currentSoundToPlay(): ICurrentSoundPlay {
         const currentTime = Math.ceil(this.videoStreamStore.currentVideoTime);
 
-        const checkAndGetSound = (timeLine: number[], sounds: string[]) => {
-            if (!timeLine || !sounds) {
-                return null;
-            }
-
-            const index = timeLine.findIndex((time) => time === currentTime);
-            if (index !== -1) {
-                const soundId = sounds[index];
-                if (this.isSoundLoaded(soundId)) {
-                    return soundId;
-                }
-            }
-            return null;
-        };
-
-        const soundId = checkAndGetSound(this._voices.timeLine, this._voices.sounds);
-
+        const soundId = this.checkAndGetSound(currentTime);
         return {
             isPlay: !!soundId,
             soundId: soundId,
