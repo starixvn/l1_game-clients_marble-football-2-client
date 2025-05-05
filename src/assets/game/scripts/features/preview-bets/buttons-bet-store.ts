@@ -9,7 +9,7 @@ export class ButtonsBetStore {
         mobx.makeAutoObservable(this);
     }
 
-    private _isPreviewBets: boolean = false;
+    private _isPreviewBets = false;
 
     get isPreviewBets() {
         return this._isPreviewBets;

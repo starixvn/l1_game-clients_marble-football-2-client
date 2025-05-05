@@ -14,7 +14,6 @@ import { ButtonsBetStore } from "../../features/preview-bets/buttons-bet-store";
 import BetItemCustomize from "./bet-item-customize";
 import { OddsStore, OddsWithConfig } from "../../features/dynamic-odds/odds-store";
 import { DURATION_ANIM_IN } from "../helpers/tween-configs";
-import { AnimationHelper } from "../helpers/animation-helper";
 const { ccclass, property } = _decorator;
 
 const { Rounds } = gc;
@@ -61,7 +60,7 @@ export class BetChoicesContainer extends ObserverComponent {
     private _userPercentage: Record<string, number> = {};
     private _bindDataFirstHalf = false;
     private _bindDataSecondHalf = false;
-    private isSwapBets: boolean = false;
+    private isSwapBets = false;
     private betChoicesParentContainer: Node = null;
     private readonly phaseConfigs = {
         [PhaseId.ShowPrevVideo]: {

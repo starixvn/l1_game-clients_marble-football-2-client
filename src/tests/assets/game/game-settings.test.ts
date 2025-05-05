@@ -12,11 +12,13 @@ describe("when container created", () => {
     let bind: jest.Mock;
     let toConstantValue: jest.Mock;
     let to: jest.Mock;
+    let toService: jest.Mock;
 
     beforeEach(() => {
         toConstantValue = jest.fn();
         to = jest.fn();
-        bind = jest.fn().mockImplementation(() => ({ toConstantValue, to }));
+        toService = jest.fn();
+        bind = jest.fn().mockImplementation(() => ({ toConstantValue, to, toService }));
 
         container = { bind };
     });

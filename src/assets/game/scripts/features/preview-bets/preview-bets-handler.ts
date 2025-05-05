@@ -40,7 +40,7 @@ export class PreviewBetsHandler {
     }
 
     triggerBoundFinalChips() {
-        let chipsNeedBind = {
+        const chipsNeedBind = {
             ...this.chipsStore.clientChips,
         };
 

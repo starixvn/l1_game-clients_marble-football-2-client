@@ -66,7 +66,7 @@ export class CommentatorsVoicesStore {
         return this._loadedSounds[soundKey]?.isLoaded ?? false;
     }
 
-    markSoundAsLoaded(soundKey: string, duration: number = 0) {
+    markSoundAsLoaded(soundKey: string, duration = 0) {
         this._loadedSounds[soundKey] = { isLoaded: true, duration };
     }
 

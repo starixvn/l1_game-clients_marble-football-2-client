@@ -12,7 +12,7 @@ const { render } = observer;
 @ccclass
 export class BetItems extends BetItemsPolygonBase {
     @property(CCBoolean)
-    isLiveBets: boolean = false;
+    isLiveBets = false;
 
     @render(OddsStore, (store) => store.oddsWithConfig)
     renderOdds(oddsWithConfig: OddsWithConfig) {

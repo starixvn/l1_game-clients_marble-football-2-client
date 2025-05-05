@@ -1,5 +1,5 @@
 import gc from "@sg/game-client-base";
-import { _decorator, log, Node, tween, UITransform } from "cc";
+import { _decorator, Node, tween } from "cc";
 import { AroundTablePlayerUtils } from "db://shared-components/game/around-table-player/scripts/utils";
 import { TBalanceEffect, TWinningEffect } from "db://shared-components/game/balance-effect/scripts/stores/balance-effect-store";
 import { ActionChipFlying, addChipsToChipBoxWhenJoinRoom } from "db://shared-components/game/chip-flying/scripts/components/actions";
