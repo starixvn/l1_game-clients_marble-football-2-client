@@ -13,7 +13,7 @@ export class MarbleAudioContainer extends AudioContainer {
     @property(JsonAsset)
     audioCommentatorsVoices: JsonAsset = null;
 
-    get remoteName() {
+    get remoteGameName() {
         return "114";
     }
 
