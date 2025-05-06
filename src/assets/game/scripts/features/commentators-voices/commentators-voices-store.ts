@@ -48,7 +48,7 @@ export class CommentatorsVoicesStore {
     }
 
     async loadVoices() {
-        const voicesNeedLoad = this.voices?.voice?.filter((sound) => !this.isSoundLoaded(sound));
+        const voicesNeedLoad = this.voices?.voice ? this.voices.voice.filter((sound) => !this.isSoundLoaded(sound)) : [];
         if (voicesNeedLoad.length <= 0) {
             return;
         }

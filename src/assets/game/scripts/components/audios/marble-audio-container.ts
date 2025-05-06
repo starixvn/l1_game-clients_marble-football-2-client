@@ -10,9 +10,6 @@ const { render } = Observer;
 
 @ccclass
 export class MarbleAudioContainer extends AudioContainer {
-    @property(JsonAsset)
-    audioCommentatorsVoices: JsonAsset = null;
-
     get remoteGameName() {
         return "114";
     }

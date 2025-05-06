@@ -238,7 +238,7 @@
     "_priority": 0,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 393,
+    "_orthoHeight": 397.0945121951219,
     "_near": 0,
     "_far": 1000,
     "_color": {
@@ -5671,10 +5671,8 @@
     "musicSource": null,
     "sfxSource": null,
     "stoppableSFXSource": null,
-    "audioCommentatorsVoices": {
-      "__uuid__": "0c90bd2f-d78e-4479-a96a-202064b4b149",
-      "__expectedType__": "cc.JsonAsset"
-    },
+    "isRemote": true,
+    "remotePath": "114",
     "_id": "66OysCVa1GE5hf3lPWrs0h"
   },
   {
