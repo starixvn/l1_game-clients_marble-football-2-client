@@ -13,7 +13,7 @@ const defaultConfig: gc.Configs.SiteConfigs = {
         localhost: "lumigame.com",
     },
     ssl: true,
-    subDomain: "l1-proxy1",
+    subDomain: "l2-proxy",
     env: "LOCAL1",
     subGuideDomain: "l1-guide-1",
     SGConnectSubDomain: "l1-connectsite1",
@@ -23,7 +23,6 @@ const defaultConfig: gc.Configs.SiteConfigs = {
         proxyPath: "marblefootball2",
         route: "marblefootball2",
     },
-    mainObserverNamespace: "MarbleFootball2",
     tolgeeUrl: "",
     boostedOddsDelayTimeByMinutes: 1,
 };
