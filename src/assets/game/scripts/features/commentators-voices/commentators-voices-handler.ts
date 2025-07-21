@@ -8,7 +8,7 @@ const { injectable, inject } = inversify;
 
 @injectable()
 export class CommentatorsVoicesHandler implements gc.Shared.IHandler<IVoices> {
-    @inject(CommentatorsVoicesStore) private store: CommentatorsVoicesStore;
+    @inject(CommentatorsVoicesStore) private readonly store: CommentatorsVoicesStore;
     @inject(VideoStreamStore) protected readonly videoStreamStore: VideoStreamStore;
     name = "voices";
 

@@ -9,10 +9,10 @@ type ChipBindingType = "firstHalf" | "secondHalf" | "final";
 
 @injectable()
 export class PreviewBetsHandler {
-    @inject(ButtonsBetStore) private buttonsBetStore: ButtonsBetStore;
+    @inject(ButtonsBetStore) private readonly buttonsBetStore: ButtonsBetStore;
     @inject(ChipsPreviewStore) private chipsPreviewStore: ChipsPreviewStore;
-    @inject(gc.Chips.ChipStore) private chipsStore: gc.Chips.ChipStore;
-    @inject(gc.Settlements.SettlementStore) private settlementStore: gc.Settlements.SettlementStore;
+    @inject(gc.Chips.ChipStore) private readonly chipsStore: gc.Chips.ChipStore;
+    @inject(gc.Settlements.SettlementStore) private readonly settlementStore: gc.Settlements.SettlementStore;
 
     handlePreviewBets(isPreviewBets: boolean) {
         this.buttonsBetStore.isPreviewBets = isPreviewBets;

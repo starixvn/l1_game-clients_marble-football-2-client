@@ -24,6 +24,13 @@ export class OddsStore {
         return this._odds;
     }
 
+    set odds(odds: Record<string, number>) {
+        this._odds = {
+            ...this._odds,
+            ...odds,
+        };
+    }
+
     get oddsWithConfig(): OddsWithConfig {
         const deltaOdds = this.deltaForAllBetOptions(this._odds);
 
@@ -45,12 +52,5 @@ export class OddsStore {
 
     deltaOdds(oldOdds: number, newOdds: number) {
         return newOdds - oldOdds;
-    }
-
-    set odds(odds: Record<string, number>) {
-        this._odds = {
-            ...this._odds,
-            ...odds,
-        };
     }
 }

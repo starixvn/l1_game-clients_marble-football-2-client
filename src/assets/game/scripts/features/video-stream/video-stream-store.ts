@@ -194,12 +194,9 @@ export class VideoStreamStore {
 
         if (roundTime <= settings.points.streamingSecondHalfVideo && roundTime >= 0) {
             const secondHalfTime = settings.points.streamingSecondHalfVideo - roundTime;
-            const matchTime =
-                secondHalfTime < settings.durations.halfDuration
-                    ? secondHalfTime + settings.durations.halfDuration
-                    : settings.durations.halfDuration * 2;
-
-            return matchTime;
+            return secondHalfTime < settings.durations.halfDuration
+                ? secondHalfTime + settings.durations.halfDuration
+                : settings.durations.halfDuration * 2;
         }
 
         return 0;

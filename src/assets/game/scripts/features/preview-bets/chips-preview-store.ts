@@ -39,36 +39,37 @@ export class ChipsPreviewStore {
     private _firstHalfChips: Record<string, any> = {};
     private _secondHalfChips: Record<string, any> = {};
 
-    set boundChipsFirstHalf(boundChipsFirstHalf: boolean) {
-        this._boundChipsFirstHalf = boundChipsFirstHalf;
-    }
-
-    set boundChipsSecondHalf(boundChipsSecondHalf: boolean) {
-        this._boundChipsSecondHalf = boundChipsSecondHalf;
-    }
-
     get boundChipsFirstHalf() {
         return this._boundChipsFirstHalf;
+    }
+
+    set boundChipsFirstHalf(boundChipsFirstHalf: boolean) {
+        this._boundChipsFirstHalf = boundChipsFirstHalf;
     }
 
     get boundChipsSecondHalf() {
         return this._boundChipsSecondHalf;
     }
 
-    set firstHalfChips(firstHalfChips: Record<string, any>) {
-        this._firstHalfChips = firstHalfChips;
+    set boundChipsSecondHalf(boundChipsSecondHalf: boolean) {
+        this._boundChipsSecondHalf = boundChipsSecondHalf;
     }
 
     get firstHalfChips() {
         return this._firstHalfChips;
     }
 
-    set secondHalfChips(secondHalfChips: Record<string, any>) {
-        this._secondHalfChips = secondHalfChips;
+    set firstHalfChips(firstHalfChips: Record<string, any>) {
+        this._firstHalfChips = firstHalfChips;
     }
 
+    // secondHalfChips
     get secondHalfChips() {
         return this._secondHalfChips;
+    }
+
+    set secondHalfChips(secondHalfChips: Record<string, any>) {
+        this._secondHalfChips = secondHalfChips;
     }
 
     get finalChips() {

@@ -106,7 +106,7 @@ export class CommentatorsVoicesStore {
         return voices?.[index] ?? null;
     }
 
-    private checkAndGetSound = () => {
+    private readonly checkAndGetSound = () => {
         const currentTime = Math.ceil(this.videoStreamStore.currentVideoTime);
         const index = this.findMatchingVoiceIndex(currentTime);
         const soundId = this.getSoundIdByIndex(index);
