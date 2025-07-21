@@ -5,16 +5,16 @@ const { ccclass, property } = _decorator;
 @ccclass("MiniGame")
 export class MiniGame extends Component {
     @property(sp.Skeleton)
-    private home: sp.Skeleton = null;
+    private readonly home: sp.Skeleton = null;
 
     @property(sp.Skeleton)
-    private away: sp.Skeleton = null;
+    private readonly away: sp.Skeleton = null;
 
     @property(sp.Skeleton)
-    private statistic: sp.Skeleton = null;
+    private readonly statistic: sp.Skeleton = null;
 
     @property(sp.Skeleton)
-    private game: sp.Skeleton = null;
+    private readonly game: sp.Skeleton = null;
 
     protected onLoad(): void {
         this.disableAllSkeletonNodes();
@@ -69,11 +69,11 @@ export class MiniGame extends Component {
     }
 
     setWinLoseLabel(isHomeWin: boolean) {
-        this.home!.node.getChildByPath("result/win")!.active = isHomeWin;
-        this.away!.node.getChildByPath("result/lose")!.active = isHomeWin;
+        this.home.node.getChildByPath("result/win")!.active = isHomeWin;
+        this.away.node.getChildByPath("result/lose")!.active = isHomeWin;
 
-        this.home!.node.getChildByPath("result/lose")!.active = !isHomeWin;
-        this.away!.node.getChildByPath("result/win")!.active = !isHomeWin;
+        this.home.node.getChildByPath("result/lose")!.active = !isHomeWin;
+        this.away.node.getChildByPath("result/win")!.active = !isHomeWin;
     }
 
     private playAnimation(
@@ -127,9 +127,9 @@ export class MiniGame extends Component {
     }
 
     private disableAllSkeletonNodes() {
-        this.home!.node.active = false;
-        this.away!.node.active = false;
-        this.statistic!.node.active = false;
-        this.game!.node.active = false;
+        this.home.node.active = false;
+        this.away.node.active = false;
+        this.statistic.node.active = false;
+        this.game.node.active = false;
     }
 }

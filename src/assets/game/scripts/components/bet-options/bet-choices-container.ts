@@ -33,13 +33,13 @@ export class BetChoicesContainer extends ObserverComponent {
     betChoicesFinal: Node = null;
 
     @property(Node)
-    private chipContainerPrev: Node = null;
+    private readonly chipContainerPrev: Node = null;
 
     @property(Node)
-    private chipContainerLive: Node = null;
+    private readonly chipContainerLive: Node = null;
 
     @property(Node)
-    private chipContainerFinal: Node = null;
+    private readonly chipContainerFinal: Node = null;
 
     @property(Node)
     previewBetsButton: Node = null;

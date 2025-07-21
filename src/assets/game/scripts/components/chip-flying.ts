@@ -25,7 +25,7 @@ const CHIP_SOUND_ID = {
 @ccclass("ChipFlying")
 export class ChipFlying extends ChipFlyingShared {
     @property(BetChoicesContainer)
-    private betChoicesContainer: BetChoicesContainer = null;
+    private readonly betChoicesContainer: BetChoicesContainer = null;
 
     @property(Node)
     chipContainerPrev: Node = null;

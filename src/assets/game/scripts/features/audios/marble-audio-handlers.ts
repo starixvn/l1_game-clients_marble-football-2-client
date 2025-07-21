@@ -7,7 +7,7 @@ const { Audios } = gc;
 
 @injectable()
 export class MarbleAudioHandlers {
-    @inject(MarbleAudioStore) private marbleAudioStore: MarbleAudioStore;
+    @inject(MarbleAudioStore) private readonly marbleAudioStore: MarbleAudioStore;
     @inject(gc.UserSettings.UserSettingStore) private userSettingsStore: gc.UserSettings.UserSettingStore;
 
     playSFX(audioId: string) {

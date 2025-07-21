@@ -19,30 +19,30 @@ type BetState = "prev" | "live" | "final";
 @ccclass("PlayArea")
 export class PlayArea extends ObserverComponent {
     @property(Node)
-    private chipContainersParent: Node = null;
+    private readonly chipContainersParent: Node = null;
 
     @property(BetChoicesContainer)
-    private betChoicesContainer: BetChoicesContainer = null;
+    private readonly betChoicesContainer: BetChoicesContainer = null;
 
     @property(Node)
-    private scoreBoard: Node = null;
+    private readonly scoreBoard: Node = null;
 
     @property(Node)
-    private chips: Node = null;
+    private readonly chips: Node = null;
 
     @property(Node)
-    private teamScore: Node = null;
+    private readonly teamScore: Node = null;
 
     @property(Node)
-    private firstHalfScore: Node = null;
+    private readonly firstHalfScore: Node = null;
 
     @property(Node)
-    private mainPlayerNode: Node = null;
+    private readonly mainPlayerNode: Node = null;
 
     @property([Node])
-    private disappearingNodes: Node[] = [];
+    private readonly disappearingNodes: Node[] = [];
 
-    private isZoomOut: boolean = false;
+    private isZoomOut = false;
     private mainPlayAreaTargets: Array<{ target: Node; key: TweenKey }>;
 
     private readonly tweenConfigs: Record<TweenKey, TweenConfigs> = DEFAULT_TWEEN_CONFIGS;

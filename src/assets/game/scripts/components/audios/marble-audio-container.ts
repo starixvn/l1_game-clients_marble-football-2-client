@@ -1,5 +1,5 @@
 import gc from "@sg/game-client-base";
-import { _decorator, JsonAsset } from "cc";
+import { _decorator } from "cc";
 import Observer from "observer";
 import { AudioContainer } from "db://shared-components/game/audios/scripts/component/audio-container";
 import { MarbleAudioStore } from "../../features/audios/marble-audio-store";
