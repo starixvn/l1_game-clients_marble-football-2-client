@@ -5,11 +5,11 @@ import { AnimationUtils } from "db://shared-components/shared/utils";
 import Observer from "observer";
 import { GamePhase, PhaseId } from "../features/game-phase/game-phase-definitions";
 import { GamePhaseStore } from "../features/game-phase/game-phase-store";
+import { ButtonsBetStore } from "../features/preview-bets/buttons-bet-store";
 import { settings } from "../game-settings";
 import { BetChoicesContainer } from "./bet-options/bet-choices-container";
-import { ButtonsBetStore } from "../features/preview-bets/buttons-bet-store";
 import { AnimationHelper } from "./helpers/animation-helper";
-import { TweenConfigs, TweenKey, DEFAULT_TWEEN_CONFIGS } from "./helpers/tween-configs";
+import { DEFAULT_TWEEN_CONFIGS, TweenConfigs, TweenKey } from "./helpers/tween-configs";
 
 const { ccclass, property } = _decorator;
 const { render, handle } = Observer;
@@ -104,88 +104,95 @@ export class PlayArea extends ObserverComponent {
             return;
         }
 
-        if (phase.id === PhaseId.MatchWinner) {
-            !this.isZoomOut && this.zoomPlayArea("out");
-            await Promise.all([
-                AnimationHelper.playAnimByPhaseProgress(this.disappearingNodes, this.tweenConfigs.fadeInOut.out, phase.progress),
-                AnimationHelper.playAnimByPhaseProgress(this.chips, this.tweenConfigs.chipsFlyDown.out, phase.progress),
-            ]);
-
-            return;
+        switch (phase.id) {
+            case PhaseId.MatchWinner:
+                await this.handleEnterMatchWinner(phase);
+                return;
+            case PhaseId.Settlement:
+                await this.handleEnterSettlement(phase);
+                return;
+            case PhaseId.ShowBetChoicesPrev:
+            case PhaseId.ShowBetChoicesLive:
+                await this.handleEnterShowBetChoices(phase);
+                return;
+            case PhaseId.ShowIntroVideo:
+            case PhaseId.ShowPrevVideo:
+            case PhaseId.ShowLiveVideo:
+                await this.handleEnterShowVideo(phase);
+                return;
+            default:
+                return;
         }
+    }
 
-        if (phase.id === PhaseId.Settlement) {
-            await Promise.all([
-                AnimationHelper.playAnimByPhaseProgress(this.disappearingNodes, this.tweenConfigs.fadeInOut.in, phase.progress),
-                AnimationHelper.playAnimByPhaseProgress(this.mainPlayerNode, this.tweenConfigs.fadeInOut.in, phase.progress),
-            ]);
+    private async handleEnterMatchWinner(phase: GamePhase): Promise<void> {
+        !this.isZoomOut && this.zoomPlayArea("out");
+        await Promise.all([
+            AnimationHelper.playAnimByPhaseProgress(this.disappearingNodes, this.tweenConfigs.fadeInOut.out, phase.progress),
+            AnimationHelper.playAnimByPhaseProgress(this.chips, this.tweenConfigs.chipsFlyDown.out, phase.progress),
+        ]);
+    }
 
-            return;
-        }
+    private async handleEnterSettlement(phase: GamePhase): Promise<void> {
+        await Promise.all([
+            AnimationHelper.playAnimByPhaseProgress(this.disappearingNodes, this.tweenConfigs.fadeInOut.in, phase.progress),
+            AnimationHelper.playAnimByPhaseProgress(this.mainPlayerNode, this.tweenConfigs.fadeInOut.in, phase.progress),
+        ]);
+    }
 
-        if (phase.id === PhaseId.ShowBetChoicesPrev || phase.id === PhaseId.ShowBetChoicesLive) {
-            this.phaseShowBetChoices = phase.id === PhaseId.ShowBetChoicesPrev ? "prev" : "live";
+    private async handleEnterShowBetChoices(phase: GamePhase): Promise<void> {
+        this.phaseShowBetChoices = phase.id === PhaseId.ShowBetChoicesPrev ? "prev" : "live";
 
-            if (phase.progress === 0) {
-                this.isZoomOut && this.zoomPlayArea("in");
-                const animations: Promise<any>[] = [];
+        if (phase.progress === 0) {
+            this.isZoomOut && this.zoomPlayArea("in");
+            const animations: Promise<unknown>[] = [];
 
-                // playAreaAnim
-                animations.push(
-                    AnimationHelper.playAnimByPhaseProgress(
-                        [this.scoreBoard, this.mainPlayerNode, this.chips],
-                        [this.tweenConfigs.scoreboardFlyUp.in, this.tweenConfigs.fadeInOut.in, this.tweenConfigs.chipsFlyDown.in],
-                        0
-                    )
-                );
+            animations.push(
+                AnimationHelper.playAnimByPhaseProgress(
+                    [this.scoreBoard, this.mainPlayerNode, this.chips],
+                    [this.tweenConfigs.scoreboardFlyUp.in, this.tweenConfigs.fadeInOut.in, this.tweenConfigs.chipsFlyDown.in],
+                    0
+                )
+            );
 
-                // disappearingAnim
-                animations.push(AnimationHelper.playAnimByPhaseProgress(this.disappearingNodes, this.tweenConfigs.fadeInOut.in, 0));
+            animations.push(AnimationHelper.playAnimByPhaseProgress(this.disappearingNodes, this.tweenConfigs.fadeInOut.in, 0));
 
-                // live bet
-                if (phase.id === PhaseId.ShowBetChoicesLive) {
-                    animations.push(
-                        AnimationHelper.playAnimByPhaseProgress(this.firstHalfScore, this.tweenConfigs.teamScoreLiveFlyUp.in, 0)
-                    );
-                }
-
-                await Promise.all(animations);
-            } else {
-                if (phase.id === PhaseId.ShowBetChoicesLive) {
-                    AnimationHelper.setStaticTarget(this.firstHalfScore, this.tweenConfigs.teamScoreLiveFlyUp.in);
-                }
-                AnimationHelper.setStaticTarget(this.mainPlayerNode, this.tweenConfigs.fadeInOut.in);
-                AnimationHelper.setStaticTarget(this.scoreBoard, this.tweenConfigs.scoreboardFlyUp.in);
-                this.setStaticPlayArea("in");
+            if (phase.id === PhaseId.ShowBetChoicesLive) {
+                animations.push(AnimationHelper.playAnimByPhaseProgress(this.firstHalfScore, this.tweenConfigs.teamScoreLiveFlyUp.in, 0));
             }
 
+            await Promise.all(animations);
             return;
         }
 
-        if (phase.id === PhaseId.ShowIntroVideo || phase.id === PhaseId.ShowPrevVideo || phase.id === PhaseId.ShowLiveVideo) {
-            this.phasePreviewBets = "prev";
-
-            await Promise.all([
-                AnimationHelper.playAnimByPhaseProgress(
-                    [this.teamScore, this.scoreBoard, this.mainPlayerNode],
-                    [this.tweenConfigs.teamScoreFlyUp.in, this.tweenConfigs.scoreboardFlyUp.out, this.tweenConfigs.fadeInOut.out],
-                    phase.progress
-                ),
-                !this.isZoomOut && this.zoomPlayArea("out"),
-                phase.id === PhaseId.ShowLiveVideo
-                    ? (() => {
-                          this.phasePreviewBets = "live";
-                          AnimationHelper.playAnimByPhaseProgress(
-                              this.firstHalfScore,
-                              this.tweenConfigs.teamScoreLiveFlyUp.out,
-                              phase.progress
-                          );
-                      })()
-                    : Promise.resolve(),
-            ]);
-
-            return;
+        if (phase.id === PhaseId.ShowBetChoicesLive) {
+            AnimationHelper.setStaticTarget(this.firstHalfScore, this.tweenConfigs.teamScoreLiveFlyUp.in);
         }
+        AnimationHelper.setStaticTarget(this.mainPlayerNode, this.tweenConfigs.fadeInOut.in);
+        AnimationHelper.setStaticTarget(this.scoreBoard, this.tweenConfigs.scoreboardFlyUp.in);
+        this.setStaticPlayArea("in");
+    }
+
+    private async handleEnterShowVideo(phase: GamePhase): Promise<void> {
+        this.phasePreviewBets = "prev";
+        await Promise.all([
+            AnimationHelper.playAnimByPhaseProgress(
+                [this.teamScore, this.scoreBoard, this.mainPlayerNode],
+                [this.tweenConfigs.teamScoreFlyUp.in, this.tweenConfigs.scoreboardFlyUp.out, this.tweenConfigs.fadeInOut.out],
+                phase.progress
+            ),
+            !this.isZoomOut && this.zoomPlayArea("out"),
+            phase.id === PhaseId.ShowLiveVideo
+                ? (() => {
+                      this.phasePreviewBets = "live";
+                      AnimationHelper.playAnimByPhaseProgress(
+                          this.firstHalfScore,
+                          this.tweenConfigs.teamScoreLiveFlyUp.out,
+                          phase.progress
+                      );
+                  })()
+                : Promise.resolve(),
+        ]);
     }
 
     @render(GamePhaseStore, (store) => store.exitPhase)

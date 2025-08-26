@@ -2,21 +2,21 @@ import { _decorator, assetManager, ImageAsset, log, Node } from "cc";
 import { startGame } from "db://shared-components/shared/scripts/startup";
 import Observer from "observer";
 
+import gc from "@sg/game-client-base";
 import GameComponent from "db://shared-components/game/scripts/components/game-component";
-import { AnimationUtils, FunctionUtils } from "db://shared-components/shared/utils";
+import { AnimationUtils } from "db://shared-components/shared/utils";
 import "../../../resources/i18n";
 import { BackgroundVideoPlayer } from "../../../scripts/background-video-player";
 import { siteConfigs } from "../../../scripts/site-configs";
 import { containerOptions } from "../container-options";
 import { GamePhase, PhaseId, TimePointTournament } from "../features/game-phase/game-phase-definitions";
 import { GamePhaseStore } from "../features/game-phase/game-phase-store";
+import { MarbleRoundStore } from "../features/rounds/marble-round-store";
 import { settings } from "../game-settings";
+import { DOMBackgroundImage } from "./../../../scripts/dom-background-image";
 import { ChipFlying } from "./chip-flying";
 import { MatchResult } from "./match-result";
 import { NetworkStatus, SystemIndicator } from "./system-indicator";
-import { DOMBackgroundImage } from "./../../../scripts/dom-background-image";
-import gc from "@sg/game-client-base";
-import { MarbleRoundStore } from "../features/rounds/marble-round-store";
 
 startGame(settings.name, containerOptions, siteConfigs, settings.namespaces);
 
@@ -146,7 +146,7 @@ export default class Game extends GameComponent {
         try {
             let matchResult = this.betResultNode.getComponentInChildren(MatchResult);
             while (!matchResult) {
-                await FunctionUtils.delay(100);
+                await AnimationUtils.delayTime(100);
                 matchResult = this.betResultNode.getComponentInChildren(MatchResult);
             }
             if (hasAnimation) {
@@ -192,7 +192,7 @@ export default class Game extends GameComponent {
             const { result, settlementResult } = lastRound;
             if (firstJoinGameHistory.animationHighlight) {
                 if (roundTime === 0) {
-                    await FunctionUtils.delay(1000);
+                    await AnimationUtils.delayTime(1000);
                     if (this.currentFinish) {
                         return;
                     }

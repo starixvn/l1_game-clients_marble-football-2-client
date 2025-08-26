@@ -4,12 +4,12 @@ import { AroundTablePlayerUtils } from "db://shared-components/game/around-table
 import { TBalanceEffect, TWinningEffect } from "db://shared-components/game/balance-effect/scripts/stores/balance-effect-store";
 import { ActionChipFlying, addChipsToChipBoxWhenJoinRoom } from "db://shared-components/game/chip-flying/scripts/components/actions";
 import { ChipFlying as ChipFlyingShared, IChipFlyingInfo } from "db://shared-components/game/chip-flying/scripts/components/chip-flying";
+import { AnimationUtils } from "db://shared-components/shared/utils";
 import Observer from "observer";
 import { GamePhase, PhaseId } from "../features/game-phase/game-phase-definitions";
 import { GamePhaseStore } from "../features/game-phase/game-phase-store";
-import { BetChoicesContainer } from "./bet-options/bet-choices-container";
-import { FunctionUtils } from "db://shared-components/shared/utils";
 import { ChipsPreviewStore } from "../features/preview-bets/chips-preview-store";
+import { BetChoicesContainer } from "./bet-options/bet-choices-container";
 import { BetItemsFinal } from "./bet-options/bet-items-final";
 
 const { ccclass, property } = _decorator;
@@ -345,7 +345,7 @@ export class ChipFlying extends ChipFlyingShared {
 
         const betItemsFinal = this.betChoicesContainer.betChoicesFinal.getComponent(BetItemsFinal);
         while (!betItemsFinal) {
-            await FunctionUtils.delay(100);
+            await AnimationUtils.delayTime(100);
         }
         const betItemsByChoice = betItemsFinal.betItemComponents.reduce((acc, item) => {
             acc[item.betChoice] = item;
