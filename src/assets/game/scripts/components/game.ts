@@ -146,7 +146,7 @@ export default class Game extends GameComponent {
         try {
             let matchResult = this.betResultNode.getComponentInChildren(MatchResult);
             while (!matchResult) {
-                await AnimationUtils.delayTime(100);
+                await AnimationUtils.delayTime(0.1);
                 matchResult = this.betResultNode.getComponentInChildren(MatchResult);
             }
             if (hasAnimation) {
@@ -192,7 +192,7 @@ export default class Game extends GameComponent {
             const { result, settlementResult } = lastRound;
             if (firstJoinGameHistory.animationHighlight) {
                 if (roundTime === 0) {
-                    await AnimationUtils.delayTime(1000);
+                    await AnimationUtils.delayTime(1);
                     if (this.currentFinish) {
                         return;
                     }

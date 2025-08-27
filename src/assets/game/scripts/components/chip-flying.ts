@@ -345,7 +345,7 @@ export class ChipFlying extends ChipFlyingShared {
 
         const betItemsFinal = this.betChoicesContainer.betChoicesFinal.getComponent(BetItemsFinal);
         while (!betItemsFinal) {
-            await AnimationUtils.delayTime(100);
+            await AnimationUtils.delayTime(0.1);
         }
         const betItemsByChoice = betItemsFinal.betItemComponents.reduce((acc, item) => {
             acc[item.betChoice] = item;
