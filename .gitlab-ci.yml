@@ -7,3 +7,56 @@ variables:
   COCOS_PROJECT_DIR: src
   INTEGRATION_IMAGE: pentagon/l1_spaceflight_client
   INTEGRATION_WS_PATH: spaceflight
+
+.build_cocos_creator_script: &build_cocos_creator_script
+  stage: test
+  script:
+    - echo "====== Build Cocos Web Mobile ======"
+    - |
+      if [[ -d "./$COCOS_PROJECT_DIR/build/web-mobile" ]]; then
+        echo "Using cache with key $CI_COMMIT_SHA"
+        exit 0
+      fi
+    - node --version
+    - npm run install-dependencies --prefix "./$COCOS_PROJECT_DIR"
+    - set +e
+    - /Applications/CocosCreator/Creator/$COCOS_VERSION/CocosCreator.app/Contents/MacOS/CocosCreator --project "./$COCOS_PROJECT_DIR" --build "platform=web-mobile;debug=false;webOrientation=portrait;md5Cache=true;replaceSplashScreen=true"
+    - set -e
+    - |
+      if [ -z "$(ls -A ./$COCOS_PROJECT_DIR/build/web-mobile)" ]; then
+        echo -e "\033[0;31mFolder build is empty, please check the build scritp"
+        exit 1
+      fi
+    - |
+      BUILD_SIZE=$(du -sm "./$COCOS_PROJECT_DIR/build/web-mobile" | cut -f1)
+      if [ "$BUILD_SIZE" -lt 5 ]; then
+        echo -e "\033[0;31mBuild folder size is less than 5MB (${BUILD_SIZE}MB). This might indicate an incomplete or corrupted build."
+        exit 1
+      fi
+    - |
+      if [ -z "${IS_NOT_OBFUSCATOR+x}" ] || [ "$IS_NOT_OBFUSCATOR" = "false" ]; then
+        npm run obfuscator-config-file --prefix "./$COCOS_PROJECT_DIR"
+      else
+        echo "IS_NOT_OBFUSCATOR is true. Ignore run obfuscator-config-file"
+      fi
+  tags:
+    - cocos-test
+  artifacts:
+    when: always
+    paths:
+      - $COCOS_PROJECT_DIR/build/web-mobile
+      - $COCOS_CONFIG_FILE_PATH
+    expire_in: 1 day
+  cache:
+    - key:
+        files:
+          - $COCOS_PROJECT_DIR/package.json
+          - $COCOS_PROJECT_DIR/package-lock.json
+      paths:
+        - $COCOS_PROJECT_DIR/node_modules
+    - key: $CI_COMMIT_SHORT_SHA
+      paths:
+        - $COCOS_PROJECT_DIR/build/web-mobile
+        - $COCOS_CONFIG_FILE_PATH
+.base_build_cocos:
+  <<: *build_cocos_creator_script
